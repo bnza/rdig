@@ -1,4 +1,6 @@
-var Encore = require('@symfony/webpack-encore')
+var Encore = require('@symfony/webpack-encore');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require('path');
 
 Encore
 // the project directory where compiled assets will be stored
@@ -27,8 +29,11 @@ Encore
 
   .enableVueLoader()
 
+
 var config = Encore.getWebpackConfig()
 
 config.resolve.alias.Vue = 'vue/dist/vue.esm.js'
+config.resolve.alias['~'] = path.resolve(__dirname, './assets')
+
 
 module.exports = config

@@ -1,18 +1,14 @@
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
 
-$navbar-background-color: $grey-light;
+$navbar-background-color: $grey-darker;
+$navbar-item-hover-background-color: $grey-dark;
+$family-sans-serif: "Vision";
 
 @import "~bulma";
 
-$navbar-bottom-height: 1.25rem;
+$navbar-bottom-height: 1rem;
 
 nav.is-fixed-bottom {
   min-height: $navbar-bottom-height;
-  background-color: $grey-darker;
-  .navbar-item {
-    &:hover {
-      background-color: $grey-dark;
-    }
-  }
 }

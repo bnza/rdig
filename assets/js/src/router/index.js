@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import TestLeft from '../components/TestLeft'
+import HomeMain from '../components/HomeMain'
 import MenuLeft from '../components/MenuLeft'
 
 Vue.use(Router)
@@ -10,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: TestLeft
+      component: HomeMain
     },
     {
       path: '/cart',

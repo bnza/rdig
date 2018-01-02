@@ -2,13 +2,13 @@
     <div id="app">
         <app-nav-top></app-nav-top>
         <div class="container">
-            <div class="columns">
+            <div class="columns is-centered">
                 <div class="column is-2">
                     <panel-left></panel-left>
                 </div>
-                <div class="column is-9">
+                <div class="column is-9 has-text-centered">
                     <router-view></router-view>
-                    <div><p>App!!! {{message}}</p></div>
+                    <div><p><strong>App</strong>!!! {{message}}</p></div>
                 </div>
                 <div class="column is-2">
                     <p>Right</p>

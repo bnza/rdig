@@ -1,0 +1,22 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+@font-face {
+  font-family: "Vision";
+  src: url("vision-webfont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vision";
+  src: url("vision-bold-webfont.woff2") format("woff2");
+  font-weight: $weight-bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vision";
+  src: url("vision-regular_italic-webfont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+}
