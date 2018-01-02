@@ -2,7 +2,7 @@
 
 import store from './store'
 import router from './router'
-import Vue from 'Vue'
+import Vue from 'vue'
 import App from './App.vue'
 
 require('../../assets/fonts/vision.scss')
