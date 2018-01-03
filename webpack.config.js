@@ -1,6 +1,6 @@
-var Encore = require('@symfony/webpack-encore');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-var path = require('path');
+const Encore = require('@symfony/webpack-encore')
+
+const path = require('path')
 
 Encore
 // the project directory where compiled assets will be stored
@@ -29,11 +29,19 @@ Encore
 
   .enableVueLoader()
 
+  .createSharedEntry('vendor', [
+    'vue',
+    'vuex',
+    'vue-router',
 
-var config = Encore.getWebpackConfig()
+    // you can also extract CSS - this will create a 'vendor.css' file
+    // this CSS will *not* be included in page1.css or page2.css anymore
+    // 'bulma'
+  ])
 
-config.resolve.alias.Vue = 'vue/dist/vue.esm.js'
+let config = Encore.getWebpackConfig()
+
+config.resolve.alias.vue = 'vue/dist/vue.esm.js'
 config.resolve.alias['~'] = path.resolve(__dirname, './assets')
-
 
 module.exports = config
