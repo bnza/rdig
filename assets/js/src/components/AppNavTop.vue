@@ -10,14 +10,32 @@
                 <span></span>
             </button>
         </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <a class="navbar-item" title="Login" v-on:click="activateLoginModal">
+                        <span class="icon is-medium">
+                            <i class="fa fa-2x fa-sign-in"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </nav>
 </template>
 
 <script>
   export default {
     computed: {
-      rdigLogoSrc () {
+      rdigLogoSrc() {
         return require('~/assets/images/rdig.png')
+      }
+    },
+    methods: {
+      activateLoginModal: function (message) {
+        this.$store.commit('account/toggleLoginModal')
       }
     },
     name: "app-nav-top"

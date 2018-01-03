@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <app-nav-top></app-nav-top>
-        <div class="container">
+        <div id="container-main" class="container">
             <div class="columns is-centered">
                 <div class="column is-2">
                     <panel-left></panel-left>
@@ -16,6 +16,9 @@
             </div>
         </div>
         <app-nav-bottom></app-nav-bottom>
+        <div class="components">
+            <login-form></login-form>
+        </div>
     </div>
 </template>
 
@@ -23,9 +26,10 @@
   import AppNavTop from "./components/AppNavTop";
   import AppNavBottom from "./components/AppNavBottom";
   import PanelLeft from "./components/PanelLeft";
+  import LoginForm from "./components/LoginForm";
 
   export default {
-    components: {AppNavTop, AppNavBottom, PanelLeft},
+    components: {AppNavTop, AppNavBottom, PanelLeft, LoginForm},
     name: "app",
     data () {
       return {
