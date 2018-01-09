@@ -2,7 +2,11 @@
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <router-link to="/" class="navbar-item">
-                <img v-bind:src="rdigLogoSrc" alt="rDig *dig reloaded" width="112" height="28">
+                <img
+                        v-bind:src="rdigLogoSrc"
+                        alt="rDig *dig reloaded"
+                        width="112" height="28"
+                />
             </router-link>
             <button class="button navbar-burger">
                 <span></span>
@@ -15,7 +19,11 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <a class="navbar-item" title="Login" v-on:click="activateLoginModal">
+                    <a
+                            class="navbar-item"
+                            title="Login"
+                            v-on:click="showLoginModal"
+                    >
                         <span class="icon is-medium">
                             <i class="fa fa-2x fa-sign-in"></i>
                         </span>
@@ -34,11 +42,11 @@
       }
     },
     methods: {
-      activateLoginModal: function (message) {
-        this.$store.commit('account/toggleLoginModal')
+      showLoginModal: function () {
+        this.$router.push('login')
       }
     },
-    name: "app-nav-top"
+    name: "TheTopAppNav"
   }
 </script>
 

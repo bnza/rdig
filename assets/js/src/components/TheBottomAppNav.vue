@@ -10,7 +10,7 @@
 
 <script>
   export default {
-    name: "app-nav-bottom"
+    name: 'TheBottomAppNav'
   }
 </script>
 

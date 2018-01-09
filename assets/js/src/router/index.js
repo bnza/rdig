@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HomeMain from '../components/HomeMain'
+import HomeMain from '../components/MainHome'
 import MenuLeft from '../components/MenuLeft'
+import LoginModal from '../components/LoginModal'
 
 Vue.use(Router)
 
@@ -16,6 +17,13 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component: MenuLeft
+    },
+    {
+      path: '/login',
+      name: 'login',
+      components: {
+        modal: LoginModal
+      }
     }
   ]
 })

@@ -1,7 +1,7 @@
 /* global describe, test, expect */
 
 import { mount } from 'vue-test-utils'
-import Component from '~/js/src/components/AppNavTop.vue'
+import Component from '~/js/src/components/TheTopAppNav.vue'
 
 describe('Component', () => {
   test('is a Vue instance', () => {

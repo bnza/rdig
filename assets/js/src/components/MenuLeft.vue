@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    name: "menu-left"
+    name: "MenuLeft"
   }
 </script>
 
