@@ -19,7 +19,11 @@
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
+                    <UserDropdownMenu
+                            v-if="$store.getters['account/isAuthenticated']"
+                    />
                     <a
+                            v-else
                             class="navbar-item"
                             title="Login"
                             v-on:click="showLoginModal"
@@ -35,7 +39,9 @@
 </template>
 
 <script>
+    import UserDropdownMenu from './UserDropdownMenu'
   export default {
+    components: {UserDropdownMenu},
     computed: {
       rdigLogoSrc() {
         return require('~/assets/images/rdig.png')

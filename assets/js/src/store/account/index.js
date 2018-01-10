@@ -34,13 +34,26 @@ export const actions = {
         url: '/login',
         data: credentials
       }
-      let response = await dispatch('requests/perform', config, {root:true})
+      let response = await dispatch('requests/perform', config, {root: true})
       commit(SET_REQ_PENDING, false)
-      commit(SET_USER, response.user)
+      commit(SET_USER, response.data)
       return response
     } catch (error) {
       commit(SET_REQ_PENDING, false)
       commit(SET_AUTH_ERROR, error.response)
+      throw error
+    }
+  },
+  logout: async function ({ commit, dispatch }) {
+    try {
+      const config = {
+        method: 'post',
+        url: '/logout'
+      }
+      let response = await dispatch('requests/perform', config, {root: true})
+      commit(SET_USER, null)
+      return true
+    } catch (error) {
       throw error
     }
   }
@@ -55,6 +68,9 @@ export const getters = {
   },
   hasError: state => {
     return !!state.authError
+  },
+  username: (state, getters) => {
+    return getters.isAuthenticated ? state.user.username : ''
   }
 }
 
