@@ -44,7 +44,7 @@
     components: {UserDropdownMenu},
     computed: {
       rdigLogoSrc() {
-        return require('~/assets/images/rdig.png')
+        return require('~/assets/images/rdig_logo_light.png')
       }
     },
     methods: {

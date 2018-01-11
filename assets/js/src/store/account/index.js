@@ -31,7 +31,7 @@ export const actions = {
     try {
       const config = {
         method: 'post',
-        url: '/login',
+        url: 'login',
         data: credentials
       }
       let response = await dispatch('requests/perform', config, {root: true})
@@ -48,7 +48,7 @@ export const actions = {
     try {
       const config = {
         method: 'post',
-        url: '/logout'
+        url: 'logout'
       }
       let response = await dispatch('requests/perform', config, {root: true})
       commit(SET_USER, null)
