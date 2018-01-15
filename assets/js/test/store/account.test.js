@@ -110,7 +110,7 @@ describe('store.request store module', () => {
           expect(dispatchMock.mock.calls[0]).toEqual(['requests/perform',
             {'data': 'username=pippo&password=wrong',
               'method': 'post',
-              'url': '/login'},
+              'url': 'login'},
               {'root': true}])
           expect(commitMock.mock.calls[2]).toEqual(['SET_REQ_PENDING', false])
           expect(commitMock.mock.calls[3]).toEqual(['SET_AUTH_ERROR', e.response])
