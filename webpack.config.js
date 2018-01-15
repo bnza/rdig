@@ -5,8 +5,9 @@ const path = require('path')
 Encore
 // the project directory where compiled assets will be stored
   .setOutputPath('public/build/')
+  .setManifestKeyPrefix('public/build/')
   // the public path used by the web server to access the previous directory
-  .setPublicPath('/build')
+  .setPublicPath('/rdig/build')
   .cleanupOutputBeforeBuild()
   .enableSourceMaps(!Encore.isProduction())
   // uncomment to create hashed filenames (e.g. app.abc123.css)
