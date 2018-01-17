@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Site2;
+use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -10,7 +10,7 @@ class SiteRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Site2::class);
+        parent::__construct($registry, Site::class);
     }
 
     /*

@@ -4,35 +4,36 @@ namespace App\Controller;
 
 use App\Entity\Site;
 use App\Service\EntityWrapper;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/data")
  */
 class SiteController extends Controller
 {
-    public function persist($entity)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($entity);
-        $em->flush();
-    }
-
     /**
      * Create new site.
      *
-     * @Route("/site", name="data__site__new")
+     * @param $request
+     * @param $validator
+     * @param $wrapper
+     *
+     * @return Response
+     *
+     * @Route("/site", name="data__site__create")
      * @Method("POST")
      */
-    public function post(Request $request, ValidatorInterface $validator)
+    public function create(Request $request, ValidatorInterface $validator, EntityWrapper $wrapper)
     {
-        $wrapper = new EntityWrapper(Site::class, $request->getContent());
+        $wrapper->setEntity(Site::class, $request->getContent());
 
         $errors = $validator->validate($wrapper->entity);
         $response = new JsonResponse();
@@ -40,39 +41,51 @@ class SiteController extends Controller
             $response->setData($errors);
         } else {
             try {
-                $this->persist($wrapper->entity);
+                $wrapper->persist();
                 $response->setData($wrapper->getData());
                 $response->setStatusCode(201);
-                $url = $this->generateUrl('data__site__get', array('id' => $wrapper->entity->getId()));
+                $url = $this->generateUrl('data__site__read', array('id' => $wrapper->entity->getId()));
                 $response->headers->set('Location', $url);
             } catch (Exception $e) {
-                $response.setData($e->getMessage());
+                $response->setData($e->getMessage());
             }
+
             return $response;
         }
     }
 
     /**
-     * @Route("/site", name="data__sites__get", requirements={"id" = "\d+"})
+     * @Route("/site", name="data__site__list", requirements={"id" = "\d+"})
      * @Method("GET")
      */
-    public function getAll(Request $request, $id, ValidatorInterface $validator)
+    public function list(Request $request, ValidatorInterface $validator, $id)
     {
     }
 
     /**
-     * @Route("/site/{id}", name="data__site__get", requirements={"id" = "\d+"})
+     * @param Request $request
+     * @param ManagerRegistry $doctrine
+     * @param EntityWrapper $wrapper
+     * @param int $id
+     * @return JsonResponse
+     *
+     * @Route("/site/{id}", name="data__site__read", requirements={"id" = "\d+"})
      * @Method("GET")
      */
-    public function new(Request $request, $id, ValidatorInterface $validator)
+    public function read(Request $request, ManagerRegistry $doctrine, EntityWrapper $wrapper, $id)
     {
+        $product = $doctrine
+            ->getRepository(Site::class)
+            ->find($id);
+        $wrapper->setEntity($product);
+        return new JsonResponse($wrapper->getData());
     }
 
     /**
-     * @Route("/site/{id}", name="data__site__put", requirements={"id" = "\d+"})
+     * @Route("/site/{id}", name="data__site__replace", requirements={"id" = "\d+"})
      * @Method("PUT")
      */
-    public function put(Request $request, $id, ValidatorInterface $validator)
+    public function replace(Request $request, $id, ValidatorInterface $validator)
     {
     }
 
@@ -80,7 +93,7 @@ class SiteController extends Controller
      * @Route("/site/{id}", name="data__site__delete", requirements={"id" = "\d+"})
      * @Method("DELETE")
      */
-    public function delete(Request $request, $id, ValidatorInterface $validator)
+    public function delete(Request $request, $id)
     {
     }
 }
