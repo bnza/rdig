@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Service\DataCRUDHelper;
 use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,35 +23,23 @@ class SiteController extends Controller
      * Create new site.
      *
      * @param $request
-     * @param $validator
-     * @param $wrapper
+     * @param $crud
      *
      * @return Response
      *
      * @Route("/site", name="data__site__create")
      * @Method("POST")
      */
-    public function create(Request $request, ValidatorInterface $validator, EntityWrapper $wrapper)
+    public function create(Request $request, DataCRUDHelper $crud)
     {
-        $wrapper->setEntity(Site::class, $request->getContent());
-
-        $errors = $validator->validate($wrapper->entity);
-        $response = new JsonResponse();
-        if (count($errors) > 0) {
-            $response->setData($errors);
-        } else {
-            try {
-                $wrapper->persist();
-                $response->setData($wrapper->getData());
-                $response->setStatusCode(201);
-                $url = $this->generateUrl('data__site__read', array('id' => $wrapper->entity->getId()));
-                $response->headers->set('Location', $url);
-            } catch (Exception $e) {
-                $response->setData($e->getMessage());
-            }
-
-            return $response;
+        $responseArray = $crud->create(Site::class, $request->getContent());
+        $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+        if (array_key_exists('id', $responseArray)) {
+            $url = $this->generateUrl('data__site__read', array('id' => $responseArray['id']));
+            $response->headers->set('Location', $url);
         }
+
+        return $response;
     }
 
     /**
@@ -63,10 +51,11 @@ class SiteController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request         $request
      * @param ManagerRegistry $doctrine
-     * @param EntityWrapper $wrapper
-     * @param int $id
+     * @param EntityWrapper   $wrapper
+     * @param int             $id
+     *
      * @return JsonResponse
      *
      * @Route("/site/{id}", name="data__site__read", requirements={"id" = "\d+"})
@@ -74,11 +63,20 @@ class SiteController extends Controller
      */
     public function read(Request $request, ManagerRegistry $doctrine, EntityWrapper $wrapper, $id)
     {
+        $response = new JsonResponse();
+
         $product = $doctrine
             ->getRepository(Site::class)
             ->find($id);
-        $wrapper->setEntity($product);
-        return new JsonResponse($wrapper->getData());
+
+        if ($product) {
+            $wrapper->setEntity($product);
+            $response->setData($wrapper->getData());
+        } else {
+            $response->setStatusCode(404);
+        }
+
+        return $response;
     }
 
     /**

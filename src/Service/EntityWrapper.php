@@ -2,22 +2,13 @@
 
 namespace App\Service;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Util;
 use Doctrine\ORM\Mapping\Entity;
 
 class EntityWrapper
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $em;
-    public $entity;
 
-    public function __construct(ObjectManager $em)
-    {
-        $this->em = $em;
-    }
+    protected $entity;
 
     /**
      * @param string|Entity $entity
@@ -37,6 +28,13 @@ class EntityWrapper
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntity(){
+        return $this->entity;
     }
 
     public function setData($data, $entity = null)
@@ -74,22 +72,6 @@ class EntityWrapper
         }
 
         return $data;
-    }
-
-    /**
-     * @TODO add authorization checks
-     *
-     * @param bool $flush whether tp flush or no to the db
-     * @return EntityWrapper
-     */
-    public function persist($flush = true)
-    {
-        $this->em->persist($this->entity);
-        if ($flush) {
-            $this->em->flush();
-        }
-
-        return $this;
     }
 
     protected function camelcase($str)

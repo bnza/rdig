@@ -70,6 +70,7 @@ class Site
      * @Assert\Length(
      *      max = 64
      * )
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=64)
      */
     private $name;

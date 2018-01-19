@@ -22,7 +22,7 @@ class EntityWrapperTest extends \PHPUnit_Framework_TestCase
         $entity = new \App\Entity\Site();
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($entity);
-        $this->assertInstanceOf('\App\Entity\Site', $wrapper->entity);
+        $this->assertInstanceOf('\App\Entity\Site', $wrapper->getEntity());
     }
 
     public function testSetEntityMethodClassNameStringParameter()
@@ -30,7 +30,7 @@ class EntityWrapperTest extends \PHPUnit_Framework_TestCase
         $class = '\App\Entity\Site';
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($class);
-        $this->assertInstanceOf($class, $wrapper->entity);
+        $this->assertInstanceOf($class, $wrapper->getEntity());
     }
 
     public function testSetEntityMethodWithDataArgument()
@@ -43,7 +43,7 @@ class EntityWrapperTest extends \PHPUnit_Framework_TestCase
         $class = '\App\Entity\Site';
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($class, $data);
-        $this->assertInstanceOf($class, $wrapper->entity);
+        $this->assertInstanceOf($class, $wrapper->getEntity());
         $data['id'] = null;
         $this->assertEquals($data, $wrapper->getData());
 

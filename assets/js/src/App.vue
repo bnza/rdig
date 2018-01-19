@@ -8,7 +8,6 @@
                 </div>
                 <div class="column is-9 has-text-centered">
                     <router-view/>
-                    <div><p><strong>App</strong>!!! {{message}}</p></div>
                 </div>
                 <div class="column is-2">
                     <p>Right</p>
@@ -19,7 +18,7 @@
         <router-view name="modal"></router-view>
     </div>
 </template>
-
+s
 <script>
   import TheTopAppNav from "./components/TheTopAppNav";
   import TheBottomAppNav from "./components/TheBottomAppNav";
@@ -27,12 +26,7 @@
 
   export default {
     components: {TheTopAppNav, TheBottomAppNav, TheLeftPanel},
-    name: 'App',
-    data () {
-      return {
-        message: '(computed)'
-      }
-    }
+    name: 'App'
   }
 </script>
 

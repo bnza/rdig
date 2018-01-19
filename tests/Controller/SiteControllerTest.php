@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Site;
 use App\Service\EntityWrapper;
+use App\Service\DataCRUDHelper;
 use App\Tests\RealDatabaseWorkflowWebTestCase;
 
 //use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -25,7 +26,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
     /**
      * @group require_db
      */
-    public function testCreateValidate()
+    public function testCreateValidData()
     {
         $json = '{"code":"SN","name":"Site name"}';
 
@@ -53,18 +54,44 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
     /**
      * @group require_db
      */
+    public function testCreateInvalidCodeData()
+    {
+        $json = '{"code":"SNC","name":"Site name"}';
+        $errorMsg = '{"error":[{"violations":[{"property":"code","message":"This value should have exactly 2 characters."}]}]}';
+
+        $client = static::createClient();
+
+        $client->request('POST', '/data/site', [], [], [], $json);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $this->assertJsonStringEqualsJsonString(
+            $errorMsg,
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @group require_db
+     */
     public function testReadValidEntity()
     {
         $json = '{"code":"SN","name":"Site name"}';
 
-        $wrapper = new EntityWrapper($this->em);
-        $wrapper
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud
             ->setEntity(Site::class, $json)
             ->persist();
 
         $client = static::createClient();
 
-        $uri = '/data/site/'.$wrapper->entity->getId();
+        $uri = '/data/site/'.$crud->getEntity()->getId();
 
         $client->request('GET', $uri);
 
@@ -76,5 +103,32 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             $data,
             json_decode($response->getContent(), true)
         );
+    }
+
+    /**
+     * @group require_db
+     */
+    public function testDuplicateKeyEntity()
+    {
+        $json = '{"code":"SN","name":"Site name"}';
+
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud
+            ->setEntity(Site::class, $json)
+            ->persist();
+
+        $client = static::createClient();
+
+        $client->request('POST', '/data/site', [], [], [], $json);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $this->assertRegExp('/Duplicate/', $response->getContent());
     }
 }
