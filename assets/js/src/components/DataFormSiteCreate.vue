@@ -1,26 +1,19 @@
 <template>
     <form>
         <FormField label="Code" v-bind:helpMessage="fieldMessages.code">
-            <FormControl>
-                <input v-model="from.code" class="input is-primary" type="text" placeholder="Text input">
-            </FormControl>
+            <input v-model="form.code" class="input is-primary" type="text" placeholder="Text input">
         </FormField>
         <FormField label="Name" v-bind:helpMessage="fieldMessages.name">
-            <FormControl >
-                <input v-model="from.name" class="input is-primary" type="text" placeholder="Text input">
-            </FormControl>
+            <input v-model="form.name" class="input is-primary" type="text" placeholder="Text input">
         </FormField>
         <FormField class="is-grouped">
-            <FormControl>
-                <button
-                    v-on:click="performRequest"
-                    class="button is-link"
-                    v-bind:class="{'is-loading': isRequestPending}"
-                >Submit</button>
-            </FormControl>
-            <FormControl>
-                <button class="button is-text">Cancel</button>
-            </FormControl>
+            <button
+                type="button"
+                v-on:click="performRequest"
+                class="button is-link"
+                v-bind:class="{'is-loading': isRequestPending}"
+            >Submit</button>
+            <button class="button is-text">Cancel</button>
         </FormField>
     </form>
 </template>

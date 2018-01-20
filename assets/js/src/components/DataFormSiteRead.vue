@@ -1,36 +1,23 @@
 <template>
     <div v-if="site">
         <form>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">Code</label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control">
-                            <input class="input is-static" type="email" v-model="site.code" readonly>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">Name</label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control">
-                            <input class="input is-static" type="email" v-model="site.name" readonly>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <FormFieldHorizontal label="Code">
+                <input class="input is-static" type="email" v-model="site.code" readonly>
+            </FormFieldHorizontal>
+            <FormFieldHorizontal label="Name">
+                <input class="input is-static" type="email" v-model="site.name" readonly>
+            </FormFieldHorizontal>
         </form>
     </div>
 </template>
 
 <script>
+  import FormFieldHorizontal from './FormFieldHorizontal'
+
   export default {
+    components: {
+      FormFieldHorizontal
+    },
     props: ['id'],
     data: function() {
       return {
