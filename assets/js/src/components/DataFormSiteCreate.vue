@@ -9,7 +9,7 @@
         <FormField class="is-grouped">
             <button
                 type="button"
-                v-on:click="performRequest"
+                v-on:click="submit"
                 class="button is-link"
                 v-bind:class="{'is-loading': isRequestPending}"
             >Submit</button>
@@ -21,9 +21,12 @@
 <script>
   import FormField from './FormField'
   import FormControl from './FormControl'
-  import Vue from 'vue'
+  import DataFormMixin from '../mixins/DataFormMixin'
 
   export default {
+    mixins: [
+      DataFormMixin
+    ],
     data: function() {
       return {
         form: {
@@ -42,44 +45,16 @@
       FormControl
     },
     methods: {
-      clearErrors: function () {
-        for (let prop in this.fieldMessages) {
-          this.fieldMessages[prop] = {}
-        }
-      },
-      handleErrors: function (reason) {
-        if (reason.response) {
-          if (reason.response.data && reason.response.data.error) {
-            let error = reason.response.data.error
-            if (error.violations) {
-                for (let i = 0; i < error.violations.length; i++) {
-                  let violation = error.violations[i]
-                  Vue.set(this.fieldMessages[violation.property] = {
-                    className: 'is-danger',
-                    message: violation.message
-                  })
-                  console.log(violation.message)
-                }
-            }
-          }
-        }
-      },
-      performRequest: function () {
-        this.clearErrors()
+      submit: function() {
         let config = {
           method: 'post',
           url: 'data/site',
           data: this.form
         }
-        this.$store.dispatch('requests/perform', config)
-          .then(
-            (response) => {
-              this.$router.replace(`/data/site/${response.data.id}/read`)
-            }
-          )
-          .catch(
-            this.handleErrors
-          )
+        let successCb = function (response, component) {
+          component.$router.replace(`/data/site/${response.data.id}/read`)
+        }
+        this.performRequest(config, successCb)
       }
     },
     name: "DataFormSiteCreate"
