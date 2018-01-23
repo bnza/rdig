@@ -30,7 +30,7 @@ describe('LoginModalForm.vue', () => {
           })
         it('main <div> has has-icons-left class', () => {
           var classes = wrapper.find('div.control').classes()
-          expect(classes).toContain('has-icons-left')
+          expect(classes).toContain('hasIconsLeft')
         })
         it('left icon <span> is rendered', () => {
           var spans = wrapper.findAll('span.icon')
