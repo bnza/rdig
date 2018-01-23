@@ -1,6 +1,7 @@
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
 @import "~font-awesome/scss/font-awesome.scss";
+@import "../assets/fonts/fonts";
 
 $grey-darker: #3b3a36;
 $grey: #b3c2bf;
@@ -15,6 +16,10 @@ $navbar-item-color: $grey-lighter !default
 $family-sans-serif: "Vision";
 
 @import "~bulma";
+
+h1, h2, h3 {
+  font-family: "Slabo";
+}
 
 #container-main {
   margin-top: $navbar-height;
