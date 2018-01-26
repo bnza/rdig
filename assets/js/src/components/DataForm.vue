@@ -1,18 +1,28 @@
 <template>
-    <component v-bind:is="actionComponent" v-bind:id="id"></component>
+    <div>
+        <component v-bind:is="actionComponent"
+                   v-bind:id="id"
+                   v-bind:tableName="tableName"
+        />
+    </div>
+
 </template>
 
 <script>
   export default {
-    props: ['tablename', 'action', 'id'],
+    props: ['tableName', 'action', 'id'],
     components: {
-      'DataFormSiteCreate': () => import(
+      DataFormSiteCreate: () => import(
         /* webpackChunkName: "DataFormSiteCreate" */
         './DataFormSiteCreate'
         ),
-      'DataFormSiteRead': () => import(
+      DataFormSiteRead: () => import(
         /* webpackChunkName: "DataFormSiteRead" */
         './DataFormSiteRead'
+        ),
+      DataFormSiteUpdate: () => import(
+        /* webpackChunkName: "DataFormSiteUpdate" */
+        './DataFormSiteUpdate'
         )
     },
     computed: {
@@ -21,7 +31,7 @@
         {
           return string.charAt(0).toUpperCase() + string.slice(1);
         }
-        return "DataForm" + ucfirst(this.tablename) + ucfirst(this.action)
+        return "DataForm" + ucfirst(this.tableName) + ucfirst(this.action)
       }
     },
     name: "DataForm"

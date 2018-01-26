@@ -7,7 +7,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    panelLeftComponent: 'test-left'
+    panelLeftComponent: 'test-left',
+    message: {
+      body: '',
+      className: ''
+    }
   },
   modules: {
     account: account,
@@ -16,6 +20,20 @@ const store = new Vuex.Store({
   mutations: {
     switchLeftComponent (state, component) {
       state.panelLeftComponent = component
+    },
+    setMessage (state, body, className) {
+      let message = {
+        body: body,
+        className: className ? className : 'is-primary'
+      }
+      state.message = message
+    },
+    clearMessage (state) {
+      const message = {
+        body: '',
+        className: ''
+      }
+      state.message = message
     }
   }
 })

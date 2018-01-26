@@ -1,16 +1,19 @@
 <template>
-    <div class="has-text-left">
-        <slot>
-            <h1 class="is-size-1">{{tablename}}</h1>
-        </slot>
-        <router-view v-bind:tablename="tablename"></router-view>
+    <article v-if="appMessage" class="message" v-bind:class="appMessageClass">
+        <div class="message-body">
+            {{appMessage}}
+        </div>
+    </article>
+    <div v-if="tableName" class="has-text-left">
+        <h1 class="is-size-2">{{tableName}}</h1>
+        <router-view v-bind:tableName="tableName"></router-view>
     </div>
 </template>
 
 <script>
   export default {
     props:[
-      'tablename'
+      'tableName'
     ],
     name: "MainData"
   }

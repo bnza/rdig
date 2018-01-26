@@ -1,52 +1,35 @@
 <template>
-    <div v-if="site">
+    <div v-if="formData">
         <form>
             <FormFieldHorizontal label="Code">
-                <input class="input is-static" type="email" v-model="site.code" readonly>
+                <input class="input is-static" type="email" v-model="formData.code" readonly>
             </FormFieldHorizontal>
             <FormFieldHorizontal label="Name">
-                <input class="input is-static" type="email" v-model="site.name" readonly>
+                <input class="input is-static" type="email" v-model="formData.name" readonly>
             </FormFieldHorizontal>
+            <DataFormButtonGroup v-bind:tableName="tableName" v-bind:id="id"/>
         </form>
     </div>
 </template>
 
 <script>
   import FormFieldHorizontal from './FormFieldHorizontal'
+  import DataFormButtonGroup from './DataFormButtonGroup'
+  import DataFormMixin from '../mixins/DataFormMixin'
 
   export default {
     components: {
-      FormFieldHorizontal
+      FormFieldHorizontal,
+      DataFormButtonGroup
     },
-    props: ['id'],
-    data: function() {
-      return {
-        site: null
-      }
-    },
+    mixins: [
+      DataFormMixin
+    ],
+    props: ['tableName', 'id'],
     created () {
-      // fetch the data when the view is created and the data is
-      // already being observed
-      this.fetchData()
+      this.readData()
     },
-    methods: {
-      fetchData () {
-        let config = {
-          method: 'get',
-          url: `data/site/${this.id}`
-        }
-        this.$store.dispatch('requests/perform', config)
-          .then(
-            (response) => {
-              this.site = response.data
-            }
-          )
-          .catch(
-            this.handleErrors
-          )
-      }
-    },
-    name: "dataFormSiteRead"
+    name: "DataFormSiteRead"
   }
 </script>
 

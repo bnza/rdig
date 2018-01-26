@@ -131,4 +131,30 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
 
         $this->assertRegExp('/Duplicate/', $response->getContent());
     }
+
+    /**
+     * @group require_db
+     */
+    public function testUpdateValidEntity()
+    {
+        $json = '{"code":"SN","name":"Site name"}';
+        $updateJson = '{"id":1,"code":"SN","name":"Site name"}';
+
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud
+            ->setEntity(Site::class, $json)
+            ->persist();
+
+        $client = static::createClient();
+
+        $client->request('PUT', '/data/site/1', [], [], [], $updateJson);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
 }

@@ -48,8 +48,10 @@ class EntityWrapper
         }
 
         foreach ($data as $key => $value) {
-            $setMethod = 'set'.ucfirst($this->camelcase($key));
-            $this->entity->$setMethod($value);
+            if ($key !== 'id') {
+                $setMethod = 'set'.ucfirst($this->camelcase($key));
+                $this->entity->$setMethod($value);
+            }
         }
 
         return $this;

@@ -43,11 +43,16 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/site", name="data__site__list", requirements={"id" = "\d+"})
+     * @Route("/site", name="data__site__list")
      * @Method("GET")
      */
-    public function list(Request $request, ValidatorInterface $validator, $id)
+    public function list(Request $request, ManagerRegistry $doctrine)
     {
+        $entities = $doctrine
+            ->getRepository(Site::class)
+            ->findByAsArray([]);
+
+        return new JsonResponse($entities);
     }
 
     /**
@@ -61,16 +66,16 @@ class SiteController extends Controller
      * @Route("/site/{id}", name="data__site__read", requirements={"id" = "\d+"})
      * @Method("GET")
      */
-    public function read(Request $request, ManagerRegistry $doctrine, EntityWrapper $wrapper, $id)
+    public function read(ManagerRegistry $doctrine, EntityWrapper $wrapper, $id)
     {
         $response = new JsonResponse();
 
-        $product = $doctrine
+        $entity = $doctrine
             ->getRepository(Site::class)
             ->find($id);
 
-        if ($product) {
-            $wrapper->setEntity($product);
+        if ($entity) {
+            $wrapper->setEntity($entity);
             $response->setData($wrapper->getData());
         } else {
             $response->setStatusCode(404);
@@ -80,11 +85,15 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/site/{id}", name="data__site__replace", requirements={"id" = "\d+"})
+     * @Route("/site/{id}", name="data__site__update", requirements={"id" = "\d+"})
      * @Method("PUT")
      */
-    public function replace(Request $request, $id, ValidatorInterface $validator)
+    public function update(Request $request,  DataCRUDHelper $crud)
     {
+        $responseArray = $crud->update(Site::class, $request->getContent());
+        $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+
+        return $response;
     }
 
     /**

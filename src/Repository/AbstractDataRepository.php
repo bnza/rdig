@@ -3,15 +3,29 @@
 namespace App\Repository;
 
 use App\Entity\Site;
-use App\Repository\AbstractDataRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\UnitOfWork;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class SiteRepository extends AbstractDataRepository
+abstract class AbstractDataRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Site::class);
+    }
+
+    public function findByAsArray(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+
+        $qb = $this
+            ->createQueryBuilder('e')
+            ->setFirstResult( $offset )
+            ->setMaxResults( $limit );
+
+        $query = $qb->getQuery();
+
+        return $query->getArrayResult();
     }
 
     /*

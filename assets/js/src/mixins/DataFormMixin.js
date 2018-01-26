@@ -1,9 +1,30 @@
 import Vue from 'vue'
 
 export default {
-  data: function() {
+  data: function () {
     return {
-      isRequestPending: false
+      isRequestPending: false,
+      formData: null
+    }
+  },
+  computed: {
+    submitUrl: function () {
+      switch (this.method) {
+        case 'post':
+          return `data/${this.tableName}`
+        case 'put':
+        case 'delete':
+          return `data/${this.tableName}/${this.id}`
+        default:
+          throw new RangeError(`Unsupported method ${this.method}`)
+      }
+    },
+    submitConfig: function () {
+      return {
+        method: this.method,
+        url: this.submitUrl,
+        data: this.formData
+      }
     }
   },
   methods: {
@@ -11,6 +32,21 @@ export default {
       for (let prop in this.fieldMessages) {
         this.fieldMessages[prop] = {}
       }
+    },
+    readData () {
+      let config = {
+        method: 'get',
+        url: `data/${this.tableName}/${this.id}`
+      }
+      this.$store.dispatch('requests/perform', config)
+        .then(
+          (response) => {
+            this.formData = response.data
+          }
+        )
+        .catch(
+          this.handleErrors
+        )
     },
     handleErrors: function (reason) {
       this.isRequestPending = false
@@ -32,6 +68,13 @@ export default {
           }
         }
       }
+    },
+    submitRequest: function () {
+      let successCb = function (response, vm) {
+        let path = `/data/${vm.tableName}/${response.data.id}/read`
+        vm.$router.replace(path)
+      }
+      this.performRequest(this.submitConfig, successCb)
     },
     performRequest: function (config, successCb) {
       this.clearErrors()

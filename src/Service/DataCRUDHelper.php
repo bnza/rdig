@@ -119,4 +119,33 @@ class DataCRUDHelper
         return $response;
     }
 
+    public function update($entityName, $data)
+    {
+        $response = [];
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
+        if (!$data || !array_key_exists('id', $data)) {
+            $response['statusCode'] = 404;
+            $response['data'] = ['error' => "Invalid data"];
+        }
+        $entity = $this->em->find($entityName, $data['id']);
+        if ($entity) {
+            $this->setEntity($entity, $data);
+            if (!$this->validate()) {
+                try {
+                    $this->persist();
+                    $response['statusCode'] = 200;
+                    $response['data'] =$this->wrapper->getData();
+                } catch (\Exception $e) {
+                    $this->formatExceptionErrors($e);
+                }
+            }
+        } else {
+            $response['statusCode'] = 404;
+            $response['data'] = ['error' => "No data [ID=${$data['id']}]"];
+        }
+        return $response;
+    }
+
 }

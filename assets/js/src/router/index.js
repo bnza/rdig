@@ -4,7 +4,16 @@ import MainHome from '../components/MainHome'
 import MenuLeft from '../components/MenuLeft'
 import MainData from '../components/MainData'
 import LoginModal from '../components/LoginModal'
-import DataForm from '../components/DataForm'
+
+const DataForm = () => import(
+  /* webpackChunkName: "DataForm" */
+  '../components/DataForm'
+  )
+
+const DataList = () => import(
+  /* webpackChunkName: "DataList" */
+  '../components/DataList'
+  )
 
 Vue.use(Router)
 
@@ -27,7 +36,8 @@ export default new Router({
         modal: LoginModal
       }
     },
-    { path: '/data/:tablename',
+    {
+      path: '/data/:tableName',
       component: MainData,
       props: true,
       children: [
@@ -37,7 +47,13 @@ export default new Router({
           props: true
         },
         {
+          path: ':action(read)',
+          component: DataList,
+          props: true
+        },
+        {
           path: ':id(\\d+)/:action(read|update|delete)',
+          name: 'data_element',
           component: DataForm,
           props: true
         }

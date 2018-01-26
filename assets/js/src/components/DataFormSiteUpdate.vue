@@ -1,5 +1,5 @@
 <template>
-    <DataFormSiteEdit method="post" v-bind:id="id"/>
+    <DataFormSiteEdit method="put" v-bind:id="id"/>
 </template>
 
 <script>
@@ -10,7 +10,7 @@
     components: {
       DataFormSiteEdit
     },
-    name: "DataFormSiteCreate"
+    name: "DataFormSiteUpdate"
   }
 </script>
 
