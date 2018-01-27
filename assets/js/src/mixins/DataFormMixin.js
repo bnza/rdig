@@ -33,21 +33,6 @@ export default {
         this.fieldMessages[prop] = {}
       }
     },
-    readData () {
-      let config = {
-        method: 'get',
-        url: `data/${this.tableName}/${this.id}`
-      }
-      this.$store.dispatch('requests/perform', config)
-        .then(
-          (response) => {
-            this.formData = response.data
-          }
-        )
-        .catch(
-          this.handleErrors
-        )
-    },
     handleErrors: function (reason) {
       this.isRequestPending = false
       if (reason.response) {
@@ -69,26 +54,66 @@ export default {
         }
       }
     },
-    submitRequest: function () {
-      let successCb = function (response, vm) {
-        let path = `/data/${vm.tableName}/${response.data.id}/read`
-        vm.$router.replace(path)
-      }
-      this.performRequest(this.submitConfig, successCb)
+    hideDeleteModal: function () {
+      this.$emit('hideDeleteModal')
     },
-    performRequest: function (config, successCb) {
+    performRequest: function (config, successCb, errorCb) {
       this.clearErrors()
       this.isRequestPending = true
       this.$store.dispatch('requests/perform', config)
         .then(
           (response) => {
             this.isRequestPending = false
-            successCb(response, this)
+            if (successCb) {
+              successCb(response, this)
+            }
+          }
+        )
+        .catch(
+          (reason) => {
+            this.handleErrors(reason)
+            if (errorCb) {
+              errorCb(reason.response, this)
+            }
+          }
+        )
+    },
+    readData () {
+      let config = {
+        method: 'get',
+        url: `data/${this.tableName}/${this.id}`
+      }
+      this.$store.dispatch('requests/perform', config)
+        .then(
+          (response) => {
+            this.formData = response.data
           }
         )
         .catch(
           this.handleErrors
         )
+    },
+    showDeleteModal: function () {
+      this.$emit('showDeleteModal')
+    },
+    submitRequest: function () {
+      let successCb = function (response, vm) {
+        let path = ''
+        if (response.data && response.data.id) {
+          path = `/data/${vm.tableName}/${response.data.id}/read`
+        } else {
+          path = `/data/${vm.tableName}/read`
+        }
+        vm.$router.replace(path)
+      }
+      let errorCb = function (response, vm) {
+        vm.$store.state.message.body = response.data.error
+        vm.$store.state.message.className = 'is-danger'
+        if (vm.method === 'delete') {
+          vm.hideDeleteModal()
+        }
+      }
+      this.performRequest(this.submitConfig, successCb, errorCb)
     }
   }
 }

@@ -15,6 +15,11 @@ const DataList = () => import(
   '../components/DataList'
   )
 
+const DataFormDelete = () => import(
+  /* webpackChunkName: "DataFormDelete" */
+  '../components/DataFormDeleteModal'
+  )
+
 Vue.use(Router)
 
 export default new Router({

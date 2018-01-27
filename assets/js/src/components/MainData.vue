@@ -1,9 +1,4 @@
 <template>
-    <article v-if="appMessage" class="message" v-bind:class="appMessageClass">
-        <div class="message-body">
-            {{appMessage}}
-        </div>
-    </article>
     <div v-if="tableName" class="has-text-left">
         <h1 class="is-size-2">{{tableName}}</h1>
         <router-view v-bind:tableName="tableName"></router-view>

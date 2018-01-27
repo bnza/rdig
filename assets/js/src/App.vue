@@ -7,6 +7,7 @@
                     <TheLeftPanel/>
                 </div>
                 <div class="column is-9 has-text-centered">
+                    <MessagesContainer/>
                     <router-view/>
                 </div>
                 <div class="column is-2">
@@ -18,14 +19,20 @@
         <router-view name="modal"></router-view>
     </div>
 </template>
-s
+
 <script>
-  import TheTopAppNav from "./components/TheTopAppNav";
-  import TheBottomAppNav from "./components/TheBottomAppNav";
-  import TheLeftPanel from "./components/TheLeftPanel";
+  import TheTopAppNav from './components/TheTopAppNav';
+  import TheBottomAppNav from './components/TheBottomAppNav';
+  import TheLeftPanel from './components/TheLeftPanel';
+  import MessagesContainer from './components/MessagesContainer'
 
   export default {
-    components: {TheTopAppNav, TheBottomAppNav, TheLeftPanel},
+    components: {
+      MessagesContainer,
+      TheTopAppNav,
+      TheBottomAppNav,
+      TheLeftPanel
+    },
     name: 'App'
   }
 </script>

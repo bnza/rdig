@@ -138,7 +138,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
     public function testUpdateValidEntity()
     {
         $json = '{"code":"SN","name":"Site name"}';
-        $updateJson = '{"id":1,"code":"SN","name":"Site name"}';
+        $updateJson = '{"id":1,"code":"SN","name":"Site name changed"}';
 
         $validator = $this
             ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
@@ -152,6 +152,32 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
         $client = static::createClient();
 
         $client->request('PUT', '/data/site/1', [], [], [], $updateJson);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * @group require_db
+     */
+    public function testDeleteExistentEntity()
+    {
+        $json = '{"code":"SN","name":"Site name"}';
+
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud
+            ->setEntity(Site::class, $json)
+            ->persist();
+
+        $client = static::createClient();
+
+        $client->request('DELETE', '/data/site/1');
 
         $response = $client->getResponse();
 

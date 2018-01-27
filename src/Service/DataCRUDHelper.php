@@ -148,4 +148,24 @@ class DataCRUDHelper
         return $response;
     }
 
+    public function delete($entityName, $id) {
+        $response = [];
+        $entity = $this->em->find($entityName, $id);
+
+        if ($entity) {
+            try {
+                $this->em->remove($entity);
+                $this->em->flush();
+                $response['statusCode'] = 200;
+                $response['data'] = "Successfully deleted [$id] entity";
+            } catch (\Exception $e) {
+                $this->formatExceptionErrors($e);
+            }
+        } else {
+            $response['statusCode'] = 404;
+            $response['data'] = ['error' => "No data [ID=$id]"];
+        }
+        return $response;
+    }
+
 }
