@@ -1,27 +1,43 @@
 @import "~bulma/sass/utilities/initial-variables";
 
 @font-face {
-  font-family: "Vision";
-  src: url("vision-webfont.woff2") format("woff2");
+  font-family: "OpenSans";
+  src: url("OpenSans-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Vision";
-  src: url("vision-bold-webfont.woff2") format("woff2");
+  font-family: "OpenSans";
+  src: url("OpenSans-Bold.ttf") format("truetype");
   font-weight: $weight-bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Vision";
-  src: url("vision-regular_italic-webfont.woff2") format("woff2");
+  font-family: "OpenSans";
+  src: url("OpenSans-Italic.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
-  font-family: "Slabo";
-  src: url("Slabo27px-Regular.ttf") format("ttf");
+  font-family: "Montserrat";
+  src: url("Montserrat-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-Bold.ttf") format("truetype");
+  font-weight: $weight-bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
 }

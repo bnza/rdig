@@ -13,7 +13,11 @@
                 class="button is-link"
                 v-bind:class="{'is-loading': isRequestPending}"
             >Submit</button>
-            <button class="button is-text">Cancel</button>
+            <button
+                type="button"
+                class="button is-text"
+                v-on:click="back"
+            >Cancel</button>
         </FormField>
     </form>
 </template>
@@ -45,6 +49,11 @@
           name: {}
         },
         tableName: 'site'
+      }
+    },
+    methods: {
+      back: function () {
+        this.$router.back()
       }
     },
     components: {

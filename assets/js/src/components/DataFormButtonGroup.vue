@@ -11,7 +11,7 @@
                             Back
                         </span>
                         <span class="button is-success" v-on:click="updateEntity">Edit</span>
-                        <span class="button is-danger" v-on:click="deleteEntity">Delete</span>
+                        <span class="button is-danger" v-on:click="showDeleteModal">Delete</span>
                     </div>
                 </div>
             </div>
@@ -29,8 +29,9 @@
       updateEntity: function () {
         this.$router.replace({ name: 'data_element', params: { tableName: this.tableName, action: 'update', id: this.id }})
       },
-      deleteEntity: function () {
-        this.$router.replace({ name: 'data_element', params: { tableName: this.tableName, action: 'delete', id: this.id }})
+      showDeleteModal: function () {
+        this.$emit('showDeleteModal')
+        //this.$router.replace({ name: 'data_element', params: { tableName: this.tableName, action: 'delete', id: this.id }})
       },
     },
     name: "DataFormButtonGroup"

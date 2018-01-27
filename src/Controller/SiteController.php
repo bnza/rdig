@@ -100,7 +100,11 @@ class SiteController extends Controller
      * @Route("/site/{id}", name="data__site__delete", requirements={"id" = "\d+"})
      * @Method("DELETE")
      */
-    public function delete(Request $request, $id)
+    public function delete(Request $request,  DataCRUDHelper $crud, $id)
     {
+        $responseArray = $crud->delete(Site::class, $id);
+        $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+
+        return $response;
     }
 }

@@ -1,7 +1,6 @@
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
-@import "~font-awesome/scss/font-awesome.scss";
-@import "../assets/fonts/fonts";
+@import "~font-awesome/scss/font-awesome";
 
 $grey-darker: #3b3a36;
 $grey: #b3c2bf;
@@ -13,12 +12,12 @@ $modal-z: 40;
 $navbar-background-color: $grey-darker;
 $navbar-item-hover-background-color: $grey-dark;
 $navbar-item-color: $grey-lighter !default
-$family-sans-serif: "Vision";
+$family-sans-serif: "Montserrat";
 
 @import "~bulma";
 
 h1, h2, h3 {
-  font-family: "Slabo";
+  font-family: "OpenSans";
 }
 
 #container-main {
