@@ -3,9 +3,9 @@
         <div class="navbar-brand">
             <router-link to="/" class="navbar-item">
                 <img
-                        v-bind:src="rdigLogoSrc"
-                        alt="rDig *dig reloaded"
-                        width="112" height="28"
+                    v-bind:src="rdigLogoSrc"
+                    alt="rDig *dig reloaded"
+                    width="112" height="28"
                 />
             </router-link>
             <button class="button navbar-burger">
@@ -16,17 +16,28 @@
         </div>
         <div class="navbar-menu">
             <div class="navbar-start">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Tables
+                    </a>
+                    <div class="navbar-dropdown">
+                        <router-link
+                            class="navbar-item"
+                            :to="{ name: 'data_list', params: { tableName: 'site', action: 'read' }}"
+                        >Site</router-link>
+                    </div>
+                </div>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
                     <UserDropdownMenu
-                            v-if="$store.getters['account/isAuthenticated']"
+                        v-if="$store.getters['account/isAuthenticated']"
                     />
                     <a
-                            v-else
-                            class="navbar-item"
-                            title="Login"
-                            v-on:click="showLoginModal"
+                        v-else
+                        class="navbar-item"
+                        title="Login"
+                        v-on:click="showLoginModal"
                     >
                         <span class="icon is-medium">
                             <i class="fa fa-2x fa-sign-in"></i>
@@ -39,7 +50,7 @@
 </template>
 
 <script>
-    import UserDropdownMenu from './UserDropdownMenu'
+  import UserDropdownMenu from './UserDropdownMenu'
   export default {
     components: {UserDropdownMenu},
     computed: {

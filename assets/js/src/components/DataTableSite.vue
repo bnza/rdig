@@ -1,7 +1,7 @@
 <template>
     <DataTable tableName="site" v-bind:tableColumnsNum="3">
         <tr slot="header">
-            <DataTableRowCellHead label="id"/>
+            <DataTableRowCellHead/>
             <DataTableRowCellHead label="code"/>
             <DataTableRowCellHead label="name"/>
         </tr>

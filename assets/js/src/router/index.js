@@ -53,6 +53,7 @@ export default new Router({
         },
         {
           path: ':action(read)',
+          name: 'data_list',
           component: DataList,
           props: true
         },
