@@ -3,12 +3,8 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Site;
-use App\Service\EntityWrapper;
-use App\Service\DataCRUDHelper;
+use App\Service\DataCrudHelper;
 use App\Tests\RealDatabaseWorkflowWebTestCase;
-
-//use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-//use Doctrine\Common\Persistence\ObjectRepository;
 
 class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
 {
@@ -57,8 +53,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
     public function testCreateInvalidCodeData()
     {
         $json = '{"code":"SNC","name":"Site name"}';
-        $errorMsg = '{"error":[{"violations":[{"property":"code","message":"This value should have exactly 2 characters."}]}]}';
-
+        $errorMsg = '{"error":{"violations":[{"property":"code","message":"This value should have exactly 2 characters."}]}}';
         $client = static::createClient();
 
         $client->request('POST', '/data/site', [], [], [], $json);
@@ -84,7 +79,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
             ->disableOriginalConstructor()
             ->getMock();
-        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud = new DataCrudHelper($this->em, $validator);
         $crud
             ->setEntity(Site::class, $json)
             ->persist();
@@ -116,7 +111,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
             ->disableOriginalConstructor()
             ->getMock();
-        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud = new DataCrudHelper($this->em, $validator);
         $crud
             ->setEntity(Site::class, $json)
             ->persist();
@@ -144,7 +139,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
             ->disableOriginalConstructor()
             ->getMock();
-        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud = new DataCrudHelper($this->em, $validator);
         $crud
             ->setEntity(Site::class, $json)
             ->persist();
@@ -161,6 +156,36 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
     /**
      * @group require_db
      */
+    public function testUpdateDuplicateUniqueSiteCode()
+    {
+        $json = '{"code":"S1","name":"Site name 1"}';
+        $json2 = '{"code":"S2","name":"Site name 2"}';
+        $updateJson = '{"id":2,"code":"S1","name":"Site name changed"}';
+
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $crud = new DataCrudHelper($this->em, $validator);
+        $crud
+            ->setEntity(Site::class, $json)
+            ->persist();
+        $crud
+            ->setEntity(Site::class, $json2)
+            ->persist();
+
+        $client = static::createClient();
+
+        $client->request('PUT', '/data/site/1', [], [], [], $updateJson);
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    /**
+     * @group require_db
+     */
     public function testDeleteExistentEntity()
     {
         $json = '{"code":"SN","name":"Site name"}';
@@ -170,7 +195,7 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $crud = new DataCRUDHelper($this->em, $validator);
+        $crud = new DataCrudHelper($this->em, $validator);
         $crud
             ->setEntity(Site::class, $json)
             ->persist();

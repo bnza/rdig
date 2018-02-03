@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Site;
-use App\Service\DataCRUDHelper;
+use App\Service\DataCrudHelper;
 use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,15 +22,16 @@ class SiteController extends Controller
     /**
      * Create new site.
      *
-     * @param $request
-     * @param $crud
+     * @param Request $request
+     * @param DataCrudHelper $crud
      *
      * @return Response
      *
+     * @throws \App\Exceptions\DataValidationCrudException
      * @Route("/site", name="data__site__create")
      * @Method("POST")
      */
-    public function create(Request $request, DataCRUDHelper $crud)
+    public function create(Request $request, DataCrudHelper $crud)
     {
         $responseArray = $crud->create(Site::class, $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
@@ -56,10 +57,9 @@ class SiteController extends Controller
     }
 
     /**
-     * @param Request         $request
      * @param ManagerRegistry $doctrine
-     * @param EntityWrapper   $wrapper
-     * @param int             $id
+     * @param EntityWrapper $wrapper
+     * @param int $id
      *
      * @return JsonResponse
      *
@@ -88,7 +88,7 @@ class SiteController extends Controller
      * @Route("/site/{id}", name="data__site__update", requirements={"id" = "\d+"})
      * @Method("PUT")
      */
-    public function update(Request $request,  DataCRUDHelper $crud)
+    public function update(Request $request,  DataCrudHelper $crud)
     {
         $responseArray = $crud->update(Site::class, $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
@@ -100,7 +100,7 @@ class SiteController extends Controller
      * @Route("/site/{id}", name="data__site__delete", requirements={"id" = "\d+"})
      * @Method("DELETE")
      */
-    public function delete(Request $request,  DataCRUDHelper $crud, $id)
+    public function delete(Request $request,  DataCrudHelper $crud, $id)
     {
         $responseArray = $crud->delete(Site::class, $id);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
