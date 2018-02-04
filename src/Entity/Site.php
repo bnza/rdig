@@ -62,7 +62,8 @@ class Site
      *      min = 2,
      *      max = 2
      * )
-     * @ORM\Column(type="string", length=2, unique=true)
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=2, unique=true, nullable=false)
      */
     private $code;
 
@@ -71,7 +72,7 @@ class Site
      *      max = 64
      * )
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     private $name;
 }

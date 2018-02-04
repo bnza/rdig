@@ -9,6 +9,7 @@
         <DataFormButtonGroup
             v-bind:tableName="tableName"
             v-bind:id="id"
+            v-on:back="back"
             v-on:cancel="hideDeleteModal"
             v-on:showDeleteModal="showDeleteModal"
         />

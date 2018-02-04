@@ -1,18 +1,15 @@
 <template>
-    <article v-if="appMessage" class="message" v-bind:class="appMessageClass">
-        <div class="message-body">
-            {{appMessage}}
-        </div>
-    </article>
+    <section>
+        <article v-for="message in $store.state.messages.all" class="message" v-bind:class="message.className">
+            <div class="message-body">
+                {{message.body}}
+            </div>
+        </article>
+    </section>
 </template>
 
 <script>
-  import MessagesMixin from '../mixins/MessagesMixin'
-
   export default {
-    mixins: [
-      MessagesMixin
-    ],
     name: "MessagesContainer"
   }
 </script>

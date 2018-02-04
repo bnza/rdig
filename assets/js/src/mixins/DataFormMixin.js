@@ -28,35 +28,71 @@ export default {
     }
   },
   methods: {
+    /**
+     * Returns to previous url: list for DELETE, POST and item for PUT
+     */
+    back: function () {
+      let path = ''
+      if (this.method === 'put') {
+        path = `/data/${this.tableName}/${this.id}/read`
+      } else {
+        path = `/data/${this.tableName}/read`
+      }
+      this.$router.replace(path)
+    },
+    /**
+     * Goes to next url: list for DELETE and item for PUT, POST (which have id)
+     */
+    next: function (id) {
+      let path = ''
+      if (id) {
+        path = `/data/${this.tableName}/${id}/read`
+      } else {
+        path = `/data/${this.tableName}/read`
+      }
+      this.$router.push(path)
+    },
+    /**
+     * Clears field validation error messages
+     */
     clearErrors: function () {
       for (let prop in this.fieldMessages) {
         this.fieldMessages[prop] = {}
       }
     },
-    handleErrors: function (reason) {
-      this.isRequestPending = false
-      if (reason.response) {
-        if (reason.response.data && reason.response.data.error) {
-          let error = reason.response.data.error
-          if (error.violations) {
-            for (let i = 0; i < error.violations.length; i++) {
-              let violation = error.violations[i]
-              if (this.fieldMessages && this.fieldMessages.hasOwnProperty(violation.property)) {
-                Vue.set(this.fieldMessages[violation.property] = {
-                  className: 'is-danger',
-                  message: violation.message
-                })
-              } else {
-                console.warn(`Form field "${violation.property}" does not exist`)
-              }
+    /**
+     * Handles error's array returned by the submit request
+     * @param violations
+     */
+    handleValidationErrors: function (violations) {
+      for (let i = 0; i < violations.length; i++) {
+        let violation = violations[i]
+        if (this.fieldMessages && this.fieldMessages.hasOwnProperty(violation.property)) {
+          Vue.set(
+            this.fieldMessages,
+            violation.property,
+            {
+              className: 'is-danger',
+              message: violation.message
             }
-          }
+          )
+        } else {
+          console.warn(`Form field "${violation.property}" does not exist`)
         }
       }
     },
+    /**
+     * Hides the delete confirm modal
+     */
     hideDeleteModal: function () {
       this.$emit('hideDeleteModal')
     },
+    /**
+     * Performs the HTTP request with the given config object. Fires the given callbacks on success or error
+     * @param config
+     * @param successCb
+     * @param errorCb
+     */
     performRequest: function (config, successCb, errorCb) {
       this.clearErrors()
       this.isRequestPending = true
@@ -71,13 +107,24 @@ export default {
         )
         .catch(
           (reason) => {
-            this.handleErrors(reason)
+            this.isRequestPending = false
+            if (reason.response) {
+              if (reason.response.data && reason.response.data.error) {
+                let error = reason.response.data.error
+                if (error.hasOwnProperty('violations')) {
+                  this.handleValidationErrors(error.violations)
+                }
+              }
+            }
             if (errorCb) {
               errorCb(reason.response, this)
             }
           }
         )
     },
+    /**
+     * Perform the GET HTTP request for the single item
+     */
     readData () {
       let config = {
         method: 'get',
@@ -93,22 +140,58 @@ export default {
           this.handleErrors
         )
     },
+    /**
+     * Shows the delete confirm modal
+     */
     showDeleteModal: function () {
       this.$emit('showDeleteModal')
     },
     submitRequest: function () {
-      let successCb = function (response, vm) {
+      /**
+       * Navigate to new url
+       * @param router
+       * @param tableName
+       * @param id
+       */
+      let navigate = function (router, tableName, id) {
         let path = ''
-        if (response.data && response.data.id) {
-          path = `/data/${vm.tableName}/${response.data.id}/read`
+        if (id) {
+          path = `/data/${tableName}/${id}/read`
         } else {
-          path = `/data/${vm.tableName}/read`
+          path = `/data/${tableName}/read`
         }
-        vm.$router.replace(path)
+        router.replace(path)
+      }
+      let showSuccessMessage = function (vm, id) {
+        let message = ''
+        switch (vm.method) {
+          case 'delete':
+            message = 'Item successfully deleted'
+            break
+          case 'put':
+            message = 'Item successfully updated'
+            break
+          case 'post':
+            message = 'Item successfully created'
+            break
+        }
+        vm.$store.dispatch({
+          type: 'messages/addMessage',
+          body: message,
+          className: 'is-success'
+        })
+      }
+      let successCb = function (response, vm) {
+        let id = false
+        if (response.data && response.data.id) {
+          id = response.data.id
+        }
+        vm.next(id)
+        // navigate(vm.$router, vm.tableName, id)
+        showSuccessMessage(vm, id)
       }
       let errorCb = function (response, vm) {
-        vm.$store.state.message.body = response.data.error
-        vm.$store.state.message.className = 'is-danger'
+        vm.$store.dispatch('messages/handleResponseError', response)
         if (vm.method === 'delete') {
           vm.hideDeleteModal()
         }

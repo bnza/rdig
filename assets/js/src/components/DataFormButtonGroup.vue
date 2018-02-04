@@ -24,14 +24,13 @@
     props:['tableName', 'id'],
     methods: {
       back: function () {
-        this.$router.back()
+        this.$emit('back')
       },
       updateEntity: function () {
         this.$router.replace({ name: 'data_element', params: { tableName: this.tableName, action: 'update', id: this.id }})
       },
       showDeleteModal: function () {
         this.$emit('showDeleteModal')
-        //this.$router.replace({ name: 'data_element', params: { tableName: this.tableName, action: 'delete', id: this.id }})
       },
     },
     name: "DataFormButtonGroup"

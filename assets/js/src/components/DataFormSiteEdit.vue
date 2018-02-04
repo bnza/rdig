@@ -51,11 +51,6 @@
         tableName: 'site'
       }
     },
-    methods: {
-      back: function () {
-        this.$router.back()
-      }
-    },
     components: {
       FormField,
       FormControl

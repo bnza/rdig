@@ -11,6 +11,7 @@
         />
         <DataFormDeleteModal
             v-if="isDeleteModal"
+            v-bind:tableName="tableName"
             v-on:cancel="hideDeleteModal"
             v-on:deleteEntity="deleteEntity"
         />

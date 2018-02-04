@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import account from './account'
 import requests from './requests'
+import messages from './messages'
 
 Vue.use(Vuex)
 
@@ -15,25 +16,12 @@ const store = new Vuex.Store({
   },
   modules: {
     account: account,
-    requests: requests
+    requests: requests,
+    messages: messages
   },
   mutations: {
     switchLeftComponent (state, component) {
       state.panelLeftComponent = component
-    },
-    setMessage (state, body, className) {
-      let message = {
-        body: body,
-        className: className ? className : 'is-primary'
-      }
-      state.message = message
-    },
-    clearMessage (state) {
-      const message = {
-        body: '',
-        className: ''
-      }
-      state.message = message
     }
   }
 })

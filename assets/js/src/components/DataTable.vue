@@ -9,7 +9,7 @@
                 <template v-for="(value, key) in row">
                     <th v-if="key === 'id'">
                         <router-link :to="{ name: 'data_element', params: { action: 'read', id: value }}" title="Show element">
-                            <i class="fa fa-file-o"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </router-link>
                     </th>
                     <td v-else>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Exceptions\NotFoundCrudException;
 use App\Service\DataCrudHelper;
 use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -12,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/data")
@@ -22,7 +22,7 @@ class SiteController extends Controller
     /**
      * Create new site.
      *
-     * @param Request $request
+     * @param Request        $request
      * @param DataCrudHelper $crud
      *
      * @return Response
@@ -58,13 +58,15 @@ class SiteController extends Controller
 
     /**
      * @param ManagerRegistry $doctrine
-     * @param EntityWrapper $wrapper
-     * @param int $id
+     * @param EntityWrapper   $wrapper
+     * @param int             $id
      *
      * @return JsonResponse
      *
      * @Route("/site/{id}", name="data__site__read", requirements={"id" = "\d+"})
      * @Method("GET")
+     *
+     * @throws NotFoundCrudException
      */
     public function read(ManagerRegistry $doctrine, EntityWrapper $wrapper, $id)
     {
@@ -74,12 +76,12 @@ class SiteController extends Controller
             ->getRepository(Site::class)
             ->find($id);
 
-        if ($entity) {
-            $wrapper->setEntity($entity);
-            $response->setData($wrapper->getData());
-        } else {
-            $response->setStatusCode(404);
+        if (!$entity) {
+            throw new NotFoundCrudException($id);
         }
+
+        $wrapper->setEntity($entity);
+        $response->setData($wrapper->getData());
 
         return $response;
     }
@@ -87,8 +89,17 @@ class SiteController extends Controller
     /**
      * @Route("/site/{id}", name="data__site__update", requirements={"id" = "\d+"})
      * @Method("PUT")
+     *
+     * @param Request        $request
+     * @param DataCrudHelper $crud
+     *
+     * @return JsonResponse
+     *
+     * @throws \App\Exceptions\DataValidationCrudException
+     * @throws \App\Exceptions\InvalidRequestDataCrudException
+     * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function update(Request $request,  DataCrudHelper $crud)
+    public function update(Request $request, DataCrudHelper $crud)
     {
         $responseArray = $crud->update(Site::class, $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
@@ -99,8 +110,15 @@ class SiteController extends Controller
     /**
      * @Route("/site/{id}", name="data__site__delete", requirements={"id" = "\d+"})
      * @Method("DELETE")
+     *
+     * @param DataCrudHelper $crud
+     * @param $id
+     *
+     * @return JsonResponse
+     *
+     * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function delete(Request $request,  DataCrudHelper $crud, $id)
+    public function delete(DataCrudHelper $crud, $id)
     {
         $responseArray = $crud->delete(Site::class, $id);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
