@@ -20,7 +20,7 @@
         </template>
         <template v-else>
             <tr class="has-text-centered">
-                <td colspan="tableColumnsNum">
+                <td class="has-text-centered" v-bind:colspan="tableColumnsNum">
                     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
                     <span class="sr-only">Loading...</span>
                 </td>
@@ -36,18 +36,21 @@
   export default {
     data: function() {
       return {
-        tableData: null
+        tableData: null,
       }
     },
-    props: ['tableName', 'tableColumnsNum'],
+    props: [
+      'tableName',
+      'tableColumnsNum',
+      'sortCriteria'
+    ],
     mixins: [
       DataTableMixin
     ],
-    components: {
-      DataTableRowCellHead: () => import(
-        /* webpackChunkName: "DataTableRowCellHead" */
-        './DataTableRowCellHead'
-        ),
+    watch: {
+      sortCriteria: function () {
+        this.fetchData()
+      }
     },
     name: "DataTable"
   }

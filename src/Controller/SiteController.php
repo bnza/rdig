@@ -49,9 +49,15 @@ class SiteController extends Controller
      */
     public function list(Request $request, ManagerRegistry $doctrine)
     {
+
+        $sortCriteria = [];
+        if ($sort = $request->get('sort')) {
+            $field = array_keys($sort)[0];
+            $sortCriteria[$field] = $sort[$field];
+        }
         $entities = $doctrine
             ->getRepository(Site::class)
-            ->findByAsArray([]);
+            ->findByAsArray([], $sort);
 
         return new JsonResponse($entities);
     }

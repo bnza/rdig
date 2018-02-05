@@ -4,8 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\UnitOfWork;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 abstract class AbstractDataRepository extends ServiceEntityRepository
@@ -15,7 +14,7 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
         parent::__construct($registry, Site::class);
     }
 
-    public function findByAsArray(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findByAsArray(array $filter, array $sort, $limit = null, $offset = null)
     {
 
         $qb = $this
@@ -23,21 +22,14 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
             ->setFirstResult( $offset )
             ->setMaxResults( $limit );
 
+        if ($sort) {
+            $sortCriteria = Criteria::create()
+                ->orderBy($sort);
+            $qb->addCriteria($sortCriteria);
+        }
+
         $query = $qb->getQuery();
 
         return $query->getArrayResult();
     }
-
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->where('s.something = :value')->setParameter('value', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 }
