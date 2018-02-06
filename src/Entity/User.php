@@ -28,6 +28,30 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+    /**
+     * @ORM\Column(
+     *     type="string",
+     *     options={"default": "ROLE_USER"}
+     * )
+     */
+    private $roles = 'ROLE_USER';
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return explode(',', $this->roles);
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = implode(',', $roles);
+    }
+
     public function getUsername()
     {
         return $this->username;
@@ -43,11 +67,6 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
     public function setUsername(string $username)
     {
         $this->username = $username;
@@ -58,9 +77,9 @@ class User implements UserInterface, \Serializable
         $this->password = $password;
     }
 
-
     public function eraseCredentials()
     {
+        $this->password = '';
     }
 
     public function serialize()
@@ -69,6 +88,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->roles,
         ));
     }
 
@@ -77,6 +97,8 @@ class User implements UserInterface, \Serializable
         list(
             $this->id,
             $this->username,
-            $this->password) = unserialize($serialized);
+            $this->password,
+            $this->roles
+            ) = unserialize($serialized);
     }
 }

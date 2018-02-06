@@ -2,41 +2,45 @@
 
 namespace App\Controller;
 
-use App\Entity\Site;
 use App\Exceptions\NotFoundCrudException;
 use App\Service\DataCrudHelper;
 use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/data")
- */
-class SiteController extends Controller
+
+class CrudController extends Controller
 {
+    protected $entities = [
+        'site' => 'App\Entity\Site'
+    ];
+
+    public function getEntityClass($entity)
+    {
+        return $this->entities[$entity];
+    }
+
     /**
      * Create new site.
      *
-     * @param Request        $request
+     * @param Request $request
      * @param DataCrudHelper $crud
+     * @param string $entityName
      *
      * @return Response
      *
      * @throws \App\Exceptions\DataValidationCrudException
-     * @Route("/site", name="data__site__create")
-     * @Method("POST")
      */
-    public function create(Request $request, DataCrudHelper $crud)
+    public function create(Request $request, DataCrudHelper $crud, string $entityName)
     {
-        $responseArray = $crud->create(Site::class, $request->getContent());
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $responseArray = $crud->create($this->getEntityClass($entityName), $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
         if (array_key_exists('id', $responseArray)) {
-            $url = $this->generateUrl('data__site__read', array('id' => $responseArray['id']));
+            $url = $this->generateUrl("data__crud__read", array('id' => $responseArray['id'], 'entityName' => $entityName));
             $response->headers->set('Location', $url);
         }
 
@@ -44,19 +48,21 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/site", name="data__site__list")
-     * @Method("GET")
+     * @param Request $request
+     * @param ManagerRegistry $doctrine
+     * @param string $entityName
+     *
+     * @return JsonResponse
      */
-    public function list(Request $request, ManagerRegistry $doctrine)
+    public function list(Request $request, ManagerRegistry $doctrine, string $entityName)
     {
+        /**
+         * Maps sort[code]=ASC query string to ['code'=>'ASC'] array
+         */
+        $sort = $request->get('sort') ?: [];
 
-        $sortCriteria = [];
-        if ($sort = $request->get('sort')) {
-            $field = array_keys($sort)[0];
-            $sortCriteria[$field] = $sort[$field];
-        }
         $entities = $doctrine
-            ->getRepository(Site::class)
+            ->getRepository($this->getEntityClass($entityName))
             ->findByAsArray([], $sort);
 
         return new JsonResponse($entities);
@@ -65,21 +71,19 @@ class SiteController extends Controller
     /**
      * @param ManagerRegistry $doctrine
      * @param EntityWrapper   $wrapper
+     * @param string $entityName
      * @param int             $id
      *
      * @return JsonResponse
      *
-     * @Route("/site/{id}", name="data__site__read", requirements={"id" = "\d+"})
-     * @Method("GET")
-     *
      * @throws NotFoundCrudException
      */
-    public function read(ManagerRegistry $doctrine, EntityWrapper $wrapper, $id)
+    public function read(ManagerRegistry $doctrine, EntityWrapper $wrapper, string $entityName, int $id)
     {
         $response = new JsonResponse();
 
         $entity = $doctrine
-            ->getRepository(Site::class)
+            ->getRepository($this->getEntityClass($entityName))
             ->find($id);
 
         if (!$entity) {
@@ -93,11 +97,10 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/site/{id}", name="data__site__update", requirements={"id" = "\d+"})
-     * @Method("PUT")
      *
      * @param Request        $request
      * @param DataCrudHelper $crud
+     * @param string $entityName
      *
      * @return JsonResponse
      *
@@ -105,28 +108,29 @@ class SiteController extends Controller
      * @throws \App\Exceptions\InvalidRequestDataCrudException
      * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function update(Request $request, DataCrudHelper $crud)
+    public function update(Request $request, DataCrudHelper $crud, string $entityName)
     {
-        $responseArray = $crud->update(Site::class, $request->getContent());
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $responseArray = $crud->update($this->getEntityClass($entityName), $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
         return $response;
     }
 
     /**
-     * @Route("/site/{id}", name="data__site__delete", requirements={"id" = "\d+"})
-     * @Method("DELETE")
      *
      * @param DataCrudHelper $crud
+     * @param string $entityName
      * @param $id
      *
      * @return JsonResponse
      *
      * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function delete(DataCrudHelper $crud, $id)
+    public function delete(DataCrudHelper $crud, string $entityName, int $id)
     {
-        $responseArray = $crud->delete(Site::class, $id);
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $responseArray = $crud->delete($this->getEntityClass($entityName), $id);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
         return $response;

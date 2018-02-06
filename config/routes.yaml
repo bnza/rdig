@@ -1,3 +1,41 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+data__crud__create:
+    path:       /data/{entityName}
+    controller: App\Controller\CrudController::create
+    methods:    [POST]
+    requirements:
+            entityName: '[\w\-?]+'
+
+data__crud__list:
+    path:       /data/{entityName}
+    controller: App\Controller\CrudController::list
+    methods:    [GET]
+    requirements:
+            entityName: '[\w\-?]+'
+
+data__crud__read:
+    path:       /data/{entityName}/{id}
+    controller: App\Controller\CrudController::read
+    methods:    [GET]
+    requirements:
+            entityName: '[\w\-?]+'
+            id: '\d+'
+
+data__crud__put:
+    path:       /data/{entityName}/{id}
+    controller: App\Controller\CrudController::update
+    methods:    [PUT]
+    requirements:
+            entityName: '[\w\-?]+'
+            id: '\d+'
+
+data__crud__delete:
+    path:       /data/{entityName}/{id}
+    controller: App\Controller\CrudController::delete
+    methods:    [DELETE]
+    requirements:
+            entityName: '[\w\-?]+'
+            id: '\d+'

@@ -32,13 +32,30 @@ class UsersFixtures extends Fixture implements FixtureInterface, ContainerAwareI
 
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setUsername('pippo');
+        $users = [
+            [
+                'username' => 'admin',
+                'password' => 'admin_pw',
+                'roles' => ['ROLE_ADMIN']
+            ],
+            [
+                'username' => 'pippo',
+                'password' => 'pluto',
+                'roles' => ['ROLE_USER']
+            ]
+        ];
 
-        $password = $this->encoder->encodePassword($user, 'pluto');
-        $user->setPassword($password);
+        foreach ($users as $userData) {
+            $user = new User();
+            $user->setUsername($userData['username']);
 
-        $manager->persist($user);
-        $manager->flush();
+            $password = $this->encoder->encodePassword($user, $userData['password']);
+            $user->setPassword($password);
+
+            $user->setRoles($userData['roles']);
+
+            $manager->persist($user);
+            $manager->flush();
+        }
     }
 }

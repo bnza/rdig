@@ -40,6 +40,7 @@ class UsersFixtures extends Fixture implements FixtureInterface, ContainerAwareI
         $plainPassword = $this->container->getParameter('admin_fpw');
         $password = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($password);
+        $user->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
         $manager->flush();

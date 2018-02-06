@@ -19,18 +19,29 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
         return $data;
     }
 
+    public function testCreateForbiddenUnauthenticatedUser()
+    {
+        $json = '{"code":"SN","name":"Site name"}';
+
+        $this->client->request('POST', '/data/site', [], [], [], $json);
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(403, $response->getStatusCode());
+    }
+
     /**
      * @group require_db
      */
     public function testCreateValidData()
     {
+        $this->login('admin', ['ROLE_ADMIN']);
+
         $json = '{"code":"SN","name":"Site name"}';
 
-        $client = static::createClient();
+        $this->client->request('POST', '/data/site', [], [], [], $json);
 
-        $client->request('POST', '/data/site', [], [], [], $json);
-
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertEquals(201, $response->getStatusCode());
 
@@ -52,13 +63,14 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
      */
     public function testCreateInvalidCodeData()
     {
+        $this->login('admin', ['ROLE_ADMIN']);
+
         $json = '{"code":"SNC","name":"Site name"}';
         $errorMsg = '{"error":{"violations":[{"property":"code","message":"This value should have exactly 2 characters."}]}}';
-        $client = static::createClient();
 
-        $client->request('POST', '/data/site', [], [], [], $json);
+        $this->client->request('POST', '/data/site', [], [], [], $json);
 
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
 
@@ -84,13 +96,11 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->setEntity(Site::class, $json)
             ->persist();
 
-        $client = static::createClient();
-
         $uri = '/data/site/'.$crud->getEntity()->getId();
 
-        $client->request('GET', $uri);
+        $this->client->request('GET', $uri);
 
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $data = $this->stubEntityArray($json, 1);
 
@@ -105,6 +115,8 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
      */
     public function testDuplicateKeyEntity()
     {
+        $this->login('admin', ['ROLE_ADMIN']);
+
         $json = '{"code":"SN","name":"Site name"}';
 
         $validator = $this
@@ -116,15 +128,24 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->setEntity(Site::class, $json)
             ->persist();
 
-        $client = static::createClient();
+        $this->client->request('POST', '/data/site', [], [], [], $json);
 
-        $client->request('POST', '/data/site', [], [], [], $json);
-
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
 
         $this->assertRegExp('/Duplicate/', $response->getContent());
+    }
+
+    public function testUpdateForbiddenUnauthenticatedUser()
+    {
+        $json = '{"code":"SN","name":"Site name"}';
+
+        $this->client->request('PUT', '/data/site/1', [], [], [], $json);
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
     /**
@@ -132,6 +153,8 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
      */
     public function testUpdateValidEntity()
     {
+        $this->login('admin', ['ROLE_ADMIN']);
+
         $json = '{"code":"SN","name":"Site name"}';
         $updateJson = '{"id":1,"code":"SN","name":"Site name changed"}';
 
@@ -144,11 +167,9 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->setEntity(Site::class, $json)
             ->persist();
 
-        $client = static::createClient();
+        $this->client->request('PUT', '/data/site/1', [], [], [], $updateJson);
 
-        $client->request('PUT', '/data/site/1', [], [], [], $updateJson);
-
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
     }
@@ -158,6 +179,8 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
      */
     public function testUpdateDuplicateUniqueSiteCode()
     {
+        $this->login('admin', ['ROLE_ADMIN']);
+
         $json = '{"code":"S1","name":"Site name 1"}';
         $json2 = '{"code":"S2","name":"Site name 2"}';
         $updateJson = '{"id":2,"code":"S1","name":"Site name changed"}';
@@ -174,13 +197,20 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->setEntity(Site::class, $json2)
             ->persist();
 
-        $client = static::createClient();
+        $this->client->request('PUT', '/data/site/1', [], [], [], $updateJson);
 
-        $client->request('PUT', '/data/site/1', [], [], [], $updateJson);
-
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testDeleteForbiddenUnauthenticatedUser()
+    {
+        $this->client->request('DELETE', '/data/site/1');
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
     /**
@@ -188,6 +218,8 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
      */
     public function testDeleteExistentEntity()
     {
+        $this->login('admin', ['ROLE_ADMIN']);
+
         $json = '{"code":"SN","name":"Site name"}';
 
         $validator = $this
@@ -200,11 +232,9 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
             ->setEntity(Site::class, $json)
             ->persist();
 
-        $client = static::createClient();
+        $this->client->request('DELETE', '/data/site/1');
 
-        $client->request('DELETE', '/data/site/1');
-
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
     }
