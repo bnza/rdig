@@ -33,16 +33,11 @@
                     <UserDropdownMenu
                         v-if="$store.getters['account/isAuthenticated']"
                     />
-                    <a
-                        v-else
-                        class="navbar-item"
-                        title="Login"
-                        v-on:click="showLoginModal"
-                    >
+                    <router-link v-else class="navbar-item" title="Login" v-bind:to="{ name: 'login' }">
                         <span class="icon is-medium">
                             <i class="fa fa-2x fa-sign-in"></i>
                         </span>
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -56,11 +51,6 @@
     computed: {
       rdigLogoSrc() {
         return require('~/assets/images/rdig_logo_light.png')
-      }
-    },
-    methods: {
-      showLoginModal: function () {
-        this.$router.push('login')
       }
     },
     name: "TheTopAppNav"
