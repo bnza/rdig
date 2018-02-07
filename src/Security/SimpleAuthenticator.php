@@ -89,7 +89,8 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new JsonResponse(['username' => $token->getUsername()]);
+        $roles = $token->getUser()->getRoles();
+        return new JsonResponse(['username' => $token->getUsername(), 'roles' => $roles]);
     }
 
     public function supportsRememberMe()

@@ -50,7 +50,7 @@ export const actions = {
         method: 'post',
         url: 'logout'
       }
-      let response = await dispatch('requests/perform', config, {root: true})
+      await dispatch('requests/perform', config, {root: true})
       commit(SET_USER, null)
       return true
     } catch (error) {
@@ -71,6 +71,9 @@ export const getters = {
   },
   username: (state, getters) => {
     return getters.isAuthenticated ? state.user.username : ''
+  },
+  roles: (state, getters) => {
+    return getters.isAuthenticated ? state.user.roles : []
   }
 }
 

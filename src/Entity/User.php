@@ -79,7 +79,6 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-        $this->password = '';
     }
 
     public function serialize()

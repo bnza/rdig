@@ -11,11 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class CrudController extends Controller
 {
     protected $entities = [
-        'site' => 'App\Entity\Site'
+        'site' => 'App\Entity\Site',
     ];
 
     public function getEntityClass($entity)
@@ -26,9 +25,9 @@ class CrudController extends Controller
     /**
      * Create new site.
      *
-     * @param Request $request
+     * @param Request        $request
      * @param DataCrudHelper $crud
-     * @param string $entityName
+     * @param string         $entityName
      *
      * @return Response
      *
@@ -40,7 +39,7 @@ class CrudController extends Controller
         $responseArray = $crud->create($this->getEntityClass($entityName), $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
         if (array_key_exists('id', $responseArray)) {
-            $url = $this->generateUrl("data__crud__read", array('id' => $responseArray['id'], 'entityName' => $entityName));
+            $url = $this->generateUrl('data__crud__read', array('id' => $responseArray['id'], 'entityName' => $entityName));
             $response->headers->set('Location', $url);
         }
 
@@ -48,16 +47,16 @@ class CrudController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request         $request
      * @param ManagerRegistry $doctrine
-     * @param string $entityName
+     * @param string          $entityName
      *
      * @return JsonResponse
      */
     public function list(Request $request, ManagerRegistry $doctrine, string $entityName)
     {
         /**
-         * Maps sort[code]=ASC query string to ['code'=>'ASC'] array
+         * Maps sort[code]=ASC query string to ['code'=>'ASC'] array.
          */
         $sort = $request->get('sort') ?: [];
 
@@ -71,7 +70,7 @@ class CrudController extends Controller
     /**
      * @param ManagerRegistry $doctrine
      * @param EntityWrapper   $wrapper
-     * @param string $entityName
+     * @param string          $entityName
      * @param int             $id
      *
      * @return JsonResponse
@@ -97,10 +96,9 @@ class CrudController extends Controller
     }
 
     /**
-     *
      * @param Request        $request
      * @param DataCrudHelper $crud
-     * @param string $entityName
+     * @param string         $entityName
      *
      * @return JsonResponse
      *
@@ -118,9 +116,8 @@ class CrudController extends Controller
     }
 
     /**
-     *
      * @param DataCrudHelper $crud
-     * @param string $entityName
+     * @param string         $entityName
      * @param $id
      *
      * @return JsonResponse

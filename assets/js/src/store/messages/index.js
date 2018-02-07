@@ -37,14 +37,19 @@ export const actions = {
     }, 5000)
   },
   handleResponseError: function ({dispatch}, response) {
-    if (response.data && response.data.error) {
-      let error = response.data.error
-      let message = 'Application error'
-      if (error.hasOwnProperty('violations')) {
-        message = 'Data validation error'
-      } else if (error.hasOwnProperty('exception')) {
-        message = error.exception
+    if (response.data) {
+      let message = ''
+      if (response.data.error) {
+        let error = response.data.error
+        if (error.hasOwnProperty('violations')) {
+          message = 'Data validation error'
+        } else if (error.hasOwnProperty('exception')) {
+          message = error.exception
+        }
+      } else {
+        message = response.data
       }
+
       dispatch({
         type: 'addMessage',
         body: message,

@@ -29,7 +29,7 @@
         this.$store.dispatch('account/logout').then(
           () => {
             if (!this.hasError) {
-              this.$router.push('home')
+              this.$router.push({name: 'home'})
             }
           }
         )
