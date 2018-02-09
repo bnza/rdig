@@ -1,5 +1,7 @@
 <template>
-    <component v-bind:is="tableComponent"></component>
+    <div>
+        <component v-bind:is="tableComponent"></component>
+    </div>
 </template>
 
 <script>
@@ -9,6 +11,10 @@
       DataTableSite: () => import(
         /* webpackChunkName: "DataTableSite" */
         './DataTableSite'
+        ),
+      DataTableUser: () => import(
+        /* webpackChunkName: "DataTableUser" */
+        './DataTableUser'
         )
     },
     computed: {

@@ -27,6 +27,16 @@
   import MessagesContainer from './components/MessagesContainer'
 
   export default {
+    beforeCreate: function () {
+      if (window.user) {
+        this.$store.commit('account/SET_USER', window.user)
+        delete window.user
+      }
+      let el = document.getElementById("user-data")
+      if (el) {
+        el.remove()
+      }
+    },
     components: {
       MessagesContainer,
       TheTopAppNav,

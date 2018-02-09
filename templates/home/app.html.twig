@@ -3,3 +3,18 @@
 {% block body %}
     <div id="app"></div>
 {% endblock %}
+
+{% block javascripts %}
+    <script id="user-data">
+        {% if is_granted("ROLE_USER") %}
+        window.user = {
+          username: '{{ app.user.username }}',
+          roles: [
+              {% for role in app.user.roles %}
+              '{{ role|e }}',
+              {% endfor %}
+          ]
+        }
+        {% endif %}
+    </script>
+{% endblock %}

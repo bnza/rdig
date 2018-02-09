@@ -1,10 +1,13 @@
 <template>
     <form v-if="formData">
-        <FormFieldHorizontal label="Code">
-            <input class="input is-static" type="email" v-model="formData.code" readonly>
+        <FormFieldHorizontal label="Username">
+            <input class="input is-static" type="text" v-model="formData.username" readonly>
         </FormFieldHorizontal>
-        <FormFieldHorizontal label="Name">
-            <input class="input is-static" type="email" v-model="formData.name" readonly>
+        <FormFieldHorizontal label="Password">
+            <input class="input is-static" type="password" v-model="formData.password" readonly>
+        </FormFieldHorizontal>
+        <FormFieldHorizontal label="Roles">
+            <input class="input is-static" type="text" v-model="formData.roles" readonly>
         </FormFieldHorizontal>
         <DataFormButtonGroup
             v-bind:tableName="tableName"
@@ -31,7 +34,7 @@
     created () {
       this.readData()
     },
-    name: "DataFormSiteRead"
+    name: "DataFormUserRead"
   }
 </script>
 

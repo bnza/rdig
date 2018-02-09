@@ -4,6 +4,7 @@
             ref="form"
             v-bind:is="actionComponent"
             v-bind:id="id"
+            v-bind:routePrefix="routePrefix"
             v-bind:tableName="tableName"
             v-bind:action="action"
             v-on:showDeleteModal="showDeleteModal"
@@ -21,7 +22,7 @@
 <script>
 
   export default {
-    props: ['tableName', 'action', 'id'],
+    props: ['routePrefix','tableName', 'action', 'id'],
     data: function () {
       return {
         currentAction: null
@@ -42,6 +43,10 @@
       DataFormSiteUpdate: () => import(
         /* webpackChunkName: "DataFormSiteUpdate" */
         './DataFormSiteUpdate'
+        ),
+      DataFormUserRead: () => import(
+        /* webpackChunkName: "DataFormUserRead" */
+        './DataFormUserRead'
         ),
       DataFormDeleteModal: () => import(
         /* webpackChunkName: "DataFormDeleteModal" */

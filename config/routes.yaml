@@ -2,23 +2,38 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+admin__user__list:
+    path:       /admin/{entityName}
+    controller: App\Controller\UserCrudController::list
+    methods:    [GET]
+    requirements:
+            entityName: 'user'
+
+admin__user__read:
+    path:       /admin/{entityName}/{id}
+    controller: App\Controller\UserCrudController::read
+    methods:    [GET]
+    requirements:
+            entityName: 'user'
+            id: '\d+'
+
 data__crud__create:
     path:       /data/{entityName}
-    controller: App\Controller\CrudController::create
+    controller: App\Controller\DataCrudController::create
     methods:    [POST]
     requirements:
             entityName: '[\w\-?]+'
 
 data__crud__list:
     path:       /data/{entityName}
-    controller: App\Controller\CrudController::list
+    controller: App\Controller\DataCrudController::list
     methods:    [GET]
     requirements:
             entityName: '[\w\-?]+'
 
 data__crud__read:
     path:       /data/{entityName}/{id}
-    controller: App\Controller\CrudController::read
+    controller: App\Controller\DataCrudController::read
     methods:    [GET]
     requirements:
             entityName: '[\w\-?]+'
@@ -26,7 +41,7 @@ data__crud__read:
 
 data__crud__put:
     path:       /data/{entityName}/{id}
-    controller: App\Controller\CrudController::update
+    controller: App\Controller\DataCrudController::update
     methods:    [PUT]
     requirements:
             entityName: '[\w\-?]+'
@@ -34,7 +49,7 @@ data__crud__put:
 
 data__crud__delete:
     path:       /data/{entityName}/{id}
-    controller: App\Controller\CrudController::delete
+    controller: App\Controller\DataCrudController::delete
     methods:    [DELETE]
     requirements:
             entityName: '[\w\-?]+'

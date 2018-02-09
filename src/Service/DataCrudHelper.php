@@ -101,7 +101,9 @@ class DataCrudHelper
     /**
      * @param $entity
      * @param $data
+     *
      * @return array
+     *
      * @throws DataValidationCrudException
      */
     public function create($entity, $data)
@@ -117,58 +119,68 @@ class DataCrudHelper
     }
 
     /**
-     * @param string       $entityName
+     * @param $entityName
+     * @param int|string $data
+     * @return object
+     * @throws InvalidRequestDataCrudException
+     * @throws NotFoundCrudException
+     */
+    public function read($entityName, $data)
+    {
+        $id = false;
+        if (is_int($data)) {
+            $id = $data;
+        } elseif (is_string($data)) {
+            $data = json_decode($data, true);
+            if ($data && array_key_exists('id', $data)) {
+                $id = $data['id'];
+            }
+        }
+
+        if (false === $id) {
+            throw new InvalidRequestDataCrudException('No id supplied');
+        }
+
+        $entity = $this->em->find($entityName, $id);
+        if (!$entity) {
+            throw new NotFoundCrudException($id);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param              $entity
      * @param string|array $data
      *
      * @return array
      *
-     * @throws InvalidRequestDataCrudException
-     * @throws NotFoundCrudException
      * @throws DataValidationCrudException
      */
-    public function update(string $entityName, $data)
+    public function update($entity, $data)
     {
         $response = [];
-        if (is_string($data)) {
-            $data = json_decode($data, true);
-        }
-        if (!$data || !array_key_exists('id', $data)) {
-            throw new InvalidRequestDataCrudException('No id supplied');
-        }
-        $entity = $this->em->find($entityName, $data['id']);
-        if ($entity) {
-            $this->setEntity($entity, $data, true);
-            $this->persist();
-            $response['statusCode'] = 200;
-            $response['data'] = $this->wrapper->getData();
-        } else {
-            throw new NotFoundCrudException($data['id']);
-        }
+
+        $this->setEntity($entity, $data, true);
+        $this->persist();
+        $response['statusCode'] = 200;
+        $response['data'] = $this->wrapper->getData();
 
         return $response;
     }
 
     /**
-     * @param string $entityName
-     * @param int    $id
+     * @param string $entity
      *
      * @return array
-     *
-     * @throws NotFoundCrudException
      */
-    public function delete(string $entityName, int $id)
+    public function delete($entity)
     {
-        $response = [];
-        $entity = $this->em->find($entityName, $id);
 
-        if ($entity) {
-            $this->em->remove($entity);
-            $this->em->flush();
-            $response['statusCode'] = 200;
-            $response['data'] = "Successfully deleted [$id] entity";
-        } else {
-            throw new NotFoundCrudException($id);
-        }
+        $this->em->remove($entity);
+        $this->em->flush();
+        $response['statusCode'] = 200;
+        $response['data'] = "Successfully deleted [{$entity->getId()}] entity";
 
         return $response;
     }

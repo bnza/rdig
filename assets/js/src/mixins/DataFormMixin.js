@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import FormFieldHorizontal from '../components/FormFieldHorizontal'
+import DataFormButtonGroup from '../components/DataFormButtonGroup'
 
 export default {
   data: function () {
@@ -7,14 +9,30 @@ export default {
       formData: null
     }
   },
+  components: {
+    FormFieldHorizontal,
+    DataFormButtonGroup
+  },
   computed: {
+/*    listPath: function () {
+      return `/${this.listUrl}/read`
+    },
+    itemPath: function () {
+      return `/${this.itemUrl}/read`
+    },
+    listUrl: function () {
+      return `${this.routePrefix}/${this.tableName}`
+    },
+    itemUrl: function () {
+      return `${this.routePrefix}/${this.tableName}/${this.id}`
+    },*/
     submitUrl: function () {
       switch (this.method) {
         case 'post':
-          return `data/${this.tableName}`
+          return this.listUrl
         case 'put':
         case 'delete':
-          return `data/${this.tableName}/${this.id}`
+          return this.itemUrl
         default:
           throw new RangeError(`Unsupported method ${this.method}`)
       }
@@ -32,24 +50,14 @@ export default {
      * Returns to previous url: list for DELETE, POST and item for PUT
      */
     back: function () {
-      let path = ''
-      if (this.method === 'put') {
-        path = `/data/${this.tableName}/${this.id}/read`
-      } else {
-        path = `/data/${this.tableName}/read`
-      }
+      let path = this.method === 'put' ? this.itemPath : this.listPath
       this.$router.replace(path)
     },
     /**
      * Goes to next url: list for DELETE and item for PUT, POST (which have id)
      */
     next: function (id) {
-      let path = ''
-      if (id) {
-        path = `/data/${this.tableName}/${id}/read`
-      } else {
-        path = `/data/${this.tableName}/read`
-      }
+      let path = id ? `/${this.listUrl}/${id}/read` : this.listPath
       this.$router.push(path)
     },
     /**
@@ -128,7 +136,7 @@ export default {
     readData () {
       let config = {
         method: 'get',
-        url: `data/${this.tableName}/${this.id}`
+        url: `${this.routePrefix}/${this.tableName}/${this.id}`
       }
       this.$store.dispatch('requests/perform', config)
         .then(
@@ -147,21 +155,6 @@ export default {
       this.$emit('showDeleteModal')
     },
     submitRequest: function () {
-      /**
-       * Navigate to new url
-       * @param router
-       * @param tableName
-       * @param id
-       */
-      let navigate = function (router, tableName, id) {
-        let path = ''
-        if (id) {
-          path = `/data/${tableName}/${id}/read`
-        } else {
-          path = `/data/${tableName}/read`
-        }
-        router.replace(path)
-      }
       let showSuccessMessage = function (vm, id) {
         let message = ''
         switch (vm.method) {
@@ -187,7 +180,6 @@ export default {
           id = response.data.id
         }
         vm.next(id)
-        // navigate(vm.$router, vm.tableName, id)
         showSuccessMessage(vm, id)
       }
       let errorCb = function (response, vm) {

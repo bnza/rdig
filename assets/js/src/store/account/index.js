@@ -74,6 +74,9 @@ export const getters = {
   },
   roles: (state, getters) => {
     return getters.isAuthenticated ? state.user.roles : []
+  },
+  isAdmin: (state, getters) => {
+    return getters.roles.indexOf('ROLE_ADMIN') > -1
   }
 }
 

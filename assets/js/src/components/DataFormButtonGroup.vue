@@ -7,11 +7,11 @@
             <div class="field">
                 <div class="control">
                     <div class="buttons">
-                        <span class="button is-text" v-on:click="back">
+                        <button class="button is-text" v-on:click="back">
                             Back
-                        </span>
-                        <span class="button is-success" v-on:click="updateEntity">Edit</span>
-                        <span class="button is-danger" v-on:click="showDeleteModal">Delete</span>
+                        </button>
+                        <button class="button is-success" v-on:click="updateEntity" v-bind:disabled="!authorize(updatePath)">Edit</button>
+                        <button class="button is-danger" v-on:click="showDeleteModal" v-bind:disabled="!authorize(deletePath)">Delete</button>
                     </div>
                 </div>
             </div>
@@ -20,14 +20,21 @@
 </template>
 
 <script>
+  import AuthorizationHelperMixin from '../mixins/AuthorizationHelperMixin'
+  import PathHelperMixin from '../mixins/PathHelperMixin'
+
   export default {
-    props:['tableName', 'id'],
+    mixins: [
+      PathHelperMixin,
+      AuthorizationHelperMixin
+    ],
+    props: ['routePrefix','tableName', 'id', 'action'],
     methods: {
       back: function () {
         this.$emit('back')
       },
       updateEntity: function () {
-        this.$router.replace({ name: 'data_element', params: { tableName: this.tableName, action: 'update', id: this.id }})
+        this.$router.replace(this.updatePath)
       },
       showDeleteModal: function () {
         this.$emit('showDeleteModal')

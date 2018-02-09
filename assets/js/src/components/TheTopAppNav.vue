@@ -23,14 +23,17 @@
                     <div class="navbar-dropdown">
                         <router-link
                             class="navbar-item"
-                            :to="{ name: 'data_list', params: { tableName: 'site', action: 'read' }}"
+                            v-bind:to="{ name: 'data_list', params: { routePrefix: 'data', tableName: 'site', action: 'read' }}"
                         >Site</router-link>
                     </div>
                 </div>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-                    <UserDropdownMenu
+                    <AdminDropDownMenu
+                        v-if="$store.getters['account/isAuthenticated']"
+                    />
+                    <UserDropDownMenu
                         v-if="$store.getters['account/isAuthenticated']"
                     />
                     <router-link v-else class="navbar-item" title="Login" v-bind:to="{ name: 'login' }">
@@ -45,9 +48,10 @@
 </template>
 
 <script>
-  import UserDropdownMenu from './UserDropdownMenu'
+  import UserDropDownMenu from './UserDropDownMenu'
+  import AdminDropDownMenu from './AdminDropdownMenu'
   export default {
-    components: {UserDropdownMenu},
+    components: {UserDropDownMenu, AdminDropDownMenu},
     computed: {
       rdigLogoSrc() {
         return require('~/assets/images/rdig_logo_light.png')

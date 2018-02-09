@@ -8,7 +8,7 @@ export default {
   },
   methods: {
     getBaseUrl () {
-      return `data/${this.tableName}`
+      return `${this.routePrefix}/${this.tableName}`
     },
     getQueryUrl () {
       let url = this.getBaseUrl()

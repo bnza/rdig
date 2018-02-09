@@ -11,16 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CrudController extends Controller
+abstract class AbstractCrudController extends Controller
 {
-    protected $entities = [
-        'site' => 'App\Entity\Site',
-    ];
 
-    public function getEntityClass($entity)
-    {
-        return $this->entities[$entity];
-    }
+    abstract public function getEntityClass($entity = '');
 
     /**
      * Create new site.
@@ -35,7 +29,7 @@ class CrudController extends Controller
      */
     public function create(Request $request, DataCrudHelper $crud, string $entityName)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted($entityName.'|create');
         $responseArray = $crud->create($this->getEntityClass($entityName), $request->getContent());
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
         if (array_key_exists('id', $responseArray)) {
@@ -108,8 +102,10 @@ class CrudController extends Controller
      */
     public function update(Request $request, DataCrudHelper $crud, string $entityName)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $responseArray = $crud->update($this->getEntityClass($entityName), $request->getContent());
+        $data = $request->getContent();
+        $entity = $crud->read($this->getEntityClass($entityName), $data);
+        $this->denyAccessUnlessGranted($entityName.'|update', $entity);
+        $responseArray = $crud->update($entity, $data);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
         return $response;
@@ -117,17 +113,19 @@ class CrudController extends Controller
 
     /**
      * @param DataCrudHelper $crud
-     * @param string         $entityName
-     * @param $id
+     * @param string $entityName
+     * @param int $id
      *
      * @return JsonResponse
      *
-     * @throws \App\Exceptions\NotFoundCrudException
+     * @throws NotFoundCrudException
+     * @throws \App\Exceptions\InvalidRequestDataCrudException
      */
     public function delete(DataCrudHelper $crud, string $entityName, int $id)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $responseArray = $crud->delete($this->getEntityClass($entityName), $id);
+        $entity = $crud->read($this->getEntityClass($entityName), $id);
+        $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
+        $responseArray = $crud->delete($entity, $id);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
         return $response;

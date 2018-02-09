@@ -25,11 +25,13 @@
 <script>
   import FormField from './FormField'
   import FormControl from './FormControl'
+  import PathHelperMixin from '../mixins/PathHelperMixin'
   import DataFormMixin from '../mixins/DataFormMixin'
 
   export default {
-    props: ['method','id'],
+    props: ['routePrefix', 'tableName', 'id', 'action', 'method'],
     mixins: [
+      PathHelperMixin,
       DataFormMixin
     ],
     created () {
@@ -47,8 +49,7 @@
         fieldMessages: {
           code: {},
           name: {}
-        },
-        tableName: 'site'
+        }
       }
     },
     components: {

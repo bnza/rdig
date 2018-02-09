@@ -23,7 +23,7 @@
 
 <script>
   export default {
-    name: 'UserDropdownMenu',
+    name: 'UserDropDownMenu',
     methods: {
       logout: function () {
         this.$store.dispatch('account/logout').then(

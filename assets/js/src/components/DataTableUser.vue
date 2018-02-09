@@ -1,8 +1,8 @@
 <template>
     <DataTable
-        routePrefix="data"
-        tableName="site"
-        v-bind:tableColumnsNum="3"
+        routePrefix="admin"
+        tableName="user"
+        v-bind:tableColumnsNum="4"
         v-bind:sortCriteria="sortCriteria"
     >
         <tr slot="header">
@@ -13,14 +13,20 @@
                 v-bind:sortCriteria="sortCriteria"
             />
             <DataTableRowCellHead
-                label="code"
-                field="code"
+                label="username"
+                field="username"
                 v-on:sort="sort"
                 v-bind:sortCriteria="sortCriteria"
             />
             <DataTableRowCellHead
-                label="name"
-                field="name"
+                label="password"
+                field="password"
+                v-on:sort="sort"
+                v-bind:sortCriteria="sortCriteria"
+            />
+            <DataTableRowCellHead
+                label="roles"
+                field="roles"
                 v-on:sort="sort"
                 v-bind:sortCriteria="sortCriteria"
             />
@@ -34,7 +40,7 @@
     mixins: [
       DataTableHeaderMixin
     ],
-    name: "DataTableSite"
+    name: "DataTableUser"
   }
 </script>
 

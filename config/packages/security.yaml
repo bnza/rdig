@@ -36,3 +36,7 @@ security:
 
             # form_login: ~
             # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+    access_decision_manager:
+            strategy: unanimous
+            allow_if_all_abstain: false

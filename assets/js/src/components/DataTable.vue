@@ -1,6 +1,21 @@
 <template>
     <table class="table is-striped is-hoverable">
         <thead>
+        <tr>
+            <td v-bind:colspan="tableColumnsNum" style="border-bottom: 0">
+                <router-link v-if="authorize(createPath)"
+                    v-bind:to="createPath"
+                    title="Create new item"
+                >
+                    <span class="icon has-text-success is-pulled-right">
+                        <i class="fa fa-2x fa-plus-square"></i>
+                    </span>
+                </router-link>
+                <span v-else class="icon has-text-grey-lighter is-pulled-right">
+                        <i class="fa fa-2x fa-plus-square"></i>
+                </span>
+            </td>
+        </tr>
         <slot name="header"></slot>
         </thead>
         <tbody>
@@ -8,7 +23,10 @@
             <tr v-for="row in tableData">
                 <template v-for="(value, key) in row">
                     <th v-if="key === 'id'">
-                        <router-link :to="{ name: 'data_element', params: { action: 'read', id: value }}" title="Show element">
+                        <router-link
+                            v-bind:to="getItemPath(value)"
+                            title="Show element"
+                        >
                             <i class="fa fa-arrow-right"></i>
                         </router-link>
                     </th>
@@ -31,7 +49,9 @@
 </template>
 
 <script>
+  import PathHelperMixin from '../mixins/PathHelperMixin'
   import DataTableMixin from '../mixins/DataTableMixin'
+  import AuthorizationHelperMixin from '../mixins/AuthorizationHelperMixin'
 
   export default {
     data: function() {
@@ -40,12 +60,15 @@
       }
     },
     props: [
+      'routePrefix',
       'tableName',
       'tableColumnsNum',
       'sortCriteria'
     ],
     mixins: [
-      DataTableMixin
+      PathHelperMixin,
+      DataTableMixin,
+      AuthorizationHelperMixin
     ],
     watch: {
       sortCriteria: function () {

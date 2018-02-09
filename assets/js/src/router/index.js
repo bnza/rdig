@@ -22,6 +22,31 @@ const DataFormDelete = () => import(
 
 Vue.use(Router)
 
+export const crudRoutes = {
+  path: '/:routePrefix(admin|data)/:tableName',
+  component: MainData,
+  props: true,
+  children: [
+    {
+      path: ':action(create)',
+      component: DataForm,
+      props: true
+    },
+    {
+      path: ':action(read)',
+      name: 'data_list',
+      component: DataList,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:action(read|update|delete)',
+      name: 'data_element',
+      component: DataForm,
+      props: true
+    }
+  ]
+}
+
 export default new Router({
   routes: [
     {
@@ -41,29 +66,6 @@ export default new Router({
         modal: LoginModal
       }
     },
-    {
-      path: '/data/:tableName',
-      component: MainData,
-      props: true,
-      children: [
-        {
-          path: ':action(create)',
-          component: DataForm,
-          props: true
-        },
-        {
-          path: ':action(read)',
-          name: 'data_list',
-          component: DataList,
-          props: true
-        },
-        {
-          path: ':id(\\d+)/:action(read|update|delete)',
-          name: 'data_element',
-          component: DataForm,
-          props: true
-        }
-      ]
-    }
+    crudRoutes
   ]
 })

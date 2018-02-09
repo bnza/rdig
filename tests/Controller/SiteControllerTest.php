@@ -137,11 +137,32 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
         $this->assertRegExp('/Duplicate/', $response->getContent());
     }
 
+    public function testUpdateNotFoundEntity()
+    {
+        $json = '{"id":1,"code":"SN","name":"Site name changed"}';
+
+        $this->client->request('PUT', '/data/site/1', [], [], [], $json);
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
     public function testUpdateForbiddenUnauthenticatedUser()
     {
         $json = '{"code":"SN","name":"Site name"}';
+        $updateJson = '{"id":1,"code":"SN","name":"Site name changed"}';
 
-        $this->client->request('PUT', '/data/site/1', [], [], [], $json);
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $crud = new DataCrudHelper($this->em, $validator);
+        $crud
+            ->setEntity(Site::class, $json)
+            ->persist();
+
+        $this->client->request('PUT', '/data/site/1', [], [], [], $updateJson);
 
         $response = $this->client->getResponse();
 
@@ -204,8 +225,29 @@ class SiteControllerTest extends RealDatabaseWorkflowWebTestCase
         $this->assertEquals(400, $response->getStatusCode());
     }
 
+    public function testDeleteNotFoundEntity()
+    {
+        $this->client->request('DELETE', '/data/site/1');
+
+        $response = $this->client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
     public function testDeleteForbiddenUnauthenticatedUser()
     {
+        $json = '{"code":"SN","name":"Site name"}';
+
+        $validator = $this
+            ->getMockBuilder('Symfony\Component\Validator\Validator\TraceableValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $crud = new DataCrudHelper($this->em, $validator);
+        $crud
+            ->setEntity(Site::class, $json)
+            ->persist();
+
         $this->client->request('DELETE', '/data/site/1');
 
         $response = $this->client->getResponse();
