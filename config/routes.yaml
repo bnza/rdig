@@ -2,6 +2,13 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+admin__user__create:
+    path:       /admin/{entityName}
+    controller: App\Controller\UserCrudController::create
+    methods:    [POST]
+    requirements:
+            entityName: 'user'
+
 admin__user__list:
     path:       /admin/{entityName}
     controller: App\Controller\UserCrudController::list
@@ -16,6 +23,21 @@ admin__user__read:
     requirements:
             entityName: 'user'
             id: '\d+'
+
+admin__user__change-password:
+    path:       /admin/{entityName}/{id}/change-password
+    controller: App\Controller\UserCrudController::changePassword
+    methods:    [POST]
+    requirements:
+            entityName: 'user'
+            id: '\d+'
+
+admin__user__delete:
+    path:       /admin/{entityName}/{id}
+    controller: App\Controller\UserCrudController::delete
+    methods:    [DELETE]
+    requirements:
+            entityName: 'user'
 
 data__crud__create:
     path:       /data/{entityName}

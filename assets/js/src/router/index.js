@@ -22,6 +22,13 @@ const DataFormDelete = () => import(
 
 Vue.use(Router)
 
+const crudRoutesParamsFn = function (route) {
+  if (route.params.hasOwnProperty('id')) {
+    route.params.id = parseInt(route.params.id)
+  }
+  return route.params
+}
+
 export const crudRoutes = {
   path: '/:routePrefix(admin|data)/:tableName',
   component: MainData,
@@ -43,6 +50,12 @@ export const crudRoutes = {
       name: 'data_element',
       component: DataForm,
       props: true
+    },
+    {
+      path: ':id(\\d+)/:action(change-password)',
+      name: 'change_password',
+      component: DataForm,
+      props: crudRoutesParamsFn
     }
   ]
 }

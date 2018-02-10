@@ -73,7 +73,7 @@ class SecurityControllerTest extends WebTestCase
         $this->assertEquals($response->getStatusCode(), 200);
 
         $this->assertJsonStringEqualsJsonString(
-            json_encode(['username' => 'pippo']),
+            json_encode(['username' => 'pippo', 'roles' => ['ROLE_USER']]),
             $response->getContent()
         );
     }

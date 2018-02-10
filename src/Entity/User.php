@@ -37,6 +37,14 @@ class User implements UserInterface, \Serializable
     private $roles = 'ROLE_USER';
 
     /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return array
      */
     public function getRoles()

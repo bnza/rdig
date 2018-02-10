@@ -4,9 +4,9 @@
             <label class="label">{{label}}</label>
         </div>
         <div class="field-body">
-            <slot>
-                <FormField/>
-            </slot>
+            <FormField v-bind:helpMessage="helpMessage">
+                <slot></slot>
+            </FormField>
         </div>
     </div>
     
@@ -23,6 +23,15 @@
       label: {
         type: String,
         default: ''
+      },
+      helpMessage: {
+        type: Object,
+        default: function () {
+          return {
+            message: '',
+            className: ''
+          }
+        }
       }
     },
     name: "FormFieldHorizontal"

@@ -14,18 +14,6 @@ export default {
     DataFormButtonGroup
   },
   computed: {
-/*    listPath: function () {
-      return `/${this.listUrl}/read`
-    },
-    itemPath: function () {
-      return `/${this.itemUrl}/read`
-    },
-    listUrl: function () {
-      return `${this.routePrefix}/${this.tableName}`
-    },
-    itemUrl: function () {
-      return `${this.routePrefix}/${this.tableName}/${this.id}`
-    },*/
     submitUrl: function () {
       switch (this.method) {
         case 'post':
@@ -65,7 +53,9 @@ export default {
      */
     clearErrors: function () {
       for (let prop in this.fieldMessages) {
-        this.fieldMessages[prop] = {}
+        if (this.fieldMessages.hasOwnProperty(prop)) {
+          this.fieldMessages[prop] = {}
+        }
       }
     },
     /**
@@ -141,7 +131,8 @@ export default {
       this.$store.dispatch('requests/perform', config)
         .then(
           (response) => {
-            this.formData = response.data
+            let oldData = this.formData ? JSON.stringify(this.formData) : '{}'
+            this.formData = Object.assign(JSON.parse(oldData), response.data)
           }
         )
         .catch(
@@ -155,32 +146,43 @@ export default {
       this.$emit('showDeleteModal')
     },
     submitRequest: function () {
-      let showSuccessMessage = function (vm, id) {
-        let message = ''
-        switch (vm.method) {
-          case 'delete':
-            message = 'Item successfully deleted'
-            break
-          case 'put':
-            message = 'Item successfully updated'
-            break
-          case 'post':
-            message = 'Item successfully created'
-            break
+      let showSuccessMessage = function (vm, message, className) {
+        if (!message) {
+          switch (vm.method) {
+            case 'delete':
+              message = 'Item successfully deleted'
+              break
+            case 'put':
+              message = 'Item successfully updated'
+              break
+            case 'post':
+              message = 'Item successfully created'
+              break
+          }
         }
+
+        className = className || 'is-success'
+
         vm.$store.dispatch({
           type: 'messages/addMessage',
           body: message,
-          className: 'is-success'
+          className: className
         })
       }
       let successCb = function (response, vm) {
         let id = false
-        if (response.data && response.data.id) {
-          id = response.data.id
+        let message = ''
+        if (response.data) {
+          if (response.data.hasOwnProperty('id')) {
+            id = response.data.id
+          }
+          if (response.data.hasOwnProperty('message')) {
+            message = response.data.message
+          }
         }
         vm.next(id)
-        showSuccessMessage(vm, id)
+
+        showSuccessMessage(vm, message)
       }
       let errorCb = function (response, vm) {
         vm.$store.dispatch('messages/handleResponseError', response)

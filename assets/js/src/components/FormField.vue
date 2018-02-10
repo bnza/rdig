@@ -1,9 +1,9 @@
 <template>
     <div class="field">
         <label v-if="label" class="label">{{label}}</label>
-        <slot>
-            <FormControl/>
-        </slot>
+        <FormControl>
+            <slot></slot>
+        </FormControl>
         <p class="help" v-bind:class="helpClassObject">{{helpMessage.message}}</p>
     </div>
 </template>

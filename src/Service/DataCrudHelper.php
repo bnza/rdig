@@ -69,6 +69,14 @@ class DataCrudHelper
     }
 
     /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->wrapper->getData();
+    }
+
+    /**
      * @TODO add authorization checks
      *
      * @param bool $flush whether tp flush or no to the db

@@ -31,7 +31,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <AdminDropDownMenu
-                        v-if="$store.getters['account/isAuthenticated']"
+                        v-if="$store.getters['account/isAdmin']"
                     />
                     <UserDropDownMenu
                         v-if="$store.getters['account/isAuthenticated']"

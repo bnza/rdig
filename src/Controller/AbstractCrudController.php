@@ -125,7 +125,7 @@ abstract class AbstractCrudController extends Controller
     {
         $entity = $crud->read($this->getEntityClass($entityName), $id);
         $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
-        $responseArray = $crud->delete($entity, $id);
+        $responseArray = $crud->delete($entity);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
         return $response;

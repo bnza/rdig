@@ -24,6 +24,11 @@ class CrudExceptionSubscriber extends AbstractJsonResponseExceptionSubscriber
         $this->setResponse($event, ['exception' => $event->getException()->getMessage()], 409);
     }
 
+    public function handleCrudException(GetResponseForExceptionEvent $event)
+    {
+        $this->setResponse($event, ['exception' => $event->getException()->getMessage()], 400);
+    }
+
     public function handleDataValidationCrudException(GetResponseForExceptionEvent $event)
     {
         $this->setResponse($event, ['violations' => $this->formatValidateErrors($event->getException()->getErrors())], 400);

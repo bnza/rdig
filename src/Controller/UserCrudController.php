@@ -1,23 +1,95 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: petrux
- * Date: 07/02/18
- * Time: 16.30
- */
 
 namespace App\Controller;
 
 use App\Entity\User;
-
+use App\Service\DataCrudHelper;
+use App\Exceptions\CrudException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserCrudController extends AbstractCrudController
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    protected $encoder;
 
     public function getEntityClass($entity = '')
     {
         return User::class;
     }
 
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
+    /**
+     * Create new site.
+     *
+     * @param Request        $request
+     * @param DataCrudHelper $crud
+     * @param string         $entityName
+     *
+     * @return JsonResponse
+     *
+     * @throws \App\Exceptions\DataValidationCrudException
+     */
+    public function create(Request $request, DataCrudHelper $crud, string $entityName)
+    {
+        $this->denyAccessUnlessGranted($entityName.'|create');
+        $user = new User();
+        $data = json_decode($request->getContent(), true);
+        $user->setUsername($data['username']);
+        $user->setRoles(['ROLE_USER']);
+        $user->setPassword($this->encoder->encodePassword($user, $data['password']));
+        $crud->setEntity($user)->persist();
+        $response = new JsonResponse($crud->getData(), 201);
+        $url = $this->generateUrl('admin__user__read', array('id' => $user->getId(), 'entityName' => $entityName));
+        $response->headers->set('Location', $url);
+
+        return $response;
+    }
+
+    /**
+     * @param DataCrudHelper $crud
+     * @param string         $entityName
+     * @param int            $id
+     *
+     * @return JsonResponse
+     *
+     * @throws CrudException
+     * @throws \App\Exceptions\InvalidRequestDataCrudException
+     * @throws \App\Exceptions\NotFoundCrudException
+     */
+    public function delete(DataCrudHelper $crud, string $entityName, int $id)
+    {
+        $entity = $crud->read($this->getEntityClass($entityName), $id);
+        if ('admin' === $entity->getUsername()) {
+            throw new CrudException('admin user cannot be deleted');
+        }
+        $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
+        $responseArray = $crud->delete($entity, $id);
+        $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+
+        return $response;
+    }
+
+    public function changePassword(Request $request, DataCrudHelper $crud, string $entityName, int $id)
+    {
+        /**
+         * @var User
+         */
+        $user = $crud->read($this->getEntityClass(), $id);
+        $data = json_decode($request->getContent(), true);
+        $this->denyAccessUnlessGranted('user|change-password', [$user, $this->encoder, $data['oldPassword']]);
+        $user->setPassword($this->encoder->encodePassword($user, $data['newPassword']));
+
+        return new JsonResponse(
+            ['message' => sprintf('Successfully changed password for user %s', $user->getUsername())],
+            200
+        );
+    }
 }

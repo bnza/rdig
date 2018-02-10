@@ -44,6 +44,14 @@
         /* webpackChunkName: "DataFormSiteUpdate" */
         './DataFormSiteUpdate'
         ),
+      DataFormUserCreate: () => import(
+        /* webpackChunkName: "DataFormUserCreate" */
+        './DataFormUserCreate'
+        ),
+      DataFormUserChangePassword: () => import(
+        /* webpackChunkName: "DataFormUserChangePassword" */
+        './DataFormUserChangePassword'
+        ),
       DataFormUserRead: () => import(
         /* webpackChunkName: "DataFormUserRead" */
         './DataFormUserRead'
@@ -57,7 +65,10 @@
       actionComponent: function () {
         let ucfirst = (string) =>
         {
-          return string.charAt(0).toUpperCase() + string.slice(1);
+          let pieces = string.split('-')
+          return pieces.map(function (piece) {
+            return piece.charAt(0).toUpperCase() + piece.slice(1);
+          }).join('')
         }
         // Delete action will render the read form
         let action = this.action === 'delete' ? 'read' : this.action
