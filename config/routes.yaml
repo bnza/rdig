@@ -32,6 +32,14 @@ admin__user__change-password:
             entityName: 'user'
             id: '\d+'
 
+admin__user__allowed-sites:
+    path:       /admin/{entityName}/{id}/user-allowed-sites
+    controller: App\Controller\UserCrudController::userAllowedSites
+    methods:    [GET]
+    requirements:
+            entityName: 'user'
+            id: '\d+'
+
 admin__user__delete:
     path:       /admin/{entityName}/{id}
     controller: App\Controller\UserCrudController::delete

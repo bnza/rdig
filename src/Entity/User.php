@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -35,6 +36,34 @@ class User implements UserInterface, \Serializable
      * )
      */
     private $roles = 'ROLE_USER';
+
+    /**
+     * Many Users have Many Sites.
+     * @ORM\ManyToMany(targetEntity="Site", inversedBy="users")
+     * @ORM\JoinTable(name="users_allowed_sites")
+     */
+    private $sites;
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSites()
+    {
+        return $this->sites;
+    }
+
+    /**
+     * @param Site $site
+     */
+    public function addSite(Site $site): void
+    {
+        $site->addUser($this); // synchronously updating inverse side
+        $this->sites[] = $site;
+    }
+
+    public function __construct() {
+        $this->sites = new ArrayCollection();
+    }
 
     /**
      * @return integer

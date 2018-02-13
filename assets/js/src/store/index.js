@@ -6,13 +6,13 @@ import messages from './messages'
 
 Vue.use(Vuex)
 
+const SET_MODAL = 'SET_MODAL'
+const CLEAR_MODAL = 'CLEAR_MODAL'
+
 const store = new Vuex.Store({
   state: {
     panelLeftComponent: 'test-left',
-    message: {
-      body: '',
-      className: ''
-    }
+    modalComponent: null
   },
   modules: {
     account: account,
@@ -22,6 +22,17 @@ const store = new Vuex.Store({
   mutations: {
     switchLeftComponent (state, component) {
       state.panelLeftComponent = component
+    },
+    [SET_MODAL] (state, modalComponent) {
+      state.modalComponent = modalComponent
+    },
+    [CLEAR_MODAL] (state) {
+      state.modalComponent = null
+    }
+  },
+  getters: {
+    hasModal: (state) => {
+      return state.modal
     }
   }
 })

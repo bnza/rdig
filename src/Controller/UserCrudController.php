@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Site;
 use App\Service\DataCrudHelper;
+use App\Service\EntityJsonSerializer;
 use App\Exceptions\CrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,6 +91,18 @@ class UserCrudController extends AbstractCrudController
 
         return new JsonResponse(
             ['message' => sprintf('Successfully changed password for user %s', $user->getUsername())],
+            200
+        );
+    }
+
+    public function userAllowedSites(DataCrudHelper $crud, int $id)
+    {
+
+        $user = $crud->read($this->getEntityClass(), $id);
+        $sites = $crud->getRepository()->getUserAllowedSites($id);
+
+        return new JsonResponse(
+            $sites,
             200
         );
     }

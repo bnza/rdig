@@ -32,7 +32,8 @@
     "font-awesome": "^4.7.0",
     "qs": "^6.5.1",
     "url-loader": "^0.6.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex-router-sync": "^5.0.0"
   },
   "jest": {
     "moduleFileExtensions": [

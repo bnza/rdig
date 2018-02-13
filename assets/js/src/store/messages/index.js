@@ -47,7 +47,7 @@ export const actions = {
           message = error.exception
         }
       } else {
-        message = response.data
+        message = response.statusText
       }
 
       dispatch({

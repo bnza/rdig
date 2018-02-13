@@ -9,7 +9,7 @@
         return require('~/assets/images/rdig_dark.png')
       }
     },
-    name: "home-main"
+    name: "MainHome"
   }
 </script>
 

@@ -7,7 +7,7 @@
         <div class="navbar-dropdown">
             <router-link
                 class="navbar-item"
-                :to="{ name: 'data_list', params: { routePrefix: 'admin', tableName: 'user', action: 'read' }}"
+                :to="{ name: 'data_list', params: { prefix: 'admin', table: 'user', action: 'read' }}"
             >
                 <span class="icon has-text-info">
                     <i class="fa fa-users"></i>

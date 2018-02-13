@@ -40,6 +40,14 @@ class DataCrudHelper
         $this->wrapper = new EntityWrapper();
     }
 
+    public function getRepository()
+    {
+        if ($entity = $this->getEntity()) {
+            return $this->em->getRepository(get_class($entity));
+        }
+        throw new \LogicException('You must set entity before!');
+    }
+
     /**
      * @param string|Entity $entity
      * @param array         $data
@@ -132,6 +140,7 @@ class DataCrudHelper
      * @return object
      * @throws InvalidRequestDataCrudException
      * @throws NotFoundCrudException
+     * @throws DataValidationCrudException
      */
     public function read($entityName, $data)
     {
@@ -150,6 +159,7 @@ class DataCrudHelper
         }
 
         $entity = $this->em->find($entityName, $id);
+        $this->setEntity($entity);
         if (!$entity) {
             throw new NotFoundCrudException($id);
         }

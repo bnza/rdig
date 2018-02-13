@@ -14,6 +14,18 @@ export default {
     DataFormButtonGroup
   },
   computed: {
+    method: function () {
+      switch (this.$_route.action) {
+        case 'update':
+          return 'put'
+        case 'delete':
+          return 'delete'
+        case 'create':
+          return 'post'
+        default:
+          return 'get'
+      }
+    },
     submitUrl: function () {
       switch (this.method) {
         case 'post':
@@ -126,11 +138,12 @@ export default {
     readData () {
       let config = {
         method: 'get',
-        url: `${this.routePrefix}/${this.tableName}/${this.id}`
+        url: this.itemUrl // from PathHelperMixin
       }
       this.$store.dispatch('requests/perform', config)
         .then(
           (response) => {
+            // merge response data with form data
             let oldData = this.formData ? JSON.stringify(this.formData) : '{}'
             this.formData = Object.assign(JSON.parse(oldData), response.data)
           }

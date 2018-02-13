@@ -1,12 +1,20 @@
 <template>
     <div>
-        <component v-bind:is="tableComponent"></component>
+        <h2 v-if="parent" class="is-size-3">{{$_route.table}}</h2>
+        <component
+            v-bind:is="tableComponent"
+            v-bind:parent="parent"
+            v-bind:route="route"
+        />
     </div>
 </template>
 
 <script>
+  import PathHelperMixin from '../mixins/PathHelperMixin'
+  import {pascalize} from '../util'
+
   export default {
-    props: ['tableName'],
+    name: "DataList",
     components: {
       DataTableSite: () => import(
         /* webpackChunkName: "DataTableSite" */
@@ -15,21 +23,27 @@
       DataTableUser: () => import(
         /* webpackChunkName: "DataTableUser" */
         './DataTableUser'
-        )
+        ),
+      DataTableUserAllowedSites: () => import(
+        /* webpackChunkName: "DataTableUserAllowedSites" */
+        './DataTableUserAllowedSites'
+        ),
     },
+    mixins: [
+      PathHelperMixin
+    ],
+    props: ['parent'],
     computed: {
       tableComponent: function () {
-        let ucfirst = (string) =>
-        {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-        return "DataTable" + ucfirst(this.tableName)
+        return "DataTable" + pascalize(this.$_route.table)
       }
     },
-    name: "DataList"
+
   }
 </script>
 
 <style scoped>
-
+    h2 {
+        margin-top: 3rem;
+    }
 </style>

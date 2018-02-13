@@ -2,30 +2,60 @@
 
 import { shallow, createLocalVue } from 'vue-test-utils'
 import PathHelperMixin from '~/js/src/mixins/PathHelperMixin'
+import Router from 'vue-router'
 import Vue from 'vue'
+import Vuex from 'vuex'
+import { sync } from 'vuex-router-sync'
 
 describe('PatHelperMixin', () => {
   let wrapper = null
+  let localVue = null
+
+  const crudRoutes = {
+    path: '/:prefix/:table',
+    props: true,
+    children: [
+      {
+        path: ':action',
+        props: true
+      },
+      {
+        path: ':id(\\d+)/:action',
+        props: true
+      }
+    ]
+  }
 
   const initWrapper = function (propsData) {
+    localVue = createLocalVue()
+    localVue.use(Vuex)
+    localVue.use(Router)
+
+    const router = new Router(crudRoutes)
+    let store = new Vuex.Store({})
+    sync(store, router)
     const Component = Vue.extend({
       template: '<div></div>',
       mixins: [
         PathHelperMixin
-      ],
-      props: ['routePrefix', 'tableName', 'id', 'action']
+      ]
     })
 
     wrapper = shallow(Component, {
+      localVue,
+      router,
+      store,
       propsData: propsData
     })
   }
 
   beforeEach(() => {
     initWrapper({
-      routePrefix: 'data',
-      tableName: 'site',
-      id: 1
+      route: {
+        prefix: 'data',
+        table: 'site',
+        id: 1
+      }
     })
   })
 

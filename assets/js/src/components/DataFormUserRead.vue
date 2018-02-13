@@ -10,16 +10,15 @@
             <input class="input is-static" type="text" v-model="formData.roles" readonly>
         </FormFieldHorizontal>
         <DataFormUserButtonGroup
-            v-bind:tableName="tableName"
-            v-bind:id="id"
-            v-bind:routePrefix="routePrefix"
-            v-bind:action="action"
             v-bind:username="formData.username"
-
             v-on:back="back"
             v-on:cancel="hideDeleteModal"
             v-on:showDeleteModal="showDeleteModal"
         />
+        <DataList
+            v-bind:parent="{table: $_route.table, id: $_route.id}"
+            v-bind:route="{table: 'user-allowed-sites'}"
+        ></DataList>
     </form>
 </template>
 
@@ -27,16 +26,17 @@
   import PathHelperMixin from '../mixins/PathHelperMixin'
   import DataFormMixin from '../mixins/DataFormMixin'
   import DataFormUserButtonGroup from './DataFormUserButtonGroup'
+  import DataList from './DataList'
 
   export default {
     components: {
-      DataFormUserButtonGroup
+      DataFormUserButtonGroup,
+      DataList
     },
     mixins: [
       PathHelperMixin,
       DataFormMixin
     ],
-    props: ['routePrefix','tableName', 'id', 'action'],
     created () {
       this.readData()
     },

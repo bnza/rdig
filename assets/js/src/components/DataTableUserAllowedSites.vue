@@ -1,8 +1,11 @@
 <template>
     <DataTable
-        routePrefix="data"
+        routePrefix="admin"
+        v-bind:parent="parent"
+        v-bind:route="route"
         v-bind:tableColumnsNum="3"
         v-bind:sortCriteria="sortCriteria"
+        v-bind:tableHeaderCellElementProp="tableHeaderCellElementProp"
     >
         <tr slot="header">
             <DataTableRowCellHead
@@ -29,11 +32,19 @@
 
 <script>
   import DataTableHeaderMixin from '../mixins/DataTableHeaderMixin'
+  import TableHeaderCellElementIdDelete from './TableHeaderCellElementIdDelete'
+
   export default {
+    props: ['parent', 'route'],
     mixins: [
       DataTableHeaderMixin
     ],
-    name: "DataTableSite"
+    computed: {
+      tableHeaderCellElementProp: function () {
+        return TableHeaderCellElementIdDelete
+      }
+    },
+    name: "DataTableUsersAllowedSites"
   }
 </script>
 

@@ -1,21 +1,19 @@
 <template>
-    <form v-if="formData">
-        <FormFieldHorizontal label="Code">
-            <input class="input is-static" type="email" v-model="formData.code" readonly>
-        </FormFieldHorizontal>
-        <FormFieldHorizontal label="Name">
-            <input class="input is-static" type="email" v-model="formData.name" readonly>
-        </FormFieldHorizontal>
-        <DataFormButtonGroup
-            v-bind:tableName="tableName"
-            v-bind:id="id"
-            v-bind:routePrefix="routePrefix"
-            v-bind:action="action"
-            v-on:back="back"
-            v-on:cancel="hideDeleteModal"
-            v-on:showDeleteModal="showDeleteModal"
-        />
-    </form>
+    <div>
+        <form v-if="formData">
+            <FormFieldHorizontal label="Code">
+                <input class="input is-static" type="email" v-model="formData.code" readonly>
+            </FormFieldHorizontal>
+            <FormFieldHorizontal label="Name">
+                <input class="input is-static" type="email" v-model="formData.name" readonly>
+            </FormFieldHorizontal>
+            <DataFormButtonGroup
+                v-on:back="back"
+                v-on:cancel="hideDeleteModal"
+                v-on:showDeleteModal="showDeleteModal"
+            />
+        </form>
+    </div>
 </template>
 
 <script>
@@ -27,7 +25,6 @@
       PathHelperMixin,
       DataFormMixin
     ],
-    props: ['routePrefix','tableName', 'id', 'action'],
     created () {
       this.readData()
     },

@@ -1,5 +1,6 @@
 /* global describe, it, expect, jest, beforeEach */
-import {state as baseState, mutations, getters, actions} from '../../src/store/account/index'
+import {state as baseState, mutations, actions} from '~/js/src/store/account/index'
+import getters from '~/js/src/store/account/getters'
 
 jest.mock('axios')
 

@@ -28,7 +28,7 @@
       PathHelperMixin,
       AuthorizationHelperMixin
     ],
-    props: ['routePrefix','tableName', 'id', 'action', 'username'],
+    props: ['username'],
     computed: {
       isUserAdmin: function () {
         return 'admin' === this.username

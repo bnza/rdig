@@ -40,11 +40,7 @@
       routePrefix: String,
       tableName: String,
       id: Number,
-      action: String,
-      method: {
-        type: String,
-        default: 'post'
-      }
+      action: String
     },
     mixins: [
       PathHelperMixin,

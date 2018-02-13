@@ -44,7 +44,7 @@ describe('AuthorizationHelperMixin', () => {
     const router = new Router({
       routes: [
         {
-          path: '/:routePrefix(admin|data)/:tableName',
+          path: '/:route(admin|data)/:table',
           children: [
             {
               path: ':action(create|read)'

@@ -47,10 +47,13 @@ class EntityWrapper
             $data = json_decode($data, true);
         }
 
+        $entity = $this->entity;
         foreach ($data as $key => $value) {
             if ($key !== 'id') {
                 $setMethod = 'set'.ucfirst($this->camelcase($key));
-                $this->entity->$setMethod($value);
+                if (method_exists($entity, $setMethod)) {
+                    $this->entity->$setMethod($value);
+                }
             }
         }
 
