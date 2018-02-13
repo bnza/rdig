@@ -28,7 +28,6 @@
       PathHelperMixin,
       AuthorizationHelperMixin
     ],
-    props: ['routePrefix','tableName', 'id', 'action'],
     methods: {
       back: function () {
         this.$emit('back')

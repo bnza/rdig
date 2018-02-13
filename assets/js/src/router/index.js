@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store'
 import MainHome from '../components/MainHome'
 import MenuLeft from '../components/MenuLeft'
 import MainData from '../components/MainData'
@@ -29,10 +30,19 @@ const crudRoutesParamsFn = function (route) {
   return route.params
 }
 
+const requireAuth = function (to, from, next) {
+  if (store.getters['account/isAuthorized'](to)) {
+    next()
+  } else {
+    next('/login')
+  }
+}
+
 export const crudRoutes = {
-  path: '/:routePrefix(admin|data)/:tableName',
+  path: '/:prefix(admin|data)/:table',
   component: MainData,
   props: true,
+  beforeEnter: requireAuth,
   children: [
     {
       path: ':action(create)',
@@ -55,12 +65,12 @@ export const crudRoutes = {
       path: ':id(\\d+)/:action(change-password)',
       name: 'change_password',
       component: DataForm,
-      props: crudRoutesParamsFn
+      props: true
     }
   ]
 }
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -82,3 +92,5 @@ export default new Router({
     crudRoutes
   ]
 })
+
+export default router

@@ -3,16 +3,11 @@
         <component
             ref="form"
             v-bind:is="actionComponent"
-            v-bind:id="id"
-            v-bind:routePrefix="routePrefix"
-            v-bind:tableName="tableName"
-            v-bind:action="action"
             v-on:showDeleteModal="showDeleteModal"
             v-on:hideDeleteModal="hideDeleteModal"
         />
         <DataFormDeleteModal
             v-if="isDeleteModal"
-            v-bind:tableName="tableName"
             v-on:cancel="hideDeleteModal"
             v-on:deleteEntity="deleteEntity"
         />
@@ -20,17 +15,9 @@
 </template>
 
 <script>
-
+  import PathHelperMixin from '../mixins/PathHelperMixin'
   export default {
-    props: ['routePrefix','tableName', 'action', 'id'],
-    data: function () {
-      return {
-        currentAction: null
-      }
-    },
-    created () {
-        this.currentAction = this.action
-    },
+    name: "DataForm",
     components: {
       DataFormSiteCreate: () => import(
         /* webpackChunkName: "DataFormSiteCreate" */
@@ -61,6 +48,14 @@
         './DataFormDeleteModal'
         ),
     },
+    mixins: [
+      PathHelperMixin
+    ],
+    data: function () {
+      return {
+        currentAction: null
+      }
+    },
     computed: {
       actionComponent: function () {
         let ucfirst = (string) =>
@@ -71,13 +66,16 @@
           }).join('')
         }
         // Delete action will render the read form
-        let action = this.action === 'delete' ? 'read' : this.action
+        let action = this.$_route.action === 'delete' ? 'read' : this.$_route.action
 
-        return "DataForm" + ucfirst(this.tableName) + ucfirst(action)
+        return "DataForm" + ucfirst(this.$_route.table) + ucfirst(action)
       },
       isDeleteModal: function () {
         return this.currentAction === 'delete'
       }
+    },
+    created () {
+      this.currentAction = this.action
     },
     methods: {
       showDeleteModal: function () {
@@ -91,11 +89,6 @@
         form.method = 'delete'
         form.submitRequest()
       },
-    },
-    name: "DataForm"
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

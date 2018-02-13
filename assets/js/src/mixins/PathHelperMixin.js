@@ -1,5 +1,34 @@
+import Vue from 'vue'
+import {kebabize} from '../util'
+
 export default {
+  props: {
+    route: {
+      type: Object,
+      default: function () {
+        return {
+          prefix: '',
+          table: '',
+          id: false,
+          action: ''
+        }
+      }
+    }
+  },
+  created: function () {
+    if (this.id) {
+      Vue.set(this.route, 'id', this.id)
+    }
+  },
   computed: {
+    $_route: function () {
+      return {
+        prefix: this.route.prefix || this.$route.params.prefix,
+        table: kebabize(this.route.table || this.$route.params.table),
+        id: this.route.id || this.$route.params.id,
+        action: this.route.action || this.$route.params.action
+      }
+    },
     basePath: function () {
       return `/${this.listUrl}`
     },
@@ -22,10 +51,10 @@ export default {
       return `${this.baseItemPath}/update`
     },
     listUrl: function () {
-      return `${this.routePrefix}/${this.tableName}`
+      return `${this.$_route.prefix}/${this.$_route.table}`
     },
     itemUrl: function () {
-      return `${this.routePrefix}/${this.tableName}/${this.id}`
+      return `${this.$_route.prefix}/${this.$_route.table}/${this.$_route.id}`
     }
   },
   methods: {

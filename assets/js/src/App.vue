@@ -16,7 +16,12 @@
             </div>
         </div>
         <TheBottomAppNav/>
-        <router-view name="modal"></router-view>
+        <router-view name="modal"/>
+        <component
+            v-if="$store.hasModal"
+            v-is="$store.modal.component"
+            v-bind:props="$store.modal.props"
+        />
     </div>
 </template>
 

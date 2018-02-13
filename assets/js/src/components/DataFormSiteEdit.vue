@@ -29,17 +29,10 @@
   import DataFormMixin from '../mixins/DataFormMixin'
 
   export default {
-    props: ['routePrefix', 'tableName', 'id', 'action', 'method'],
     mixins: [
       PathHelperMixin,
       DataFormMixin
     ],
-    created () {
-      // Fetch only on update action
-      if (this.id) {
-        this.readData()
-      }
-    },
     data: function() {
       return {
         formData: {

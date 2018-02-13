@@ -11,7 +11,7 @@
                     <button class="delete" aria-label="delete" v-on:click="cancel"></button>
                 </div>
                 <div class="message-body">
-                    Do you really want delete this item from table <strong>{{tableName}}</strong>?<br/><br/>
+                    Do you really want delete this item from table <strong>{{$_route.table}}</strong>?<br/><br/>
                     This action <span class="has-text-danger">cannot</span> be undone<br/><br/>
                     <div class="buttons">
                         <span class="button is-text" v-on:click="cancel">
@@ -27,8 +27,14 @@
 </template>
 
 <script>
+
+  import PathHelperMixin from '../mixins/PathHelperMixin'
+
   export default {
-    props: ['tableName', 'id'],
+    name: 'DataFormDelete',
+    mixins: [
+      PathHelperMixin
+    ],
     methods: {
       cancel: function () {
         this.$emit('cancel')
@@ -37,7 +43,6 @@
         this.$emit('deleteEntity')
       }
     },
-    name: 'DataFormDelete',
   }
 </script>
 

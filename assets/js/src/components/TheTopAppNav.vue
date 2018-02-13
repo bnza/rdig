@@ -23,7 +23,7 @@
                     <div class="navbar-dropdown">
                         <router-link
                             class="navbar-item"
-                            v-bind:to="{ name: 'data_list', params: { routePrefix: 'data', tableName: 'site', action: 'read' }}"
+                            v-bind:to="{ name: 'data_list', params: { prefix: 'data', table: 'site', action: 'read' }}"
                         >Site</router-link>
                     </div>
                 </div>

@@ -1,14 +1,30 @@
 import qs from 'qs'
 
 export default {
+  data: function () {
+    return {
+      isRequestPending: false
+    }
+  },
   created () {
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData()
   },
+  computed: {
+    hasData: function () {
+      return this.tableData && this.tableData.length > 0
+    }
+  },
   methods: {
     getBaseUrl () {
-      return `${this.routePrefix}/${this.tableName}`
+      let baseUrl = `${this.routePrefix}`
+      if (this.parent) {
+        baseUrl += `/${this.parent.table}/${this.$_route.id}/${this.$_route.table}`
+      } else {
+        baseUrl += `/${this.$_route.table}`
+      }
+      return baseUrl
     },
     getQueryUrl () {
       let url = this.getBaseUrl()
@@ -25,14 +41,21 @@ export default {
         method: 'get',
         url: this.getQueryUrl()
       }
+      this.isRequestPending = true
       this.$store.dispatch('requests/perform', config)
         .then(
           (response) => {
+            this.isRequestPending = false
             this.tableData = response.data
           }
         )
         .catch(
-          this.handleErrors
+          (reason) => {
+            if (reason.response) {
+              this.isRequestPending = false
+              this.$store.dispatch('messages/handleResponseError', reason.response)
+            }
+          }
         )
     }
   }

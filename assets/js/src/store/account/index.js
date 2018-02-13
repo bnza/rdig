@@ -1,3 +1,5 @@
+import getters from './getters'
+
 const SET_USER = 'SET_USER'
 const SET_REQ_PENDING = 'SET_REQ_PENDING'
 const SET_AUTH_ERROR = 'SET_AUTH_ERROR'
@@ -59,26 +61,7 @@ export const actions = {
   }
 }
 
-export const getters = {
-  isAuthenticated: state => {
-    return state.user instanceof Object && state.user.hasOwnProperty('username')
-  },
-  errorMessage: state => {
-    return state.authError ? state.authError.data : ''
-  },
-  hasError: state => {
-    return !!state.authError
-  },
-  username: (state, getters) => {
-    return getters.isAuthenticated ? state.user.username : ''
-  },
-  roles: (state, getters) => {
-    return getters.isAuthenticated ? state.user.roles : []
-  },
-  isAdmin: (state, getters) => {
-    return getters.roles.indexOf('ROLE_ADMIN') > -1
-  }
-}
+
 
 export default {
   namespaced: true,

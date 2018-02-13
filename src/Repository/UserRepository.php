@@ -16,4 +16,18 @@ class UserRepository extends AbstractDataRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function getUserAllowedSites(int $id) {
+
+        $user = $this->find($id);
+        if ($user) {
+            return $user->getSites()->map(function ($site) use ($user) {
+                return [
+                    'id' => sprintf('%d,%d', $user->getId(), $site->getId()),
+                    'code' => $site->getCode(),
+                    'name' => $site->getName()
+                ];
+            })->getValues();
+        }
+    }
 }
