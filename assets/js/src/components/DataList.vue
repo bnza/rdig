@@ -14,7 +14,7 @@
   import {pascalize} from '../util'
 
   export default {
-    name: "DataList",
+    name: "data-list",
     components: {
       DataTableSite: () => import(
         /* webpackChunkName: "DataTableSite" */

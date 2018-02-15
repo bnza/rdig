@@ -3,22 +3,16 @@ import qs from 'qs'
 export default {
   data: function () {
     return {
-      isRequestPending: false
-    }
-  },
-  created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    this.fetchData()
-  },
-  computed: {
-    hasData: function () {
-      return this.tableData && this.tableData.length > 0
+      // isRequestPending: false,
+      tableData: [],
+/*      sortCriteria: {
+        id: 'ASC'
+      }*/
     }
   },
   methods: {
-    getBaseUrl () {
-      let baseUrl = `${this.routePrefix}`
+    $_DataTableMixin_getBaseUrl () {
+      let baseUrl = `${this.$_route.prefix}`
       if (this.parent) {
         baseUrl += `/${this.parent.table}/${this.$_route.id}/${this.$_route.table}`
       } else {
@@ -26,33 +20,32 @@ export default {
       }
       return baseUrl
     },
-    getQueryUrl () {
-      let url = this.getBaseUrl()
-      let sortCriteria = {}
-      sortCriteria[this.sortCriteria.field] = this.sortCriteria.order
+    $_DataTableMixin_getQueryUrl () {
+      let url = this.$_DataTableMixin_getBaseUrl()
+      let sortCriteria = this.$store.getters['components/tables/sortCriteria'](this.uuid)
       let orderQuery = qs.stringify({sort: sortCriteria}, { encode: false })
       if (orderQuery) {
         url += `?${orderQuery}`
       }
       return url
     },
-    fetchData () {
+    $_DataTableMixin_fetchData () {
       let config = {
         method: 'get',
-        url: this.getQueryUrl()
+        url: this.$_DataTableMixin_getQueryUrl()
       }
-      this.isRequestPending = true
+      this.$store.dispatch('components/tables/requestStarted', this.uuid)
       this.$store.dispatch('requests/perform', config)
         .then(
           (response) => {
-            this.isRequestPending = false
+            this.$store.dispatch('components/tables/requestCompleted', this.uuid)
             this.tableData = response.data
           }
         )
         .catch(
           (reason) => {
             if (reason.response) {
-              this.isRequestPending = false
+              this.$store.dispatch('components/tables/requestCompleted', this.uuid)
               this.$store.dispatch('messages/handleResponseError', reason.response)
             }
           }

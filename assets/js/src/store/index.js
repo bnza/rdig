@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import account from './account'
 import requests from './requests'
 import messages from './messages'
+import components from './components'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
   modules: {
     account: account,
     requests: requests,
-    messages: messages
+    messages: messages,
+    components: components
   },
   mutations: {
     switchLeftComponent (state, component) {

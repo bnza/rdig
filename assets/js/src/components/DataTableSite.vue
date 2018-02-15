@@ -1,39 +1,19 @@
-<template>
-    <DataTable
-        routePrefix="data"
-        v-bind:tableColumnsNum="3"
-        v-bind:sortCriteria="sortCriteria"
-    >
-        <tr slot="header">
-            <DataTableRowCellHead
-                label="id"
-                field="id"
-                v-on:sort="sort"
-                v-bind:sortCriteria="sortCriteria"
-            />
-            <DataTableRowCellHead
-                label="code"
-                field="code"
-                v-on:sort="sort"
-                v-bind:sortCriteria="sortCriteria"
-            />
-            <DataTableRowCellHead
-                label="name"
-                field="name"
-                v-on:sort="sort"
-                v-bind:sortCriteria="sortCriteria"
-            />
-        </tr>
-    </DataTable>
-</template>
-
 <script>
-  import DataTableHeaderMixin from '../mixins/DataTableHeaderMixin'
+  import BaseTable from './BaseTable'
   export default {
-    mixins: [
-      DataTableHeaderMixin
-    ],
-    name: "DataTableSite"
+    name: "data-table-site",
+    extends: BaseTable,
+    data: function () {
+      return {
+        tableConfigObject: {
+          columns: {
+            id: {},
+            code: {},
+            name: {}
+          }
+        }
+      }
+    }
   }
 </script>
 

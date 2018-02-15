@@ -31,11 +31,12 @@ const crudRoutesParamsFn = function (route) {
 }
 
 const requireAuth = function (to, from, next) {
-  if (store.getters['account/isAuthorized'](to)) {
+  next()
+/*  if (store.getters['account/isAuthorized'](to)) {
     next()
   } else {
     next('/login')
-  }
+  }*/
 }
 
 export const crudRoutes = {

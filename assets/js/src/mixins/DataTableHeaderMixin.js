@@ -8,14 +8,14 @@ export default {
     }
   },
   components: {
-    DataTable: () => import(
-      /* webpackChunkName: "DataTable" */
+/*    DataTable: () => import(
+      /!* webpackChunkName: "DataTable" *!/
       '../components/DataTable'
       ),
     DataTableRowCellHead: () => import(
-      /* webpackChunkName: "DataTableRowCellHead" */
+      /!* webpackChunkName: "DataTableRowCellHead" *!/
       '../components/DataTableRowCellHead'
-      ),
+      ),*/
   },
   methods: {
     sort: function (criteria) {

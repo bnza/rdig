@@ -1,7 +1,7 @@
 <template>
     <th>
         <router-link
-            v-bind:to="getItemPath(id)"
+            v-bind:to="getItemPath(value)"
             title="Show item"
         >
             <i class="fa fa-arrow-right"></i>
@@ -11,13 +11,13 @@
 
 <script>
   import PathHelperMixin from '../mixins/PathHelperMixin'
-
+  import BaseTableDataCell from './BaseTableDataCell'
   export default {
+    name: "show-table-data-cell",
+    extends: BaseTableDataCell,
     mixins: [
       PathHelperMixin,
-    ],
-    props: ['id'],
-    name: 'TableHeaderCellElementIdShow'
+    ]
   }
 </script>
 
