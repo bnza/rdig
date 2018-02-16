@@ -40,6 +40,16 @@ export const actions = {
       {root: true}
     )
   },
+  remove: function ({dispatch}, uuid) {
+    return dispatch(
+      'components/remove',
+      {
+        module: MODULE_NAME,
+        uuid: uuid
+      },
+      {root: true}
+    )
+  },
   setConfig: function ({commit, state, rootGetters}, payload) {
     commit(SET_CONFIG, {
       key: rootGetters['components/key'](payload.uuid),

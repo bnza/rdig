@@ -85,6 +85,9 @@
           vm.setUp()
         }
       )
+    },
+    beforeDestroy: function () {
+      this.$store.dispatch('components/tables/remove', this.uuid)
     }
   }
 </script>

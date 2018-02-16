@@ -2,6 +2,7 @@ import Vue from 'vue'
 import tables from './tables'
 
 const ADD_COMPONENT = 'ADD_COMPONENT'
+const REMOVE_COMPONENT = 'REMOVE_COMPONENT'
 const INCREMENT = 'INCREMENT'
 
 export const state = {
@@ -17,6 +18,11 @@ export const mutations = {
   [ADD_COMPONENT]: (state, payload) => {
     Vue.set(state.all, payload.key, payload.module)
     Vue.set(state[payload.module].all, payload.key, {})
+  },
+  // TODO validate input
+  [REMOVE_COMPONENT]: (state, payload) => {
+    Vue.delete(state.all, payload.key)
+    Vue.delete(state[payload.module].all, payload.key)
   }
 }
 
@@ -29,6 +35,12 @@ export const actions = {
     })
     return new Promise((resolve) => {
       resolve(state.uuid)
+    })
+  },
+  remove: function ({commit, state, getters}, payload) {
+    commit(REMOVE_COMPONENT, {
+      module: payload.module,
+      key: getters.key(payload.uuid)
     })
   }
 }
