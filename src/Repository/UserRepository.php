@@ -1,13 +1,14 @@
 <?php
 /**
- * rDig project
+ * rDig project.
+ *
  * @author pietro.baldassarri@gmail.com
  */
 
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Site;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class UserRepository extends AbstractDataRepository
@@ -17,17 +18,36 @@ class UserRepository extends AbstractDataRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUserAllowedSites(int $id) {
-
+    public function getUserAllowedSites(int $id)
+    {
         $user = $this->find($id);
         if ($user) {
             return $user->getSites()->map(function ($site) use ($user) {
                 return [
                     'id' => sprintf('%d,%d', $user->getId(), $site->getId()),
                     'code' => $site->getCode(),
-                    'name' => $site->getName()
+                    'name' => $site->getName(),
                 ];
             })->getValues();
         }
+    }
+
+    public function getUserDeniedSites(int $id)
+    {
+        $user = $this->find($id);
+         if ($user) {
+             $sites = $user->getSites()->map(function ($site) {
+                return $site->getId();
+            })->getValues();
+        }
+        $qb = $this
+            ->getEntityManager()
+            ->createQueryBuilder();
+        $query = $qb->select('s')
+            ->from(Site::class, 's')
+            ->where($qb->expr()->notIn('s.id', $sites) )
+            ->orderBy('s.name', 'ASC')
+            ->getQuery();
+         return $query->getArrayResult();
     }
 }

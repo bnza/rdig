@@ -1,9 +1,19 @@
+<template>
+    <base-table
+        v-bind:tableConfigObject="tableConfigObject"
+        v-bind:route="{}"
+        v-bind="$props"
+    />
+</template>
+
 <script>
   import BaseTable from './BaseTable'
 
   export default {
     name: "data-table-user",
-    extends: BaseTable,
+    components:{
+      BaseTable
+    },
     data: function () {
       return {
         tableConfigObject: {

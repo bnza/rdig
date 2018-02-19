@@ -1,129 +1,151 @@
 <template>
     <form>
-        <FormFieldHorizontal label="Username">
-            <input class="input is-static" type="text" v-model="formData.username" readonly>
-        </FormFieldHorizontal>
-        <FormFieldHorizontal v-if="!$store.getters['account/isAdmin']" label="Old password" v-bind:helpMessage="fieldMessages.oldPassword">
-            <input v-model="formData.oldPassword" class="input is-primary" type="password" placeholder="Text input">
-        </FormFieldHorizontal>
-        <FormFieldHorizontal label="New password" v-bind:helpMessage="fieldMessages.newPassword">
-            <input v-model="formData.newPassword" class="input is-primary" type="password" placeholder="Text input">
-        </FormFieldHorizontal>
-        <FormFieldHorizontal label="New password (again)" v-bind:helpMessage="fieldMessages.passwordCheck">
-            <input v-model="passwordCheck" class="input is-primary" type="password" placeholder="Text input">
-        </FormFieldHorizontal>
-        <FormFieldHorizontal label="-" class="is-grouped">
-            <button
-                v-bind:disabled="!isValid"
-                type="button"
-                v-on:click="submitRequest"
-                class="button is-link"
-                v-bind:class="{'is-loading': isRequestPending}"
-            >Submit</button>
-            <button
-                type="button"
-                class="button is-text"
-                v-on:click="back"
-            >Cancel</button>
-        </FormFieldHorizontal>
+        <header>
+            <slot name="header" />
+        </header>
+        <main>
+            <slot>
+                <horizontal-form-field
+                    fieldKey="username"
+                    label="username"
+                >
+                    <static-form-input
+                        type="text"
+                        v-bind:data="userData.username"
+                        v-bind:isRequestPending="isRequestPending"
+                    />
+                </horizontal-form-field>
+                <horizontal-form-field
+                    fieldKey="oldPassword"
+                    label="Old Password"
+                    v-bind:violations="violations"
+                    v-bind:isRequestPending="isRequestPending"
+                >
+                    <base-form-input
+                        type="password"
+                        fieldKey="oldPassword"
+                        v-bind:data="data"
+                        v-bind:isRequestPending="isRequestPending"
+                    />
+                </horizontal-form-field>
+                <horizontal-form-field
+                    fieldKey="newPassword"
+                    label="New Password"
+                    v-bind:violations="violations"
+                    v-bind:isRequestPending="isRequestPending"
+                >
+                    <base-form-input
+                        type="password"
+                        fieldKey="newPassword"
+                        v-bind:data="data"
+                        v-bind:isRequestPending="isRequestPending"
+                    />
+                </horizontal-form-field>
+                <horizontal-form-field
+                    fieldKey="passwordCheck"
+                    label="New Password (again)"
+                    v-bind:violations="violations"
+                    v-bind:isRequestPending="isRequestPending"
+                >
+                    <base-form-input
+                        type="password"
+                        v-bind:data="localData"
+                        fieldKey="passwordCheck"
+                        v-bind:isRequestPending="isRequestPending"
+                    />
+                </horizontal-form-field>
+            </slot>
+        </main>
+        <footer>
+            <slot name="footer">
+                <horizontal-edit-form-field-button-group
+                    v-bind:isRequestPending="isRequestPending"
+                    v-bind:isValid="isValid"
+                    v-on:back="$emit('close')"
+                    v-on:submit="submitChangePasswordRequest"
+                />
+            </slot>
+        </footer>
     </form>
 </template>
 
 <script>
-  import FormFieldHorizontal from './FormFieldHorizontal'
-  import FormControl from './FormControl'
-  import PathHelperMixin from '../mixins/PathHelperMixin'
-  import DataFormMixin from '../mixins/DataFormMixin'
+  import BaseEditForm from './BaseEditForm'
+  import BaseFormInput from './BaseFormInput'
+  import StaticFormInput from './StaticFormInput'
+  import HorizontalFormField from './HorizontalFormField'
+  import HorizontalEditFormFieldButtonGroup from './HorizontalEditFormFieldButtonGroup'
 
   export default {
-    props: {
-      routePrefix: String,
-      tableName: String,
-      id: Number,
-      action: String
+    name: "data-form-user-change-password",
+    extends: BaseEditForm,
+    components:{
+      HorizontalFormField,
+      BaseFormInput,
+      StaticFormInput,
+      HorizontalEditFormFieldButtonGroup
     },
-    mixins: [
-      PathHelperMixin,
-      DataFormMixin
-    ],
-    data: function() {
+    props: {
+      userData: {
+        type: Object
+      }
+    },
+    data: function () {
       return {
-        passwordCheck: '',
-        formData: {
-          oldPassword: '',
-          newPassword: '',
-          password: '',
-        },
-        fieldMessages: {
-          oldPassword: {},
-          newPassword: {},
-          passwordCheck: {}
+        localData: {
+          passwordCheck: ''
         }
+      }
+    },
+    watch: {
+      data: {
+        handler: function () {
+          this.validate()
+        },
+        deep: true
+      },
+      localData: {
+        handler: function () {
+          this.validate()
+        },
+        deep: true
       }
     },
     computed: {
       isValid: function () {
-        return this.validate().length === 0
-      },
-      submitUrl: function () {
-        return `${this.itemUrl}/change-password`
+        return Object.keys(this.violations).length === 0
       }
-    },
-    created () {
-      this.readData()
     },
     methods: {
-      validate: function () {
-        let violations = []
-
-        //Old password is needed only by non admin users
-        if (!this.$store.getters['account/isAdmin']) {
-          if (this.formData.oldPassword === '') {
-            violations.push({
-              property: 'oldPassword',
-              message: 'This value should not be blank.'
-            })
-          } else if (this.formData.oldPassword.length < 8) {
-            violations.push({
-              property: 'oldPassword',
-              message: 'This value should be almost 8 character length'
-            })
+      submitChangePasswordRequest: function () {
+        this.submitRequest({
+          method: 'post',
+          url: `${this.itemUrl}/change-password`,
+          data: this.data
+        })
+      },
+      readData: function () {
+        this.data = {
+          oldPassword: '',
+          newPassword: '',
+        }
+      },
+      validate: function (data) {
+        data = data || this.data
+        let violations = {}
+        for (var i of ['oldPassword','newPassword']) {
+          if (data[i] === '') {
+            violations[i] = 'This value should not be blank.'
+          } else if (data[i].length < 8) {
+            violations[i] = 'This value should be almost 8 character length'
           }
         }
-
-        if (this.formData.newPassword === '') {
-          violations.push({
-            property: 'newPassword',
-            message: 'This value should not be blank.'
-          })
-        } else if (this.formData.newPassword.length < 8) {
-          violations.push({
-            property: 'newPassword',
-            message: 'This value should be almost 8 character length'
-          })
-        } else if (this.formData.newPassword !== this.passwordCheck) {
-          violations.push({
-            property: 'newPassword',
-            message: 'Passwords does not match'
-          })
-          violations.push({
-            property: 'passwordCheck',
-            message: 'Passwords does not match'
-          })
+        if (data['newPassword'] !== this.localData['passwordCheck']) {
+          violations['passwordCheck'] = 'Passwords does not match'
         }
-        this.clearErrors()
-        this.handleValidationErrors(violations)
-        return violations;
+
+        this.violations = violations
       }
-    },
-    components: {
-      FormFieldHorizontal,
-      FormControl
-    },
-    name: "DataFormChangePassword"
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

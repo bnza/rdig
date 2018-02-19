@@ -1,53 +1,119 @@
 <template>
-    <DataTable
-        routePrefix="admin"
-        v-bind:parent="parent"
-        v-bind:route="route"
-        v-bind:tableColumnsNum="3"
-        v-bind:sortCriteria="sortCriteria"
-        v-bind:tableHeaderCellElementProp="tableHeaderCellElementProp"
-    >
-        <tr slot="header">
-            <DataTableRowCellHead
-                label="id"
-                field="id"
-                v-on:sort="sort"
-                v-bind:sortCriteria="sortCriteria"
-            />
-            <DataTableRowCellHead
-                label="code"
-                field="code"
-                v-on:sort="sort"
-                v-bind:sortCriteria="sortCriteria"
-            />
-            <DataTableRowCellHead
-                label="name"
-                field="name"
-                v-on:sort="sort"
-                v-bind:sortCriteria="sortCriteria"
-            />
-        </tr>
-    </DataTable>
+    <article>
+        <data-form-delete-modal
+            v-on:delete="deleteItem"
+            v-on:close="isDeleteModalActive=false"
+            v-bind:table="$_route.table"
+            v-bind:active="isDeleteModalActive"
+            v-bind:isRequestPending="isRequestPending"
+        />
+        <data-form-user-allowed-sites-add-modal
+            v-bind:userId="userId"
+            v-on:close="isAddModalActive=false"
+            v-on:grant="grantPrivileges"
+            v-bind:active="isAddModalActive"
+            v-bind:isRequestPending="isRequestPending"
+        />
+        <base-table ref="table"
+                    v-bind:tableConfigObject="tableConfigObject"
+                    v-bind="$props"
+                    v-on:openDeleteModal="openDeleteModal"
+        />
+    </article>
 </template>
 
 <script>
-  import DataTableHeaderMixin from '../mixins/DataTableHeaderMixin'
-  //import TableHeaderCellElementIdDelete from './TableHeaderCellElementIdDelete'
+  import PathHelperMixin from '../mixins/PathHelperMixin'
+  import RequestHelperMixin from '../mixins/RequestHelperMixin'
+  import BaseTable from './BaseTable'
+  import DataFormDeleteModal from './DataFormDeleteModal'
+  import DataFormUserAllowedSitesAddModal from './DataFormUserAllowedSitesAddModal'
+  import {props} from "../mixins/DataTableMixin";
 
   export default {
-    props: ['parent', 'route'],
+    name: "data-table-user-allowed-sites",
+    components:{
+      BaseTable,
+      DataFormDeleteModal,
+      PathHelperMixin,
+      DataFormUserAllowedSitesAddModal
+    },
+    props: props,
     mixins: [
-      DataTableHeaderMixin
+      RequestHelperMixin,
+      PathHelperMixin
     ],
-    computed: {
-      tableHeaderCellElementProp: function () {
-        return null //TableHeaderCellElementIdDelete
+    data: function () {
+      return {
+        //isRequestPending <- RequestHelperMixin
+        isDeleteModalActive: false,
+        isAddModalActive: false,
+        currentId: '',
+        tableConfigObject: {
+          columns: {
+            id: {
+              body: {
+                component: 'OpenDeleteModalTableDataCell'
+              }
+            },
+            code: {},
+            name: {}
+          }
+        }
       }
     },
-    name: "DataTableUsersAllowedSites"
+    computed: {
+      ids: function () {
+        return this.currentId.split(',')
+      },
+      userId: function () {
+        return this.parent.id * 1
+      },
+      siteId: function () {
+        return this.ids[1]
+      }
+    },
+    created: function() {
+      if (this.$route.meta.hasOwnProperty('openAddModal')) {
+        this.isAddModalActive = value.openAddModal
+      }
+    },
+    methods: {
+      openDeleteModal: function (id) {
+        this.currentId = id
+        this.isDeleteModalActive = true
+      },
+      deleteItem: function () {
+        let vm = this
+        const config = {
+          method: 'delete',
+          url: `admin/user/${this.userId}/user-allowed-sites/${this.siteId}`
+        }
+        this.performRequest(config)
+          .then(
+            function (response) {
+              vm.$refs.table.$_DataTableMixin_fetchData()
+              vm.isDeleteModalActive = false
+            }
+          )
+      },
+      grantPrivileges: function (siteId) {
+        let vm = this
+        const config = {
+          method: 'post',
+          url: `admin/user/${this.$_route.id}/user-allowed-sites`,
+          data: {
+            siteId: siteId
+          }
+        }
+        this.performRequest(config)
+          .then(
+            function (response) {
+              vm.$refs.table.$_DataTableMixin_fetchData()
+              vm.isAddModalActive = false
+            }
+          )
+      }
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

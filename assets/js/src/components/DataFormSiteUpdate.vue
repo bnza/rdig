@@ -2,10 +2,7 @@
   import DataFormSiteEdit from './DataFormSiteEdit'
 
   export default {
-    name: "DataFormSiteUpdate",
-    extends: DataFormSiteEdit,
-    created () {
-        this.readData()
-    },
+    name: "data-form-site-update",
+    extends: DataFormSiteEdit
   }
 </script>

@@ -51,10 +51,16 @@ export default {
       return `${this.baseItemPath}/update`
     },
     listUrl: function () {
-      return `${this.$_route.prefix}/${this.$_route.table}`
+      let url = ''
+      if (this.parent) {
+        url = `${this.$_route.prefix}/${this.parent.table}/${this.parent.id}/${this.$_route.table}`
+      } else {
+        url = `${this.$_route.prefix}/${this.$_route.table}`
+      }
+      return url
     },
     itemUrl: function () {
-      return `${this.$_route.prefix}/${this.$_route.table}/${this.$_route.id}`
+      return this.$_route.id ? `${this.listUrl}/${this.$_route.id}` : false
     }
   },
   methods: {

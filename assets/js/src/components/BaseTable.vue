@@ -1,9 +1,15 @@
 <template>
     <table class="table is-striped is-hoverable is-fullwidth">
+        <caption>
+            <section>
+
+            </section>
+        </caption>
         <component
             v-if="uuid"
             ref="header"
             v-bind:is="tableHeaderComponent"
+            v-bind:createPath="createPath"
             v-bind:uuid="uuid"
             v-bind="$props"
             v-on="$listeners">
@@ -24,10 +30,12 @@
 <script>
   import DataTableMixin from '../mixins/DataTableMixin'
   import PathHelperMixin from '../mixins/PathHelperMixin'
+  import DataFormDeleteModal from './DataFormDeleteModal'
 
   export default {
     name: "base-table",
     components: {
+      DataFormDeleteModal,
       BaseTableBody: () => import(
         /* webpackChunkName: "BaseTableBody" */
         './BaseTableBody'
@@ -41,9 +49,16 @@
       PathHelperMixin,
       DataTableMixin
     ],
+    props: {
+      tableConfigObject: {
+        type: Object,
+        required: true
+      }
+    },
     data: function () {
       return {
-        uuid: false
+        uuid: false,
+        isDeleteModalActive: false
       }
     },
     computed: {
@@ -63,18 +78,13 @@
           config: this.tableConfigObject,
           uuid: this.uuid
         })
-        this.$store.dispatch('components/tables/setSortCriteria', {
-          criteria: {
-            id: 'ASC'
-          },
-          uuid: this.uuid
-        })
-        this.$_DataTableMixin_fetchData()
       }
     },
     watch: {
-      sortCriteria: function () {
-        this.$_DataTableMixin_fetchData()
+      sortCriteria: function (value, oldValue) {
+        if (value !== oldValue) {
+          this.$_DataTableMixin_fetchData()
+        }
       }
     },
     created: function () {

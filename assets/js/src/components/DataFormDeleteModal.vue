@@ -1,48 +1,44 @@
 <template>
-    <div class="modal is-active">
-        <div
-            class="modal-background"
-            v-on:click="cancel"
-        ></div>
-        <div class="modal-content">
-            <article class="message is-dark">
-                <div class="message-header">
-                    <p>Delete</p>
-                    <button class="delete" aria-label="delete" v-on:click="cancel"></button>
-                </div>
-                <div class="message-body">
-                    Do you really want delete this item from table <strong>{{$_route.table}}</strong>?<br/><br/>
-                    This action <span class="has-text-danger">cannot</span> be undone<br/><br/>
-                    <div class="buttons">
-                        <span class="button is-text" v-on:click="cancel">
-                            Back
-                        </span>
-                        <span class="button is-danger" v-on:click="deleteEntity">Delete</span>
-                    </div>
-                </div>
-            </article>
+    <base-card-modal title="Delete item" v-bind:active="active" v-on:close="$emit('close')">
+        Do you really want delete this item from table <strong>{{table}}</strong>?<br/><br/>
+        This action <span class="has-text-danger"><strong>cannot</strong></span> be undone<br/><br/>
+        <div class="buttons" slot="footer">
+            <button class="button is-text" v-on:click="$emit('close')">
+                Back
+            </button>
+            <base-form-button
+                class="is-danger"
+                label="Delete"
+                v-bind:isRequestPending="isRequestPending"
+                v-on:click="$emit('delete')"
+            />
         </div>
-        <button class="modal-close is-large" aria-label="close" v-on:click="cancel"></button>
-    </div>
+    </base-card-modal>
 </template>
 
 <script>
-
-  import PathHelperMixin from '../mixins/PathHelperMixin'
-
+  import BaseCardModal from './BaseCardModal'
+  import BaseFormButton from './BaseFormButton'
   export default {
-    name: 'DataFormDelete',
-    mixins: [
-      PathHelperMixin
-    ],
-    methods: {
-      cancel: function () {
-        this.$emit('cancel')
+    name: "data-form-delete-modal",
+    props: {
+      active: {
+        type: Boolean,
+        required: true
       },
-      deleteEntity: function () {
-        this.$emit('deleteEntity')
+      table: {
+        type: String,
+        required: true
+      },
+      isRequestPending: {
+        type: Boolean,
+        required: true
       }
     },
+    components: {
+      BaseCardModal,
+      BaseFormButton
+    }
   }
 </script>
 

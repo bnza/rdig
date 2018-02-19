@@ -6,7 +6,9 @@
             v-bind:is="getDataCellComponent(key)"
             v-bind:uuid="uuid"
             v-bind:key="`r-${index}-${key}`"
-            v-bind:value="rowData[key]">
+            v-bind:value="rowData[key]"
+            v-on="$listeners"
+        >
         </component>
     </tr>
 </template>
@@ -18,6 +20,10 @@
       BaseTableDataCell: () => import(
         /* webpackChunkName: "BaseTableDataCell" */
         './BaseTableDataCell'
+        ),
+      OpenDeleteModalTableDataCell: () => import(
+        /* webpackChunkName: "OpenDeleteModalTableDataCell" */
+        './OpenDeleteModalTableDataCell'
         ),
       ShowTableDataCell: () => import(
         /* webpackChunkName: "ShowTableDataCell" */

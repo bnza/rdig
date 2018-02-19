@@ -37,7 +37,7 @@ class UserPasswordChangeVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        if ('user|change-password') {
+        if ($attribute === 'user|change-password') {
             if (is_array($subject) && count($subject) > 1)
                 return $subject[0] instanceof User && $subject[1] instanceof UserPasswordEncoderInterface;
         }

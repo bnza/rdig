@@ -40,6 +40,31 @@ admin__user__allowed-sites:
             entityName: 'user'
             id: '\d+'
 
+admin__user__create__allowed-sites:
+    path:       /admin/{entityName}/{id}/user-allowed-sites
+    controller: App\Controller\UserCrudController::addUserAllowedSite
+    methods:    [POST]
+    requirements:
+            entityName: 'user'
+            id: '\d+'
+
+admin__user__denied-sites:
+    path:       /admin/{entityName}/{id}/user-denied-sites
+    controller: App\Controller\UserCrudController::userDeniedSites
+    methods:    [GET]
+    requirements:
+            entityName: 'user'
+            id: '\d+'
+
+admin__user__delete__allowed-sites:
+    path:       /admin/{entityName}/{id}/user-allowed-sites/{siteId}
+    controller: App\Controller\UserCrudController::deleteUserAllowedSite
+    methods:    [DELETE]
+    requirements:
+            entityName: 'user'
+            siteId: '\d+'
+            id: '\d+'
+
 admin__user__delete:
     path:       /admin/{entityName}/{id}
     controller: App\Controller\UserCrudController::delete

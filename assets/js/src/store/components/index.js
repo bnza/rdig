@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import tables from './tables'
+import forms from './forms'
 
 const ADD_COMPONENT = 'ADD_COMPONENT'
 const REMOVE_COMPONENT = 'REMOVE_COMPONENT'
@@ -71,6 +72,7 @@ export default {
   mutations,
   actions,
   modules: {
-    tables: tables
+    tables: tables,
+    forms: forms
   }
 }

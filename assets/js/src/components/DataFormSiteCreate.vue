@@ -2,7 +2,7 @@
   import DataFormSiteEdit from './DataFormSiteEdit'
 
   export default {
-    name: "DataFormSiteCreate",
-    extends: DataFormSiteEdit,
+    name: "data-form-site-create",
+    extends: DataFormSiteEdit
   }
 </script>

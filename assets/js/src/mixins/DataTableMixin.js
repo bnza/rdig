@@ -1,5 +1,17 @@
 import qs from 'qs'
 
+export const props = {
+  parent: {
+    type: Object,
+    validator: function (value) {
+      return value.hasOwnProperty('table') && value.hasOwnProperty('id')
+    }
+  },
+  route: {
+    type: Object
+  }
+}
+
 export default {
   data: function () {
     return {
@@ -10,6 +22,7 @@ export default {
       }*/
     }
   },
+  props: props,
   methods: {
     $_DataTableMixin_getBaseUrl () {
       let baseUrl = `${this.$_route.prefix}`

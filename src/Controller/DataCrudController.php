@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exceptions\NotFoundEntityCrudException;
 
 class DataCrudController extends AbstractCrudController
 {
@@ -11,6 +12,9 @@ class DataCrudController extends AbstractCrudController
 
     public function getEntityClass($entity = '')
     {
-        return $this->entities[$entity];
+        if (array_key_exists($entity, $this->entities)) {
+            return $this->entities[$entity];
+        }
+        throw new NotFoundEntityCrudException($entity);
     }
 }

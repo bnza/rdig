@@ -57,6 +57,11 @@ class Site
         $this->users[] = $user;
     }
 
+    public function removeUser(User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
     public function __construct() {
         $this->users = new ArrayCollection();
     }

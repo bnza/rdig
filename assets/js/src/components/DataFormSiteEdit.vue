@@ -1,58 +1,47 @@
 <template>
-    <form>
-        <FormField label="Code" v-bind:helpMessage="fieldMessages.code">
-            <input v-model="formData.code" class="input is-primary" type="text" placeholder="Text input">
-        </FormField>
-        <FormField label="Name" v-bind:helpMessage="fieldMessages.name">
-            <input v-model="formData.name" class="input is-primary" type="text" placeholder="Text input">
-        </FormField>
-        <FormField class="is-grouped">
-            <button
-                type="button"
-                v-on:click="submitRequest"
-                class="button is-link"
-                v-bind:class="{'is-loading': isRequestPending}"
-            >Submit</button>
-            <button
-                type="button"
-                class="button is-text"
-                v-on:click="back"
-            >Cancel</button>
-        </FormField>
-    </form>
+    <base-edit-form>
+        <template v-if="form.data" slot-scope="form">
+            <horizontal-form-field
+                fieldKey="code"
+                label="code"
+                v-bind:violations="form.violations"
+                v-bind:isRequestPending="form.isRequestPending"
+            >
+                <base-form-input
+                    type="text"
+                    fieldKey="code"
+                    v-bind:data="form.data"
+                    v-bind:isRequestPending="form.isRequestPending"
+                />
+            </horizontal-form-field>
+            <horizontal-form-field
+                fieldKey="name"
+                label="name"
+                v-bind:violations="form.violations"
+                v-bind:isRequestPending="form.isRequestPending"
+            >
+                <base-form-input
+                    type="text"
+                    fieldKey="name"
+                    v-bind:data="form.data"
+                    v-bind:isRequestPending="form.isRequestPending"
+                />
+            </horizontal-form-field>
+        </template>
+    </base-edit-form>
 </template>
 
 <script>
-  import FormField from './FormField'
-  import FormControl from './FormControl'
-  import PathHelperMixin from '../mixins/PathHelperMixin'
-  import DataFormMixin from '../mixins/DataFormMixin'
+  import BaseEditForm from './BaseEditForm'
+  import BaseFormInput from './BaseFormInput'
+  import HorizontalFormField from './HorizontalFormField'
 
   export default {
-    mixins: [
-      PathHelperMixin,
-      DataFormMixin
-    ],
-    data: function() {
-      return {
-        formData: {
-          code: '',
-          name: ''
-        },
-        fieldMessages: {
-          code: {},
-          name: {}
-        }
-      }
-    },
-    components: {
-      FormField,
-      FormControl
-    },
-    name: "DataFormSiteEdit"
+    name: "data-form-site-edit",
+    components:{
+      BaseEditForm,
+      HorizontalFormField,
+      BaseFormInput
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

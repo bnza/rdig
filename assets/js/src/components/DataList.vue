@@ -1,9 +1,7 @@
 <template>
     <div>
-        <h2 v-if="parent" class="is-size-3">{{$_route.table}}</h2>
         <component
             v-bind:is="tableComponent"
-            v-bind:parent="parent"
             v-bind:route="route"
         />
     </div>
@@ -32,7 +30,6 @@
     mixins: [
       PathHelperMixin
     ],
-    props: ['parent'],
     computed: {
       tableComponent: function () {
         return "DataTable" + pascalize(this.$_route.table)

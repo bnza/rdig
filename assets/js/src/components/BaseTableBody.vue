@@ -7,6 +7,7 @@
             v-bind:rowData="rowData"
             v-bind:uuid="uuid"
             v-bind:index="index"
+            v-on="$listeners"
         >
         </base-table-row>
     </template>

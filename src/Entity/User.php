@@ -61,6 +61,12 @@ class User implements UserInterface, \Serializable
         $this->sites[] = $site;
     }
 
+    public function removeSite(Site $site): void
+    {
+        $site->removeUser($this); // synchronously updating inverse side
+        $this->sites->removeElement($site);
+    }
+
     public function __construct() {
         $this->sites = new ArrayCollection();
     }

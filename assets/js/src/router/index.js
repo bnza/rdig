@@ -63,11 +63,15 @@ export const crudRoutes = {
       props: true
     },
     {
-      path: ':id(\\d+)/:action(change-password)',
-      name: 'change_password',
+      path: ':id(\\d+)/user-allowed-sites/:action(create)',
+      name: 'data_child_element',
       component: DataForm,
-      props: true
-    }
+      props: true,
+      beforeEnter: (to, from, next) => {
+        from.meta['openAddModal'] = true
+        next(from.fullPath)
+      }
+    },
   ]
 }
 

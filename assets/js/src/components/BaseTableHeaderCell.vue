@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
     props: {
       uuid: {
@@ -18,16 +19,16 @@
     },
     name: "base-table-header-cell",
     computed: {
-      field: function () {
-        return this.$store.getters['components/tables/field'](this.uuid, this.columnKey)
-      },
       label: function () {
-        return this.$store.getters['components/tables/label'](this.uuid, this.columnKey)
-      }
+        return this._labelGetterFn(this.uuid, this.columnKey)
+      },
+      field: function () {
+        return this._fieldGetterFn(this.uuid, this.columnKey)
+      },
+      ...mapGetters('components/tables', {
+        _labelGetterFn: 'label',
+        _fieldGetterFn: 'field'
+      })
     }
   }
 </script>
-
-<style scoped>
-
-</style>

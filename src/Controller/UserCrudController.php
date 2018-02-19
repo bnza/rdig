@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Site;
 use App\Service\DataCrudHelper;
-use App\Service\EntityJsonSerializer;
 use App\Exceptions\CrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +28,7 @@ class UserCrudController extends AbstractCrudController
     }
 
     /**
-     * Create new site.
+     * Create new user.
      *
      * @param Request        $request
      * @param DataCrudHelper $crud
@@ -97,12 +96,56 @@ class UserCrudController extends AbstractCrudController
 
     public function userAllowedSites(DataCrudHelper $crud, int $id)
     {
-
+        // TODO check auth
         $user = $crud->read($this->getEntityClass(), $id);
         $sites = $crud->getRepository()->getUserAllowedSites($id);
 
         return new JsonResponse(
             $sites,
+            200
+        );
+    }
+
+    public function userDeniedSites(DataCrudHelper $crud, int $id)
+    {
+        // TODO check auth
+
+        $user = $crud->read($this->getEntityClass(), $id);
+        $sites = $crud->getRepository()->getUserDeniedSites($id);
+
+        return new JsonResponse(
+            $sites,
+            200
+        );
+    }
+
+    public function addUserAllowedSite(Request $request, DataCrudHelper $crud, int $id)
+    {
+        // TODO check auth
+
+        $siteId = json_decode($request->getContent(),true)['siteId'];
+        $site = $crud->read(Site::class, $siteId);
+        $user = $crud->read($this->getEntityClass(), $id);
+        $user->addSite($site);
+        $crud->persist();
+
+        return new JsonResponse(
+            ['message' => sprintf('Successfully granted "%s" site privilege to user %s', $site->getName(), $user->getUsername())],
+            200
+        );
+    }
+
+    public function deleteUserAllowedSite(DataCrudHelper $crud, int $id, int $siteId)
+    {
+        // TODO check auth
+
+        $site = $crud->read(Site::class, $siteId);
+        $user = $crud->read($this->getEntityClass(), $id);
+        $user->removeSite($site);
+        $crud->persist();
+
+        return new JsonResponse(
+            ['message' => sprintf('Successfully revoked "%s" site privilege to user %s', $site->getName(), $user->getUsername())],
             200
         );
     }

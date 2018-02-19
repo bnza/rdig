@@ -25,7 +25,7 @@ export default class tableConfig {
         defaultColumnOption.body.component = 'ShowTableDataCell'
       }
       let columnOption = JSON.parse(JSON.stringify(options.columns[key]))
-      Object.assign(column, columnOption, defaultColumnOption)
+      Object.assign(column, defaultColumnOption, columnOption)
       if (!column.hasOwnProperty('label')) {
         column.label = key
       }
@@ -37,6 +37,6 @@ export default class tableConfig {
   }
 
   get columnsNumber () {
-    return this.columns.length
+    return Object.keys(this.columns).length
   }
 }

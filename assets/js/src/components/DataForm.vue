@@ -6,18 +6,13 @@
             v-on:showDeleteModal="showDeleteModal"
             v-on:hideDeleteModal="hideDeleteModal"
         />
-        <DataFormDeleteModal
-            v-if="isDeleteModal"
-            v-on:cancel="hideDeleteModal"
-            v-on:deleteEntity="deleteEntity"
-        />
     </div>
 </template>
 
 <script>
   import PathHelperMixin from '../mixins/PathHelperMixin'
   export default {
-    name: "DataForm",
+    name: 'data-form',
     components: {
       DataFormSiteCreate: () => import(
         /* webpackChunkName: "DataFormSiteCreate" */
@@ -35,10 +30,10 @@
         /* webpackChunkName: "DataFormUserCreate" */
         './DataFormUserCreate'
         ),
-      DataFormUserChangePassword: () => import(
-        /* webpackChunkName: "DataFormUserChangePassword" */
+/*      DataFormUserChangePassword: () => import(
+        /!* webpackChunkName: "DataFormUserChangePassword" *!/
         './DataFormUserChangePassword'
-        ),
+        ),*/
       DataFormUserRead: () => import(
         /* webpackChunkName: "DataFormUserRead" */
         './DataFormUserRead'

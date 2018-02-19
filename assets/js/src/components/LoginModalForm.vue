@@ -4,11 +4,11 @@
             <label class="label">Username</label>
             <div class="control has-icons-left">
                 <input
-                        v-bind:disabled="isRequestPending"
-                        v-model="username"
-                        class="input"
-                        type="text"
-                        placeholder="Insert username..."
+                    v-bind:disabled="isRequestPending"
+                    v-model="username"
+                    class="input"
+                    type="text"
+                    placeholder="Insert username..."
                 >
                 <span class="icon is-small is-left">
                     <i class="fa fa-user"></i>
@@ -27,21 +27,21 @@
         <div class="field is-grouped">
             <div class="control">
                 <button
-                        type="button"
-                        v-bind:disabled="isButtonDisabled"
-                        v-on:click="performLogin"
-                        class="button is-link"
-                        v-bind:class="{'is-loading': isRequestPending}"
+                    type="button"
+                    v-bind:disabled="isButtonDisabled"
+                    v-on:click="performLogin"
+                    class="button is-link"
+                    v-bind:class="{'is-loading': isRequestPending}"
                 >
                     Submit
                 </button>
             </div>
             <div class="control">
                 <button
-                        v-bind:disabled="isRequestPending"
-                        type="button"
-                        class="button is-text"
-                        v-on:click="cancel"
+                    v-bind:disabled="isRequestPending"
+                    type="button"
+                    class="button is-text"
+                    v-on:click="cancel"
                 >
                     Cancel
                 </button>
@@ -91,6 +91,10 @@
             if (!this.hasError) {
               this.$router.back()
             }
+          }
+        ).catch(
+          () => {
+            console.warn('Login failed')
           }
         )
       }

@@ -14,11 +14,7 @@ export const mutations = {
   [SET_CONFIG]: (state, payload) => {
     let tableConfig = new TableConfig(payload.config)
     let component = state.all[payload.key]
-    if (component.hasOwnProperty('config')) {
-      component.config = tableConfig
-    } else {
-      Vue.set(component, 'config', tableConfig)
-    }
+    Vue.set(component, 'config', tableConfig)
   },
   // TODO validate input
   [SET_IS_REQUEST_PENDING]: (state, payload) => {
@@ -38,6 +34,16 @@ export const actions = {
       'components/add',
       {module: MODULE_NAME},
       {root: true}
+    ).then(
+      function (uuid) {
+        dispatch('setSortCriteria', {
+          criteria: {
+            id: 'ASC'
+          },
+          uuid: uuid
+        })
+        return uuid
+      }
     )
   },
   remove: function ({dispatch}, uuid) {

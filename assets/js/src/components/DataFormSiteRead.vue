@@ -1,37 +1,43 @@
 <template>
-    <div>
-        <form v-if="formData">
-            <FormFieldHorizontal label="Code">
-                <input class="input is-static" type="email" v-model="formData.code" readonly>
-            </FormFieldHorizontal>
-            <FormFieldHorizontal label="Name">
-                <input class="input is-static" type="email" v-model="formData.name" readonly>
-            </FormFieldHorizontal>
-            <DataFormButtonGroup
-                v-on:back="back"
-                v-on:cancel="hideDeleteModal"
-                v-on:showDeleteModal="showDeleteModal"
-            />
-        </form>
-    </div>
+    <base-read-form>
+        <template v-if="form.hasData" slot-scope="form">
+            <horizontal-form-field
+                fieldKey="code"
+                label="code"
+                v-bind:violations="form.violations"
+            >
+                <static-form-input
+                    type="text"
+                    fieldKey="code"
+                    v-bind:data="form.data"
+                />
+            </horizontal-form-field>
+            <horizontal-form-field
+                fieldKey="name"
+                label="name"
+                v-bind:violations="form.violations"
+            >
+                <static-form-input
+                    type="text"
+                    fieldKey="name"
+                    v-bind:data="form.data"
+                />
+            </horizontal-form-field>
+        </template>
+    </base-read-form>
 </template>
 
 <script>
-  import PathHelperMixin from '../mixins/PathHelperMixin'
-  import DataFormMixin from '../mixins/DataFormMixin'
+  import BaseReadForm from './BaseReadForm'
+  import StaticFormInput from './StaticFormInput'
+  import HorizontalFormField from './HorizontalFormField'
 
   export default {
-    mixins: [
-      PathHelperMixin,
-      DataFormMixin
-    ],
-    created () {
-      this.readData()
-    },
-    name: "DataFormSiteRead"
+    name: 'data-form-site-read',
+    components:{
+      BaseReadForm,
+      HorizontalFormField,
+      StaticFormInput
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

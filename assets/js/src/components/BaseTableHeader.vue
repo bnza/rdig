@@ -1,30 +1,44 @@
 <template>
     <thead>
-        <base-table-header-row
-            v-bind="$props"
+    <slot name="commands">
+        <command-table-header-row
+            v-bind:uuid="uuid"
         >
-        </base-table-header-row>
+            <base-icon-router-link
+                v-bind:path="createPath"
+                icon="fa-plus-square"
+                title="Add element"
+            />
+        </command-table-header-row>
+    </slot>
+    <base-table-header-row
+        v-bind="$props"
+    >
+    </base-table-header-row>
     </thead>
 </template>
 
 <script>
-  import BaseTableRow from './BaseTableRow'
-  import BaseTableHeaderRow from "./BaseTableHeaderRow";
+  import BaseIconRouterLink from './BaseIconRouterLink'
+  import BaseTableHeaderRow from "./BaseTableHeaderRow"
+  import CommandTableHeaderRow from './CommandTableHeaderRow'
+
   export default {
     name: "base-table-header",
     components: {
       BaseTableHeaderRow,
-      BaseTableRow
+      CommandTableHeaderRow,
+      BaseIconRouterLink
     },
     props: {
       uuid: {
         type: Number,
         required: true
+      },
+      createPath: {
+        type: String,
+        required: true
       }
-    },
+    }
   }
 </script>
-
-<style scoped>
-
-</style>
