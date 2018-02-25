@@ -1,52 +1,32 @@
 <template>
     <div id="app">
-        <TheTopAppNav/>
-        <div id="container-main" class="container">
-            <div class="columns is-centered">
-                <div class="column is-2">
-                    <TheLeftPanel/>
-                </div>
-                <div class="column is-9 has-text-centered">
-                    <MessagesContainer/>
+        <v-app>
+            <the-right-navigation-drawer />
+            <the-app-bar />
+            <v-content>
+                <v-container fluid>
                     <router-view/>
-                </div>
-                <div class="column is-2">
-                    <p>Right</p>
-                </div>
-            </div>
-        </div>
-        <TheBottomAppNav/>
-        <router-view name="modal"></router-view>
+                    <router-view name="modals"></router-view>
+                </v-container>
+            </v-content>
+            <v-footer app/>
+        </v-app>
     </div>
 </template>
 
 <script>
-  import TheTopAppNav from './components/TheTopAppNav';
-  import TheBottomAppNav from './components/TheBottomAppNav';
-  import TheLeftPanel from './components/TheLeftPanel';
-  import MessagesContainer from './components/MessagesContainer'
+  import TheAppBar from './components/TheAppBar'
+  import TheRightNavigationDrawer from './components/TheRightNavigationDrawer'
+  import UuidMx from './mixins/UuidMx'
 
   export default {
-    beforeCreate: function () {
-      if (window.user) {
-        this.$store.commit('account/SET_USER', window.user)
-        delete window.user
-      }
-      let el = document.getElementById("user-data")
-      if (el) {
-        el.remove()
-      }
-    },
+    name: 'the-app',
     components: {
-      MessagesContainer,
-      TheTopAppNav,
-      TheBottomAppNav,
-      TheLeftPanel
+      TheAppBar,
+      TheRightNavigationDrawer
     },
-    name: 'App'
+    mixins: [
+      UuidMx
+    ]
   }
 </script>
-
-<style scoped>
-
-</style>

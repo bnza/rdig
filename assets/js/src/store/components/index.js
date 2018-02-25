@@ -1,10 +1,9 @@
 import Vue from 'vue'
-import tables from './tables'
-import forms from './forms'
 
 const ADD_COMPONENT = 'ADD_COMPONENT'
 const REMOVE_COMPONENT = 'REMOVE_COMPONENT'
 const INCREMENT = 'INCREMENT'
+const SET_VALUE = 'SET_VALUE'
 
 export const state = {
   uuid: 0,
@@ -16,63 +15,73 @@ export const mutations = {
     ++state.uuid
   },
   // TODO validate input
-  [ADD_COMPONENT]: (state, payload) => {
-    Vue.set(state.all, payload.key, payload.module)
-    Vue.set(state[payload.module].all, payload.key, {})
+  [ADD_COMPONENT]: (state, uuid) => {
+    if (!state.all.hasOwnProperty(uuid)) {
+      Vue.set(state.all, uuid, {})
+    }
   },
   // TODO validate input
-  [REMOVE_COMPONENT]: (state, payload) => {
-    Vue.delete(state.all, payload.key)
-    Vue.delete(state[payload.module].all, payload.key)
+  [REMOVE_COMPONENT]: (state, uuid) => {
+    Vue.delete(state.all, uuid)
+  },
+  // TODO validate input
+  [SET_VALUE]: (state, payload) => {
+    Vue.set(state.all[payload.uuid], payload.key, payload.value)
   }
 }
 
 export const actions = {
-  add: function ({commit, state, getters}, payload) {
-    commit(INCREMENT)
-    commit(ADD_COMPONENT, {
-      module: payload.module,
-      key: getters.key()
-    })
+  add: function ({commit, state}, uuid) {
+    if (!uuid) {
+      commit(INCREMENT)
+      uuid = state.uuid
+    }
+
+    commit(ADD_COMPONENT, uuid)
     return new Promise((resolve) => {
-      resolve(state.uuid)
+      resolve(uuid)
     })
   },
-  remove: function ({commit, state, getters}, payload) {
-    commit(REMOVE_COMPONENT, {
-      module: payload.module,
-      key: getters.key(payload.uuid)
-    })
+  remove: function ({commit}, uuid) {
+    commit(REMOVE_COMPONENT, uuid)
+  },
+  set: function ({commit, dispatch, state}, payload) {
+    if (!state.all.hasOwnProperty(payload.uuid)) {
+      return new Promise(
+        (resolve) => {
+          dispatch('add', payload.uuid).then(
+            (uuid) => {
+              payload.uuid = uuid
+              dispatch('set', payload).then(
+                (uuid) => {
+                  resolve(uuid)
+                }
+              )
+            }
+          )
+        }
+      )
+    } else {
+      commit(SET_VALUE, payload)
+      return new Promise((resolve) => {
+        resolve(payload.uuid)
+      })
+    }
   }
 }
 
 export const getters = {
-  /**
-   * Returns last uuid key if not provided
-   * @param state
-   * @param uuid
-   * @returns {string}
-   */
-  key: (state) => (uuid) => {
-    uuid = uuid || state.uuid
-    return `k${uuid}`
-  },
-  module: (state) => (uuid) => {
-    return state.all[getters.key(uuid)]
-  },
-  component: (state, getters) => (uuid) => {
-    return state[getters.module(uuid)].all[getters.key(uuid)]
+  value: (state) => (uuid, key) => {
+    let component = state.all[uuid]
+    return component ? component[key] : undefined
   }
 }
 
 export default {
+  strict: true,
   namespaced: true,
   state,
   getters,
   mutations,
-  actions,
-  modules: {
-    tables: tables,
-    forms: forms
-  }
+  actions
 }

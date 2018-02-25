@@ -1,22 +1,17 @@
 /* global require */
 
-import 'babel-polyfill'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
 import store from './store'
 import router from './router'
+import Vue from 'vue'
 import App from './App.vue'
-
-import 'vuetify/dist/vuetify.min.css'
+import { sync } from 'vuex-router-sync'
 
 import '../../assets/fonts/fonts.scss'
-require('../../css/app.styl')
+require('../../css/app.scss')
 
-// Vue.config.productionTip = false
+Vue.config.productionTip = false
 
-// sync(store, router)
-
-Vue.use(Vuetify)
+sync(store, router)
 
 window.app = new Vue({
   el: '#app',

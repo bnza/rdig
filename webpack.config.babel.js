@@ -30,6 +30,11 @@ Encore
 
   .enableVueLoader()
 
+  .addLoader({
+    test: /\.styl$/,
+    loader: 'style-loader!css-loader!stylus-loader'
+  })
+
   .createSharedEntry('vendor', [
     'vue',
     'vuex',

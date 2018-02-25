@@ -1,48 +1,10 @@
-/*
-@import "~bulma/sass/utilities/initial-variables";
-@import "~bulma/sass/utilities/functions";
-@import "~font-awesome/scss/font-awesome";
-
-$grey-darker: #3b3a36;
-$grey: #b3c2bf;
-$grey-lighter: #e9ece5;
-$brand-color: #c0dfd9;
-$primary: $brand-color;
-
-$modal-background-background-color: rgba($black, 0.50);
-
-$modal-z: 40;
-$navbar-background-color: $grey-darker;
-$navbar-item-hover-background-color: $grey-dark;
-$navbar-item-color: $grey-lighter !default
-$family-sans-serif: "Montserrat";
-
-@import "~bulma";
+$body-font-family := 'Montserrat', sans-serif
 
 h1, h2, h3 {
   font-family: "OpenSans";
 }
 
-#container-main {
-  margin-top: $navbar-height;
-}
-
-!*
-  Navbar
- *!
-
-.navbar-dropdown {
-   > .navbar-item {
-    color: $grey-dark;
-   }
-}
-
-$navbar-bottom-height: 1rem;
-
-nav.is-fixed-bottom {
-  min-height: $navbar-bottom-height;
-}
-*/
+@import "~vuetify/src/stylus/main.styl"
 
 @font-face {
   font-family: 'Material Icons';
@@ -50,7 +12,7 @@ nav.is-fixed-bottom {
   font-weight: 400;
   //src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
   src: url("~material-design-icons/iconfont/MaterialIcons-Regular.ttf") format("truetype"),
-  url("~material-design-icons/iconfont/MaterialIcons-Regular.woff2") format('woff2');
+          url("~material-design-icons/iconfont/MaterialIcons-Regular.woff2") format('woff2');
 
   //url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
   //url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
