@@ -6,19 +6,11 @@ export default {
       $_UuidMx_uuid: 0
     }
   },
-  created: function () {
-    if (this.$options.name.startsWith('the-')) {
-      this.$_UuidMx_uuid = this.$options.name
-    } else {
-      this.$_UuidMx_uuid = 0
+  props: {
+    $_UuidMx_register: {
+      type: Boolean,
+      default: false
     }
-    this.$store.dispatch('components/add', this.$_UuidMx_uuid).then(
-      (uuid) => {
-        if (!this.$options.name.startsWith('the-')) {
-          this.$_UuidMx_uuid = `${this.$options.name}-${uuid}`
-        }
-      }
-    )
   },
   computed: {
     ...mapGetters('components', {
@@ -41,5 +33,24 @@ export default {
         value: value
       })
     }
+  },
+  created () {
+    if (this.$options.name.startsWith('the-')) {
+      this.$_UuidMx_uuid = this.$options.name
+    } else if (this.$_UuidMx_register) {
+      this.$_UuidMx_uuid = 0
+    }
+    if (typeof x !== 'undefined') {
+      this.$store.dispatch('components/add', this.$_UuidMx_uuid).then(
+        (uuid) => {
+          if (!this.$options.name.startsWith('the-')) {
+            this.$_UuidMx_uuid = `${this.$options.name}-${uuid}`
+          }
+        }
+      )
+    }
+  },
+  beforeDestroy () {
+    this.$store.dispatch('components/remove', this.$_UuidMx_uuid)
   }
 }

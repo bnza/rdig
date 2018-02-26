@@ -4,41 +4,65 @@
             <v-card-title>
                 <span class="headline">Login</span>
             </v-card-title>
+            <v-card-text>
+                <v-alert outline color="error" icon="warning" :value="hasMessage">
+                    {{message}}
+                </v-alert>
+                <v-form>
+                    <v-text-field
+                        label="Username"
+                        v-model="username"
+                        :error-messages="usernameErrors"
+                        :counter="5"
+                        @input="$v.username.$touch()"
+                        @blur="$v.username.$touch()"
+                        :disabled="isRequestPending"
+                        required
+                    />
+                    <v-text-field
+                        label="Password"
+                        type="password"
+                        v-model="password"
+                        :error-messages="passwordErrors"
+                        :counter="8"
+                        @input="$v.password.$touch()"
+                        @blur="$v.password.$touch()"
+                        :disabled="isRequestPending"
+                        required
+                    />
+                </v-form>
+                <v-progress-linear
+                    :indeterminate="true"
+                    v-if="isRequestPending"
+                />
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer/>
+                <v-btn color="blue darken-1"
+                       flat
+                       @click.native="closeDialog"
+                       :disabled="isRequestPending"
+                >
+                    Close
+                </v-btn>
+                <v-btn
+                    flat
+                    :disabled="$v.$invalid || isRequestPending"
+                    color="blue darken-1" flat @click.native="performLogin"
+                >
+                    Submit
+                </v-btn>
+            </v-card-actions>
         </v-card>
-        <v-card-text>
-            <form>
-                <v-text-field
-                    label="Username"
-                    v-model="username"
-                    :error-messages="usernameErrors"
-                    :counter="8"
-                    @input="$v.username.$touch()"
-                    @blur="$v.username.$touch()"
-                    required
-                />
-                <v-text-field
-                    label="Password"
-                    v-model="password"
-                    :error-messages="passwordErrors"
-                    :counter="8"
-                    @input="$v.password.$touch()"
-                    @blur="$v.password.$touch()"
-                    required
-                />
-            </form>
-        </v-card-text>
-        <v-card-actions>
-            <v-spacer/>
-            <v-btn color="blue darken-1" flat @click.native="isDialogOpen = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="dialog = false">Save</v-btn>
-        </v-card-actions>
     </v-dialog>
 </template>
 
 <script>
+  import qs from 'qs'
   import UuidMx from '../mixins/UuidMx'
+  import { mapGetters } from 'vuex'
   import { validationMixin } from 'vuelidate'
-  import { required, minLength, email } from 'vuelidate/lib/validators'
+  import { required, minLength } from 'vuelidate/lib/validators'
 
   export default {
     name: 'the-login-modal',
@@ -49,12 +73,19 @@
     data: () => ({
       username: '',
       password: '',
+      message: ''
     }),
     validations: {
-      username: { required, minLength: minLength(8) },
+      username: { required, minLength: minLength(5) },
       password: { required, minLength: minLength(8) }
     },
     computed: {
+      ...mapGetters('account', [
+        'isRequestPending'
+      ]),
+      hasMessage () {
+        return !!this.message
+      },
       isDialogOpen: {
         get () {
           return !!this.$_UuidMx_get('isDialogOpen')
@@ -63,20 +94,52 @@
           this.$_UuidMx_set('isDialogOpen', value)
         }
       },
-      usernameErrors () {
-        const errors = []
-        if (!this.$v.username.$dirty) return errors
-        !this.$v.username.maxLength && errors.push('Username must be at most 8 characters long')
-        !this.$v.username.required && errors.push('Username is required.')
-        return errors
+      isRequestPending () {
+        return this.$store.state.account.requestPending
       },
       passwordErrors () {
         const errors = []
         if (!this.$v.password.$dirty) return errors
-        !this.$v.password.maxLength && errors.push('Password must be at most 8 characters long')
+        !this.$v.password.minLength && errors.push('Password must be at most 8 characters long')
         !this.$v.password.required && errors.push('Password is required.')
         return errors
       },
-    }
+      usernameErrors () {
+        const errors = []
+        if (!this.$v.username.$dirty) return errors
+        !this.$v.username.minLength && errors.push('Username must be at most 5 characters long')
+        !this.$v.username.required && errors.push('Username is required.')
+        return errors
+      }
+    },
+    methods: {
+      closeDialog () {
+        this.$router.replace(this.$_UuidMx_get('fromPath') || '/')
+      },
+      performLogin: function () {
+        const credentials = qs.stringify({
+          username: this.username,
+          password: this.password
+        })
+        this.$store.dispatch('account/login', credentials).then(
+          () => {
+            this.closeDialog()
+          }
+        ).catch(
+          (error) => {
+            this.message = error.response.data
+          }
+        )
+      }
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.isDialogOpen = true
+      })
+    },
+    beforeRouteLeave (to, from, next) {
+      this.isDialogOpen = false
+      next()
+    },
   }
 </script>

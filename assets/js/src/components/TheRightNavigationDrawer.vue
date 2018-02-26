@@ -7,45 +7,29 @@
             dense
             class="grey lighten-4"
         >
-            <v-list-tile
-                @click="openLoginModal"
-            >
-                <v-list-tile-action>
-                    <v-icon>perm_identity</v-icon>
-                    <v-list-tile-content>
-                        <v-list-tile-title class="grey--text">
-                            Login
-                        </v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile-action>
-            </v-list-tile>
+            <nav-table-list-group />
+            <nav-login-list-tile />
         </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
   import UuidMx from '../mixins/UuidMx'
+  import NavLoginListTile from './NavLoginListTile'
+  import NavTableListGroup from './NavTableListGroup'
 
   export default {
     name: 'the-right-navigation-drawer',
+    components: {
+      NavLoginListTile,
+      NavTableListGroup
+    },
     mixins: [
       UuidMx
     ],
     computed: {
       isNavigationDrawerOpen: function () {
         return !!this.$_UuidMx_get('isNavigationDrawerOpen')
-      }
-    },
-    methods: {
-      openLoginModal () {
-        this.$_UuidMx_set('isDialogOpen', true, 'the-login-modal').then(
-          (uuid) => {
-            this.$router.push('/login')
-          }
-/*          this.$router.push('/login', () => {
-            this.$_UuidMx_set('isDialogOpen', true, 'the-login-modal')
-          })*/
-        )
       }
     }
   }

@@ -1,5 +1,8 @@
 export default {
   isAuthenticated: state => {
+    return state.requestPending
+  },
+  isRequestPending: state => {
     return state.user instanceof Object && state.user.hasOwnProperty('username')
   },
   errorMessage: state => {
