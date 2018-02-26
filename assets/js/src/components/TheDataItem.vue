@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: "data-form"
+    name: "data-item"
   }
 </script>
 
