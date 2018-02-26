@@ -40,7 +40,7 @@ export default {
     } else if (this.$_UuidMx_register) {
       this.$_UuidMx_uuid = 0
     }
-    if (typeof x !== 'undefined') {
+    if (typeof this.$_UuidMx_uuid !== 'undefined') {
       this.$store.dispatch('components/add', this.$_UuidMx_uuid).then(
         (uuid) => {
           if (!this.$options.name.startsWith('the-')) {

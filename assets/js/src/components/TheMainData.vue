@@ -1,27 +1,29 @@
 <template>
     <v-container>
         <v-layout>
-            <v-flex xs10 offset-xs1>
-                <h1 class="display-2">{{this.$_RSTableMx_table.label}}</h1>
+            <v-flex xs12 sm10 offset-xs1>
                 <router-view class="mt-5"/>
             </v-flex>
         </v-layout>
+        <div>
+            <the-delete-modal/>
+        </div>
     </v-container>
 </template>
 
 <script>
-  import FilterMx from "../mixins/FilterMx"
+  import UuidMx from '../mixins/UuidMx'
   import RSTableMx from '../mixins/RSTableMx'
-  import BaseDataTable from './BaseDataTable'
+  import TheDeleteModal from './TheDeleteModal'
 
   export default {
     name: 'the-main-data',
     components: {
-      BaseDataTable
+      TheDeleteModal
     },
     mixins: [
-      FilterMx,
-      RSTableMx
+      RSTableMx,
+      UuidMx
     ]
   }
 </script>

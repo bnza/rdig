@@ -1,5 +1,23 @@
 <template>
-    <div>
+    <div
+        v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
+    >
+        <v-toolbar
+            color="indigo darken-4"
+            dark
+        >
+            <v-toolbar-side-icon/>
+            <v-toolbar-title>
+                {{this.$_RSTableMx_table.label}}
+            </v-toolbar-title>
+            <v-spacer/>
+            <v-btn icon>
+                <v-icon>add</v-icon>
+            </v-btn>
+            <v-btn icon>
+                <v-icon>search</v-icon>
+            </v-btn>
+        </v-toolbar>
         <component
             v-bind:is="tableComponent"
         />
@@ -8,10 +26,11 @@
 
 <script>
   import PathMx from '../mixins/PathMx'
+  import RSTableMx from '../mixins/RSTableMx'
   import {pascalize} from '../util'
 
   export default {
-    name: "data-list",
+    name: "the-data-list",
     components: {
       SiteDataTable: () => import(
         /* webpackChunkName: "SiteDataTable" */
@@ -19,6 +38,7 @@
         )
     },
     mixins: [
+      RSTableMx,
       PathMx
     ],
     computed: {
@@ -26,7 +46,6 @@
         return `${pascalize(this.$route.params.table)}DataTable`
       }
     },
-
   }
 </script>
 

@@ -3,8 +3,6 @@
         :headers="$_RSTableMx_headers"
         :items="items"
         hide-actions
-        class="elevation-1"
-        v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
     >
         <template slot="items" slot-scope="props">
             <slot v-bind="props"/>

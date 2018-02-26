@@ -25,6 +25,18 @@ export default {
           this.items = response.data
         }
       )
+    },
+    $_TableMx_openDeleteModal (id) {
+      this.$_UuidMx_set('item', this.items[id], 'the-delete-modal')
+      this.$_UuidMx_set('isDialogOpen', true, 'the-delete-modal')
+    },
+    $_TableMx_openEditModal () {
+      console.log('$_TableMx_openEditModal')
+    },
+    $_TableMx_goToItem (id) {
+      this.$router.push({
+        path: this.$_PathMx_getItemPath(id)
+      })
     }
   },
   created () {

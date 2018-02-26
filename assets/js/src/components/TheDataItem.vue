@@ -1,10 +1,25 @@
 <template>
-    <p>Data Form</p>
+    <component
+        v-bind:is="itemReadComponent"
+    />
 </template>
 
 <script>
+  import {pascalize} from '../util'
+
   export default {
-    name: "data-item"
+    name: "the-data-item",
+    components: {
+      SiteReadDataItem: () => import(
+        /* webpackChunkName: "SiteReadDataItem" */
+        './SiteReadDataItem'
+        )
+    },
+    computed: {
+      itemReadComponent: function () {
+        return `${pascalize(this.$route.params.table)}ReadDataItem`
+      }
+    },
   }
 </script>
 
