@@ -7,6 +7,7 @@
         </v-layout>
         <div>
             <the-delete-modal/>
+            <the-edit-modal/>
         </div>
     </v-container>
 </template>
@@ -15,11 +16,13 @@
   import UuidMx from '../mixins/UuidMx'
   import RSTableMx from '../mixins/RSTableMx'
   import TheDeleteModal from './TheDeleteModal'
+  import TheEditModal from './TheEditModal'
 
   export default {
     name: 'the-main-data',
     components: {
-      TheDeleteModal
+      TheDeleteModal,
+      TheEditModal
     },
     mixins: [
       RSTableMx,

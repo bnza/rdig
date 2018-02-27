@@ -6,6 +6,7 @@
 
 <script>
   import PathMx from '../mixins/PathMx'
+  import UuidMx from '../mixins/UuidMx'
   import FormMx from '../mixins/FormMx'
   import DataItem from './DataItem'
   import SiteReadFieldsItem from './SiteReadFieldsItem'
@@ -18,6 +19,7 @@
     },
     mixins: [
       PathMx,
+      UuidMx,
       FormMx
     ],
     data () {

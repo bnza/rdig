@@ -32,11 +32,10 @@ export const mutations = {
 
 export const actions = {
   add: function ({commit, state}, uuid) {
-    if (!uuid) {
+    if (!uuid.startsWith('the-')) {
       commit(INCREMENT)
-      uuid = state.uuid
+      uuid = `${uuid}-${state.uuid}`
     }
-
     commit(ADD_COMPONENT, uuid)
     return new Promise((resolve) => {
       resolve(uuid)

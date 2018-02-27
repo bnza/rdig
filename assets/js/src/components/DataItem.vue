@@ -45,6 +45,7 @@
 <script>
   import PathMx from '../mixins/PathMx'
   import RSTableMx from '../mixins/RSTableMx'
+  import UuidMx from '../mixins/UuidMx'
   import FormMx from '../mixins/FormMx'
 
   export default {
@@ -52,6 +53,7 @@
     mixins: [
       PathMx,
       RSTableMx,
+      UuidMx,
       FormMx
     ]
   }

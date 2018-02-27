@@ -3,7 +3,7 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   data: function () {
     return {
-      $_UuidMx_uuid: 0
+      uuid: ''
     }
   },
   props: {
@@ -22,11 +22,11 @@ export default {
       $_UuidMx_setFn: 'set'
     }),
     $_UuidMx_get: function (key, uuid) {
-      uuid = uuid || this.$_UuidMx_uuid
+      uuid = uuid || this.uuid
       return this.$_UuidMx_getFn(uuid, key)
     },
     $_UuidMx_set: function (key, value, uuid) {
-      uuid = uuid || this.$_UuidMx_uuid
+      uuid = uuid || this.uuid
       return this.$_UuidMx_setFn({
         uuid: uuid,
         key: key,
@@ -35,22 +35,18 @@ export default {
     }
   },
   created () {
+    let uuid = ''
     if (this.$options.name.startsWith('the-')) {
-      this.$_UuidMx_uuid = this.$options.name
+      uuid = this.$options.name
     } else if (this.$_UuidMx_register) {
-      this.$_UuidMx_uuid = 0
+      uuid = `${this.$options.name}-${this._uid}`
     }
-    if (typeof this.$_UuidMx_uuid !== 'undefined') {
-      this.$store.dispatch('components/add', this.$_UuidMx_uuid).then(
-        (uuid) => {
-          if (!this.$options.name.startsWith('the-')) {
-            this.$_UuidMx_uuid = `${this.$options.name}-${uuid}`
-          }
-        }
-      )
+    if (uuid) {
+      this.$store.commit('components/ADD_COMPONENT', uuid)
+      this.uuid = uuid
     }
   },
   beforeDestroy () {
-    this.$store.dispatch('components/remove', this.$_UuidMx_uuid)
+    this.$store.dispatch('components/remove', this.uuid)
   }
 }

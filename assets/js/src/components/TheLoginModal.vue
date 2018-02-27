@@ -48,7 +48,8 @@
                 <v-btn
                     flat
                     :disabled="$v.$invalid || isRequestPending"
-                    color="blue darken-1" flat @click.native="performLogin"
+                    color="blue darken-1"
+                    @click.native="performLogin"
                 >
                     Submit
                 </v-btn>

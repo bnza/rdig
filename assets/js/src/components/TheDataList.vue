@@ -20,6 +20,7 @@
         </v-toolbar>
         <component
             v-bind:is="tableComponent"
+            :$_UuidMx_register="true"
         />
     </div>
 </template>

@@ -1,10 +1,10 @@
 <template>
     <v-dialog v-model="isDialogOpen" persistent max-width="600px">
         <v-card>
-            <v-card-title class="red darken-2">
-                <v-icon color="white">warning</v-icon>
+            <v-card-title class="teal">
+                <v-icon color="white">edit</v-icon>
                 &nbsp;
-                <span class="headline white--text">Delete</span>
+                <span class="headline white--text">Edit</span>
             </v-card-title>
             <v-card-text>
                 <v-container
@@ -12,16 +12,12 @@
                     style="min-height: 0;"
                     grid-list-md
                 >
-                    <v-layout row wrap>
-                        <p>
-                            Do you really want delete this item from table <strong>{{this.$route.params.table}}</strong>?<br/>
-                            This action <strong><span class="red--text darken-2">cannot</span></strong> be undone
-                        </p>
-                    </v-layout>
                     <component
                         v-if="item"
-                        :is="readDataComponent"
+                        :is="editDataComponent"
+                        $_FormMx_uuidRef="the-edit-modal"
                         :item="item"
+                        @input="updateItem"
                     />
                 </v-container>
             </v-card-text>
@@ -35,10 +31,11 @@
                 </v-btn>
                 <v-btn
                     flat
-                    color="red darken-2"
-                    @click.native="deleteItem"
+                    color="teal"
+                    @click.native="editItem"
+                    :disabled="isButtonDisabled"
                 >
-                    Delete
+                    Submit
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -48,26 +45,33 @@
 <script>
   import PathMx from '../mixins/PathMx'
   import UuidMx from '../mixins/UuidMx'
+  import FormMx from '../mixins/FormMx'
   import {pascalize} from '../util'
 
   export default {
-    name: 'the-delete-modal',
+    name: 'the-edit-modal',
     mixins: [
       UuidMx,
-      PathMx
+      PathMx,
+      FormMx
     ],
     components: {
-      SiteDeleteFieldsItem: () => import(
-        /* webpackChunkName: "SiteDeleteFieldsItem" */
-        './SiteDeleteFieldsItem'
+      SiteEditDataForm: () => import(
+        /* webpackChunkName: "SiteEditDataForm" */
+        './SiteEditDataForm'
         )
     },
     computed: {
-      item () {
-        return this.$_UuidMx_get('item')
+      item: {
+        get () {
+          return this.$_UuidMx_get('item')
+        },
+        set (value) {
+          this.$_UuidMx_set('item', value)
+        }
       },
       id () {
-        return this.item.id
+        return this.item ? this.item.id : undefined
       },
       isDialogOpen: {
         get () {
@@ -77,22 +81,29 @@
           this.$_UuidMx_set('isDialogOpen', value)
         }
       },
-      readDataComponent: function () {
-        return `${pascalize(this.$route.params.table)}DeleteFieldsItem`
+      editDataComponent: function () {
+        return `${pascalize(this.$route.params.table)}EditDataForm`
+      },
+      isButtonDisabled () {
+        //this.$_UuidMx_get('isInvalid')
+        return  false || this.$_FormMx_isRequestPending
       }
     },
     methods: {
       closeDialog () {
         this.isDialogOpen = false
       },
-      deleteItem () {
-        let config = {
-          method: 'delete',
-          url: this.$_PathMx_itemUrl
-        }
-        this.$store.dispatch('requests/perform', config).then(
+      updateItem(key,value) {
+        let item = {}
+        Object.assign(item, this.item)
+        item[key] = value
+        this.item = item
+      },
+      editItem () {
+        this.$_FormMx_update().then(
           (response) => {
-            this.item = response.data
+            this.$_UuidMx_set('reload', true, this.$_UuidMx_get('opener'))
+            this.closeDialog()
           }
         )
       }

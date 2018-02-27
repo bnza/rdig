@@ -12,6 +12,17 @@ export default {
   computed: {
     $_TableMx_queryUrl () {
       return this.$_PathMx_listUrl
+    },
+    $_TableMx_reload () {
+      return this.$_UuidMx_get('reload')
+    }
+  },
+  watch: {
+    $_TableMx_reload (reload) {
+      if (reload) {
+        this.$_TableMx_fetch()
+        this.$_UuidMx_set('reload', false)
+      }
     }
   },
   methods: {
@@ -26,12 +37,21 @@ export default {
         }
       )
     },
-    $_TableMx_openDeleteModal (id) {
-      this.$_UuidMx_set('item', this.items[id], 'the-delete-modal')
+    $_TableMx_openDeleteModal (i) {
+      this.$_UuidMx_set('item', this.items[i], 'the-delete-modal')
       this.$_UuidMx_set('isDialogOpen', true, 'the-delete-modal')
     },
-    $_TableMx_openEditModal () {
-      console.log('$_TableMx_openEditModal')
+    $_TableMx_openEditModal (i) {
+      let item = this.items && this.items[i] ? this.items[i] : {}
+      this.$_UuidMx_set('opener', this.uuid, 'the-edit-modal').then(
+        () => {
+          this.$_UuidMx_set('item', item, 'the-edit-modal').then(
+            () => {
+              this.$_UuidMx_set('isDialogOpen', true, 'the-edit-modal')
+            }
+          )
+        }
+      )
     },
     $_TableMx_goToItem (id) {
       this.$router.push({
@@ -40,6 +60,10 @@ export default {
     }
   },
   created () {
-    this.$_TableMx_fetch()
+    this.$_UuidMx_set('reload', true).then(
+      () => {
+        this.$_TableMx_fetch()
+      }
+    )
   }
 }
