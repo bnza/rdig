@@ -16,12 +16,34 @@ export const unprivilegedReadRoutes = {
     {
       path: ':action(read)',
       name: 'data_table_read',
-      component: TheDataList,
+      components: {
+        default: TheDataList
+      },
       props: true
     },
     {
       path: ':id(\\d+)/:action(read)',
       name: 'data_item_read',
+      component: TheDataItem,
+      props: true
+    }
+  ]
+}
+
+export const adminTablesRoutes = {
+  path: '/:prefix(admin)/:table',
+  component: TheMainData,
+  props: true,
+  children: [
+    {
+      path: ':action(read)',
+      name: 'admin_table_read',
+      component: TheDataList,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:action(read)',
+      name: 'admin_item_read',
       component: TheDataItem,
       props: true
     }
@@ -43,7 +65,8 @@ let router = new Router({
         modals: TheLoginModal
       }
     },
-    unprivilegedReadRoutes
+    unprivilegedReadRoutes,
+    adminTablesRoutes
   ]
 })
 

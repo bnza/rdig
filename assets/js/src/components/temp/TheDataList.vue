@@ -8,7 +8,6 @@
 <template>
     <div>
         <data-list
-            :table__="$route.params.table"
             :uuidMxRegister="true"
         />
     </div>

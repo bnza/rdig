@@ -10,22 +10,11 @@
       RSTableMx,
       TableMx
     ],
-    data () {
-      return {
-        items: [],
-        isRequestPending: false,
-      }
-    },
-    computed: {
-      reload () {
-        return this.uuidMxGet('reload')
-      }
-    },
-    watch: {
-      reload (flag) {
-        if (flag) {
-          this.tableMxFetch()
-          this.uuidMxSet('reload', false)
+    created () {
+      if (this.uuid) {
+        this.uuidMxSet('table', this.pathMxTableNameD)
+        if (this.pathMxTableParentD) {
+          this.uuidMxSet('parent', this.pathMxTableParentD)
         }
       }
     }

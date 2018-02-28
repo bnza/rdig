@@ -1,28 +1,57 @@
 <template>
-    <component
-        v-bind:is="itemReadComponent"
-    />
+    <div>
+        <data-item
+            :table__="$route.params.table"
+            :id__="$route.params.id"
+            :uuidMxRegister="true"
+            @setChildList="setChildList"
+        />
+        <data-list
+            ref="childList"
+            v-if="childList"
+            v-bind:table__="childList"
+            v-bind:parent__="parent"
+            :uuidMxRegister="true"
+            @setChildList="setChildList"
+        />
+    </div>
 </template>
 
 <script>
-  import {pascalize} from '../util'
+  import DataItem from './DataItem'
+  import DataList from './DataList'
+  import UuidMx from '../mixins/UuidMx'
 
   export default {
-    name: "the-data-item",
+    name: 'the-data-item',
     components: {
-      SiteReadDataItem: () => import(
-        /* webpackChunkName: "SiteReadDataItem" */
-        './SiteReadDataItem'
-        )
+      DataItem,
+      DataList
     },
-    computed: {
-      itemReadComponent: function () {
-        return `${pascalize(this.$route.params.table)}ReadDataItem`
+    mixins: [
+      UuidMx
+    ],
+    data () {
+      return {
+        childList: ''
       }
     },
+    computed: {
+      parent () {
+        return {
+          table: this.$route.params.table,
+          id:  this.$route.params.id
+        }
+      }
+    },
+    methods: {
+      /**
+       *
+       * @param string
+       */
+      setChildList (table) {
+        this.childList = table
+      }
+    }
   }
 </script>
-
-<style scoped>
-
-</style>

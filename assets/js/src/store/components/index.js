@@ -4,6 +4,7 @@ const ADD_COMPONENT = 'ADD_COMPONENT'
 const REMOVE_COMPONENT = 'REMOVE_COMPONENT'
 const INCREMENT = 'INCREMENT'
 const SET_VALUE = 'SET_VALUE'
+const SYNC_SET_VALUE = 'SYNC_SET_VALUE'
 
 export const state = {
   uuid: 0,
@@ -18,6 +19,8 @@ export const mutations = {
   [ADD_COMPONENT]: (state, uuid) => {
     if (!state.all.hasOwnProperty(uuid)) {
       Vue.set(state.all, uuid, {})
+    } else {
+      console.warn(`component uuid "${uuid}" already set`)
     }
   },
   // TODO validate input
@@ -27,6 +30,16 @@ export const mutations = {
   // TODO validate input
   [SET_VALUE]: (state, payload) => {
     Vue.set(state.all[payload.uuid], payload.key, payload.value)
+  },
+  [SYNC_SET_VALUE]: (state, payload) => {
+    if (!payload.uuid) {
+      throw new Error('Uuid must be set')
+    }
+    const uuid = payload.uuid
+    if (!state.all.hasOwnProperty(uuid)) {
+      Vue.set(state.all, uuid, {})
+    }
+    Vue.set(state.all[uuid], payload.key, payload.value)
   }
 }
 

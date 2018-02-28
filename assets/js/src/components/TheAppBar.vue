@@ -19,10 +19,10 @@
     computed: {
       isNavigationDrawerOpen: {
         get: function () {
-          return this.$_UuidMx_get('isNavigationDrawerOpen', 'the-right-navigation-drawer')
+          return this.uuidMxGet('isNavigationDrawerOpen', 'the-right-navigation-drawer')
         },
         set: function (value) {
-          this.$_UuidMx_set('isNavigationDrawerOpen', value, 'the-right-navigation-drawer')
+          this.uuidMxSet('isNavigationDrawerOpen', value, 'the-right-navigation-drawer')
         }
       },
       rdigLogoSrc() {

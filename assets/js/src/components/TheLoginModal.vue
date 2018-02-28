@@ -89,10 +89,10 @@
       },
       isDialogOpen: {
         get () {
-          return !!this.$_UuidMx_get('isDialogOpen')
+          return !!this.uuidMxGet('isDialogOpen')
         },
         set (value) {
-          this.$_UuidMx_set('isDialogOpen', value)
+          this.uuidMxSet('isDialogOpen', value)
         }
       },
       isRequestPending () {
@@ -115,7 +115,7 @@
     },
     methods: {
       closeDialog () {
-        this.$router.replace(this.$_UuidMx_get('fromPath') || '/')
+        this.$router.replace(this.uuidMxGet('fromPath') || '/')
       },
       performLogin: function () {
         const credentials = qs.stringify({

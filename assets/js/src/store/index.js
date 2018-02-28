@@ -32,8 +32,56 @@ export const state = {
       ]
     },
     area: {label: 'Area'},
-    su: {label: 'Stratigraphic unit'},
-    bucket: {label: 'Bucket'}
+    context: {label: 'Context'},
+    bucket: {label: 'Bucket'},
+    user: {
+      item: {
+        toolbar: 'UserDataItemToolbar'
+      },
+      group: 'admin',
+      label: 'User',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Username',
+          value: 'username',
+          class: 'subheading',
+        },
+        {
+          text: 'Roles',
+          value: 'roles',
+          class: 'subheading'
+        }
+      ]
+    },
+    'user-allowed-sites': {
+      group: 'admin',
+      hidden: true,
+      label: 'User\'s privileges on site',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Code',
+          value: 'code',
+          class: 'subheading',
+        },
+        {
+          text: 'Name',
+          value: 'name',
+          class: 'subheading'
+        }
+      ]
+    }
   }
 }
 

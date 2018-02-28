@@ -19,9 +19,12 @@
                         </p>
                     </v-layout>
                     <component
-                        v-if="item"
-                        :is="readDataComponent"
-                        :item="item"
+                        ref="dataForm"
+                        :is="dataFormComponent"
+                        :item__="item"
+                        :parent__="parent"
+                        :callerUuid="uuid"
+                        @deleted="closeDialog(true)"
                     />
                 </v-container>
             </v-card-text>
@@ -29,14 +32,15 @@
                 <v-spacer/>
                 <v-btn
                     flat
-                    @click.native="closeDialog"
+                    @click="closeDialog(false)"
                 >
                     Close
                 </v-btn>
                 <v-btn
                     flat
                     color="red darken-2"
-                    @click.native="deleteItem"
+                    @click.native="$refs.dataForm.delete"
+                    :disabled="isSubmitButtonDisabled"
                 >
                     Delete
                 </v-btn>
@@ -46,55 +50,29 @@
 </template>
 
 <script>
-  import PathMx from '../mixins/PathMx'
-  import UuidMx from '../mixins/UuidMx'
+  import BaseFormModal from './BaseFormModal'
   import {pascalize} from '../util'
 
   export default {
     name: 'the-delete-modal',
-    mixins: [
-      UuidMx,
-      PathMx
-    ],
+    extends: BaseFormModal,
     components: {
-      SiteDeleteFieldsItem: () => import(
-        /* webpackChunkName: "SiteDeleteFieldsItem" */
-        './SiteDeleteFieldsItem'
+      SiteDeleteDataForm: () => import(
+        /* webpackChunkName: "SiteDeleteDataForm" */
+        './SiteDeleteDataForm'
+        ),
+      UserDeleteDataForm: () => import(
+        /* webpackChunkName: "UserDeleteDataForm" */
+        './UserDeleteDataForm'
+        ),
+      UserAllowedSitesDeleteDataForm: () => import(
+        /* webpackChunkName: "UserAllowedSitesDeleteDataForm" */
+        './UserAllowedSitesDeleteDataForm'
         )
     },
-    computed: {
-      item () {
-        return this.$_UuidMx_get('item')
-      },
-      id () {
-        return this.item.id
-      },
-      isDialogOpen: {
-        get () {
-          return !!this.$_UuidMx_get('isDialogOpen')
-        },
-        set (value) {
-          this.$_UuidMx_set('isDialogOpen', value)
-        }
-      },
-      readDataComponent: function () {
-        return `${pascalize(this.$route.params.table)}DeleteFieldsItem`
-      }
-    },
-    methods: {
-      closeDialog () {
-        this.isDialogOpen = false
-      },
-      deleteItem () {
-        let config = {
-          method: 'delete',
-          url: this.$_PathMx_itemUrl
-        }
-        this.$store.dispatch('requests/perform', config).then(
-          (response) => {
-            this.item = response.data
-          }
-        )
+    data () {
+      return {
+        componentSuffix: 'DeleteDataForm'
       }
     }
   }

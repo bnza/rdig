@@ -5,6 +5,7 @@
             <the-app-bar />
             <v-content>
                 <v-container fluid>
+                    <the-snack-bar/>
                     <router-view/>
                     <router-view name="modals"></router-view>
                 </v-container>
@@ -17,13 +18,15 @@
 <script>
   import TheAppBar from './components/TheAppBar'
   import TheRightNavigationDrawer from './components/TheRightNavigationDrawer'
+  import TheSnackBar from './components/TheSnackBar'
   import UuidMx from './mixins/UuidMx'
 
   export default {
     name: 'the-app',
     components: {
       TheAppBar,
-      TheRightNavigationDrawer
+      TheRightNavigationDrawer,
+      TheSnackBar
     },
     mixins: [
       UuidMx

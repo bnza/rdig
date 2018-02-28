@@ -48,15 +48,9 @@
         )
       },
       openLoginModal () {
-        this.$_UuidMx_set('isDialogOpen', true, 'the-login-modal').then(
-          () => {
-            this.$_UuidMx_set('fromPath', this.$route.fullPath , 'the-login-modal').then(
-              () => {
-                this.$router.push('/login')
-              }
-            )
-          }
-        )
+        this.uuidMxSet('isDialogOpen', true, 'the-login-modal')
+        this.uuidMxSet('fromPath', this.$route.fullPath , 'the-login-modal')
+        this.$router.push('/login')
       },
       executeAction () {
         this.$_AuthMx_isAuthenticated ? this.logout() : this.openLoginModal()

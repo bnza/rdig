@@ -8,6 +8,7 @@
             class="grey lighten-4"
         >
             <nav-table-list-group />
+            <nav-admin-list-group />
             <nav-login-list-tile />
         </v-list>
     </v-navigation-drawer>
@@ -17,19 +18,21 @@
   import UuidMx from '../mixins/UuidMx'
   import NavLoginListTile from './NavLoginListTile'
   import NavTableListGroup from './NavTableListGroup'
+  import NavAdminListGroup from './NavAdminListGroup'
 
   export default {
     name: 'the-right-navigation-drawer',
     components: {
       NavLoginListTile,
-      NavTableListGroup
+      NavTableListGroup,
+      NavAdminListGroup
     },
     mixins: [
       UuidMx
     ],
     computed: {
       isNavigationDrawerOpen: function () {
-        return !!this.$_UuidMx_get('isNavigationDrawerOpen')
+        return !!this.uuidMxGet('isNavigationDrawerOpen')
       }
     }
   }

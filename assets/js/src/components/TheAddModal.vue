@@ -1,10 +1,10 @@
 <template>
     <v-dialog v-model="isDialogOpen" persistent max-width="600px">
         <v-card>
-            <v-card-title class="teal">
+            <v-card-title class="indigo darken-4">
                 <v-icon color="white">edit</v-icon>
                 &nbsp;
-                <span class="headline white--text">Edit</span>
+                <span class="headline white--text">Add</span>
             </v-card-title>
             <v-card-text>
                 <v-container
@@ -15,9 +15,9 @@
                     <component
                         ref="dataForm"
                         :is="dataFormComponent"
-                        :id__="id"
                         :callerUuid="uuid"
-                        @updated="closeDialog(true)"
+                        :parent__="parent"
+                        @created="closeDialog(true)"
                     />
                 </v-container>
             </v-card-text>
@@ -25,14 +25,14 @@
                 <v-spacer/>
                 <v-btn
                     flat
-                    @click="closeDialog(false)"
+                    @click.native="closeDialog(false)"
                 >
                     Close
                 </v-btn>
                 <v-btn
                     flat
-                    color="teal"
-                    @click.native="$refs.dataForm.update"
+                    color="indigo darken-4"
+                    @click.native="$refs.dataForm.create"
                     :disabled="isSubmitButtonDisabled"
                 >
                     Submit
@@ -47,26 +47,25 @@
   import {pascalize} from '../util'
 
   export default {
-    name: 'the-edit-modal',
+    name: 'the-add-modal',
     extends: BaseFormModal,
     components: {
-      SiteEditDataForm: () => import(
+      SiteAddDataForm: () => import(
         /* webpackChunkName: "SiteEditDataForm" */
         './SiteEditDataForm'
         ),
-      UserEditDataForm: () => import(
-        /* webpackChunkName: "UserEditDataForm" */
-        './UserEditDataForm'
+      UserAddDataForm: () => import(
+        /* webpackChunkName: "UserAddDataForm" */
+        './UserAddDataForm'
+        ),
+      UserAllowedSitesAddDataForm: () => import(
+        /* webpackChunkName: "UserAllowedSitesAddDataForm" */
+        './UserAllowedSitesAddDataForm'
         )
     },
     data () {
       return {
-        componentSuffix: 'EditDataForm'
-      }
-    },
-    computed: {
-      editDataComponent: function () {
-        return `${pascalize(this.$route.params.table)}EditDataForm`
+        componentSuffix: 'AddDataForm'
       }
     },
     created () {

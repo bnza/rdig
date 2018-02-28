@@ -1,10 +1,10 @@
 <template>
     <v-layout row wrap>
-        <v-flex xs3 sm2>
-            <v-text-field readonly label="Code" v-model="code"/>
+        <v-flex xs4>
+            <v-text-field readonly label="Username" v-model="username"/>
         </v-flex>
-        <v-flex xs9 sm10>
-            <v-text-field readonly label="Name" v-model="name"/>
+        <v-flex xs8>
+            <v-text-field readonly label="Roles" v-model="roles"/>
         </v-flex>
     </v-layout>
 </template>
@@ -20,22 +20,26 @@
       }
     },
     computed: {
-      code: {
+      username: {
         get () {
-          return this.item.code
+          return this.item.username
         },
         set (value) {
-          Vue.set(this.item, 'code', value)
+          Vue.set(this.item, 'username', value)
         }
       },
-      name: {
+      roles: {
         get () {
-          return this.item.name
+          return this.item.roles
         },
         set (value) {
-          Vue.set(this.item, 'code', value)
+          Vue.set(this.item, 'roles', value)
         }
       }
     }
   }
 </script>
+
+<style scoped>
+
+</style>

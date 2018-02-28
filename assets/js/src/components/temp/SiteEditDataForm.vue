@@ -7,7 +7,7 @@
             :counter="2"
             @input="formMxValidate('code')"
             @blur="formMxValidate('code')"
-            :disabled="isRequestPending"
+            :disabled="$_FormMx_isRequestPending"
             required
         />
         <v-text-field
@@ -17,7 +17,7 @@
             :error-messages="nameErrors"
             @input="formMxValidate('name')"
             @blur="formMxValidate('name')"
-            :disabled="isRequestPending"
+            :disabled="$_FormMx_isRequestPending"
             required
         />
     </v-form>
@@ -25,24 +25,32 @@
 
 <script>
   import Vue from 'vue'
-  import BaseDataForm from './BaseDataForm'
+  import UuidMx from '../mixins/UuidMx'
+  import FormMx from '../mixins/FormMx'
+  import { mapGetters } from 'vuex'
   import { validationMixin } from 'vuelidate'
   import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
   export default {
     name: 'site-edit-data-form',
-    extends: BaseDataForm,
     mixins: [
+      UuidMx,
+      FormMx,
       validationMixin
     ],
-    data () {
-      return {
-        table_: 'site'
-      }
+    data: () => ({
+      localItem: {},
+      message: ''
+    }),
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
     },
     validations: {
       code: { required, minLength: minLength(2), maxLength: maxLength(2) },
-      name: { required }
+      name: { required, minLength: minLength(8) }
     },
     computed: {
       code: {
@@ -50,7 +58,9 @@
           return this.item.code
         },
         set (value) {
-          Vue.set(this.item_, 'code', value.toUpperCase())
+          this.localItem.code = value.toUpperCase()
+          this.$emit('input', 'code', value)
+          //this.localItem.code = value.toUpperCase()
         }
       },
       name: {
@@ -58,7 +68,8 @@
           return this.item.name
         },
         set (value) {
-          Vue.set(this.item, 'name', value)
+          this.$emit('input', 'name', value)
+          //return this.localItem.name = value
         }
       },
       codeErrors () {

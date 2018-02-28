@@ -2,96 +2,117 @@
  *
  * Requires PathMx, UUidMx
  */
+import {debounce} from '../util'
 
 export default {
   props: {
-    $_FormMx_uuidRef: {
+    callerUuid: {
       type: String
     }
   },
   computed: {
     $_FormMx_uuid () {
-      return this.$_FormMx_uuidRef || this.uuid
-    },
-    $_FormMx_isRequestPending: {
-      get () {
-        return this.$_FormMx_uuid ? this.$_UuidMx_get('isRequestPending', this.$_FormMx_uuid) : false
-      },
-      set (value) {
-        if (this.$_FormMx_uuid) {
-          this.$_UuidMx_set('isRequestPending', value, this.$_FormMx_uuid)
-        }
-      }
+      return this.callerUuid || this.uuid
     }
   },
   methods: {
-    $_FormMx_crud (config) {
-      this.$_FormMx_isRequestPending = true
+    formMxCrud (config) {
+      this.isRequestPending = true
       return this.$store.dispatch('requests/perform', config).then(
         (response) => {
-          this.$_FormMx_isRequestPending = false
+          this.isRequestPending = false
           return response
         }
       ).catch(
         (error) => {
-          this.$_FormMx_isRequestPending = false
+          this.isRequestPending = false
+          if (error.response) {
+            let text = 'ERROR: '
+            if (error.response.data.error) {
+              if (error.response.data.error.exception) {
+                this.uuidMxSet('text', text + error.response.data.error.exception, 'the-snack-bar')
+              }
+            }
+            this.uuidMxSet('color', 'error', 'the-snack-bar')
+            this.uuidMxSet('active', true, 'the-snack-bar')
+          }
           throw error
         }
       )
     },
-    $_FormMx_read () {
-      let url = this.$_PathMx_itemUrl
+    formMxCreate () {
+      let config = {
+        method: 'post',
+        url: this.pathMxListUrl,
+        data: this.item
+      }
+      return this.formMxCrud(config).then(
+        (response) => {
+          this.item = response.data
+          this.uuidMxSet('text', 'Successfully created item', 'the-snack-bar')
+          this.uuidMxSet('color', 'success', 'the-snack-bar')
+          this.uuidMxSet('active', true, 'the-snack-bar')
+        }
+      )
+    },
+    formMxRead () {
+      let url = this.pathMxItemUrl
       if (url) {
         let config = {
           method: 'get',
           url: url
         }
-        this.$_FormMx_crud(config).then(
+        this.formMxCrud(config).then(
           (response) => {
             this.item = response.data
           }
         )
       }
     },
-    $_FormMx_update () {
-      let url = this.$_PathMx_itemUrl
+    formMxUpdate () {
+      let url = this.pathMxItemUrl
       if (url) {
         let config = {
           method: 'put',
           url: url,
           data: this.item
         }
-        return this.$_FormMx_crud(config).then(
+        return this.formMxCrud(config).then(
           (response) => {
             this.item = response.data
+            this.uuidMxSet('text', 'Successfully updated item', 'the-snack-bar')
+            this.uuidMxSet('color', 'success', 'the-snack-bar')
+            this.uuidMxSet('active', true, 'the-snack-bar')
           }
         )
       }
     },
-    $_FormMx_delete () {
-      let url = this.$_PathMx_itemUrl
+    formMxDelete () {
+      let url = this.pathMxItemUrl
       if (url) {
         let config = {
           method: 'delete',
           url: url
         }
-        return this.$_FormMx_crud(config)
+        return this.formMxCrud(config).then(
+          () => {
+            this.uuidMxSet('text', 'Successfully deleted item', 'the-snack-bar')
+            this.uuidMxSet('color', 'success', 'the-snack-bar')
+            this.uuidMxSet('active', true, 'the-snack-bar')
+          }
+        )
       }
     },
-    $_FormMx_goToList () {
+    formMxGoToList () {
       this.$router.push({
-        path: this.$_PathMx_listPath
+        path: this.pathMxListPath
       })
     },
-    $_FormMx_validate (key) {
-      if (this.$v) {
+    formMxValidate: debounce(function (key) {
+      if (key) {
         this.$v[key].$touch()
-        //this.$emit('validate', this.$v.$invalid)
-        //this.$_UuidMx_set('isInvalid', this.$v.$invalid, this.uuid || this.$_UuidMx_uuid)
       }
-    }
-  },
-  created () {
-    this.$_FormMx_read()
+      this.uuidMxSet('isInvalid', this.$v.$invalid, this.$_FormMx_uuid)
+    }, 250)
   }
 }

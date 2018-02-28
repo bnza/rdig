@@ -7,27 +7,27 @@ export default {
     }
   },
   props: {
-    $_UuidMx_register: {
+    uuidMxRegister: {
       type: Boolean,
       default: false
     }
   },
   computed: {
     ...mapGetters('components', {
-      $_UuidMx_getFn: 'value'
+      uuidMxGetFn: 'value'
     })
   },
   methods: {
     ...mapActions('components', {
-      $_UuidMx_setFn: 'set'
+      uuidMxSetFn: 'set'
     }),
-    $_UuidMx_get: function (key, uuid) {
+    uuidMxGet: function (key, uuid) {
       uuid = uuid || this.uuid
-      return this.$_UuidMx_getFn(uuid, key)
+      return this.uuidMxGetFn(uuid, key)
     },
-    $_UuidMx_set: function (key, value, uuid) {
+    uuidMxSet: function (key, value, uuid) {
       uuid = uuid || this.uuid
-      return this.$_UuidMx_setFn({
+      this.$store.commit('components/SYNC_SET_VALUE', {
         uuid: uuid,
         key: key,
         value: value
@@ -38,8 +38,9 @@ export default {
     let uuid = ''
     if (this.$options.name.startsWith('the-')) {
       uuid = this.$options.name
-    } else if (this.$_UuidMx_register) {
-      uuid = `${this.$options.name}-${this._uid}`
+    } else if (this.uuidMxRegister) {
+      this.$store.commit('components/INCREMENT')
+      uuid = `${this.$options.name}-${this.$store.state.components.uuid}`
     }
     if (uuid) {
       this.$store.commit('components/ADD_COMPONENT', uuid)

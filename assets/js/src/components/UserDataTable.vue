@@ -1,11 +1,3 @@
-<!--
-    <v-data-table>
-        <tr>                    -> Site specific <tr> slot
-            *<td>
-        </tr>
-    </v-data-table>
--->
-
 <template>
     <v-data-table
         :headers="rsTableMxHeaders"
@@ -15,9 +7,17 @@
     >
         <template slot="items" slot-scope="props">
             <td class="justify-center layout px-0">
-                <v-btn icon class="mx-0" @click="tableMxOpenEditModal(props.index)">
-                    <v-icon color="teal">edit</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                    <v-btn
+                        icon
+                        class="mx-0"
+                        @click="tableMxOpenEditModal(props.index)"
+                        slot="activator"
+                    >
+                        <v-icon color="teal">edit</v-icon>
+                    </v-btn>
+                    <span>Change password</span>
+                </v-tooltip>
                 <v-btn icon class="mx-0" @click="tableMxOpenDeleteModal(props.index)">
                     <v-icon color="pink">delete</v-icon>
                 </v-btn>
@@ -25,8 +25,8 @@
                     <v-icon color="blue darken-1">arrow_forward</v-icon>
                 </v-btn>
             </td>
-            <td class="text-xs-right"><strong>{{ props.item.code }}</strong></td>
-            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-right"><strong>{{ props.item.username }}</strong></td>
+            <td class="text-xs-right">{{ props.item.roles }}</td>
         </template>
     </v-data-table>
 </template>
@@ -35,11 +35,12 @@
   import BaseDataTable from './BaseDataTable'
 
   export default {
-    name: 'site-data-table',
+    name: 'user-data-table',
     extends: BaseDataTable,
     data () {
       return {
-        table_: 'site'
+        prefix_: 'admin',
+        table_: 'user'
       }
     }
   }

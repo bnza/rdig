@@ -2,16 +2,13 @@
     <div
         v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
     >
-        <component
+<!--        <component
             ref="toolbar"
             v-bind:is="toolbarComponent"
             v-on="$listeners"
-            v-on:forward="forwardEventToForm"
-        />
+        />-->
         <component
-            ref="dataForm"
-            :id__="id__"
-            :is="dataFormComponent"
+            v-bind:is="itemReadComponent"
             v-on="$listeners"
         />
     </div>
@@ -46,21 +43,9 @@
       RSTableMx,
       UuidMx
     ],
-    props: {
-      id__: {
-        type: [Number, String],
-        validator (value) {
-          return /^\d*,?\d*$/.test(value)
-        }
-      },
-      table__: {
-        type: String,
-        required: true
-      }
-    },
     computed: {
-      dataFormComponent: function () {
-        return `${pascalize(this.table__)}ReadDataForm`
+      itemReadComponent: function () {
+        return `${pascalize(this.$route.params.table)}ReadDataForm`
       },
       toolbarComponent: function () {
         let component = 'BaseDataItemToolbar'
@@ -70,14 +55,5 @@
         return component
       }
     },
-    methods: {
-      forwardEventToForm () {
-        let dataForm = this.$refs.dataForm
-        let args = [...arguments]
-        if (dataForm) {
-          dataForm[args.splice(0,1)](args || undefined)
-        }
-      }
-    }
   }
 </script>

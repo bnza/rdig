@@ -1,20 +1,20 @@
 <template>
-    <data-item>
+    <data-item-card :item="item">
         <site-read-fields-item :item="item" />
-    </data-item>
+    </data-item-card>
 </template>
 
 <script>
   import PathMx from '../mixins/PathMx'
   import UuidMx from '../mixins/UuidMx'
   import FormMx from '../mixins/FormMx'
-  import DataItem from './DataItem'
+  import DataItemCard from './DataItemCard'
   import SiteReadFieldsItem from './SiteReadFieldsItem'
 
   export default {
     name: "site-read-data-item",
     components: {
-      DataItem,
+      DataItemCard,
       SiteReadFieldsItem
     },
     mixins: [
@@ -26,6 +26,9 @@
       return {
         item: {}
       }
+    },
+    created () {
+      this.formMxRead()
     }
   }
 </script>

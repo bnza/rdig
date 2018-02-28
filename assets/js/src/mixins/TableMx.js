@@ -1,69 +1,68 @@
 /**
  *
- * Requires PathMx
+ * Requires PathMx, UuidMx
  */
 
+export const tableMxOpenModal = function (item, callerUuid, modalUuid) {
+  callerUuid = callerUuid || this.uuid
+  if (!callerUuid) {
+    throw new Error(`The caller UUID must be provided when opening '${modalUuid}'`)
+  }
+  this.uuidMxSet('parent', this.parent, modalUuid)
+  this.uuidMxSet('table', this.table, modalUuid)
+  this.uuidMxSet('opener', callerUuid, modalUuid)
+  this.uuidMxSet('item', item, modalUuid)
+  this.uuidMxSet('isDialogOpen', true, modalUuid)
+}
+
+export const tableMxOpenAddModal = function (item, callerUuid) {
+  return this.tableMxOpenModal(item || {}, callerUuid, 'the-add-modal')
+}
+
+export const tableMxOpenDeleteModal = function (i, callerUuid) {
+  return this.tableMxOpenModal(this.items[i], callerUuid, 'the-delete-modal')
+}
+
+export const tableMxOpenEditModal = function (i, callerUuid) {
+  let item = this.items && this.items[i] ? this.items[i] : {}
+  return this.tableMxOpenModal(item, callerUuid, 'the-edit-modal')
+}
+
+export const tableMxModalOpeners = {
+  tableMxOpenModal,
+  tableMxOpenAddModal,
+  tableMxOpenDeleteModal,
+  tableMxOpenEditModal
+}
+
 export default {
-  data () {
-    return {
-      $_TableMx_items: []
-    }
-  },
-  computed: {
-    $_TableMx_queryUrl () {
-      return this.$_PathMx_listUrl
-    },
-    $_TableMx_reload () {
-      return this.$_UuidMx_get('reload')
-    }
-  },
-  watch: {
-    $_TableMx_reload (reload) {
-      if (reload) {
-        this.$_TableMx_fetch()
-        this.$_UuidMx_set('reload', false)
-      }
-    }
-  },
   methods: {
-    $_TableMx_fetch () {
+    tableMxFetch () {
       let config = {
         method: 'get',
-        url: this.$_TableMx_queryUrl
+        url: this.pathMxListUrl
       }
+      this.isRequestPending = true
       this.$store.dispatch('requests/perform', config).then(
         (response) => {
+          this.isRequestPending = false
           this.items = response.data
         }
-      )
-    },
-    $_TableMx_openDeleteModal (i) {
-      this.$_UuidMx_set('item', this.items[i], 'the-delete-modal')
-      this.$_UuidMx_set('isDialogOpen', true, 'the-delete-modal')
-    },
-    $_TableMx_openEditModal (i) {
-      let item = this.items && this.items[i] ? this.items[i] : {}
-      this.$_UuidMx_set('opener', this.uuid, 'the-edit-modal').then(
-        () => {
-          this.$_UuidMx_set('item', item, 'the-edit-modal').then(
-            () => {
-              this.$_UuidMx_set('isDialogOpen', true, 'the-edit-modal')
-            }
-          )
+      ).catch(
+        (error) => {
+          console.error(error)
+          this.isRequestPending = false
         }
       )
     },
-    $_TableMx_goToItem (id) {
+    ...tableMxModalOpeners,
+    tableMxGoToItem (id) {
       this.$router.push({
-        path: this.$_PathMx_getItemPath(id)
+        path: this.pathMxGetItemPath(id)
       })
     }
   },
   created () {
-    this.$_UuidMx_set('reload', true).then(
-      () => {
-        this.$_TableMx_fetch()
-      }
-    )
+    this.uuidMxSet('reload', true)
   }
 }

@@ -1,40 +1,44 @@
 export default {
   computed: {
-    $_PathMx_id () {
-      return this.id || this.$route.params.id
+    pathMxBasePath: function () {
+      return `/${this.pathMxListUrl}`
     },
-    $_PathMx_basePath: function () {
-      return `/${this.$_PathMx_listUrl}`
+    pathMxListPath: function () {
+      return `${this.pathMxBasePath}/read`
     },
-    $_PathMx_listPath: function () {
-      return `${this.$_PathMx_basePath}/read`
+    pathMxItemPath: function () {
+      return `/${this.pathMxItemUrl}/read`
     },
-    $_PathMx_itemPath: function () {
-      return `/${this.$_PathMx_itemUrl}/read`
-    },
-    $_PathMx_listUrl: function () {
+    pathMxListUrl: function () {
       let url = ''
-      let params = this.$route.params
       if (this.parent) {
-        url = `${params.prefix}/${params.table}/${params.id}/${params.table}`
+        url = `${this.prefix}/${this.parent.table}/${this.parent.id}/${this.table}`
       } else {
-        url = `${params.prefix}/${params.table}`
+        url = `${this.prefix}/${this.table}`
       }
       return url
     },
-    $_PathMx_itemUrl: function () {
-      return this.$_PathMx_id ? `${this.$_PathMx_listUrl}/${this.$_PathMx_id}` : false
+    pathMxItemUrl: function () {
+      // if id is in the from 100,100 (join tables) extract the second value
+      let id = /^\d+,(\d+)/.exec(this.id)
+      id = Array.isArray(id) ? id[1] : this.id
+      return this.id ? `${this.pathMxListUrl}/${id}` : false
     }
   },
   methods: {
-    $_PathMx_getDeletePath: function (id) {
-      return `${this.$_PathMx_basePath}/${id}/delete`
+    pathMxGetDeletePath: function (id) {
+      return `${this.pathMxBasePath}/${id}/delete`
     },
-    $_PathMx_getItemPath: function (id) {
-      return `${this.$_PathMx_basePath}/${id}/read`
+    pathMxGetItemPath: function (id) {
+      return `${this.pathMxBasePath}/${id}/read`
     },
-    $_PathMx_getUpdatePath: function (id) {
-      return `${this.$_PathMx_basePath}/${id}/update`
+    pathMxGetUpdatePath: function (id) {
+      return `${this.pathMxBasePath}/${id}/update`
+    },
+    pathMxGoToList () {
+      this.$router.push({
+        path: this.pathMxListPath
+      })
     }
   }
 }
