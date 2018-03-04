@@ -28,7 +28,7 @@
     },
     computed: {
       id () {
-        return this.item.id || this.id__
+        return this.id__ || this.item.id
       },
       item: {
         get () {
