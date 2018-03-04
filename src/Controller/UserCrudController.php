@@ -68,10 +68,10 @@ class UserCrudController extends AbstractCrudController
     public function delete(DataCrudHelper $crud, string $entityName, int $id)
     {
         $entity = $crud->read($this->getEntityClass($entityName), $id);
+        $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
         if ('admin' === $entity->getUsername()) {
             throw new CrudException('admin user cannot be deleted');
         }
-        $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
         $responseArray = $crud->delete($entity, $id);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 

@@ -26,16 +26,18 @@ export default {
       ).catch(
         (error) => {
           this.isRequestPending = false
+          let text = 'ERROR: '
           if (error.response) {
-            let text = 'ERROR: '
             if (error.response.data.error) {
               if (error.response.data.error.exception) {
                 this.uuidMxSet('text', text + error.response.data.error.exception, 'the-snack-bar')
               }
+            } else if (error.response.data) {
+              this.uuidMxSet('text', text + error.response.data, 'the-snack-bar')
             }
-            this.uuidMxSet('color', 'error', 'the-snack-bar')
-            this.uuidMxSet('active', true, 'the-snack-bar')
           }
+          this.uuidMxSet('color', 'error', 'the-snack-bar')
+          this.uuidMxSet('active', true, 'the-snack-bar')
           throw error
         }
       )
