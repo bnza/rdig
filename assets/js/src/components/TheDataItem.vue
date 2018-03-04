@@ -1,6 +1,7 @@
 <template>
     <div>
         <data-item
+            ref="dataItem"
             :table__="$route.params.table"
             :id__="$route.params.id"
             :uuidMxRegister="true"
@@ -31,12 +32,13 @@
     mixins: [
       UuidMx
     ],
-    data () {
-      return {
-        childList: ''
-      }
-    },
     computed: {
+      childList () {
+        return this.$route.params.childTable || ''
+      },
+      dataFormComponent () {
+        return this.$refs.dataItem.dataFormComponent
+      },
       parent () {
         return {
           table: this.$route.params.table,
@@ -50,7 +52,9 @@
        * @param string
        */
       setChildList (table) {
-        this.childList = table
+        this.$router.push({
+          path: this.dataFormComponent.pathMxGetChildListPath(table)
+        })
       }
     }
   }

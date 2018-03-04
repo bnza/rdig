@@ -15,7 +15,7 @@ export const unprivilegedReadRoutes = {
   children: [
     {
       path: ':action(read)',
-      name: 'data_table_read',
+      name: 'data_list_read',
       components: {
         default: TheDataList
       },
@@ -37,13 +37,19 @@ export const adminTablesRoutes = {
   children: [
     {
       path: ':action(read)',
-      name: 'admin_table_read',
+      name: 'admin_list_read',
       component: TheDataList,
       props: true
     },
     {
       path: ':id(\\d+)/:action(read)',
       name: 'admin_item_read',
+      component: TheDataItem,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:childTable/:action(read)/',
+      name: 'admin_child_list_read',
       component: TheDataItem,
       props: true
     }

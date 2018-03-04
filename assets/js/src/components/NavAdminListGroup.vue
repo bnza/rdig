@@ -12,7 +12,7 @@
             v-for="(table, key) in tables"
             v-if="!table.hidden && table.group === 'admin'"
             :key="key"
-            @click="routingMxOpenTable(key, 'admin_table_read')"
+            @click="routingMxOpenTable(key, 'admin_list_read')"
         >
             <v-list-tile-content>
                 <v-list-tile-title>{{table.label}}</v-list-tile-title>

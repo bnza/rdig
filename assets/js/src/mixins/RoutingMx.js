@@ -1,5 +1,5 @@
 export const routingMxOpenTable = function (key, routeName) {
-  routeName = routeName || 'data_table_read'
+  routeName = routeName || 'data_list_read'
   let prefix = routeName.split('_')[0]
   this.$router.push({
     name: routeName,
@@ -10,3 +10,4 @@ export const routingMxOpenTable = function (key, routeName) {
     }
   })
 }
+

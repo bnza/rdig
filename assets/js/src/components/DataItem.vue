@@ -4,14 +4,14 @@
     >
         <component
             ref="toolbar"
-            v-bind:is="toolbarComponent"
+            v-bind:is="toolbarComponentName"
             v-on="$listeners"
             v-on:forward="forwardEventToForm"
         />
         <component
             ref="dataForm"
             :id__="id__"
-            :is="dataFormComponent"
+            :is="dataFormComponentName"
             v-on="$listeners"
         />
     </div>
@@ -60,9 +60,12 @@
     },
     computed: {
       dataFormComponent: function () {
+        return this.$refs.dataForm
+      },
+      dataFormComponentName: function () {
         return `${pascalize(this.table__)}ReadDataForm`
       },
-      toolbarComponent: function () {
+      toolbarComponentName: function () {
         let component = 'BaseDataItemToolbar'
         if (this.rsTableMxTable.hasOwnProperty('item')) {
           component = this.rsTableMxTable.item.toolbar || component

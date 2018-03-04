@@ -35,6 +35,11 @@ export default {
     pathMxGetUpdatePath: function (id) {
       return `${this.pathMxBasePath}/${id}/update`
     },
+    pathMxGetChildListPath: function (childTable) {
+      return childTable
+        ? `/${this.pathMxItemUrl}/${childTable}/read`
+        : this.pathMxItemPath
+    },
     pathMxGoToList () {
       this.$router.push({
         path: this.pathMxListPath
