@@ -15,6 +15,7 @@
   import PathMx from '../mixins/PathMx'
   import UuidMx from '../mixins/UuidMx'
   import {pascalize} from '../util'
+  import {routingMxClone, routingMxGetReadRoute, routingMxListPath} from '../mixins/RoutingMx'
 
   export default {
     name: 'base-form-modal',
@@ -22,12 +23,19 @@
       UuidMx,
       PathMx
     ],
+    data () {
+      return {
+        open: true,
+        to_: null,
+        from: '/'
+      }
+    },
     computed: {
       dataFormComponent () {
-        return this.table ? `${pascalize(this.table)}${this.componentSuffix}` : ''
+        return this.$refs.dataForm
       },
-      id () {
-        return this.item ? this.item.id : undefined
+      dataFormComponentName () {
+        return `${pascalize(this.table)}${this.componentSuffix}`
       },
       isDialogOpen: {
         get () {
@@ -36,6 +44,9 @@
         set (value) {
           this.uuidMxSet('isDialogOpen', value)
         }
+      },
+      id () {
+        return this.$route.params.childId ? this.$route.params.childId : this.$route.params.id
       },
       isSubmitButtonDisabled () {
         if (this.uuidMxGet('isInvalid')) {
@@ -46,22 +57,38 @@
       item () {
         return this.uuidMxGet('item')
       },
-      table () {
-        return this.uuidMxGet('table')  // || this.$route.params.table
-      },
       parent () {
-        return this.uuidMxGet('parent')
+        if (this.$route.params.childTable) {
+          return {
+            table: this.$route.params.table,
+            id:  this.$route.params.id
+          }
+        }
+      },
+      table () {
+        return this.$route.params.childTable ? this.$route.params.childTable : this.$route.params.table
+      },
+      to () {
+        return this.dataFormComponent.routingMxListPath
+          //? this.dataFormComponent.routingMxGetChildListPath(table)
+          //: this.dataFormComponent.routingMxItemPath
+        //let params = this.$route.params
+        //return routingMxListPath(params.table, params.prefix, this.parent) //routingMxGetReadRoute(this.$route)
       }
     },
     methods: {
-      closeDialog (reloadList) {
-        this.isDialogOpen = false
-        this.uuidMxSet('table', '')
-        this.$refs.dataForm.item = {}
-        if (reloadList) {
-          this.uuidMxSet('reload', true, this.uuidMxGet('opener'))
+      closeDialog (reload) {
+        // Force table reload
+        const reloadTable = function (route) {
+          route.meta.reload = reload
         }
+        this.$router.replace(this.dataFormComponent.routingMxListPath, reloadTable)
       }
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.from = routingMxClone(from)
+      })
     }
   }
 </script>

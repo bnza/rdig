@@ -45,7 +45,7 @@ export default {
     formMxCreate () {
       let config = {
         method: 'post',
-        url: this.pathMxListUrl,
+        url: this.routingMxListUrl,
         data: this.item
       }
       return this.formMxCrud(config).then(
@@ -58,7 +58,7 @@ export default {
       )
     },
     formMxRead () {
-      let url = this.pathMxItemUrl
+      let url = this.routingMxItemUrl
       if (url) {
         let config = {
           method: 'get',
@@ -72,7 +72,7 @@ export default {
       }
     },
     formMxUpdate () {
-      let url = this.pathMxItemUrl
+      let url = this.routingMxItemUrl
       if (url) {
         let config = {
           method: 'put',
@@ -90,7 +90,7 @@ export default {
       }
     },
     formMxDelete () {
-      let url = this.pathMxItemUrl
+      let url = this.routingMxItemUrl
       if (url) {
         let config = {
           method: 'delete',

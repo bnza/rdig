@@ -9,10 +9,19 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Site;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class UserRepository extends AbstractDataRepository
 {
+    protected function allowedSiteToArray(Site $site, User $user) {
+        return [
+            'id' => sprintf('%d,%d', $user->getId(), $site->getId()),
+            'siteId' => $site->getId(),
+            'code' => $site->getCode(),
+            'name' => $site->getName(),
+        ];
+    }
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
@@ -23,13 +32,24 @@ class UserRepository extends AbstractDataRepository
         $user = $this->find($id);
         if ($user) {
             return $user->getSites()->map(function ($site) use ($user) {
-                return [
-                    'id' => sprintf('%d,%d', $user->getId(), $site->getId()),
-                    'siteId' => $site->getId(),
-                    'code' => $site->getCode(),
-                    'name' => $site->getName(),
-                ];
+                return $this->allowedSiteToArray($site, $user);
             })->getValues();
+        }
+    }
+
+    public function getUserAllowedSite(int $id, int $siteId)
+    {
+        $user = $this->find($id);
+        if ($user) {
+
+            $criteria = Criteria::create()
+                ->where(Criteria::expr()->eq("id", $siteId));
+
+            $site = $user->getSites()->matching($criteria)->getValues();
+            if (count($site) === 1) {
+                return $this->allowedSiteToArray($site[0], $user);
+            }
+
         }
     }
 
@@ -55,3 +75,4 @@ class UserRepository extends AbstractDataRepository
         }
     }
 }
+

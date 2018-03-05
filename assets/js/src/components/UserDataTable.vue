@@ -21,7 +21,7 @@
                 <v-btn icon class="mx-0" @click="tableMxOpenDeleteModal(props.index)">
                     <v-icon color="pink">delete</v-icon>
                 </v-btn>
-                <v-btn icon class="mx-0" @click="tableMxGoToItem(props.item.id)">
+                <v-btn icon class="mx-0" @click="routingMxGoToItem(props.item.id)">
                     <v-icon color="blue darken-1">arrow_forward</v-icon>
                 </v-btn>
             </td>
@@ -32,11 +32,11 @@
 </template>
 
 <script>
-  import BaseDataTable from './BaseDataTable'
+  import BaseListDataTable from './BaseListDataTable'
 
   export default {
     name: 'user-data-table',
-    extends: BaseDataTable,
+    extends: BaseListDataTable,
     data () {
       return {
         prefix_: 'admin',

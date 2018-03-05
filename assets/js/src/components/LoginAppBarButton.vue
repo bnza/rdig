@@ -20,10 +20,10 @@
     ],
     computed: {
       iconText () {
-        return this.$_AuthMx_isAuthenticated ?  'perm_identity' : 'exit_to_app'
+        return this.authMxIsAuthenticated ?  'perm_identity' : 'exit_to_app'
       },
       actionText () {
-        return this.$_AuthMx_isAuthenticated ?  'Logout' : 'Login'
+        return this.authMxIsAuthenticated ?  'Logout' : 'Login'
       }
     },
     methods: {
@@ -42,7 +42,7 @@
         this.$router.push('/login')
       },
       executeAction () {
-        this.$_AuthMx_isAuthenticated ? this.logout() : this.openLoginModal()
+        this.authMxIsAuthenticated ? this.logout() : this.openLoginModal()
       }
     }
   }

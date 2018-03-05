@@ -10,7 +10,7 @@
         <v-spacer/>
         <v-btn
             icon
-            @click="$emit('openAddModal')"
+            @click="$router.push(routingMxCreatePath)"
         >
             <v-icon>add</v-icon>
         </v-btn>
@@ -31,9 +31,12 @@
 </template>
 
 <script>
+  import ListDataToolbar from './ListDataToolbar'
   import RSTableMx from '../mixins/RSTableMx'
+
   export default {
-    name: 'user-data-list-toolbar',
+    name: 'user-list-data-toolbar',
+    extends: ListDataToolbar,
     mixins: [
       RSTableMx
     ]

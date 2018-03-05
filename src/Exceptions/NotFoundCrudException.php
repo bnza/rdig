@@ -12,7 +12,10 @@ class NotFoundCrudException extends CrudException
 {
     public function __construct(string $message = "", int $code = 0, \Throwable $previous = null)
     {
-        $message = "No element found with ID = $message";
+        $pieces = explode(",", $message);
+        $id = $pieces[0];
+        $element = isset($pieces[1]) ? $pieces[1] : 'element';
+        $message = "No $element found with ID = $message";
         parent::__construct($message, $code, $previous);
     }
 }

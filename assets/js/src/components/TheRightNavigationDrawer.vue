@@ -8,13 +8,14 @@
             class="grey lighten-4"
         >
             <nav-table-list-group />
-            <nav-admin-list-group />
+            <nav-admin-list-group v-if="authMxisAdmin"/>
             <nav-login-list-tile />
         </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
+  import AuthMx from '../mixins/AuthMx'
   import UuidMx from '../mixins/UuidMx'
   import NavLoginListTile from './NavLoginListTile'
   import NavTableListGroup from './NavTableListGroup'
@@ -28,7 +29,8 @@
       NavAdminListGroup
     },
     mixins: [
-      UuidMx
+      UuidMx,
+      AuthMx
     ],
     computed: {
       isNavigationDrawerOpen: function () {

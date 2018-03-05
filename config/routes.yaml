@@ -40,6 +40,15 @@ admin__user__allowed-sites:
             entityName: 'user'
             id: '\d+'
 
+admin__user__allowed-site:
+     path:       /admin/{entityName}/{id}/user-allowed-sites/{siteId}
+     controller: App\Controller\UserCrudController::userAllowedSite
+     methods:    [GET]
+     requirements:
+            entityName: 'user'
+            siteId: '\d+'
+            id: '\d+'
+
 admin__user__create__allowed-sites:
     path:       /admin/{entityName}/{id}/user-allowed-sites
     controller: App\Controller\UserCrudController::addUserAllowedSite

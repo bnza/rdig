@@ -6,25 +6,38 @@
 -->
 
 <template>
-    <div>
-        <data-list
+    <section>
+        <list-data-panel
+            :parent__="parent"
+            :prefix__="$route.params.prefix"
             :table__="$route.params.table"
+            :id__="$route.params.id"
             :uuidMxRegister="true"
         />
-    </div>
+    </section>
 </template>
 
 <script>
-  import DataList from './DataList'
+  import ListDataPanel from './ListDataPanel'
   import UuidMx from '../mixins/UuidMx'
 
   export default {
     name: 'the-data-list',
     components: {
-      DataList
+      ListDataPanel
     },
     mixins: [
       UuidMx
-    ]
+    ],
+    computed: {
+      parent () {
+        if (this.$route.params.childTable) {
+          return {
+            table: this.$route.params.table,
+            id:  this.$route.params.id
+          }
+        }
+      }
+    }
   }
 </script>

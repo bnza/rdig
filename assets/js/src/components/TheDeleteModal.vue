@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isDialogOpen" persistent max-width="600px">
+    <v-dialog v-model="open" persistent max-width="600px">
         <v-card>
             <v-card-title class="red darken-2">
                 <v-icon color="white">warning</v-icon>
@@ -20,11 +20,14 @@
                     </v-layout>
                     <component
                         ref="dataForm"
-                        :is="dataFormComponent"
-                        :item__="item"
+                        :prefix__="$route.params.prefix"
+                        :table__="table"
+                        :id__="id"
                         :parent__="parent"
+                        :is="dataFormComponentName"
+                        :item__="item"
                         :callerUuid="uuid"
-                        @deleted="closeDialog(true)"
+                        @sync="closeDialog(true)"
                     />
                 </v-container>
             </v-card-text>

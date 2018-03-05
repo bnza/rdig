@@ -12,30 +12,51 @@
             </v-flex>
         </v-layout>
         <div>
-            <the-add-modal />
+            <router-view
+                name="modal"
+                ref="modal"
+            />
+            <!--<component ref="modal" :is="modalComponent"/>-->
+            <!--<the-add-modal />
             <the-delete-modal/>
-            <the-edit-modal/>
+            <the-edit-modal/>-->
         </div>
     </v-container>
 </template>
 
 <script>
   import UuidMx from '../mixins/UuidMx'
-  import RSTableMx from '../mixins/RSTableMx'
-  import TheAddModal from './TheAddModal'
-  import TheDeleteModal from './TheDeleteModal'
-  import TheEditModal from './TheEditModal'
+  import {pascalize} from '../util'
 
   export default {
     name: 'the-main-data',
     components: {
-      TheAddModal,
-      TheDeleteModal,
-      TheEditModal
+      TheCreateModal: () => import(
+        /* webpackChunkName: "TheAddModal" */
+        './TheAddModal'
+        ),
+      TheDeleteModal: () => import(
+        /* webpackChunkName: "TheDeleteModal" */
+        './TheDeleteModal'
+        ),
+      TheUpdateModal: () => import(
+        /* webpackChunkName: "TheEditModal" */
+        './TheEditModal'
+        )
     },
     mixins: [
-      RSTableMx,
       UuidMx
-    ]
+    ],
+    data () {
+      return {
+        hasModal: false
+      }
+    },
+    computed: {
+      modalComponent () {
+        return `The${pascalize(this.$route.params.action)}Modal`
+      }
+    }
+
   }
 </script>

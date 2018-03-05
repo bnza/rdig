@@ -1,5 +1,13 @@
 import {mapGetters, mapActions} from 'vuex'
 
+export const uuidMxSet = function (store, key, value, uuid) {
+  store.commit('components/SYNC_SET_VALUE', {
+    uuid: uuid,
+    key: key,
+    value: value
+  })
+}
+
 export default {
   data: function () {
     return {
@@ -27,11 +35,7 @@ export default {
     },
     uuidMxSet: function (key, value, uuid) {
       uuid = uuid || this.uuid
-      this.$store.commit('components/SYNC_SET_VALUE', {
-        uuid: uuid,
-        key: key,
-        value: value
-      })
+      uuidMxSet(this.$store, key, value, uuid)
     }
   },
   created () {

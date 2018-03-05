@@ -12,7 +12,7 @@
             v-for="(table, key) in tables"
             v-if="!table.hidden && table.group === 'admin'"
             :key="key"
-            @click="routingMxOpenTable(key, 'admin_list_read')"
+            @click="goToList(key,'admin')"
         >
             <v-list-tile-content>
                 <v-list-tile-title>{{table.label}}</v-list-tile-title>
@@ -23,7 +23,7 @@
 
 <script>
   import RSTableMx from '../mixins/RSTableMx'
-  import {routingMxOpenTable} from '../mixins/RoutingMx'
+  import {routingMxListPath} from '../mixins/RoutingMx'
   export default {
     name: 'nav-admin-list-group',
     mixins: [
@@ -35,7 +35,9 @@
       }
     },
     methods: {
-      routingMxOpenTable
+      goToList (table, prefix) {
+        this.$router.push(routingMxListPath(table, prefix))
+      }
     }
   }
 </script>

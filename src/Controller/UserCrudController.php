@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Site;
 use App\Service\DataCrudHelper;
 use App\Exceptions\CrudException;
+use App\Exceptions\NotFoundCrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -115,6 +116,23 @@ class UserCrudController extends AbstractCrudController
 
         return new JsonResponse(
             $sites,
+            200
+        );
+    }
+
+    public function userAllowedSite(DataCrudHelper $crud, int $id, int $siteId)
+    {
+        // TODO check auth
+        $user = $crud->read($this->getEntityClass(), $id);
+
+        $site = $crud->getRepository()->getUserAllowedSite($id, $siteId);
+
+        if (!$site) {
+            throw new NotFoundCrudException($id);
+        }
+
+        return new JsonResponse(
+            $site,
             200
         );
     }

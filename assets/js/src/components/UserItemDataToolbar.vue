@@ -6,7 +6,7 @@
     >
         <v-btn
             icon
-            @click="$emit('forward', 'pathMxGoToList')"
+            @click="routingMxGoToList"
         >
             <v-icon>arrow_back</v-icon>
         </v-btn>
@@ -28,11 +28,11 @@
 </template>
 
 <script>
-  import BaseDataListToolbar from "./BaseDataListToolbar"
+  import ListDataToolbar from './ListDataToolbar'
 
   export default {
-    name: 'user-data-item-toolbar',
-    extends: BaseDataListToolbar,
+    name: 'user-item-data-toolbar',
+    extends: ListDataToolbar,
     methods: {
       setChildTable () {
         this.$listeners.setChildList('user-allowed-sites')

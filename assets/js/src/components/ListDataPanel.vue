@@ -6,28 +6,29 @@
 -->
 
 <template>
-    <div
+    <article
         v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
     >
         <component
             :flat="true"
             ref="toolbar"
-            v-bind:is="toolbarComponent"
-            @openAddModal="openAddModal"
+            :is="toolbarComponentName"
+            @forward="forwardEventToDataComponent"
             v-on="$listeners"
             v-bind="$props"
         />
         <component
-            ref="dataTable"
-            v-bind:is="tableComponent"
+            ref="dataComponent"
+            v-bind:is="dataComponentName"
             :uuidMxRegister="true"
             v-on="$listeners"
             v-bind="$props"
         />
-    </div>
+    </article>
 </template>
 
 <script>
+  import BaseDataPanel from './BaseDataPanel'
   import PathMx from '../mixins/PathMx'
   import RSTableMx from '../mixins/RSTableMx'
   import UuidMx from '../mixins/UuidMx'
@@ -35,19 +36,20 @@
   import {pascalize} from '../util'
 
   export default {
-    name: 'data-list',
+    name: 'list-data-panel',
+    extends: BaseDataPanel,
     components: {
-      BaseDataListToolbar: () => import(
-        /* webpackChunkName: "BaseDataListToolbar" */
-        './BaseDataListToolbar'
+      ListDataToolbar: () => import(
+        /* webpackChunkName: "ListBaseDataToolbar" */
+        './ListDataToolbar'
         ),
       SiteDataTable: () => import(
         /* webpackChunkName: "SiteDataTable" */
         './SiteDataTable'
         ),
-      UserDataListToolbar: () => import(
-        /* webpackChunkName: "UserDataListToolbar" */
-        './UserDataListToolbar'
+      UserListDataToolbar: () => import(
+        /* webpackChunkName: "UserListDataToolbar" */
+        './UserListDataToolbar'
         ),
       UserAllowedSitesDataTable: () => import(
         /* webpackChunkName: "UserAllowedSitesDataTable" */
@@ -63,17 +65,6 @@
       RSTableMx,
       PathMx
     ],
-    props: {
-      parent__: {
-        type: Object,
-        validator (value) {
-          return value.hasOwnProperty('table') &&  value.hasOwnProperty('id')
-        }
-      },
-      table__: {
-        type: String
-      }
-    },
     computed: {
       parent () {
         return this.parent__
@@ -81,22 +72,19 @@
       table () {
         return this.table__
       },
-      toolbarComponent: function () {
-        let component = 'BaseDataListToolbar'
+      toolbarComponentName: function () {
+        let component = 'ListDataToolbar'
         if (this.rsTableMxTable.hasOwnProperty('list')) {
           component = this.rsTableMxTable.list.toolbar || component
         }
         return component
       },
-      tableComponent: function () {
+      dataComponentName: function () {
         return `${pascalize(this.rsTableMxTableName)}DataTable`
       }
     },
     methods: {
-      ...tableMxModalOpeners,
-      openAddModal () {
-        this.tableMxOpenAddModal({}, this.$refs.dataTable.uuid)
-      }
+      ...tableMxModalOpeners
     }
   }
 </script>

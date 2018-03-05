@@ -36,7 +36,7 @@ export const state = {
     bucket: {label: 'Bucket'},
     user: {
       item: {
-        toolbar: 'UserDataItemToolbar'
+        toolbar: 'UserItemDataToolbar'
       },
       group: 'admin',
       label: 'User',

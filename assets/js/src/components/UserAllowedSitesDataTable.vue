@@ -3,7 +3,6 @@
         :headers="rsTableMxHeaders"
         :items="items"
         :loading="isRequestPending"
-        v-bind:pathMxTableNameP="table"
         hide-actions
     >
         <template slot="items" slot-scope="props">
@@ -19,11 +18,11 @@
 </template>
 
 <script>
-  import BaseDataTable from './BaseDataTable'
+  import BaseListDataTable from './BaseListDataTable'
 
   export default {
     name: 'user-allowed-sites-data-table',
-    extends: BaseDataTable,
+    extends: BaseListDataTable,
     data () {
       return {
         prefix_: 'admin',
@@ -31,7 +30,7 @@
       }
     },
     created () {
-      if (this.pathMxTableParentP && this.uuid) {
+      if (this.uuid) {
         this.uuidMxSet('idKey', 'siteId')
       }
     }

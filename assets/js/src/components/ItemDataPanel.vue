@@ -1,33 +1,38 @@
 <template>
-    <div
+    <article
         v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
     >
         <component
             ref="toolbar"
-            v-bind:is="toolbarComponentName"
+            :is="toolbarComponentName"
+            :dCuid="dCuid"
+            v-bind="$props"
             v-on="$listeners"
-            v-on:forward="forwardEventToForm"
+            @forward="forwardEventToDataComponent"
         />
         <component
-            ref="dataForm"
-            :id__="id__"
-            :is="dataFormComponentName"
+            ref="dataComponent"
+            v-bind="$props"
+            :is="dataComponentName"
+            @created="setDataComponentUuid"
             v-on="$listeners"
         />
-    </div>
+    </article>
 </template>
 
 <script>
+  import BaseDataPanel from './BaseDataPanel'
   import RSTableMx from '../mixins/RSTableMx'
   import UuidMx from '../mixins/UuidMx'
   import {pascalize} from '../util'
 
   export default {
-    name: 'data-item',
+    name: 'item-data-panel',
+    extends: BaseDataPanel,
     components: {
-      BaseDataItemToolbar: () => import(
-        /* webpackChunkName: "BaseDataItemToolbar" */
-        './BaseDataItemToolbar'
+      ItemDataToolbar: () => import(
+        /* webpackChunkName: "ItemDataToolbar" */
+        './ItemDataToolbar'
         ),
       SiteReadDataForm: () => import(
         /* webpackChunkName: "SiteReadDataForm" */
@@ -37,49 +42,25 @@
         /* webpackChunkName: "UserReadDataForm" */
         './UserReadDataForm'
         ),
-      UserDataItemToolbar: () => import(
+      UserItemDataToolbar: () => import(
         /* webpackChunkName: "UserDataItemToolbar" */
-        './UserDataItemToolbar'
+        './UserItemDataToolbar'
         )
     },
     mixins: [
       RSTableMx,
       UuidMx
     ],
-    props: {
-      id__: {
-        type: [Number, String],
-        validator (value) {
-          return /^\d*,?\d*$/.test(value)
-        }
-      },
-      table__: {
-        type: String,
-        required: true
-      }
-    },
     computed: {
-      dataFormComponent: function () {
-        return this.$refs.dataForm
-      },
-      dataFormComponentName: function () {
+      dataComponentName: function () {
         return `${pascalize(this.table__)}ReadDataForm`
       },
       toolbarComponentName: function () {
-        let component = 'BaseDataItemToolbar'
+        let component = 'ItemDataToolbar'
         if (this.rsTableMxTable.hasOwnProperty('item')) {
           component = this.rsTableMxTable.item.toolbar || component
         }
         return component
-      }
-    },
-    methods: {
-      forwardEventToForm () {
-        let dataForm = this.$refs.dataForm
-        let args = [...arguments]
-        if (dataForm) {
-          dataForm[args.splice(0,1)](args || undefined)
-        }
       }
     }
   }

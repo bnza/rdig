@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isDialogOpen" persistent max-width="600px">
+    <v-dialog v-model="open" persistent max-width="600px">
         <v-card>
             <v-card-title class="indigo darken-4">
                 <v-icon color="white">edit</v-icon>
@@ -14,10 +14,12 @@
                 >
                     <component
                         ref="dataForm"
-                        :is="dataFormComponent"
+                        :prefix__="$route.params.prefix"
+                        :table__="table"
+                        :is="dataFormComponentName"
                         :callerUuid="uuid"
                         :parent__="parent"
-                        @created="closeDialog(true)"
+                        @sync="closeDialog(true)"
                     />
                 </v-container>
             </v-card-text>

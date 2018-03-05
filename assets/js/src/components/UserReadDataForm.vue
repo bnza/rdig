@@ -10,7 +10,7 @@
   import UserReadFieldsItem from './UserReadFieldsItem'
 
   export default {
-    name: 'user-read-data-item',
+    name: 'user-read-data-form',
     extends: BaseDataForm,
     components: {
       DataItemCard,

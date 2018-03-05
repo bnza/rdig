@@ -12,22 +12,38 @@
     ],
     data () {
       return {
+        loaded: false,
         items: [],
-        isRequestPending: false,
       }
     },
     computed: {
-      reload () {
-        return this.uuidMxGet('reload')
+      reload : {
+        get () {
+          return typeof this.$route.meta.reload !== 'undefined'
+            ? this.$route.meta.reload
+            : !this.loaded
+        },
+        set (value) {
+          this.loaded = !value
+        }
+      }
+    },
+    methods: {
+      fetch () {
+        this.tableMxFetch()
+        this.loaded = true
+        this.$route.meta.reload = false
       }
     },
     watch: {
       reload (flag) {
         if (flag) {
-          this.tableMxFetch()
-          this.uuidMxSet('reload', false)
+          this.fetch()
         }
       }
+    },
+    created () {
+      this.fetch()
     }
   }
 </script>

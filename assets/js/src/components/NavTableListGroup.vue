@@ -12,7 +12,7 @@
                 v-for="(table, key) in tables"
                 v-if="!table.group || table.group === 'data'"
                 :key="key"
-                @click="routingMxOpenTable(key)"
+                @click="goToList(key)"
             >
                 <v-list-tile-content>
                     <v-list-tile-title>{{table.label}}</v-list-tile-title>
@@ -23,7 +23,7 @@
 
 <script>
   import RSTableMx from '../mixins/RSTableMx'
-  import {routingMxOpenTable} from '../mixins/RoutingMx'
+  import {routingMxListPath} from '../mixins/RoutingMx'
 
   export default {
     name: 'nav-table-list-group',
@@ -36,7 +36,9 @@
       }
     },
     methods: {
-      routingMxOpenTable
+      goToList (table, prefix) {
+        this.$router.push(routingMxListPath(table, prefix))
+      }
     }
   }
 </script>

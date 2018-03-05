@@ -57,7 +57,7 @@
       fetchSites () {
         const config = {
           method: 'get',
-          url: `admin/user/${this.parent.id}/user-denied-sites`
+          url: `admin/user/${this.parent__.id}/user-denied-sites`
         }
         this.$store.dispatch('requests/perform', config).then(
           (response) => {

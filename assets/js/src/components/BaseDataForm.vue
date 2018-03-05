@@ -8,16 +8,10 @@
       FormMx
     ],
     props: {
-      id__: {
-        type: [Number, String],
-        validator (value) {
-          return /^\d*,?\d*$/.test(value)
-        }
-      },
       item__: {
         type: Object,
         validator (value) {
-          return typeof value === 'undefined' || value === {} || value.hasOwnProperty('id')
+          return typeof value === 'undefined' || value.hasOwnProperty('id')
         }
       }
     },
@@ -43,10 +37,11 @@
       update () {
         this.formMxUpdate().then(
           () => {
-            this.$emit('updated')
+            this.$emit('sync')
           }
         ).catch(
           () => {
+            // TODO workaround
             // clone data item detaching it from store
             this.item = this.item
           }
@@ -55,16 +50,20 @@
       create () {
         this.formMxCreate().then(
           () => {
-            this.$emit('created')
+            this.$emit('sync')
           }
         ).catch(
-          () => {}
+          () => {
+            // TODO workaround
+            // clone data item detaching it from store
+            this.item = this.item
+          }
         )
       },
       delete () {
         this.formMxDelete().then(
           () => {
-            this.$emit('deleted')
+            this.$emit('sync')
           }
         ).catch(
           () => {}
@@ -79,7 +78,9 @@
       }
     },
     created () {
-      if (this.id__) {
+      if (this.item__) {
+        this.item_ = this.item__
+      } else if (this.id__) {
         this.formMxRead()
       }
     }
