@@ -1,5 +1,3 @@
-@import "~bulma/sass/utilities/initial-variables";
-
 @font-face {
   font-family: "OpenSans";
   src: url("OpenSans-Regular.ttf") format("truetype");
@@ -10,7 +8,7 @@
 @font-face {
   font-family: "OpenSans";
   src: url("OpenSans-Bold.ttf") format("truetype");
-  font-weight: $weight-bold;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -31,7 +29,7 @@
 @font-face {
   font-family: "Montserrat";
   src: url("Montserrat-Bold.ttf") format("truetype");
-  font-weight: $weight-bold;
+  font-weight: 700;
   font-style: normal;
 }
 
