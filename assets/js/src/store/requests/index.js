@@ -55,26 +55,13 @@ export const actions = {
   /**
    * Axios request wrapper
    *
-   * @callback Request~onSuccessCb
-   * @callback Request~onRejectedCb
-   * @callback Request~onFinallyCb
-   *
-   * Request promise events callbacks object
-   * @typedef {Object} Request~Callbacks
-   * @property {Request~onSuccessCb} onSuccess  - The success callback
-   * @property {Request~onRejectedCb} onRejected - The rejected callback
-   * @property {equest~onFinallyCb} onFinally - The finally callback
-   *
    * @param {function} commit - Vuex.commit
    * @param {Object} state - Vuex.state
    * @param axiosRequestConfig - Axios Request config (https://github.com/axios/axios)
-   * @param {Request~Callbacks} callbacks
    * @returns {Promise<AxiosResponse<any>>}
    */
-  perform: async function ({commit, state}, axiosRequestConfig, callbacks) {
+  perform: async function ({commit, state}, axiosRequestConfig) {
     let status
-    let response = null
-    let error = null
 
     commit(NEW_REQUEST, axiosRequestConfig)
     const index = state.all.length - 1
@@ -85,10 +72,6 @@ export const actions = {
      * @returns {Object}
      */
     const onSuccess = (response) => {
-      status = response.status
-      if (callbacks && callbacks.onSuccess) {
-        callbacks.onSuccess(response)
-      }
       onFinally()
       return response
     }
@@ -99,27 +82,19 @@ export const actions = {
      * @throws the request reject error
      */
     const onRejected = (e) => {
-      status = e.response.status
-      error = e
-      if (callbacks && callbacks.onRejected) {
-        callbacks.onRejected(e)
-      }
-      onFinally()
-      throw error
+      onFinally(e)
+      throw e
     }
 
     /**
      * On finally axios promise callback, call the injected onFinally callback if given
      */
-    const onFinally = () => {
+    const onFinally = (e) => {
       let errorText = ''
-      if (error && error.response) {
-        errorText = error.response.data
+      if (e && e.response) {
+        errorText = e.response.data
       }
       commit(SET_REQUEST_FULFILLED, index, status, errorText)
-      if (callbacks && callbacks.onFinally) {
-        callbacks.onFinally(response, error)
-      }
     }
 
     return axios.request(axiosRequestConfig).then(

@@ -1,96 +1,218 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import TheMainData from '../components/TheMainData'
+import TheMainHome from '../components/TheMainHome'
+import TheLoginModal from '../components/TheLoginModal'
+import TheDataList from '../components/TheDataList'
+import TheDataItem from '../components/TheDataItem'
 import store from '../store'
-import MainHome from '../components/MainHome'
-import MenuLeft from '../components/MenuLeft'
-import MainData from '../components/MainData'
-import LoginModal from '../components/LoginModal'
-
-const DataForm = () => import(
-  /* webpackChunkName: "DataForm" */
-  '../components/DataForm'
-  )
-
-const DataList = () => import(
-  /* webpackChunkName: "DataList" */
-  '../components/DataList'
-  )
-
-const DataFormDelete = () => import(
-  /* webpackChunkName: "DataFormDelete" */
-  '../components/DataFormDeleteModal'
-  )
+import {authorize} from '../mixins/AuthMx'
+import {uuidMxSet} from '../mixins/UuidMx'
 
 Vue.use(Router)
 
-const crudRoutesParamsFn = function (route) {
-  if (route.params.hasOwnProperty('id')) {
-    route.params.id = parseInt(route.params.id)
-  }
-  return route.params
+const authorizeRoute = function (to, from, next) {
+  authorize(to)
+  next(to)
 }
 
-const requireAuth = function (to, from, next) {
-  if (store.getters['account/isAuthorized'](to)) {
-    next()
-  } else {
-    next('/login')
-  }
-}
-
-export const crudRoutes = {
-  path: '/:prefix(admin|data)/:table',
-  component: MainData,
+const TheCreateModal =() => import(
+  /* webpackChunkName: "TheAddModal" */
+  '../components/TheAddModal'
+  )
+const TheDeleteModal = () => import(
+  /* webpackChunkName: "TheDeleteModal" */
+  '../components/TheDeleteModal'
+  )
+const TheUpdateModal = () => import(
+  /* webpackChunkName: "TheEditModal" */
+  '../components/TheEditModal'
+  )
+/*
+export const unprivilegedReadRoutes = {
+  path: '/:prefix(data)/:table',
+  component: TheMainData,
   props: true,
-  beforeEnter: requireAuth,
   children: [
     {
-      path: ':action(create)',
-      component: DataForm,
-      props: true
-    },
-    {
       path: ':action(read)',
-      name: 'data_list',
-      component: DataList,
+      name: 'data_list_read',
+      components: {
+        default: TheDataList
+      },
       props: true
     },
     {
-      path: ':id(\\d+)/:action(read|update|delete)',
-      name: 'data_element',
-      component: DataForm,
+      path: ':id(\\d+)/:action(read)',
+      name: 'data_item_read',
+      component: TheDataItem,
       props: true
     },
     {
-      path: ':id(\\d+)/:action(change-password)',
-      name: 'change_password',
-      component: DataForm,
+      path: ':id(\\d+)/:action(create|update|delete)',
+      name: 'data_item_crud',
+      component: TheDataItem,
       props: true
     }
   ]
+}*/
+
+
+export const unprivilegedReadRoutes = {
+  path: '/:prefix(data|admin)/:table',
+  component: TheMainData,
+  props: true,
+  children: [
+    {
+      path: ':action(read)',
+      name: 'data_list_read',
+      component: TheDataList,
+      props: true
+    },
+    {
+      path: ':action(create)',
+      name: 'data_list_create',
+      components: {
+        default: TheDataList,
+        modal: TheCreateModal
+      },
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:action(read)',
+      name: 'data_item_read',
+      component: TheDataItem,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:action(delete)',
+      name: 'data_item_delete',
+      components: {
+        default: TheDataList,
+        modal: TheDeleteModal
+      },
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:action(update)',
+      name: 'data_item_update',
+      components: {
+        default: TheDataList,
+        modal: TheUpdateModal
+      },
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:childTable/:action(read)',
+      name: 'data_child_list_read',
+      component: TheDataItem,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:childTable/:action(create)',
+      name: 'data_child_list_create',
+      components: {
+        default: TheDataItem,
+        modal: TheCreateModal
+      },
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:childTable/:childId(\\d+)/:action(delete)',
+      name: 'data_child_item_delete',
+      components: {
+        default: TheDataItem,
+        modal: TheDeleteModal
+      },
+      props: true
+    },
+
+    /*{
+      path: ':id(\\d+)',
+      children: [
+        {
+          path: ':action(read)',
+          name: 'data_item_read',
+          component: TheDataItem,
+          props: true
+        },
+        {
+          path: ':action(create|update|delete)',
+          name: 'data_item_crud',
+          component: TheDataItem,
+          meta: {
+            hasModal: true
+          },
+          props: true
+        }
+      ]
+    }*/
+  ]
 }
+
+/*export const adminTablesRoutes = {
+  path: '/:prefix(admin)/:table',
+  component: TheMainData,
+  props: true,
+  beforeEnter: (to, from, next) => {
+    authorize(to)
+  },
+  children: [
+    {
+      path: ':action(read)',
+      name: 'admin_list_read',
+      component: TheDataList,
+      props: true
+    },
+    {
+      path: ':action(create)',
+      name: 'admin_list_create',
+      component: TheDataList,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:action(read)',
+      name: 'admin_item_read',
+      component: TheDataItem,
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:childTable/:action(read)',
+      name: 'admin_child_list_read',
+      component: TheDataItem,
+      props: true
+    }
+  ]
+}*/
 
 let router = new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      component: MainHome
-    },
-    {
-      path: '/cart',
-      name: 'cart',
-      component: MenuLeft
+      component: TheMainHome
     },
     {
       path: '/login',
       name: 'login',
       components: {
-        modal: LoginModal
+        default: TheMainHome,
+        modals: TheLoginModal
       }
     },
-    crudRoutes
+    unprivilegedReadRoutes,
+    //adminTablesRoutes
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  if (to.matched.length === 0) {
+    uuidMxSet(store, 'text', 'Requested resource does not exist', 'the-snack-bar')
+    uuidMxSet(store, 'color', 'warning', 'the-snack-bar')
+    uuidMxSet(store, 'active', true, 'the-snack-bar')
+    next(from)
+  }
+  next()
+})
 export default router

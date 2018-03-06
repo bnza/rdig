@@ -80,7 +80,7 @@ abstract class AbstractCrudController extends Controller
             ->find($id);
 
         if (!$entity) {
-            throw new NotFoundCrudException($id);
+            throw new NotFoundCrudException("$id,allowed site");
         }
 
         $wrapper->setEntity($entity);

@@ -18,7 +18,7 @@ export function camelize (string) {
  * @param string String in camelcase
  * @param separator Separator for the new decamelized string.
  */
-export function decamelize (string, separator) {
+function decamelize (string, separator) {
   separator = typeof separator === 'undefined' ? '_' : separator
 
   return string
@@ -37,4 +37,28 @@ export function pascalize (string) {
 
 export function kebabize (string) {
   return decamelize(string, '-')
+}
+
+export function debounce (func, wait, immediate) {
+  let timeout
+  return function () {
+    const context = this
+    const args = arguments
+    const later = function() {
+      timeout = null
+      if (!immediate) func.apply(context, args)
+    }
+    let callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    if (callNow) func.apply(context, args)
+  }
+}
+
+export default {
+  camelize: camelize,
+  decamelize: decamelize,
+  capitalize: capitalize,
+  pascalize: pascalize,
+  kebabize: kebabize
 }

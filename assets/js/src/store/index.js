@@ -1,43 +1,97 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import account from './account'
+import components from './components'
 import requests from './requests'
-import messages from './messages'
 
 Vue.use(Vuex)
 
-const SET_MODAL = 'SET_MODAL'
-const CLEAR_MODAL = 'CLEAR_MODAL'
+export const state = {
+  tables: {
+    site: {
+      label: 'Site',
+      maxWidth: '450px',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Code',
+          value: 'code',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Name',
+          value: 'name',
+          class: 'subheading'
+        }
+      ]
+    },
+    area: {label: 'Area'},
+    context: {label: 'Context'},
+    bucket: {label: 'Bucket'},
+    user: {
+      item: {
+        toolbar: 'UserItemDataToolbar'
+      },
+      group: 'admin',
+      label: 'User',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Username',
+          value: 'username',
+          class: 'subheading',
+        },
+        {
+          text: 'Roles',
+          value: 'roles',
+          class: 'subheading'
+        }
+      ]
+    },
+    'user-allowed-sites': {
+      group: 'admin',
+      hidden: true,
+      label: 'User\'s privileges on site',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Code',
+          value: 'code',
+          class: 'subheading',
+        },
+        {
+          text: 'Name',
+          value: 'name',
+          class: 'subheading'
+        }
+      ]
+    }
+  }
+}
 
 const store = new Vuex.Store({
-  state: {
-    panelLeftComponent: 'test-left',
-    modal: {
-      component: null,
-      active: false,
-      props: null
-    }
-  },
+  strict: true,
+  state,
   modules: {
     account: account,
-    requests: requests,
-    messages: messages
-  },
-  mutations: {
-    switchLeftComponent (state, component) {
-      state.panelLeftComponent = component
-    },
-    [SET_MODAL] (state, modalComponent) {
-      state.modal.component = modalComponent
-    },
-    [CLEAR_MODAL] (state) {
-      state.modal.component = null
-    }
-  },
-  getters: {
-    hasModal: (state) => {
-      return state.modal.component
-    }
+    components: components,
+    requests: requests
   }
 })
 
