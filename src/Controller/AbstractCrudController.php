@@ -13,8 +13,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractCrudController extends Controller
 {
+    /**
+     * @var ManagerRegistry
+     */
+    protected $doctrine;
+
+    /**
+     * @var EntityWrapper
+     */
+    protected $wrapper;
 
     abstract public function getEntityClass($entity = '');
+
+    public function __construct(ManagerRegistry $doctrine, EntityWrapper $wrapper)
+    {
+        $this->doctrine = $doctrine;
+        $this->wrapper = $wrapper;
+    }
+
+    protected function getRepository($entityName)
+    {
+        return $this->doctrine->getRepository($this->getEntityClass($entityName));
+    }
 
     /**
      * Create new site.
@@ -42,28 +62,25 @@ abstract class AbstractCrudController extends Controller
 
     /**
      * @param Request         $request
-     * @param ManagerRegistry $doctrine
      * @param string          $entityName
      *
      * @return JsonResponse
      */
-    public function list(Request $request, ManagerRegistry $doctrine, string $entityName)
+    public function list(Request $request, string $entityName)
     {
         /**
          * Maps sort[code]=ASC query string to ['code'=>'ASC'] array.
          */
         $sort = $request->get('sort') ?: [];
 
-        $entities = $doctrine
-            ->getRepository($this->getEntityClass($entityName))
+        $entities = $this
+            ->getRepository($entityName)
             ->findByAsArray([], $sort);
 
         return new JsonResponse($entities);
     }
 
     /**
-     * @param ManagerRegistry $doctrine
-     * @param EntityWrapper   $wrapper
      * @param string          $entityName
      * @param int             $id
      *
@@ -71,20 +88,20 @@ abstract class AbstractCrudController extends Controller
      *
      * @throws NotFoundCrudException
      */
-    public function read(ManagerRegistry $doctrine, EntityWrapper $wrapper, string $entityName, int $id)
+    public function read(string $entityName, int $id)
     {
         $response = new JsonResponse();
 
-        $entity = $doctrine
-            ->getRepository($this->getEntityClass($entityName))
+        $entity = $this
+            ->getRepository($entityName)
             ->find($id);
 
         if (!$entity) {
-            throw new NotFoundCrudException("$id,allowed site");
+            throw new NotFoundCrudException($id);
         }
 
-        $wrapper->setEntity($entity);
-        $response->setData($wrapper->getData());
+        $this->wrapper->setEntity($entity);
+        $response->setData($this->wrapper->getData());
 
         return $response;
     }

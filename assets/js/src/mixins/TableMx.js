@@ -17,7 +17,6 @@ export const tableMxOpenAddModal = function (item, callerUuid) {
 
 export const tableMxOpenDeleteModal = function (i, callerUuid) {
   let item = this.items[i]
-  //this.tableMxOpenModal(this.items[i], callerUuid, )
   this.uuidMxSet('item', item, 'the-delete-modal')
   let path = this.routingMxGetDeletePath(item['id'])
   this.$router.push(path)
@@ -52,8 +51,18 @@ export default {
         }
       ).catch(
         (error) => {
-          console.error(error)
           this.isRequestPending = false
+          let text = 'ERROR: '
+          if (error.response) {
+            if (error.response) {
+              this.uuidMxSet('text', text + error.response.data, 'the-snack-bar')
+              this.uuidMxSet('color', 'error', 'the-snack-bar')
+              this.uuidMxSet('active', true, 'the-snack-bar')
+              if (error.response.status === 403) {
+                this.routingMxBack()
+              }
+            }
+          }
         }
       )
     },

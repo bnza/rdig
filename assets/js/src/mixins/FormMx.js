@@ -68,6 +68,12 @@ export default {
           (response) => {
             this.item = response.data
           }
+        ).catch(
+          (error) => {
+            if (error.response) {
+              this.routingMxBack()
+            }
+          }
         )
       }
     },

@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Entity\Site;
 use App\Service\DataCrudHelper;
 use App\Exceptions\CrudException;
+use App\Service\EntityWrapper;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Exceptions\NotFoundCrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +25,22 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder, ManagerRegistry $doctrine, EntityWrapper $wrapper)
     {
         $this->encoder = $encoder;
+        parent::__construct($doctrine, $wrapper);
+    }
+
+    public function read(string $entityName, int $id)
+    {
+        $this->denyAccessUnlessGranted("$entityName|read");
+        return parent::read($entityName, $id);
+    }
+
+    public function list(Request $request, string $entityName)
+    {
+        $this->denyAccessUnlessGranted("$entityName|read");
+        return parent::list($request, $entityName);
     }
 
     /**
@@ -97,7 +112,7 @@ class UserCrudController extends AbstractCrudController
 
     public function userAllowedSites(DataCrudHelper $crud, int $id)
     {
-        // TODO check auth
+        $this->denyAccessUnlessGranted("user-allowed-sites|read");
         $user = $crud->read($this->getEntityClass(), $id);
         $sites = $crud->getRepository()->getUserAllowedSites($id);
 
@@ -109,8 +124,7 @@ class UserCrudController extends AbstractCrudController
 
     public function userDeniedSites(DataCrudHelper $crud, int $id)
     {
-        // TODO check auth
-
+        $this->denyAccessUnlessGranted("user-allowed-sites|read");
         $user = $crud->read($this->getEntityClass(), $id);
         $sites = $crud->getRepository()->getUserDeniedSites($id);
 
@@ -122,13 +136,13 @@ class UserCrudController extends AbstractCrudController
 
     public function userAllowedSite(DataCrudHelper $crud, int $id, int $siteId)
     {
-        // TODO check auth
+        $this->denyAccessUnlessGranted("user-allowed-sites|read");
         $user = $crud->read($this->getEntityClass(), $id);
 
         $site = $crud->getRepository()->getUserAllowedSite($id, $siteId);
 
         if (!$site) {
-            throw new NotFoundCrudException($id);
+            throw new NotFoundCrudException("$id,allowed site");
         }
 
         return new JsonResponse(
@@ -139,8 +153,7 @@ class UserCrudController extends AbstractCrudController
 
     public function addUserAllowedSite(Request $request, DataCrudHelper $crud, int $id)
     {
-        // TODO check auth
-
+        $this->denyAccessUnlessGranted("user-allowed-sites|create");
         $siteId = json_decode($request->getContent(),true)['siteId'];
         $site = $crud->read(Site::class, $siteId);
         $user = $crud->read($this->getEntityClass(), $id);
@@ -155,8 +168,7 @@ class UserCrudController extends AbstractCrudController
 
     public function deleteUserAllowedSite(DataCrudHelper $crud, int $id, int $siteId)
     {
-        // TODO check auth
-
+        $this->denyAccessUnlessGranted("user-allowed-sites|delete");
         $site = $crud->read(Site::class, $siteId);
         $user = $crud->read($this->getEntityClass(), $id);
         $user->removeSite($site);

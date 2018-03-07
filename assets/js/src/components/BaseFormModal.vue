@@ -70,10 +70,6 @@
       },
       to () {
         return this.dataFormComponent.routingMxListPath
-          //? this.dataFormComponent.routingMxGetChildListPath(table)
-          //: this.dataFormComponent.routingMxItemPath
-        //let params = this.$route.params
-        //return routingMxListPath(params.table, params.prefix, this.parent) //routingMxGetReadRoute(this.$route)
       }
     },
     methods: {

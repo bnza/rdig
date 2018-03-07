@@ -57,6 +57,5 @@
         return `The${pascalize(this.$route.params.action)}Modal`
       }
     }
-
   }
 </script>

@@ -91,6 +91,11 @@ export const routingMxGetItemUrl = function (table, id, prefix, parent) {
 }
 
 export default {
+  data () {
+    return {
+      from_: '/'
+    }
+  },
   computed: {
     routingMxBasePath () {
       return `/${this.routingMxListUrl}`
@@ -112,6 +117,9 @@ export default {
     }
   },
   methods: {
+    routingMxBack (childTable) {
+      return this.$router.replace(this.from_)
+    },
     routingMxGetChildListPath (childTable) {
       return childTable
         ? `/${this.routingMxItemUrl}/${childTable}/read`
@@ -133,5 +141,10 @@ export default {
       id = id || this.id__
       this.$router.push(this.routingMxGetItemPath(id))
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.from_ = routingMxClone(from)
+    })
   }
 }

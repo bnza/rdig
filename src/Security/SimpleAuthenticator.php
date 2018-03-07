@@ -24,7 +24,7 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
 {
     const NO_USERNAME_SUPPLIED = 'No username supplied';
     const NO_PASSWORD_SUPPLIED = 'No password supplied';
-    const BAD_CREDENTIALS = 'Bad credentials';
+    const WRONG_CREDENTIALS = 'Wrong credentials';
     const MUST_LOGIN = 'You must login to access this content';
 
     private $encoder;
@@ -59,7 +59,7 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
         try {
             return $userProvider->loadUserByUsername($credentials['username']);
         } catch (UsernameNotFoundException $e) {
-            throw new BadCredentialsException(self::BAD_CREDENTIALS);
+            throw new BadCredentialsException(self::WRONG_CREDENTIALS);
         }
     }
 
@@ -77,7 +77,7 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
             return true;
         }
 
-        throw new BadCredentialsException(self::BAD_CREDENTIALS);
+        throw new BadCredentialsException(self::WRONG_CREDENTIALS);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
