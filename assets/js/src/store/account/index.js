@@ -27,14 +27,17 @@ export const mutations = {
 }
 
 export const actions = {
-  login: async function ({ commit, dispatch }, credentials) {
+  login: async function ({ commit, dispatch, rootState }, credentials) {
     commit(CLEAR_AUTH_ERROR)
     commit(SET_REQ_PENDING, true)
     try {
       const config = {
         method: 'post',
         url: 'login',
-        data: credentials
+        data: credentials,
+        headers: {
+          'X-XSRF-Token': rootState.token
+        }
       }
       let response = await dispatch('requests/perform', config, {root: true})
       commit(SET_REQ_PENDING, false)

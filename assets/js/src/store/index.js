@@ -6,6 +6,16 @@ import requests from './requests'
 
 Vue.use(Vuex)
 
+const SET_TOKEN = 'SET_TOKEN'
+
+export const mutations = {
+  [SET_TOKEN] (state, token) {
+    if (!state.token) {
+      state.token = token
+    }
+  }
+}
+
 export const state = {
   tables: {
     site: {
@@ -82,12 +92,14 @@ export const state = {
         }
       ]
     }
-  }
+  },
+  token: ''
 }
 
 const store = new Vuex.Store({
   strict: true,
   state,
+  mutations,
   modules: {
     account: account,
     components: components,

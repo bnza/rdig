@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  import Cookies from 'js-cookie';
   import TheAppBar from './components/TheAppBar'
   import TheRightNavigationDrawer from './components/TheRightNavigationDrawer'
   import TheSnackBar from './components/TheSnackBar'
@@ -23,6 +24,21 @@
 
   export default {
     name: 'the-app',
+    beforeCreate: function () {
+      if (window.user) {
+        this.$store.commit('account/SET_USER', window.user)
+        delete window.user
+      }
+      let el = document.getElementById("user-data")
+      if (el) {
+        el.remove()
+      }
+      const token = Cookies.get('xsrf-token')
+      if (token) {
+        this.$store.commit('SET_TOKEN', token)
+        Cookies.remove('xsrf-token');
+      }
+    },
     components: {
       TheAppBar,
       TheRightNavigationDrawer,

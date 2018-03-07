@@ -46,7 +46,10 @@ export default {
       let config = {
         method: 'post',
         url: this.routingMxListUrl,
-        data: this.item
+        data: this.item,
+        headers: {
+          'X-XSRF-Token': this.$store.state.token
+        }
       }
       return this.formMxCrud(config).then(
         (response) => {
@@ -83,7 +86,10 @@ export default {
         let config = {
           method: 'put',
           url: url,
-          data: this.item
+          data: this.item,
+          headers: {
+            'X-XSRF-Token': this.$store.state.token
+          }
         }
         return this.formMxCrud(config).then(
           (response) => {
@@ -100,7 +106,10 @@ export default {
       if (url) {
         let config = {
           method: 'delete',
-          url: url
+          url: url,
+          headers: {
+            'X-XSRF-Token': this.$store.state.token
+          }
         }
         return this.formMxCrud(config).then(
           () => {
