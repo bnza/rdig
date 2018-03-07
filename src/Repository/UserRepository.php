@@ -14,7 +14,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class UserRepository extends AbstractDataRepository
 {
-    protected function allowedSiteToArray(Site $site, User $user) {
+    protected function allowedSiteToArray(Site $site, User $user)
+    {
         return [
             'id' => sprintf('%d,%d', $user->getId(), $site->getId()),
             'siteId' => $site->getId(),
@@ -22,18 +23,35 @@ class UserRepository extends AbstractDataRepository
             'name' => $site->getName(),
         ];
     }
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
     }
 
-    public function getUserAllowedSites(int $id)
+    public function getUserAllowedSites(int $id, array $sort, array $where, $limit = null, $offset = null)
     {
         $user = $this->find($id);
         if ($user) {
-            return $user->getSites()->map(function ($site) use ($user) {
+            $sites = $user->getSites();
+            $totalItems = count($sites);
+
+            $criteria = Criteria::create()
+                ->setFirstResult($offset)
+                ->setMaxResults($limit);
+
+            if ($sort) {
+                $criteria->orderBy($sort);
+            }
+
+            $items = $sites->matching($criteria)->map(function ($site) use ($user) {
                 return $this->allowedSiteToArray($site, $user);
             })->getValues();
+
+            return [
+                'items' => $items,
+                'totalItems' => $totalItems,
+            ];
         }
     }
 
@@ -41,15 +59,13 @@ class UserRepository extends AbstractDataRepository
     {
         $user = $this->find($id);
         if ($user) {
-
             $criteria = Criteria::create()
-                ->where(Criteria::expr()->eq("id", $siteId));
+                ->where(Criteria::expr()->eq('id', $siteId));
 
             $site = $user->getSites()->matching($criteria)->getValues();
-            if (count($site) === 1) {
+            if (1 === count($site)) {
                 return $this->allowedSiteToArray($site[0], $user);
             }
-
         }
     }
 
@@ -71,8 +87,8 @@ class UserRepository extends AbstractDataRepository
             if ($sites) {
                 $qb->where($qb->expr()->notIn('s.id', $sites));
             }
+
             return $query->getQuery()->getArrayResult();
         }
     }
 }
-

@@ -1,9 +1,11 @@
 <template>
     <v-data-table
+        :pagination.sync="pagination"
         :headers="rsTableMxHeaders"
         :items="items"
+        :total-items="totalItems"
         :loading="isRequestPending"
-        hide-actions
+        :rows-per-page-items="[10, 25, 50]"
     >
         <template slot="items" slot-scope="props">
             <td class="justify-center layout px-0">

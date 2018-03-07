@@ -110,11 +110,20 @@ class UserCrudController extends AbstractCrudController
         );
     }
 
-    public function userAllowedSites(DataCrudHelper $crud, int $id)
+    public function userAllowedSites(Request $request, DataCrudHelper $crud, int $id)
     {
         $this->denyAccessUnlessGranted("user-allowed-sites|read");
+
+        $sort = $request->get('sort') ?: [];
+
+        $where = $request->get('where') ?: [];
+
+        $limit = $request->get('limit') ?: 10;
+
+        $offset = $request->get('offset') ?: 0;
+
         $user = $crud->read($this->getEntityClass(), $id);
-        $sites = $crud->getRepository()->getUserAllowedSites($id);
+        $sites = $crud->getRepository()->getUserAllowedSites($id, $sort, $where, $limit, $offset);
 
         return new JsonResponse(
             $sites,

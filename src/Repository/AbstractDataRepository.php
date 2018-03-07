@@ -7,14 +7,24 @@ use Doctrine\Common\Collections\Criteria;
 
 abstract class AbstractDataRepository extends ServiceEntityRepository
 {
-
-    public function findByAsArray(array $filter, array $sort, $limit = null, $offset = null)
+    public function findByAsArray(array $filter, array $sort, array $where, $limit = null, $offset = null)
     {
-
         $qb = $this
             ->createQueryBuilder('e')
-            ->setFirstResult( $offset )
-            ->setMaxResults( $limit );
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $qbCount = $this
+            ->createQueryBuilder('e');
+        $qbCount
+            ->select($qbCount->expr()->count('e'));
+
+        if ($where) {
+            $whereCriteria = Criteria::create()
+                ->orderBy($sort);
+            $qb->addCriteria($whereCriteria);
+            $qbCount->addCriteria($whereCriteria);
+        }
 
         if ($sort) {
             $sortCriteria = Criteria::create()
@@ -22,8 +32,13 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
             $qb->addCriteria($sortCriteria);
         }
 
+        $queryCount = $qbCount->getQuery();
+
         $query = $qb->getQuery();
 
-        return $query->getArrayResult();
+        return [
+            'items' => $query->getArrayResult(),
+            'totalItems' => $queryCount->getSingleScalarResult(),
+        ];
     }
 }

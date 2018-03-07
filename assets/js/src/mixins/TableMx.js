@@ -3,6 +3,8 @@
  * Requires PathMx, UuidMx
  */
 
+import qs from 'qs'
+
 export const tableMxOpenModal = function (item, callerUuid, modalUuid) {
   callerUuid = callerUuid || this.uuid
   if (!callerUuid) {
@@ -37,17 +39,39 @@ export const tableMxModalOpeners = {
 }
 
 export default {
+  computed: {
+    tableMxFetchLimit () {
+      return this.pagination.rowsPerPage || 25
+    },
+    tableMxFetchOffset () {
+      return this.pagination.rowsPerPage * (this.pagination.page - 1)
+    },
+    tableMxFetchQuery () {
+      let query = {
+        limit: this.tableMxFetchLimit,
+        offset: this.tableMxFetchOffset,
+      }
+      if (this.pagination.sortBy) {
+        query.sort = {
+          [this.pagination.sortBy]: this.pagination.descending ? 'DESC' : 'ASC'
+        }
+      }
+      return qs.stringify(query)
+    }
+  },
   methods: {
     tableMxFetch () {
+      let url = `${this.routingMxListUrl}?${this.tableMxFetchQuery}`
       let config = {
         method: 'get',
-        url: this.routingMxListUrl
+        url: url
       }
       this.isRequestPending = true
       this.$store.dispatch('requests/perform', config).then(
         (response) => {
           this.isRequestPending = false
-          this.items = response.data
+          this.totalItems = parseInt(response.data.totalItems)
+          this.items = response.data.items
         }
       ).catch(
         (error) => {

@@ -6,7 +6,7 @@
 export default {
   computed: {
     rsTableMxTableName () {
-      return this.table || this.$route.params.table
+      return this.table__ || this.$route.params.table
     },
     rsTableMxTables () {
       return this.$store.state.tables

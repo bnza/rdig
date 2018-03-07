@@ -12,8 +12,14 @@
     ],
     data () {
       return {
+        pagination: {
+          page: 1,
+          rowsPerPage: 10,
+          sortBy: 'id'
+        },
         loaded: false,
         items: [],
+        totalItems: 0
       }
     },
     computed: {
@@ -36,6 +42,12 @@
       }
     },
     watch: {
+      pagination: {
+        handler (value) {
+          this.fetch()
+        },
+        deep: true
+      },
       reload (flag) {
         if (flag) {
           this.fetch()

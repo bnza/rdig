@@ -61,8 +61,8 @@ abstract class AbstractCrudController extends Controller
     }
 
     /**
-     * @param Request         $request
-     * @param string          $entityName
+     * @param Request $request
+     * @param string  $entityName
      *
      * @return JsonResponse
      */
@@ -73,16 +73,22 @@ abstract class AbstractCrudController extends Controller
          */
         $sort = $request->get('sort') ?: [];
 
+        $where = $request->get('where') ?: [];
+
+        $limit = $request->get('limit') ?: 10;
+
+        $offset = $request->get('offset') ?: 0;
+
         $entities = $this
             ->getRepository($entityName)
-            ->findByAsArray([], $sort);
+            ->findByAsArray([], $sort, $where, $limit, $offset);
 
         return new JsonResponse($entities);
     }
 
     /**
-     * @param string          $entityName
-     * @param int             $id
+     * @param string $entityName
+     * @param int    $id
      *
      * @return JsonResponse
      *
@@ -130,8 +136,8 @@ abstract class AbstractCrudController extends Controller
 
     /**
      * @param DataCrudHelper $crud
-     * @param string $entityName
-     * @param int $id
+     * @param string         $entityName
+     * @param int            $id
      *
      * @return JsonResponse
      *
