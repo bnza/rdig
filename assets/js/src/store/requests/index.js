@@ -60,7 +60,7 @@ export const actions = {
    * @param axiosRequestConfig - Axios Request config (https://github.com/axios/axios)
    * @returns {Promise<AxiosResponse<any>>}
    */
-  perform: async function ({commit, state}, axiosRequestConfig) {
+  perform: async function ({commit, state, rootState}, axiosRequestConfig) {
     let status
 
     commit(NEW_REQUEST, axiosRequestConfig)
@@ -95,6 +95,11 @@ export const actions = {
         errorText = e.response.data
       }
       commit(SET_REQUEST_FULFILLED, index, status, errorText)
+    }
+
+    if (axiosRequestConfig.method !== 'get') {
+      axiosRequestConfig.headers = axiosRequestConfig.headers || {}
+      axiosRequestConfig.headers['X-XSRF-Token'] = rootState.token
     }
 
     return axios.request(axiosRequestConfig).then(

@@ -34,10 +34,7 @@ export const actions = {
       const config = {
         method: 'post',
         url: 'login',
-        data: credentials,
-        headers: {
-          'X-XSRF-Token': rootState.token
-        }
+        data: credentials
       }
       let response = await dispatch('requests/perform', config, {root: true})
       commit(SET_REQ_PENDING, false)
@@ -63,8 +60,6 @@ export const actions = {
     }
   }
 }
-
-
 
 export default {
   namespaced: true,
