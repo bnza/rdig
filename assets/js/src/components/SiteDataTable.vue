@@ -1,11 +1,3 @@
-<!--
-    <v-data-table>
-        <tr>                    -> Site specific <tr> slot
-            *<td>
-        </tr>
-    </v-data-table>
--->
-
 <template>
         <v-data-table
             :pagination.sync="pagination"

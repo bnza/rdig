@@ -24,41 +24,16 @@ const TheDeleteModal = () => import(
   /* webpackChunkName: "TheDeleteModal" */
   '../components/TheDeleteModal'
   )
+const TheSearchModal = () => import(
+  /* webpackChunkName: "TheSearchModal" */
+  '../components/TheSearchModal'
+  )
 const TheUpdateModal = () => import(
   /* webpackChunkName: "TheEditModal" */
   '../components/TheEditModal'
   )
-/*
-export const unprivilegedReadRoutes = {
-  path: '/:prefix(data)/:table',
-  component: TheMainData,
-  props: true,
-  children: [
-    {
-      path: ':action(read)',
-      name: 'data_list_read',
-      components: {
-        default: TheDataList
-      },
-      props: true
-    },
-    {
-      path: ':id(\\d+)/:action(read)',
-      name: 'data_item_read',
-      component: TheDataItem,
-      props: true
-    },
-    {
-      path: ':id(\\d+)/:action(create|update|delete)',
-      name: 'data_item_crud',
-      component: TheDataItem,
-      props: true
-    }
-  ]
-}*/
 
-
-export const unprivilegedReadRoutes = {
+export const dataRoutes = {
   path: '/:prefix(data|admin)/:table',
   component: TheMainData,
   props: true,
@@ -75,6 +50,15 @@ export const unprivilegedReadRoutes = {
       components: {
         default: TheDataList,
         modal: TheCreateModal
+      },
+      props: true
+    },
+    {
+      path: ':action(search)',
+      name: 'data_list_search',
+      components: {
+        default: TheDataList,
+        modal: TheSearchModal
       },
       props: true
     },
@@ -109,6 +93,15 @@ export const unprivilegedReadRoutes = {
       props: true
     },
     {
+      path: ':id(\\d+)/:childTable/:action(search)',
+      name: 'data_child_list_search',
+      components: {
+        default: TheDataItem,
+        modal: TheSearchModal
+      },
+      props: true
+    },
+    {
       path: ':id(\\d+)/:childTable/:action(create)',
       name: 'data_child_list_create',
       components: {
@@ -125,65 +118,9 @@ export const unprivilegedReadRoutes = {
         modal: TheDeleteModal
       },
       props: true
-    },
-
-    /*{
-      path: ':id(\\d+)',
-      children: [
-        {
-          path: ':action(read)',
-          name: 'data_item_read',
-          component: TheDataItem,
-          props: true
-        },
-        {
-          path: ':action(create|update|delete)',
-          name: 'data_item_crud',
-          component: TheDataItem,
-          meta: {
-            hasModal: true
-          },
-          props: true
-        }
-      ]
-    }*/
-  ]
-}
-
-/*export const adminTablesRoutes = {
-  path: '/:prefix(admin)/:table',
-  component: TheMainData,
-  props: true,
-  beforeEnter: (to, from, next) => {
-    authorize(to)
-  },
-  children: [
-    {
-      path: ':action(read)',
-      name: 'admin_list_read',
-      component: TheDataList,
-      props: true
-    },
-    {
-      path: ':action(create)',
-      name: 'admin_list_create',
-      component: TheDataList,
-      props: true
-    },
-    {
-      path: ':id(\\d+)/:action(read)',
-      name: 'admin_item_read',
-      component: TheDataItem,
-      props: true
-    },
-    {
-      path: ':id(\\d+)/:childTable/:action(read)',
-      name: 'admin_child_list_read',
-      component: TheDataItem,
-      props: true
     }
   ]
-}*/
+}
 
 let router = new Router({
   routes: [
@@ -200,8 +137,7 @@ let router = new Router({
         modals: TheLoginModal
       }
     },
-    unprivilegedReadRoutes,
-    //adminTablesRoutes
+    dataRoutes
   ]
 })
 

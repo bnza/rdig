@@ -32,6 +32,14 @@
         set (value) {
           this.loaded = !value
         }
+      },
+      searchCriteria: {
+        get () {
+          return this.uuidMxGet('searchCriteria')
+        },
+        set (value) {
+          this.uuidMxSet('searchCriteria', value)
+        }
       }
     },
     methods: {
@@ -43,8 +51,18 @@
     },
     watch: {
       pagination: {
-        handler (value) {
-          this.fetch()
+        handler (value, oldValue) {
+          if (value !== oldValue) {
+            this.fetch()
+          }
+        },
+        deep: true
+      },
+      searchCriteria: {
+        handler (value, oldValue) {
+          if (value !== oldValue) {
+            this.fetch()
+          }
         },
         deep: true
       },
@@ -53,9 +71,6 @@
           this.fetch()
         }
       }
-    },
-    created () {
-      this.fetch()
     }
   }
 </script>

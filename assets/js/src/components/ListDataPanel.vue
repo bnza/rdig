@@ -16,6 +16,8 @@
             @forward="forwardEventToDataComponent"
             v-on="$listeners"
             v-bind="$props"
+            :dCuid="dCuid"
+            @openModal="openModal"
         />
         <component
             ref="dataComponent"
@@ -23,7 +25,17 @@
             :uuidMxRegister="true"
             v-on="$listeners"
             v-bind="$props"
+            @created="setDataListComponentUuid"
         />
+<!--        <component
+            ref="modalComponent"
+            v-bind:is="modalComponentName"
+            :uuidMxRegister="true"
+            v-on="$listeners"
+            v-bind="$props"
+            @closeModal="closeModal"
+            @forward="forwardEventToDataComponent"
+        />-->
     </article>
 </template>
 
@@ -32,7 +44,6 @@
   import PathMx from '../mixins/PathMx'
   import RSTableMx from '../mixins/RSTableMx'
   import UuidMx from '../mixins/UuidMx'
-  import {tableMxModalOpeners} from '../mixins/TableMx'
   import {pascalize} from '../util'
 
   export default {
@@ -46,6 +57,10 @@
       SiteDataTable: () => import(
         /* webpackChunkName: "SiteDataTable" */
         './SiteDataTable'
+        ),
+      TheSearchModal: () => import(
+        /* webpackChunkName: "TheSearchModal" */
+        './TheSearchModal'
         ),
       UserListDataToolbar: () => import(
         /* webpackChunkName: "UserListDataToolbar" */
@@ -65,6 +80,11 @@
       RSTableMx,
       PathMx
     ],
+    data () {
+      return {
+        modalComponentName: ''
+      }
+    },
     computed: {
       parent () {
         return this.parent__
@@ -84,7 +104,21 @@
       }
     },
     methods: {
-      ...tableMxModalOpeners
+      openModal (name, unique) {
+        let component = `${pascalize(this.table)}${pascalize(name)}DataTable`
+        if (unique) {
+          component = `The${pascalize(name)}Modal`
+        }
+        this.modalComponentName = component
+      },
+      closeModal () {
+        this.modalComponentName = ''
+      },
+      setDataListComponentUuid(uuid) {
+        this.setDataComponentUuid(uuid)
+        this.$listeners.listDataComponentCreated(uuid)
+        //this.$emit('listDataComponentCreated', uuid)
+      }
     }
   }
 </script>

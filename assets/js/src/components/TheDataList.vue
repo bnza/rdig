@@ -13,6 +13,7 @@
             :table__="$route.params.table"
             :id__="$route.params.id"
             :uuidMxRegister="true"
+            v-on="$listeners"
         />
     </section>
 </template>

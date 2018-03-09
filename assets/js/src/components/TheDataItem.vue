@@ -16,6 +16,7 @@
             :parent__="parent"
             :uuidMxRegister="true"
             @setChildList="setChildList"
+            v-on="$listeners"
         />
     </section>
 </template>

@@ -3,8 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Site;
-use App\Repository\AbstractDataRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class SiteRepository extends AbstractDataRepository
@@ -14,16 +12,25 @@ class SiteRepository extends AbstractDataRepository
         parent::__construct($registry, Site::class);
     }
 
-    /*
-    public function findBySomething($value)
+    protected function addUserAllowedFilters(array $filter, ...$params)
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.something = :value')->setParameter('value', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $filter['u.id'] = ['op' => 'eq', 'value' => $params[0]];
+        parent::addFilters($filter);
     }
-    */
+
+    protected function addJoins()
+    {
+        $this->qbf->innerJoin('e.users', 'u');
+        $this->qbc->innerJoin('e.users', 'u');
+    }
+
+    public function getUserAllowedSites(int $id, array $filter, array $sort, $limit = null, $offset = null)
+    {
+        $this->createQueryBuilders($limit, $offset);
+        $this->addJoins();
+        $this->addUserAllowedFilters($filter, $id);
+        $this->addSortCriteria($sort);
+
+        return $this->getListResultData();
+    }
 }

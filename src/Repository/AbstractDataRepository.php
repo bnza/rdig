@@ -7,38 +7,113 @@ use Doctrine\Common\Collections\Criteria;
 
 abstract class AbstractDataRepository extends ServiceEntityRepository
 {
-    public function findByAsArray(array $filter, array $sort, array $where, $limit = null, $offset = null)
+    /**
+     * The filter QueryBuilder.
+     *
+     * @var \Doctrine\ORM\QueryBuilder
+     */
+    protected $qbf;
+    /**
+     * The count QueryBuilder.
+     *
+     * @var \Doctrine\ORM\QueryBuilder
+     */
+    protected $qbc;
+    protected $alias = 'e';
+
+    protected function getFilterExpressions(array $filter)
     {
-        $qb = $this
-            ->createQueryBuilder('e')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit);
-
-        $qbCount = $this
-            ->createQueryBuilder('e');
-        $qbCount
-            ->select($qbCount->expr()->count('e'));
-
-        if ($where) {
-            $whereCriteria = Criteria::create()
-                ->orderBy($sort);
-            $qb->addCriteria($whereCriteria);
-            $qbCount->addCriteria($whereCriteria);
+        $expr = null;
+        $expressions = [];
+        $params = [];
+        $i = 1;
+        foreach ($filter as $field => $criterium) {
+            $le = false === strpos($field, '.')
+                ? "{$this->alias}.{$field}"
+                : $field;
+            $re = "?{$i}";
+            //$re = ":{$field}";
+            array_push($expressions, $this->qbf->expr()->{$criterium['op']}($le, $re));
+            //$params[$field] = $criterium['value'];
+            $params[$i] = $criterium['value'];
+            ++$i;
+        }
+        if (count($expressions) > 1) {
+            $expr = $this->qbf->expr()->andX(
+                ...$expressions
+            );
+        } else {
+            $expr = $expressions[0];
         }
 
+        return [$expr, $params];
+    }
+
+    protected function createFilterQueryBuilder($limit = null, $offset = null)
+    {
+        $this->qbf = $this
+            ->createQueryBuilder($this->alias)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+    }
+
+    protected function createCountQueryBuilder()
+    {
+        $this->qbc = $this
+            ->createQueryBuilder($this->alias);
+
+        $this->qbc
+            ->select($this->qbc->expr()->count($this->alias));
+    }
+
+    protected function createQueryBuilders($limit = null, $offset = null)
+    {
+        $this->createFilterQueryBuilder($limit, $offset);
+        $this->createCountQueryBuilder();
+    }
+
+    /**
+     * @param array $filter
+     */
+    protected function addFilters(array $filter, ...$params)
+    {
+        if ($filter) {
+            list($expressions, $parameters) = $this->getFilterExpressions($filter);
+            // Filter Query
+            $this->qbf->add('where', $expressions);
+            $this->qbf->setParameters($parameters);
+            // Count Query
+            $this->qbc->add('where', $expressions);
+            $this->qbc->setParameters($parameters);
+        }
+    }
+
+    protected function addSortCriteria(array $sort)
+    {
         if ($sort) {
             $sortCriteria = Criteria::create()
                 ->orderBy($sort);
-            $qb->addCriteria($sortCriteria);
+            $this->qbf->addCriteria($sortCriteria);
         }
+    }
 
-        $queryCount = $qbCount->getQuery();
-
-        $query = $qb->getQuery();
+    protected function getListResultData()
+    {
+        $queryCount = $this->qbc->getQuery();
+        $query = $this->qbf->getQuery();
 
         return [
             'items' => $query->getArrayResult(),
             'totalItems' => $queryCount->getSingleScalarResult(),
         ];
+    }
+
+    public function findByAsArray(array $filter, array $sort, $limit = null, $offset = null)
+    {
+        $this->createQueryBuilders($limit, $offset);
+        $this->addFilters($filter);
+        $this->addSortCriteria($sort);
+
+        return $this->getListResultData();
     }
 }

@@ -21,6 +21,9 @@
         action = action || 'read'
         this.$router.push(this.getPath(action, true))
       }
+    },
+    created () {
+      this.$emit('created', this.uuid)
     }
   }
 </script>

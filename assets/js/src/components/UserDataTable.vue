@@ -39,11 +39,11 @@
   export default {
     name: 'user-data-table',
     extends: BaseListDataTable,
-    data () {
+/*    data () {
       return {
         prefix_: 'admin',
         table_: 'user'
       }
-    }
+    }*/
   }
 </script>

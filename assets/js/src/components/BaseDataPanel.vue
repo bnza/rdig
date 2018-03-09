@@ -10,25 +10,6 @@
         dCuid: ''
       }
     },
-/*    props: {
-      parent__: {
-        type: Object
-      },
-      prefix__: {
-        type: String,
-        default: 'data'
-      },
-      id__: {
-        type: [Number, String],
-        validator (value) {
-          return /^\d*,?\d*$/.test(value)
-        }
-      },
-      table__: {
-        type: String,
-        required: true
-      }
-    },*/
     computed: {
       dataComponent () {
         return this.$refs.dataComponent

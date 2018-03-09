@@ -8,7 +8,10 @@
     <v-container>
         <v-layout>
             <v-flex xs12 sm10 offset-xs1>
-                <router-view class="mt-5" />
+                <router-view
+                    class="mt-5"
+                    @listDataComponentCreated="setListDataComponentUuid"
+                />
             </v-flex>
         </v-layout>
         <div>
@@ -16,10 +19,6 @@
                 name="modal"
                 ref="modal"
             />
-            <!--<component ref="modal" :is="modalComponent"/>-->
-            <!--<the-add-modal />
-            <the-delete-modal/>
-            <the-edit-modal/>-->
         </div>
     </v-container>
 </template>
@@ -55,6 +54,16 @@
     computed: {
       modalComponent () {
         return `The${pascalize(this.$route.params.action)}Modal`
+      }
+    },
+    methods: {
+      /**
+       * Set *-data-table uuid in 'the-main-data' namespace.
+       * Only needed in page reload when no callerUuid is set for modals
+       * @param uuid
+       */
+      setListDataComponentUuid (uuid) {
+        this.uuidMxSet('listDataComponentUuid', uuid)
       }
     }
   }

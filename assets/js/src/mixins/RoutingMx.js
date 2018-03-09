@@ -106,6 +106,9 @@ export default {
     routingMxCreatePath () {
       return `${this.routingMxBasePath}/create`
     },
+    routingMxSearchPath () {
+      return routingMxListActionPath('search', this.table__, this.prefix__, this.parent__)
+    },
     routingMxItemPath () {
       return `/${this.routingMxItemUrl}/read`
     },

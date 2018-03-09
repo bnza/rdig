@@ -97,9 +97,14 @@ export const actions = {
       commit(SET_REQUEST_FULFILLED, index, status, errorText)
     }
 
+    axiosRequestConfig.headers = axiosRequestConfig.headers || {}
+    if (!axiosRequestConfig.headers['Accept']) {
+      axiosRequestConfig.headers['Accept'] = 'application/json'
+    }
     if (axiosRequestConfig.method !== 'get') {
-      axiosRequestConfig.headers = axiosRequestConfig.headers || {}
-      axiosRequestConfig.headers['X-XSRF-Token'] = rootState.token
+      if (!axiosRequestConfig.headers['X-XSRF-Token']) {
+        axiosRequestConfig.headers['X-XSRF-Token'] = rootState.token
+      }
     }
 
     return axios.request(axiosRequestConfig).then(

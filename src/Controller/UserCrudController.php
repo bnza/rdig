@@ -34,12 +34,14 @@ class UserCrudController extends AbstractCrudController
     public function read(string $entityName, int $id)
     {
         $this->denyAccessUnlessGranted("$entityName|read");
+
         return parent::read($entityName, $id);
     }
 
     public function list(Request $request, string $entityName)
     {
         $this->denyAccessUnlessGranted("$entityName|read");
+
         return parent::list($request, $entityName);
     }
 
@@ -112,18 +114,17 @@ class UserCrudController extends AbstractCrudController
 
     public function userAllowedSites(Request $request, DataCrudHelper $crud, int $id)
     {
-        $this->denyAccessUnlessGranted("user-allowed-sites|read");
+        $this->denyAccessUnlessGranted('user-allowed-sites|read');
 
         $sort = $request->get('sort') ?: [];
 
-        $where = $request->get('where') ?: [];
+        $filter = $request->get('filter') ?: [];
 
         $limit = $request->get('limit') ?: 10;
 
         $offset = $request->get('offset') ?: 0;
 
-        $user = $crud->read($this->getEntityClass(), $id);
-        $sites = $crud->getRepository()->getUserAllowedSites($id, $sort, $where, $limit, $offset);
+        $sites = $this->doctrine->getRepository(Site::class)->getUserAllowedSites($id, $filter, $sort, $limit, $offset);
 
         return new JsonResponse(
             $sites,
@@ -133,7 +134,7 @@ class UserCrudController extends AbstractCrudController
 
     public function userDeniedSites(DataCrudHelper $crud, int $id)
     {
-        $this->denyAccessUnlessGranted("user-allowed-sites|read");
+        $this->denyAccessUnlessGranted('user-allowed-sites|read');
         $user = $crud->read($this->getEntityClass(), $id);
         $sites = $crud->getRepository()->getUserDeniedSites($id);
 
@@ -145,7 +146,7 @@ class UserCrudController extends AbstractCrudController
 
     public function userAllowedSite(DataCrudHelper $crud, int $id, int $siteId)
     {
-        $this->denyAccessUnlessGranted("user-allowed-sites|read");
+        $this->denyAccessUnlessGranted('user-allowed-sites|read');
         $user = $crud->read($this->getEntityClass(), $id);
 
         $site = $crud->getRepository()->getUserAllowedSite($id, $siteId);
@@ -162,8 +163,8 @@ class UserCrudController extends AbstractCrudController
 
     public function addUserAllowedSite(Request $request, DataCrudHelper $crud, int $id)
     {
-        $this->denyAccessUnlessGranted("user-allowed-sites|create");
-        $siteId = json_decode($request->getContent(),true)['siteId'];
+        $this->denyAccessUnlessGranted('user-allowed-sites|create');
+        $siteId = json_decode($request->getContent(), true)['siteId'];
         $site = $crud->read(Site::class, $siteId);
         $user = $crud->read($this->getEntityClass(), $id);
         $user->addSite($site);
@@ -177,7 +178,7 @@ class UserCrudController extends AbstractCrudController
 
     public function deleteUserAllowedSite(DataCrudHelper $crud, int $id, int $siteId)
     {
-        $this->denyAccessUnlessGranted("user-allowed-sites|delete");
+        $this->denyAccessUnlessGranted('user-allowed-sites|delete');
         $site = $crud->read(Site::class, $siteId);
         $user = $crud->read($this->getEntityClass(), $id);
         $user->removeSite($site);

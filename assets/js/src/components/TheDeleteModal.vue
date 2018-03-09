@@ -54,7 +54,6 @@
 
 <script>
   import BaseFormModal from './BaseFormModal'
-  import {pascalize} from '../util'
 
   export default {
     name: 'the-delete-modal',

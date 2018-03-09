@@ -23,7 +23,9 @@
         >
             <v-icon>add</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn icon
+               @click="openSearchModal"
+        >
             <v-icon>search</v-icon>
         </v-btn>
     </v-toolbar>
@@ -31,9 +33,16 @@
 
 <script>
   import BaseDataComponentToolbar from './BaseDataComponentToolbar'
+  import {uuidMxSet} from '../mixins/UuidMx'
 
   export default {
     name: 'list-data-toolbar',
-    extends: BaseDataComponentToolbar
+    extends: BaseDataComponentToolbar,
+    methods: {
+      openSearchModal () {
+        uuidMxSet(this.$store, 'callerUuid', this.dCuid, 'the-search-modal')
+        this.$router.push(this.routingMxSearchPath)
+      }
+    }
   }
 </script>

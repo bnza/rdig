@@ -1,18 +1,4 @@
-<!--
-<template>
-    <v-dialog v-model="isDialogOpen">       #isDialogOpen hide/show dialog
-        <component                          #form component
-            ref="dataForm"
-            :is="*DataComponent"
-            :pathMxItemIdP="id"
-            :callerUuid="uuid"
-            @updated="closeDialog(true)"
-         />
-    </v-dialog>
--->
-
 <script>
-  import PathMx from '../mixins/PathMx'
   import UuidMx from '../mixins/UuidMx'
   import {pascalize} from '../util'
   import {routingMxClone, routingMxGetReadRoute, routingMxListPath} from '../mixins/RoutingMx'
@@ -20,8 +6,7 @@
   export default {
     name: 'base-form-modal',
     mixins: [
-      UuidMx,
-      PathMx
+      UuidMx
     ],
     data () {
       return {
@@ -31,6 +16,9 @@
       }
     },
     computed: {
+      callerUuid () {
+        return this.uuidMxGet('callerUuid') || this.uuidMxGet('listDataComponentUuid', 'the-main-data')
+      },
       dataFormComponent () {
         return this.$refs.dataForm
       },

@@ -10,6 +10,7 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Entity\Site;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query\Expr;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class UserRepository extends AbstractDataRepository
@@ -27,32 +28,6 @@ class UserRepository extends AbstractDataRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
-    }
-
-    public function getUserAllowedSites(int $id, array $sort, array $where, $limit = null, $offset = null)
-    {
-        $user = $this->find($id);
-        if ($user) {
-            $sites = $user->getSites();
-            $totalItems = count($sites);
-
-            $criteria = Criteria::create()
-                ->setFirstResult($offset)
-                ->setMaxResults($limit);
-
-            if ($sort) {
-                $criteria->orderBy($sort);
-            }
-
-            $items = $sites->matching($criteria)->map(function ($site) use ($user) {
-                return $this->allowedSiteToArray($site, $user);
-            })->getValues();
-
-            return [
-                'items' => $items,
-                'totalItems' => $totalItems,
-            ];
-        }
     }
 
     public function getUserAllowedSite(int $id, int $siteId)

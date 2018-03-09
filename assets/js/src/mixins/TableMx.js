@@ -31,6 +31,13 @@ export const tableMxOpenEditModal = function (i, callerUuid) {
   this.$router.push(path)
 }
 
+export const tableMxOpenSearchModal = function (callerUuid) {
+  callerUuid = callerUuid || this.uuid
+  // this.uuidMxSet('criteria', criteria, 'the-search-modal')
+  this.uuidMxSet('callerUuid', callerUuid, 'the-search-modal')
+  this.$router.push(this.routingMxSearchPath)
+}
+
 export const tableMxModalOpeners = {
   tableMxOpenModal,
   tableMxOpenAddModal,
@@ -56,6 +63,9 @@ export default {
           [this.pagination.sortBy]: this.pagination.descending ? 'DESC' : 'ASC'
         }
       }
+      if (this.searchCriteria) {
+        query.filter = this.searchCriteria
+      }
       return qs.stringify(query)
     }
   },
@@ -79,12 +89,15 @@ export default {
           let text = 'ERROR: '
           if (error.response) {
             if (error.response) {
-              this.uuidMxSet('text', text + error.response.data, 'the-snack-bar')
+              if (error.response.data.error && error.response.data.error.exception) {
+                text += error.response.data.error.exception
+              } else {
+                text += error.response.data
+              }
+              this.uuidMxSet('text', text, 'the-snack-bar')
               this.uuidMxSet('color', 'error', 'the-snack-bar')
               this.uuidMxSet('active', true, 'the-snack-bar')
-              if (error.response.status === 403) {
-                this.routingMxBack()
-              }
+              this.routingMxBack()
             }
           }
         }

@@ -73,7 +73,7 @@ abstract class AbstractCrudController extends Controller
          */
         $sort = $request->get('sort') ?: [];
 
-        $where = $request->get('where') ?: [];
+        $filter = $request->get('filter') ?: [];
 
         $limit = $request->get('limit') ?: 10;
 
@@ -81,7 +81,7 @@ abstract class AbstractCrudController extends Controller
 
         $entities = $this
             ->getRepository($entityName)
-            ->findByAsArray([], $sort, $where, $limit, $offset);
+            ->findByAsArray($filter, $sort, $limit, $offset);
 
         return new JsonResponse($entities);
     }
