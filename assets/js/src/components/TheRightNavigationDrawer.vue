@@ -8,7 +8,7 @@
             class="grey lighten-4"
         >
             <nav-table-list-group />
-            <nav-admin-list-group v-if="authMxisAdmin"/>
+            <nav-admin-list-group v-if="authMxIsAdmin"/>
             <nav-login-list-tile />
         </v-list>
     </v-navigation-drawer>
