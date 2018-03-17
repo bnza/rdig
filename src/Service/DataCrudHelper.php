@@ -37,7 +37,7 @@ class DataCrudHelper
     {
         $this->em = $em;
         $this->validator = $validator;
-        $this->wrapper = new EntityWrapper();
+        $this->wrapper = new EntityWrapper($em);
     }
 
     public function getRepository()
@@ -124,9 +124,15 @@ class DataCrudHelper
      */
     public function create($entity, $data)
     {
-        $response = [];
         $this->setEntity($entity, $data, true);
         $this->persist();
+
+        return $this->getCreateResponseArray();
+    }
+
+    public function getCreateResponseArray()
+    {
+        $response = [];
         $response['statusCode'] = 201;
         $response['data'] = $this->wrapper->getData();
         $response['id'] = $this->wrapper->getEntity()->getId();
@@ -137,7 +143,9 @@ class DataCrudHelper
     /**
      * @param $entityName
      * @param int|string $data
+     *
      * @return object
+     *
      * @throws InvalidRequestDataCrudException
      * @throws NotFoundCrudException
      * @throws DataValidationCrudException
@@ -194,11 +202,11 @@ class DataCrudHelper
      */
     public function delete($entity)
     {
-
+        $id = $entity->getId();
         $this->em->remove($entity);
         $this->em->flush();
         $response['statusCode'] = 200;
-        $response['data'] = "Successfully deleted [{$entity->getId()}] entity";
+        $response['data'] = "Successfully deleted [#{$id}] entity";
 
         return $response;
     }

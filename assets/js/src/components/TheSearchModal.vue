@@ -58,6 +58,10 @@
     name: 'the-search-modal',
     extends: BaseFormModal,
     components: {
+      AreaSearchDataForm: () => import(
+        /* webpackChunkName: "AreaSearchDataForm" */
+        './AreaSearchDataForm'
+        ),
       SiteSearchDataForm: () => import(
         /* webpackChunkName: "SiteSearchDataForm" */
         './SiteSearchDataForm'

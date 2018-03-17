@@ -68,6 +68,12 @@
     methods: {
       clear () {
         this.search_ = JSON.parse(JSON.stringify(this.defaultSearch))
+      },
+      toggleGroupsVisibility (group) {
+        this.groupsVisibility[group] = !this.groupsVisibility[group]
+      },
+      getVisibilityIcon (group) {
+        return this.groupsVisibility[group] ? 'expand_more' : 'expand_less'
       }
     },
     created () {

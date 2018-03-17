@@ -59,6 +59,10 @@
     name: 'the-delete-modal',
     extends: BaseFormModal,
     components: {
+      AreaDeleteDataForm: () => import(
+        /* webpackChunkName: "AreaDeleteDataForm" */
+        './AreaDeleteDataForm'
+        ),
       SiteDeleteDataForm: () => import(
         /* webpackChunkName: "SiteDeleteDataForm" */
         './SiteDeleteDataForm'

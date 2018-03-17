@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, \Serializable, CrudEntityInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -74,7 +74,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -142,5 +142,16 @@ class User implements UserInterface, \Serializable
             $this->password,
             $this->roles
             ) = unserialize($serialized);
+    }
+
+    public function toArray(bool $ancestors = true, bool $descendants = false)
+    {
+        $data = [
+            'id' => $this->id,
+            'username' => $this->username,
+            'roles' => $this->roles
+        ];
+
+        return $data;
     }
 }

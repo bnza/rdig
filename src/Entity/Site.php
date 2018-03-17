@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
  */
-class Site
+class Site implements CrudEntityInterface
 {
 
     /**
@@ -45,6 +45,26 @@ class Site
     private $users;
 
     /**
+     * One Site has Many Areas.
+     * @ORM\OneToMany(targetEntity="Area", mappedBy="site")
+     */
+    private $areas;
+
+    /**
+     * @return mixed
+     */
+    public function getAreas()
+    {
+        return $this->areas;
+    }
+
+    public function addArea(Area $area)
+    {
+        $this->areas[] = $area;
+        $area->setSite($this);
+    }
+
+    /**
      * @return mixed
      */
     public function getUsers()
@@ -64,12 +84,13 @@ class Site
 
     public function __construct() {
         $this->users = new ArrayCollection();
+        $this->areas = new ArrayCollection();
     }
 
     /**
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -104,5 +125,16 @@ class Site
     public function setName($name): void
     {
         $this->name = $name;
+    }
+
+    public function toArray(bool $ancestors = true, bool $descendants = false)
+    {
+        $data = [
+            'id' => $this->id,
+            'code' => $this->code,
+            'name' => $this->name
+        ];
+
+        return $data;
     }
 }

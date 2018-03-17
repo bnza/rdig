@@ -111,11 +111,25 @@ export const dataRoutes = {
       props: true
     },
     {
+      path: ':id(\\d+)/:childTable/:childId(\\d+)/:action(read)',
+      name: 'data_child_item_read',
+      redirect: '/:prefix/:childTable/:childId/read'
+    },
+    {
       path: ':id(\\d+)/:childTable/:childId(\\d+)/:action(delete)',
       name: 'data_child_item_delete',
       components: {
         default: TheDataItem,
         modal: TheDeleteModal
+      },
+      props: true
+    },
+    {
+      path: ':id(\\d+)/:childTable/:childId(\\d+)/:action(update)',
+      name: 'data_child_item_update',
+      components: {
+        default: TheDataItem,
+        modal: TheUpdateModal
       },
       props: true
     }

@@ -153,4 +153,37 @@ abstract class AbstractCrudController extends Controller
 
         return $response;
     }
+
+    /**
+     * @param Request $request
+     * @param string  $entityName
+     * @param string  $parentEntityName
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function childList(Request $request, string $entityName, int $id, string $parentEntityName)
+    {
+        /**
+         * Maps sort[code]=ASC query string to ['code'=>'ASC'] array.
+         */
+        $sort = $request->get('sort') ?: [];
+
+        $filter = $request->get('filter') ?: [];
+
+        $limit = $request->get('limit') ?: 10;
+
+        $offset = $request->get('offset') ?: 0;
+
+        // TODO check parent - child relationship
+        $filter["$parentEntityName.id"] = ['op' => 'eq', 'value' => $id];
+
+        $entities = $this
+            ->getRepository($entityName)
+            ->findByAsArray($filter, $sort, $limit, $offset);
+
+        return new JsonResponse($entities);
+    }
+
+
 }

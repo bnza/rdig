@@ -6,9 +6,7 @@
 -->
 
 <template>
-    <article
-        v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
-    >
+    <article>
         <component
             :flat="true"
             ref="toolbar"
@@ -50,6 +48,10 @@
     name: 'list-data-panel',
     extends: BaseDataPanel,
     components: {
+      AreaDataTable: () => import(
+        /* webpackChunkName: "AreaDataTable" */
+        './AreaDataTable'
+        ),
       ListDataToolbar: () => import(
         /* webpackChunkName: "ListBaseDataToolbar" */
         './ListDataToolbar'

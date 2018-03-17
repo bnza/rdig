@@ -15,8 +15,8 @@
                     <component
                         ref="dataForm"
                         :prefix__="$route.params.prefix"
-                        :table__="$route.params.table"
-                        :id__="$route.params.id"
+                        :table__="editTable"
+                        :id__="editId"
                         :parent__="parent"
                         :is="dataFormComponentName"
                         :callerUuid="uuid"
@@ -53,6 +53,10 @@
     name: 'the-edit-modal',
     extends: BaseFormModal,
     components: {
+      AreaEditDataForm: () => import(
+        /* webpackChunkName: "AreaEditDataForm" */
+        './AreaEditDataForm'
+        ),
       SiteEditDataForm: () => import(
         /* webpackChunkName: "SiteEditDataForm" */
         './SiteEditDataForm'
@@ -68,6 +72,12 @@
       }
     },
     computed: {
+      editTable () {
+        return this.$route.params.childTable || this.$route.params.table
+      },
+      editId () {
+        return this.$route.params.childId || this.$route.params.id
+      },
       editDataComponent: function () {
         return `${pascalize(this.$route.params.table)}EditDataForm`
       }

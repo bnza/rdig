@@ -20,4 +20,14 @@ class AreaRepository extends AbstractDataRepository
         parent::__construct($registry, Area::class);
     }
 
+    protected function createQueryBuilders($limit = null, $offset = null)
+    {
+        $this
+            ->createFilterQueryBuilder($limit, $offset)
+            ->addSelect('site')
+            ->leftJoin('e.site', 'site');
+        $this->createCountQueryBuilder()
+            ->leftJoin('e.site', 'site');
+    }
+
 }

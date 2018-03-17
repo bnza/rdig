@@ -1,7 +1,5 @@
 <template>
-    <article
-        v-bind:style="{ maxWidth: $_RSTableMx_maxWidth}"
-    >
+    <article>
         <component
             ref="toolbar"
             :is="toolbarComponentName"
@@ -33,6 +31,10 @@
       ItemDataToolbar: () => import(
         /* webpackChunkName: "ItemDataToolbar" */
         './ItemDataToolbar'
+        ),
+      AreaReadDataForm: () => import(
+        /* webpackChunkName: "AreaReadDataForm" */
+        './AreaReadDataForm'
         ),
       SiteReadDataForm: () => import(
         /* webpackChunkName: "SiteReadDataForm" */

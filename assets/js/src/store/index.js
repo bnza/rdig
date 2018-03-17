@@ -32,7 +32,7 @@ export const state = {
           text: 'Code',
           value: 'code',
           class: 'subheading',
-          width: '20%'
+          width: '10%'
         },
         {
           text: 'Name',
@@ -41,7 +41,34 @@ export const state = {
         }
       ]
     },
-    area: {label: 'Area'},
+    area: {
+      label: 'Area',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Site',
+          value: 'site.code',
+          class: 'subheading',
+          width: '10%'
+        },
+        {
+          text: 'Code',
+          value: 'code',
+          class: 'subheading',
+          width: '10%'
+        },
+        {
+          text: 'Name',
+          value: 'name',
+          class: 'subheading'
+        }
+      ]
+    },
     context: {label: 'Context'},
     bucket: {label: 'Bucket'},
     user: {

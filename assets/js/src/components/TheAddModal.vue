@@ -52,6 +52,10 @@
     name: 'the-add-modal',
     extends: BaseFormModal,
     components: {
+      AreaAddDataForm: () => import(
+        /* webpackChunkName: "AreaEditDataForm" */
+        './AreaEditDataForm'
+        ),
       SiteAddDataForm: () => import(
         /* webpackChunkName: "SiteEditDataForm" */
         './SiteEditDataForm'

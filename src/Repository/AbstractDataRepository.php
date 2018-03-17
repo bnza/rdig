@@ -32,9 +32,8 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
                 ? "{$this->alias}.{$field}"
                 : $field;
             $re = "?{$i}";
-            //$re = ":{$field}";
+            // TODO check criterium op
             array_push($expressions, $this->qbf->expr()->{$criterium['op']}($le, $re));
-            //$params[$field] = $criterium['value'];
             $params[$i] = $criterium['value'];
             ++$i;
         }
@@ -49,14 +48,25 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
         return [$expr, $params];
     }
 
+    /**
+     * @param null $limit
+     * @param null $offset
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     protected function createFilterQueryBuilder($limit = null, $offset = null)
     {
         $this->qbf = $this
             ->createQueryBuilder($this->alias)
             ->setFirstResult($offset)
             ->setMaxResults($limit);
+        return $this->qbf;
     }
 
+    /**
+     * @param null $limit
+     * @param null $offset
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     protected function createCountQueryBuilder()
     {
         $this->qbc = $this
@@ -64,6 +74,8 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
 
         $this->qbc
             ->select($this->qbc->expr()->count($this->alias));
+
+        return $this->qbc;
     }
 
     protected function createQueryBuilders($limit = null, $offset = null)

@@ -2,13 +2,52 @@
 
 namespace App\Service;
 
+use App\Entity\CrudEntityInterface;
+use App\Exceptions\NotFoundEntityCrudException;
 use Doctrine\Common\Util;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\Common\Persistence\ObjectManager;
+
 
 class EntityWrapper
 {
+    /**
+     * @var ObjectManager
+     */
+    protected $em;
 
+    /**
+     * @var CrudEntityInterface
+     */
     protected $entity;
+
+    protected $entityClasses = [
+        'site' => 'App\Entity\Site',
+        'area' => 'App\Entity\Area',
+    ];
+
+    /**
+     * DataCrudHelper constructor.
+     *
+     * @param ObjectManager      $em
+     */
+    public function __construct(ObjectManager $em)
+    {
+        $this->em = $em;
+    }
+
+    public function getEntityClass(string $entityClassKey)
+    {
+        if (array_key_exists($entityClassKey, $this->entityClasses)) {
+            return $this->entityClasses[$entityClassKey];
+        }
+        throw new NotFoundEntityCrudException($entityClassKey);
+    }
+
+    public function getRepository(string $entityClassKey)
+    {
+        return $this->em->getRepository($this->getEntityClass($entityClassKey));
+    }
 
     /**
      * @param string|Entity $entity
@@ -47,11 +86,16 @@ class EntityWrapper
             $data = json_decode($data, true);
         }
 
-        $entity = $this->entity;
         foreach ($data as $key => $value) {
             if ($key !== 'id') {
+                // value is an entity instance?
+                if (is_array($value) && array_key_exists('id', $value)) {
+                    // TODO nest array_key_exists check
+                    // retrieve it from repository
+                   $value = $this->getRepository($key)->find($value['id']);
+                }
                 $setMethod = 'set'.ucfirst($this->camelcase($key));
-                if (method_exists($entity, $setMethod)) {
+                if (method_exists($this->entity, $setMethod)) {
                     $this->entity->$setMethod($value);
                 }
             }
@@ -65,18 +109,7 @@ class EntityWrapper
      */
     public function getData()
     {
-        $methods = get_class_methods($this->entity);
-        $data = [];
-
-        foreach ($methods as $method) {
-            if (0 === stripos($method, 'get')) {
-                $key = $this->snakecase(substr($method, 3));
-                $value = $this->entity->$method();
-                $data[$key] = $value;
-            }
-        }
-
-        return $data;
+        return $this->entity->toArray();
     }
 
     protected function camelcase($str)

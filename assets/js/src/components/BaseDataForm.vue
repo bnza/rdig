@@ -53,7 +53,7 @@
             this.$emit('sync')
           }
         ).catch(
-          () => {
+          (error) => {
             // TODO workaround
             // clone data item detaching it from store
             this.item = this.item

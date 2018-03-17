@@ -31,6 +31,8 @@ export default {
             if (error.response.data.error) {
               if (error.response.data.error.exception) {
                 this.uuidMxSet('text', text + error.response.data.error.exception, 'the-snack-bar')
+              } else if (error.response.data.error.violations) {
+                this.uuidMxSet('text', text + error.response.data.error.violations[0].message, 'the-snack-bar')
               }
             } else if (error.response.data) {
               this.uuidMxSet('text', text + error.response.data, 'the-snack-bar')

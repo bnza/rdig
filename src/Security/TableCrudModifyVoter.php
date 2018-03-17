@@ -18,6 +18,7 @@ class TableCrudModifyVoter extends Voter
     private $tables = [
         'user' => ['ROLE_ADMIN'],
         'site' => ['ROLE_ADMIN'],
+        'area' => ['ROLE_ADMIN'],
         'user-allowed-sites' => ['ROLE_ADMIN']
     ];
 

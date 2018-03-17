@@ -19,7 +19,7 @@
                 <v-icon>more_vert</v-icon>
             </v-btn>
             <v-list>
-                <v-list-tile @click="setChildTable">
+                <v-list-tile @click="setChildTable('user-allowed-sites')">
                     <v-list-tile-title>User site privileges</v-list-tile-title>
                 </v-list-tile>
             </v-list>
@@ -28,16 +28,11 @@
 </template>
 
 <script>
-  import ListDataToolbar from './ListDataToolbar'
+  import ItemDataToolbar from './ItemDataToolbar'
 
   export default {
     name: 'user-item-data-toolbar',
-    extends: ListDataToolbar,
-    methods: {
-      setChildTable () {
-        this.$listeners.setChildList('user-allowed-sites')
-      }
-    }
+    extends: ItemDataToolbar,
   }
 </script>
 
