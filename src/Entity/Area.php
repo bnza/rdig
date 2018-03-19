@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-namespace App\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -47,11 +45,22 @@ class Area implements CrudEntityInterface
     private $name;
 
     /**
-     * Many Features have One Product.
+     * @var Site
+     * Many Areas have One Site.
      * @ORM\ManyToOne(targetEntity="Site", inversedBy="areas")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
     private $site;
+
+    /**
+     * One Area has Many Contexts.
+     * @ORM\OneToMany(targetEntity="Context", mappedBy="area")
+     */
+    private $contexts;
+
+    public function __construct() {
+        $this->contexts = new ArrayCollection();
+    }
 
     /**
      * @return int

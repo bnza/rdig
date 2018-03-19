@@ -17,6 +17,15 @@ export const mutations = {
 }
 
 export const state = {
+  contextTypes: [
+    { id: 'B', 'name': 'bench' },
+    { id: 'D', 'name': 'drain' },
+    { id: 'F', 'name': 'fill' },
+    { id: 'G', 'name': 'grave' },
+    { id: 'L', 'name': 'locus' },
+    { id: 'P', 'name': 'pitt' },
+    { id: 'W', 'name': 'wall' }
+  ],
   tables: {
     site: {
       label: 'Site',
@@ -69,7 +78,40 @@ export const state = {
         }
       ]
     },
-    context: {label: 'Context'},
+    context: {
+      label: 'Context',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Site',
+          value: 'site.code',
+          class: 'subheading',
+          width: '10%'
+        },
+        {
+          text: 'Area',
+          value: 'area.code',
+          class: 'subheading',
+          width: '10%'
+        },
+        {
+          text: 'Type',
+          value: 'type',
+          class: 'subheading',
+          width: '10%'
+        },
+        {
+          text: 'Num',
+          value: 'num',
+          class: 'subheading'
+        }
+      ]
+    },
     bucket: {label: 'Bucket'},
     user: {
       item: {
@@ -87,7 +129,7 @@ export const state = {
         {
           text: 'Username',
           value: 'username',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Roles',
@@ -110,7 +152,7 @@ export const state = {
         {
           text: 'Code',
           value: 'code',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Name',
@@ -123,9 +165,18 @@ export const state = {
   token: ''
 }
 
+export const getters = {
+  contextTypeName: (state) => (id) => {
+    return state.contextTypes.find((item) => {
+      return item.id === id
+    })
+  }
+}
+
 const store = new Vuex.Store({
   strict: true,
   state,
+  getters,
   mutations,
   modules: {
     account: account,

@@ -128,4 +128,8 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
 
         return $this->getListResultData();
     }
+
+    public function findByCodeRegExp(string $pattern) {
+
+    }
 }

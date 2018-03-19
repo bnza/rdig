@@ -52,6 +52,10 @@
         /* webpackChunkName: "AreaDataTable" */
         './AreaDataTable'
         ),
+      ContextDataTable: () => import(
+        /* webpackChunkName: "ContextDataTable" */
+        './ContextDataTable'
+        ),
       ListDataToolbar: () => import(
         /* webpackChunkName: "ListBaseDataToolbar" */
         './ListDataToolbar'

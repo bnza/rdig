@@ -9,6 +9,7 @@ class DataCrudController extends AbstractCrudController
     protected $entities = [
         'site' => 'App\Entity\Site',
         'area' => 'App\Entity\Area',
+        'context' => 'App\Entity\Context',
     ];
 
     public function getEntityClass($entity = '')

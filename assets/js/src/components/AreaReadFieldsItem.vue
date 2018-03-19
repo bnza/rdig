@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <div>
         <v-layout row wrap>
             <v-flex align-start xs12>
                 <v-subheader>Site</v-subheader>
@@ -26,7 +26,7 @@
                 <v-text-field readonly label="Name" :value="item.name"/>
             </v-flex>
         </v-layout>
-    </v-container>
+    </div>
 </template>
 
 <script>

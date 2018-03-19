@@ -31,6 +31,10 @@ abstract class AbstractCrudController extends Controller
         $this->wrapper = $wrapper;
     }
 
+    /**
+     * @param $entityName
+     * @return \App\Repository\AbstractDataRepository;
+     */
     protected function getRepository($entityName)
     {
         return $this->doctrine->getRepository($this->getEntityClass($entityName));
@@ -79,9 +83,13 @@ abstract class AbstractCrudController extends Controller
 
         $offset = $request->get('offset') ?: 0;
 
-        $entities = $this
-            ->getRepository($entityName)
-            ->findByAsArray($filter, $sort, $limit, $offset);
+        $repo = $this->getRepository($entityName);
+
+        if ($re = $request->get('re')) {
+            $entities = $repo->findByCodeRegExp($re);
+        } else {
+            $entities = $repo->findByAsArray($filter, $sort, $limit, $offset);
+        }
 
         return new JsonResponse($entities);
     }

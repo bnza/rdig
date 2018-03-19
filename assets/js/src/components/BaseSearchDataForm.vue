@@ -44,7 +44,28 @@
               value: 'notLike'
             }
           ],
-          number: []
+          number: [
+            {
+              symbol: '',
+              value: ''
+            },
+            {
+              symbol: '=',
+              value: 'eq',
+            },
+            {
+              symbol: '≠',
+              value: 'neq'
+            },
+            {
+              symbol: '<',
+              value: 'lt'
+            },
+            {
+              symbol: '>',
+              value: 'gt'
+            }
+          ]
         }
       },
       search() {

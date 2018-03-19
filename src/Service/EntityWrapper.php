@@ -24,6 +24,7 @@ class EntityWrapper
     protected $entityClasses = [
         'site' => 'App\Entity\Site',
         'area' => 'App\Entity\Area',
+        'context' => 'App\Entity\Context',
     ];
 
     /**

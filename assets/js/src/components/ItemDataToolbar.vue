@@ -36,7 +36,8 @@
       setChildTable (table) {
         if (!table) {
           const children = {
-            site: 'area'
+            site: 'area',
+            area: 'context'
           }
           table = children[this.table__]
         }

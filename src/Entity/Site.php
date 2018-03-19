@@ -51,6 +51,12 @@ class Site implements CrudEntityInterface
     private $areas;
 
     /**
+     * One Site has Many Areas.
+     * @ORM\OneToMany(targetEntity="Context", mappedBy="site")
+     */
+    private $contexts;
+
+    /**
      * @return mixed
      */
     public function getAreas()
@@ -62,6 +68,20 @@ class Site implements CrudEntityInterface
     {
         $this->areas[] = $area;
         $area->setSite($this);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getContexts()
+    {
+        return $this->contexts;
+    }
+
+    public function addContexts(Context $context)
+    {
+        $this->contexts[] = $context;
+        $context->setSite($this);
     }
 
     /**
@@ -85,6 +105,7 @@ class Site implements CrudEntityInterface
     public function __construct() {
         $this->users = new ArrayCollection();
         $this->areas = new ArrayCollection();
+        $this->contexts = new ArrayCollection();
     }
 
     /**
