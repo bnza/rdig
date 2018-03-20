@@ -63,8 +63,6 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param null $limit
-     * @param null $offset
      * @return \Doctrine\ORM\QueryBuilder
      */
     protected function createCountQueryBuilder()

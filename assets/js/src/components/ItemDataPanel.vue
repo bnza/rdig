@@ -36,9 +36,17 @@
         /* webpackChunkName: "AreaReadDataForm" */
         './AreaReadDataForm'
         ),
+      CampaignReadDataForm: () => import(
+        /* webpackChunkName: "CampaignReadDataForm" */
+        './CampaignReadDataForm'
+        ),
       ContextReadDataForm: () => import(
         /* webpackChunkName: "ContextReadDataForm" */
         './ContextReadDataForm'
+        ),
+      SiteItemDataToolbar: () => import(
+        /* webpackChunkName: "SiteItemDataToolbar" */
+        './SiteItemDataToolbar'
         ),
       SiteReadDataForm: () => import(
         /* webpackChunkName: "SiteReadDataForm" */

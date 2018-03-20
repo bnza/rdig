@@ -28,6 +28,9 @@ export const state = {
   ],
   tables: {
     site: {
+      item: {
+        toolbar: 'SiteItemDataToolbar'
+      },
       label: 'Site',
       maxWidth: '450px',
       headers: [
@@ -74,6 +77,34 @@ export const state = {
         {
           text: 'Name',
           value: 'name',
+          class: 'subheading'
+        }
+      ]
+    },
+    campaign: {
+      label: 'Campaign',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Code',
+          value: 'site.code',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Site',
+          value: 'site.code',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Year',
+          value: 'year',
           class: 'subheading'
         }
       ]

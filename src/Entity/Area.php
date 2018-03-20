@@ -36,9 +36,9 @@ class Area implements CrudEntityInterface
     private $code;
 
     /**
-         * @Assert\Length(
-         *      max = 255
-         * )
+     * @Assert\Length(
+     *      max = 255
+     * )
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, nullable=false)
      */

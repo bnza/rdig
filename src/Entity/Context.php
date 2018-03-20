@@ -60,6 +60,16 @@ class Context implements CrudEntityInterface
     private $area;
 
     /**
+     * One Site has Many Areas.
+     * @ORM\OneToMany(targetEntity="Bucket", mappedBy="context")
+     */
+    private $buckets;
+
+    public function __construct() {
+        $this->buckets = new ArrayCollection();
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -113,6 +123,23 @@ class Context implements CrudEntityInterface
     public function getArea()
     {
         return $this->area;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getBuckets()
+    {
+        return $this->buckets;
+    }
+
+    /**
+     * @param Bucket $bucket
+     */
+    public function addBuckets(Bucket $bucket)
+    {
+        $this->buckets[] = $bucket;
+        $bucket->setContext($this);
     }
 
     /**

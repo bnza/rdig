@@ -62,6 +62,10 @@
         /* webpackChunkName: "AreaSearchDataForm" */
         './AreaSearchDataForm'
         ),
+      CampaignSearchDataForm: () => import(
+        /* webpackChunkName: "CampaignSearchDataForm" */
+        './CampaignSearchDataForm'
+        ),
       ContextSearchDataForm: () => import(
         /* webpackChunkName: "ContextSearchDataForm" */
         './ContextSearchDataForm'

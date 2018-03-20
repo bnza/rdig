@@ -57,6 +57,18 @@ class Site implements CrudEntityInterface
     private $contexts;
 
     /**
+     * One Site has Many Areas.
+     * @ORM\OneToMany(targetEntity="Campaign", mappedBy="site")
+     */
+    private $campaigns;
+
+    public function __construct() {
+        $this->users = new ArrayCollection();
+        $this->areas = new ArrayCollection();
+        $this->contexts = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getAreas()
@@ -64,6 +76,9 @@ class Site implements CrudEntityInterface
         return $this->areas;
     }
 
+    /**
+     * @param Area $area
+     */
     public function addArea(Area $area)
     {
         $this->areas[] = $area;
@@ -78,10 +93,30 @@ class Site implements CrudEntityInterface
         return $this->contexts;
     }
 
+    /**
+     * @param Context $context
+     */
     public function addContexts(Context $context)
     {
         $this->contexts[] = $context;
         $context->setSite($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCampaigns()
+    {
+        return $this->campaigns;
+    }
+
+    /**
+     * @param Campaign $campaign
+     */
+    public function addCampaign(Campaign $campaign)
+    {
+        $this->campaigns[] = $campaign;
+        $campaign->setSite($this);
     }
 
     /**
@@ -100,12 +135,6 @@ class Site implements CrudEntityInterface
     public function removeUser(User $user)
     {
         $this->users->removeElement($user);
-    }
-
-    public function __construct() {
-        $this->users = new ArrayCollection();
-        $this->areas = new ArrayCollection();
-        $this->contexts = new ArrayCollection();
     }
 
     /**

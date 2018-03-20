@@ -13,22 +13,13 @@
             @blur="formMxValidate('siteId')"
         />
         <v-text-field
-            label="Code"
-            v-model="code"
-            :error-messages="codeErrors"
-            :counter="2"
-            @input="formMxValidate('code')"
-            @blur="formMxValidate('code')"
-            :disabled="isRequestPending"
-            required
-        />
-        <v-text-field
-            label="Name"
-            type="text"
-            v-model="name"
-            :error-messages="nameErrors"
-            @input="formMxValidate('name')"
-            @blur="formMxValidate('name')"
+            label="Year"
+            v-model="year"
+            :error-messages="yearErrors"
+            mask="####"
+            :counter="4"
+            @input="formMxValidate('year')"
+            @blur="formMxValidate('year')"
             :disabled="isRequestPending"
             required
         />
@@ -39,10 +30,10 @@
   import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength } from 'vuelidate/lib/validators'
+  import { required, between } from 'vuelidate/lib/validators'
 
   export default {
-    name: 'area-edit-data-form',
+    name: 'campaign-edit-data-form',
     extends: BaseDataForm,
     mixins: [
       validationMixin
@@ -54,8 +45,7 @@
     },
     validations: {
       siteId: { required },
-      code: { required, maxLength: maxLength(2) },
-      name: { required }
+      year: { required, between: between(2000, 2099) }
     },
     computed: {
       site: {
@@ -75,36 +65,21 @@
             Vue.set(this.item, 'site', {})
           }
           Vue.set(this.item.site, 'id', value)
-          Vue.set(this.item.site, 'name', '000')
         }
       },
-      code: {
+      year: {
         get () {
-          return this.item.code
+          return this.item.year
         },
         set (value) {
-          Vue.set(this.item_, 'code', value.toUpperCase())
+          Vue.set(this.item_, 'year', value)
         }
       },
-      name: {
-        get () {
-          return this.item.name
-        },
-        set (value) {
-          Vue.set(this.item, 'name', value)
-        }
-      },
-      codeErrors () {
+      yearErrors () {
         const errors = []
-        if (!this.$v.code.$dirty) return errors
-        !this.$v.code.maxLength && errors.push('Area code must be maximum 2 characters long')
-        !this.$v.code.required && errors.push('Area code is required.')
-        return errors
-      },
-      nameErrors () {
-        const errors = []
-        if (!this.$v.name.$dirty) return errors
-        !this.$v.name.required && errors.push('Area name is required.')
+        if (!this.$v.year.$dirty) return errors
+        !this.$v.year.between && errors.push('Campaign\'s year must be within 2000 and 2099')
+        !this.$v.year.required && errors.push('Campaign\'s year is required.')
         return errors
       },
       siteIdErrors () {

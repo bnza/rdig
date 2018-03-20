@@ -4,6 +4,7 @@
             label="Code"
             v-model="code"
             :error-messages="codeErrors"
+            mask="AA"
             :counter="2"
             @input="formMxValidate('code')"
             @blur="formMxValidate('code')"

@@ -52,6 +52,10 @@
         /* webpackChunkName: "AreaDataTable" */
         './AreaDataTable'
         ),
+      CampaignDataTable: () => import(
+        /* webpackChunkName: "CampaignDataTable" */
+        './CampaignDataTable'
+        ),
       ContextDataTable: () => import(
         /* webpackChunkName: "ContextDataTable" */
         './ContextDataTable'

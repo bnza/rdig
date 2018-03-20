@@ -57,6 +57,10 @@
         /* webpackChunkName: "AreaEditDataForm" */
         './AreaEditDataForm'
         ),
+      CampaignEditDataForm: () => import(
+        /* webpackChunkName: "CampaignEditDataForm" */
+        './CampaignEditDataForm'
+        ),
       ContextEditDataForm: () => import(
         /* webpackChunkName: "ContextEditDataForm" */
         './ContextEditDataForm'
