@@ -37,7 +37,9 @@
         if (!table) {
           const children = {
             site: 'area',
-            area: 'context'
+            area: 'context',
+            campaign: 'bucket',
+            context: 'bucket'
           }
           table = children[this.table__]
         }

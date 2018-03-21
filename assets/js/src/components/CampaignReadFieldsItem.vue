@@ -43,7 +43,7 @@
         return this.item.site || {}
       },
       code () {
-        return `${this.item.site.code}.${this.item.year}`
+        return this.item.site ? `${this.item.site.code}.${this.item.year}` : undefined
       }
     }
   }

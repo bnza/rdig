@@ -109,6 +109,7 @@
                     <v-radio label="Sample" value="S"/>
                 </v-radio-group>
                 <v-text-field
+                    v-else
                     label="Type"
                     type="text"
                     :value="typeName"
