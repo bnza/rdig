@@ -23,7 +23,7 @@ class DoctrineExceptionSubscriber extends AbstractJsonResponseExceptionSubscribe
 
     public function handleUniqueConstraintViolationException(GetResponseForExceptionEvent $event)
     {
-        $re = '/Duplicate entry \'\w+\'/m';
+        $re = '/Duplicate entry \'\w+-?\w?\'/m';
         preg_match($re, $event->getException()->getMessage(), $matches);
         $this->setResponse($event, ['exception' => $matches[0]], 400);
     }

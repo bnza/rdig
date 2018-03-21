@@ -25,6 +25,8 @@ class EntityWrapper
         'site' => 'App\Entity\Site',
         'area' => 'App\Entity\Area',
         'context' => 'App\Entity\Context',
+        'campaign' => 'App\Entity\Campaign',
+        'bucket' => 'App\Entity\Bucket',
     ];
 
     /**

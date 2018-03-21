@@ -63,6 +63,10 @@
         /* webpackChunkName: "AreaDeleteDataForm" */
         './AreaDeleteDataForm'
         ),
+      BucketDeleteDataForm: () => import(
+        /* webpackChunkName: "BucketDeleteDataForm" */
+        './BucketDeleteDataForm'
+        ),
       CampaignDeleteDataForm: () => import(
         /* webpackChunkName: "CampaignDeleteDataForm" */
         './CampaignDeleteDataForm'

@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\BucketRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="BucketRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BucketRepository")
  * @ORM\Table(uniqueConstraints={
  *      @ORM\UniqueConstraint(columns={"campaign", "num"})
  * })
@@ -18,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      errorPath="num",
  *      message="Duplicate bucket number for this campaign"
  * )
+ * @ORM\HasLifecycleCallbacks()
  */
 class Bucket implements CrudEntityInterface
 {
@@ -160,24 +160,21 @@ class Bucket implements CrudEntityInterface
 
         if ($ancestors) {
             $data['campaign'] =  $this->campaign->toArray();
+            $data['context'] =  $this->context->toArray();
         }
 
         return $data;
     }
 
     /**
-     * @param LifecycleEventArgs $event
      * @ORM\PrePersist
      */
     public function generateBucketNum(LifecycleEventArgs $event)
     {
         $context = $event->getEntity();
         if (!$context->getNum()) {
-            /**
-             * @var BucketRepository
-             */
             $repo = $event->getEntityManager()->getRepository(self::class);
-            $num = $repo->getMaxCampaignBucketNum($context->getSite()->getId()) + 1;
+            $num = $repo->getMaxCampaignBucketNum($context->getCampaign()->getId()) + 1;
             $context->setNum($num);
         }
 

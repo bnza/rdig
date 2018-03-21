@@ -26,6 +26,11 @@ export const state = {
     { id: 'P', 'name': 'pitt' },
     { id: 'W', 'name': 'wall' }
   ],
+  bucketTypes: [
+    { id: 'O', 'name': 'object' },
+    { id: 'P', 'name': 'pottery' },
+    { id: 'S', 'name': 'sample' }
+  ],
   tables: {
     site: {
       item: {
@@ -143,7 +148,46 @@ export const state = {
         }
       ]
     },
-    bucket: {label: 'Bucket'},
+    bucket: {
+      label: 'Bucket',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+        },
+        {
+          text: 'Code',
+          value: 'site.code',
+          class: 'subheading',
+        },
+        {
+          text: 'Site',
+          value: 'site.code',
+          class: 'subheading',
+        },
+        {
+          text: 'Year',
+          value: 'campaign.year',
+          class: 'subheading',
+        },
+        {
+          text: 'Context',
+          value: 'context.num',
+          class: 'subheading',
+        },
+        {
+          text: 'Type',
+          value: 'type',
+          class: 'subheading'
+        },
+        {
+          text: 'Num',
+          value: 'num',
+          class: 'subheading'
+        }
+      ]
+    },
     user: {
       item: {
         toolbar: 'UserItemDataToolbar'
@@ -199,6 +243,11 @@ export const state = {
 export const getters = {
   contextTypeName: (state) => (id) => {
     return state.contextTypes.find((item) => {
+      return item.id === id
+    })
+  },
+  bucketTypeName: (state) => (id) => {
+    return state.bucketTypes.find((item) => {
       return item.id === id
     })
   }

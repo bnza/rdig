@@ -19,6 +19,7 @@ class TableCrudModifyVoter extends Voter
         'user' => ['ROLE_ADMIN'],
         'site' => ['ROLE_ADMIN'],
         'area' => ['ROLE_ADMIN'],
+        'bucket' => ['ROLE_USER'],
         'campaign' => ['ROLE_ADMIN'],
         'context' => ['ROLE_USER'],
         'user-allowed-sites' => ['ROLE_ADMIN']

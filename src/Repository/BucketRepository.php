@@ -12,6 +12,25 @@ class BucketRepository extends AbstractDataRepository
         parent::__construct($registry, Bucket::class);
     }
 
+    protected function createQueryBuilders($limit = null, $offset = null)
+    {
+        $this
+            ->createFilterQueryBuilder($limit, $offset)
+            ->addSelect('campaign')
+            ->addSelect('context')
+            ->addSelect('area')
+            ->addSelect('site')
+            ->leftJoin('e.context', 'context')
+            ->leftJoin('e.campaign', 'campaign')
+            ->leftJoin('context.area', 'area')
+            ->leftJoin('campaign.site', 'site');
+        $this->createCountQueryBuilder()
+            ->leftJoin('e.context', 'context')
+            ->leftJoin('e.campaign', 'campaign')
+            ->leftJoin('context.area', 'area')
+            ->leftJoin('campaign.site', 'site');
+    }
+
     /**
      * @param int $campaignId
      * @return int

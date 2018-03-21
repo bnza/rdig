@@ -39,4 +39,44 @@ class ContextRepository extends AbstractDataRepository
 
         return $num ? $num : 0;
     }
+
+    public function findByCodeRegExp(string $pattern) {
+        $qb = $this
+            ->createQueryBuilder('context')
+            ->addSelect('site')
+            ->leftJoin('context.site', 'site')
+            ->setMaxResults(10);
+
+        $codes = explode('.', strtoupper($pattern));
+
+        if (0 === count($codes) || count($codes) > 2) {
+            return [];
+        }
+
+        $siteExpr = $qb->expr()->eq(
+            'site.code',
+            $qb->expr()->literal($codes[0])
+        );
+
+        $contextExpr = $qb->expr()->like(
+            'CAST(context.num AS CHAR)',
+            $qb->expr()->literal($codes[1] . "%")
+        );
+
+        $expr = $qb->expr()->andX(
+            $siteExpr,
+            $contextExpr
+        );
+
+        $qb->add('where', $expr);
+
+        $format = function ($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['num'],
+            ];
+        };
+
+        return array_map($format, $qb->getQuery()->getArrayResult());
+    }
 }

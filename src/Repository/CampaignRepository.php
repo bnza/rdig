@@ -22,4 +22,59 @@ class CampaignRepository extends AbstractDataRepository
             ->leftJoin('e.site', 'site');
     }
 
+    public function findByCodeRegExp(string $pattern) {
+        $qb = $this
+            ->createQueryBuilder('campaign')
+            ->addSelect('site')
+            ->leftJoin('campaign.site', 'site')
+            ->setMaxResults(10);
+        $codes = explode('.', strtoupper($pattern));
+
+        if (0 === count($codes) || count($codes) > 2) {
+            return [];
+        }
+
+        $expr = [];
+
+        if (is_int($codes[0])) {
+
+        } else {
+            switch (strlen($codes[0])) {
+                case 1:
+                    $siteExprOp = 'like';
+                    $siteExprValue = $qb->expr()->literal($codes[0].'%');
+                    break;
+                case 2:
+                    $siteExprOp = 'eq';
+                    $siteExprValue = $qb->expr()->literal($codes[0]);
+                    break;
+                default:
+                    return [];
+            }
+            $expr[] = $qb->expr()->{$siteExprOp}('site.code', $siteExprValue);
+        }
+
+        if (2 === count($codes)) {
+            $expr[] = $qb->expr()->eq(
+                'campaign.year',
+                $qb->expr()->literal($codes[1])
+            );
+            $expr = $qb->expr()->andX(
+                ...$expr
+            );
+        }
+
+        $qb->add('where', $expr);
+
+        $format = function ($item) {
+            return [
+                'id' => $item['id'],
+                'name' => $item['site']['code'].'.'.$item['year'],
+            ];
+        };
+
+        return array_map($format, $qb->getQuery()->getArrayResult());
+
+    }
+
 }

@@ -36,6 +36,10 @@
         /* webpackChunkName: "AreaReadDataForm" */
         './AreaReadDataForm'
         ),
+      BucketReadDataForm: () => import(
+        /* webpackChunkName: "BucketReadDataForm" */
+        './BucketReadDataForm'
+        ),
       CampaignReadDataForm: () => import(
         /* webpackChunkName: "CampaignReadDataForm" */
         './CampaignReadDataForm'
