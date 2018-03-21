@@ -38,14 +38,8 @@
       }
     },
     methods: {
-      logout () {
-        this.$store.dispatch('account/logout').then(
-          () => {
-            if (!this.hasError) {
-              this.$router.push('/')
-            }
-          }
-        )
+      openLogoutModal () {
+        this.$router.push('/logout')
       },
       openLoginModal () {
         this.uuidMxSet('isDialogOpen', true, 'the-login-modal')
@@ -53,7 +47,7 @@
         this.$router.push('/login')
       },
       executeAction () {
-        this.authMxIsAuthenticated ? this.logout() : this.openLoginModal()
+        this.authMxIsAuthenticated ? this.openLogoutModal() : this.openLoginModal()
       }
     }
   }

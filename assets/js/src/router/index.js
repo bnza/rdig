@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import TheMainData from '../components/TheMainData'
 import TheMainHome from '../components/TheMainHome'
 import TheLoginModal from '../components/TheLoginModal'
+import TheLogoutModal from '../components/TheLogoutModal'
 import TheDataList from '../components/TheDataList'
 import TheDataItem from '../components/TheDataItem'
 import store from '../store'
@@ -149,6 +150,14 @@ let router = new Router({
       components: {
         default: TheMainHome,
         modals: TheLoginModal
+      }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      components: {
+        default: TheMainHome,
+        modals: TheLogoutModal
       }
     },
     dataRoutes

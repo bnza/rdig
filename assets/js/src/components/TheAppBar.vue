@@ -10,7 +10,7 @@
             /></span>
             </router-link>
         </v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer/>
         <v-toolbar-items>
             <login-app-bar-button />
         </v-toolbar-items>
