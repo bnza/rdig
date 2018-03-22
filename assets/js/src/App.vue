@@ -36,7 +36,7 @@
       const token = Cookies.get('xsrf-token')
       if (token) {
         this.$store.commit('SET_TOKEN', token)
-        Cookies.remove('xsrf-token');
+        Cookies.remove('xsrf-token')
       }
     },
     components: {

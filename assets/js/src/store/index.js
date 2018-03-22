@@ -10,9 +10,7 @@ const SET_TOKEN = 'SET_TOKEN'
 
 export const mutations = {
   [SET_TOKEN] (state, token) {
-    if (!state.token) {
-      state.token = token
-    }
+    state.token = token
   }
 }
 

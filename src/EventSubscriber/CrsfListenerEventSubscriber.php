@@ -21,10 +21,25 @@ class CrsfListenerEventSubscriber implements EventSubscriberInterface
         );
     }
 
-
     public function __construct(CsrfTokenManagerInterface $provider)
     {
         $this->manager = $provider;
+    }
+
+    protected function refreshToken(FilterResponseEvent $e) {
+        $e
+            ->getResponse()
+            ->headers
+            ->setCookie(
+                new Cookie(
+                    'xsrf-token',
+                    $this->manager->refreshToken('rdig'),
+                    0,
+                    '/',
+                    null,
+                    false,
+                    false)
+            );
     }
 
     public function onKernelRequest(GetResponseEvent $e)
@@ -44,8 +59,11 @@ class CrsfListenerEventSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(FilterResponseEvent $e)
     {
-        if ($e->getRequest()->isMethod('GET') && $e->getRequest()->getPathInfo() === '/') {
-            $e->getResponse()->headers->setCookie(new Cookie('xsrf-token', $this->manager->refreshToken('rdig'), 0, '/', null, false, false));
+        if (
+            $e->getRequest()->isMethod('GET') && $e->getRequest()->getPathInfo() === '/'
+            || $e->getRequest()->isMethod('POST') && $e->getRequest()->getPathInfo() === '/logout'
+        ) {
+            $this->refreshToken($e);
         }
     }
 }

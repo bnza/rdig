@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import getters from './getters'
 
 const SET_USER = 'SET_USER'
@@ -54,6 +55,11 @@ export const actions = {
       }
       await dispatch('requests/perform', config, {root: true})
       commit(SET_USER, null)
+      const token = Cookies.get('xsrf-token')
+      if (token) {
+        commit('SET_TOKEN', token, {root: true})
+        Cookies.remove('xsrf-token')
+      }
       return true
     } catch (error) {
       throw error
