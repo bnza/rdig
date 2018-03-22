@@ -3,11 +3,13 @@
         <v-toolbar-side-icon @click.native="isNavigationDrawerOpen = !isNavigationDrawerOpen"/>
         <v-toolbar-title>
             <router-link to="/" replace>
-            <span class="title ml-3 mr-5"><img
-                v-bind:src="rdigLogoSrc"
-                alt="rDig *dig reloaded"
-                width="112" height="28"
-            /></span>
+            <span class="title ml-3 mr-5">
+                <img
+                    v-bind:src="rdigLogoSrc"
+                    alt="rDig *dig reloaded"
+                    width="112" height="28"
+                />
+            </span>
             </router-link>
         </v-toolbar-title>
         <v-spacer/>
@@ -38,7 +40,7 @@
         }
       },
       rdigLogoSrc() {
-        return require('~/assets/images/rdig_logo_light.png')
+        return require('~/assets/images/rdig_logo.png')
       }
     }
   }
