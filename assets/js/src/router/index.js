@@ -7,14 +7,17 @@ import TheLogoutModal from '../components/TheLogoutModal'
 import TheDataList from '../components/TheDataList'
 import TheDataItem from '../components/TheDataItem'
 import store from '../store'
-import {authorize} from '../mixins/AuthMx'
+import {authMxAuthorize} from '../mixins/AuthMx'
 import {uuidMxSet} from '../mixins/UuidMx'
 
 Vue.use(Router)
 
 const authorizeRoute = function (to, from, next) {
-  authorize(to)
-  next(to)
+  if (authMxAuthorize(to, store, router)) {
+    next()
+  } else {
+    next('/login')
+  }
 }
 
 const TheCreateModal =() => import(
@@ -43,6 +46,7 @@ export const dataRoutes = {
       path: ':action(read)',
       name: 'data_list_read',
       component: TheDataList,
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -52,6 +56,7 @@ export const dataRoutes = {
         default: TheDataList,
         modal: TheCreateModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -61,12 +66,14 @@ export const dataRoutes = {
         default: TheDataList,
         modal: TheSearchModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
       path: ':id(\\d+)/:action(read)',
       name: 'data_item_read',
       component: TheDataItem,
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -76,6 +83,7 @@ export const dataRoutes = {
         default: TheDataList,
         modal: TheDeleteModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -85,12 +93,14 @@ export const dataRoutes = {
         default: TheDataList,
         modal: TheUpdateModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
       path: ':id(\\d+)/:childTable/:action(read)',
       name: 'data_child_list_read',
       component: TheDataItem,
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -100,6 +110,7 @@ export const dataRoutes = {
         default: TheDataItem,
         modal: TheSearchModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -109,6 +120,7 @@ export const dataRoutes = {
         default: TheDataItem,
         modal: TheCreateModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -123,6 +135,7 @@ export const dataRoutes = {
         default: TheDataItem,
         modal: TheDeleteModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     },
     {
@@ -132,6 +145,7 @@ export const dataRoutes = {
         default: TheDataItem,
         modal: TheUpdateModal
       },
+      beforeEnter: authorizeRoute,
       props: true
     }
   ]

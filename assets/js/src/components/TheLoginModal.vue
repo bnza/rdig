@@ -13,7 +13,6 @@
                         label="Username"
                         v-model="username"
                         :error-messages="usernameErrors"
-                        :counter="5"
                         @input="$v.username.$touch()"
                         @blur="$v.username.$touch()"
                         :disabled="isRequestPending"
@@ -24,7 +23,6 @@
                         type="password"
                         v-model="password"
                         :error-messages="passwordErrors"
-                        :counter="8"
                         @input="$v.password.$touch()"
                         @blur="$v.password.$touch()"
                         :disabled="isRequestPending"
@@ -61,24 +59,27 @@
 <script>
   import qs from 'qs'
   import UuidMx from '../mixins/UuidMx'
+  import AuthMx from '../mixins/AuthMx'
   import { mapGetters } from 'vuex'
   import { validationMixin } from 'vuelidate'
-  import { required, minLength } from 'vuelidate/lib/validators'
+  import { required } from 'vuelidate/lib/validators'
 
   export default {
     name: 'the-login-modal',
     mixins: [
       UuidMx,
+      AuthMx,
       validationMixin
     ],
     data: () => ({
+      from: '',
       username: '',
       password: '',
       message: ''
     }),
     validations: {
-      username: { required, minLength: minLength(5) },
-      password: { required, minLength: minLength(8) }
+      username: { required },
+      password: { required }
     },
     computed: {
       ...mapGetters('account', [
@@ -101,21 +102,20 @@
       passwordErrors () {
         const errors = []
         if (!this.$v.password.$dirty) return errors
-        !this.$v.password.minLength && errors.push('Password must be at most 8 characters long')
         !this.$v.password.required && errors.push('Password is required.')
         return errors
       },
       usernameErrors () {
         const errors = []
         if (!this.$v.username.$dirty) return errors
-        !this.$v.username.minLength && errors.push('Username must be at most 5 characters long')
         !this.$v.username.required && errors.push('Username is required.')
         return errors
       }
     },
     methods: {
       closeDialog () {
-        this.$router.replace(this.uuidMxGet('fromPath') || '/')
+        const to = this.authMxAuthorize(this.from) ? this.from : '/'
+        this.$router.replace(to)
       },
       performLogin: function () {
         const credentials = qs.stringify({
@@ -136,6 +136,7 @@
     beforeRouteEnter (to, from, next) {
       next(vm => {
         vm.isDialogOpen = true
+        vm.from = from.fullPath
       })
     },
     beforeRouteLeave (to, from, next) {
