@@ -1,26 +1,18 @@
-<!--
-    <the-main-data>
-        <the-data-list> || <the-data-item> **router-view** @see js/router/index.js
-    </the-main-data>
--->
-
 <template>
-    <v-container>
-        <v-layout>
-            <v-flex xs12 sm10 offset-xs1>
-                <router-view
-                    class="mt-5"
-                    @listDataComponentCreated="setListDataComponentUuid"
-                />
-            </v-flex>
-        </v-layout>
+    <v-layout>
+        <v-flex xs12 lg10 offset-lg1>
+            <router-view
+                class="mt-5"
+                @listDataComponentCreated="setListDataComponentUuid"
+            />
+        </v-flex>
         <div>
             <router-view
                 name="modal"
                 ref="modal"
             />
         </div>
-    </v-container>
+    </v-layout>
 </template>
 
 <script>
