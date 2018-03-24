@@ -81,6 +81,14 @@ admin__user__delete:
     requirements:
             entityName: 'user'
 
+data__crud__site-id:
+    path:       /data/{entityName}/{id}/site
+    controller: App\Controller\DataCrudController::getSiteId
+    methods:    [GET]
+    requirements:
+            entityName: '[\w\-?]+'
+            id: '\d+'
+
 data__crud__create:
     path:       /data/{entityName}
     controller: App\Controller\DataCrudController::create

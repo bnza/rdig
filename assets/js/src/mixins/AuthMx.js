@@ -1,9 +1,9 @@
 import { mapGetters } from 'vuex'
 
 const readOnlyActions = ['read']
-const privTables = ['site', 'area']
+const privTables = ['site', 'area', 'campaign']
 
-export const authMxAuthorize = (path, store, router) => {
+export const authMxAuthorize = (path, siteId, store, router) => {
   const authMxIsAdmin = store.getters['account/isAdmin']
   const authMxIsAuthenticated = store.getters['account/isAuthenticated']
 
@@ -26,6 +26,9 @@ export const authMxAuthorize = (path, store, router) => {
             if (privTables.indexOf(table) > -1) {
               return authMxIsAdmin
             } else {
+              if (siteId) {
+                return authMxIsAdmin || store.getters['account/isSiteAllowed'](siteId)
+              }
               return true
             }
           } else {
@@ -48,8 +51,8 @@ export default {
     })
   },
   methods: {
-    authMxAuthorize (path) {
-      return authMxAuthorize(path, this.$store, this.$router)
+    authMxAuthorize (path, siteId) {
+      return authMxAuthorize(path, siteId, this.$store, this.$router)
     }
   }
 }

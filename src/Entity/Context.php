@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * )
  * @ORM\HasLifecycleCallbacks
  */
-class Context implements CrudEntityInterface
+class Context implements SiteRelateEntityInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -175,6 +175,11 @@ class Context implements CrudEntityInterface
     public function setSite(Site $site): void
     {
         $this->site = $site;
+    }
+
+    public function getSiteId(): int
+    {
+        return $this->site->getId();
     }
 
     /**

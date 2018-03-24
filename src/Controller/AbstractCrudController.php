@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 abstract class AbstractCrudController extends Controller
 {
@@ -33,6 +35,7 @@ abstract class AbstractCrudController extends Controller
 
     /**
      * @param $entityName
+     *
      * @return \App\Repository\AbstractDataRepository;
      */
     protected function getRepository($entityName)
@@ -51,10 +54,23 @@ abstract class AbstractCrudController extends Controller
      *
      * @throws \App\Exceptions\DataValidationCrudException
      */
-    public function create(Request $request, DataCrudHelper $crud, string $entityName)
+    public function create(Request $request, DataCrudHelper $crud, string $entityName, AuthorizationCheckerInterface $authChecker)
     {
-        $this->denyAccessUnlessGranted($entityName.'|create');
-        $responseArray = $crud->create($this->getEntityClass($entityName), $request->getContent());
+        $entity = $crud
+            ->setEntity($this->getEntityClass($entityName), $request->getContent())
+            ->getEntity();
+
+        if (!$authChecker->isGranted('ROLE_USER')) {
+            return new Response('Access Denied.', '403');
+        }
+
+        $attribute = $entityName .'|create';
+        if (!$authChecker->isGranted($attribute, $entity)) {
+            return new Response('You have not modify privilege on this site', '403');
+        }
+
+        $crud->persist();
+        $responseArray = $crud->getCreateResponseArray();
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
         if (array_key_exists('id', $responseArray)) {
             $url = $this->generateUrl('data__crud__read', array('id' => $responseArray['id'], 'entityName' => $entityName));
@@ -131,11 +147,21 @@ abstract class AbstractCrudController extends Controller
      * @throws \App\Exceptions\InvalidRequestDataCrudException
      * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function update(Request $request, DataCrudHelper $crud, string $entityName)
+    public function update(Request $request, DataCrudHelper $crud, string $entityName, AuthorizationCheckerInterface $authChecker)
     {
         $data = $request->getContent();
         $entity = $crud->read($this->getEntityClass($entityName), $data);
-        $this->denyAccessUnlessGranted($entityName.'|update', $entity);
+        /*$this->denyAccessUnlessGranted($entityName.'|update', $entity);*/
+
+        if (!$authChecker->isGranted('ROLE_USER')) {
+            return new Response('Access Denied.', '403');
+        }
+
+        $attribute = $entityName .'|create';
+        if (!$authChecker->isGranted($attribute, $entity)) {
+            return new Response('You have not modify privilege on this site', '403');
+        }
+
         $responseArray = $crud->update($entity, $data);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
@@ -144,18 +170,27 @@ abstract class AbstractCrudController extends Controller
 
     /**
      * @param DataCrudHelper $crud
-     * @param string         $entityName
-     * @param int            $id
+     * @param string $entityName
+     * @param int $id
      *
      * @return JsonResponse
      *
      * @throws NotFoundCrudException
      * @throws \App\Exceptions\InvalidRequestDataCrudException
+     * @throws \App\Exceptions\DataValidationCrudException
      */
-    public function delete(DataCrudHelper $crud, string $entityName, int $id)
+    public function delete(DataCrudHelper $crud, string $entityName, int $id, AuthorizationCheckerInterface $authChecker)
     {
         $entity = $crud->read($this->getEntityClass($entityName), $id);
-        $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
+        //$this->denyAccessUnlessGranted($entityName.'|delete', $entity);
+        if (!$authChecker->isGranted('ROLE_USER')) {
+            return new Response('Access Denied.', '403');
+        }
+
+        $attribute = $entityName .'|create';
+        if (!$authChecker->isGranted($attribute, $entity)) {
+            return new Response('You have not modify privilege on this site', '403');
+        }
         $responseArray = $crud->delete($entity);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
@@ -166,7 +201,7 @@ abstract class AbstractCrudController extends Controller
      * @param Request $request
      * @param string  $entityName
      * @param string  $parentEntityName
-     * @param int $id
+     * @param int     $id
      *
      * @return JsonResponse
      */
@@ -192,6 +227,4 @@ abstract class AbstractCrudController extends Controller
 
         return new JsonResponse($entities);
     }
-
-
 }

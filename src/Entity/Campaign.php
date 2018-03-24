@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * )
  * @ORM\HasLifecycleCallbacks
  */
-class Campaign implements CrudEntityInterface
+class Campaign implements SiteRelateEntityInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -126,6 +126,11 @@ class Campaign implements CrudEntityInterface
     public function setYear(int $year): void
     {
         $this->year = $year;
+    }
+
+    public function getSiteId(): int
+    {
+        return $this->site->getId();
     }
 
     public function toArray(bool $ancestors = true, bool $descendants = false)

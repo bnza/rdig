@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Exceptions\NotFoundEntityCrudException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DataCrudController extends AbstractCrudController
 {
@@ -20,5 +21,12 @@ class DataCrudController extends AbstractCrudController
             return $this->entities[$entity];
         }
         throw new NotFoundEntityCrudException($entity);
+    }
+
+    public function getSiteId(string $entityName, int $id)
+    {
+        return new JsonResponse([
+            'siteId' => $this->getRepository($entityName)->find($id)->getSiteId()
+        ]);
     }
 }

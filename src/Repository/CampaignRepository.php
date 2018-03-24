@@ -55,10 +55,18 @@ class CampaignRepository extends AbstractDataRepository
         }
 
         if (2 === count($codes)) {
-            $expr[] = $qb->expr()->eq(
-                'campaign.year',
-                $qb->expr()->literal($codes[1])
-            );
+            if (strlen((string)$codes[1]) === 4) {
+                $expr[] = $qb->expr()->eq(
+                    'campaign.year',
+                    $qb->expr()->literal($codes[1])
+                );
+            } else {
+                $qb->expr()->like(
+                    'CAST(campaign.year AS CHAR)',
+                    $qb->expr()->literal($codes[1] . "%")
+                );
+            }
+
             $expr = $qb->expr()->andX(
                 ...$expr
             );

@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class Bucket implements CrudEntityInterface
+class Bucket implements SiteRelateEntityInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -148,6 +148,11 @@ class Bucket implements CrudEntityInterface
     public function setContext(Context $context): void
     {
         $this->context = $context;
+    }
+
+    public function getSiteId(): int
+    {
+        return $this->campaign->getSiteId();
     }
 
     public function toArray(bool $ancestors = true, bool $descendants = false)

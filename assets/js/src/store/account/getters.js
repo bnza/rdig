@@ -17,6 +17,9 @@ export default {
   isAdmin: (state, getters) => {
     return getters.roles.indexOf('ROLE_ADMIN') > -1
   },
+  isSiteAllowed: (state, getters) => (siteId) => {
+    return getters.isAuthenticated && state.user.allowedSites.indexOf(siteId) > -1
+  },
   isAuthorized: (state, getters) => (path, router) => {
     if (typeof path === 'string' || path instanceof String) {
       path = router.resolve(path).route

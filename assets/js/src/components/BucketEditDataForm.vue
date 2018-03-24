@@ -1,11 +1,18 @@
 <template>
     <v-form>
         <v-layout
-            v-if="!parent__&& !item.id"
+            v-if="!item.id && (!parent__ || (parent__ && !parent__.table !== 'campaign'))"
             row
             wrap
         >
-            <v-flex xs12 >
+            <v-flex xs1 v-if="parent__">
+                <v-text-field
+                    type="text"
+                    :value="contextSiteCodePrefix"
+                    readonly
+                />
+            </v-flex>
+            <v-flex :class="{xs11: parent__, xs12:!parent__}" >
                 <v-select
                     label="Campaign"
                     bottom
@@ -44,19 +51,19 @@
             </v-flex>
         </v-layout>
         <v-layout
-            v-if="!parent__&& !item.id"
+            v-if="!item.id && (!parent__ || (parent__ && !parent__.table === 'campaign'))"
             row
             wrap
             align-center
         >
-            <v-flex xs1 >
+            <v-flex xs1 v-if="parent__">
                 <v-text-field
                     type="text"
                     :value="campaignSiteCodePrefix"
                     readonly
                 />
             </v-flex>
-            <v-flex xs11 >
+            <v-flex :class="{xs11: parent__, xs12:!parent__}" >
                 <v-select
                     label="Context"
                     bottom
@@ -210,6 +217,14 @@
           Vue.set(this.item.context, 'id', value)
         }
       },
+      contextSiteCode () {
+        if (this.contextId) {
+          return this.item.context.area.site.code
+        }
+      },
+      contextSiteCodePrefix () {
+        return this.contextSiteCode ? `${this.contextSiteCode}.` : ''
+      },
       type: {
         get () {
           return this.item.type
@@ -260,14 +275,18 @@
       fetchCampaigns : debounce(function (pattern) {
         this.loading = true
         if (typeof pattern === 'string') {
+          const contextSiteCodePrefix = this.contextSiteCodePrefix
           const config = {
             method: 'get',
-            url: `data/campaign?re=${pattern}`
+            url: `data/campaign?re=${this.contextSiteCodePrefix}${pattern.toUpperCase()}`
           }
           this.$store.dispatch('requests/perform', config).then(
             (response) => {
               this.loading = false
-              this.campaigns = response.data
+              this.campaigns = response.data.map(function(item) {
+                item.name = contextSiteCodePrefix ? item.name.substr(contextSiteCodePrefix.length) : item.name
+                return item;
+              })
             }
           ).catch(
             (error) => {
@@ -324,7 +343,7 @@
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
             this.loadingContexts = false
-            Vue.set(this.item, 'contexts', response.data)
+            Vue.set(this.item, 'context', response.data)
           }
         ).catch(
           (error) => {

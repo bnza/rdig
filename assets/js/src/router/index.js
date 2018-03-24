@@ -13,10 +13,26 @@ import {uuidMxSet} from '../mixins/UuidMx'
 Vue.use(Router)
 
 const authorizeRoute = function (to, from, next) {
-  if (authMxAuthorize(to, store, router)) {
-    next()
+  if (to.params.prefix === 'data' && to.params.id) {
+    const config = {
+      method: 'get',
+      url: `data/${to.params.table}/${to.params.id}/site`
+    }
+    store.dispatch('requests/perform', config).then(
+      (response) => {
+        if (authMxAuthorize(to, response.data.siteId, store, router)) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
+    )
   } else {
-    next('/login')
+    if (authMxAuthorize(to, undefined, store, router)) {
+      next()
+    } else {
+      next('/login')
+    }
   }
 }
 

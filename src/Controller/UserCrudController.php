@@ -12,6 +12,7 @@ use App\Exceptions\NotFoundCrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -56,7 +57,7 @@ class UserCrudController extends AbstractCrudController
      *
      * @throws \App\Exceptions\DataValidationCrudException
      */
-    public function create(Request $request, DataCrudHelper $crud, string $entityName)
+    public function create(Request $request, DataCrudHelper $crud, string $entityName, AuthorizationCheckerInterface $authChecker)
     {
         $this->denyAccessUnlessGranted($entityName.'|create');
         $user = new User();
@@ -83,7 +84,7 @@ class UserCrudController extends AbstractCrudController
      * @throws \App\Exceptions\InvalidRequestDataCrudException
      * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function delete(DataCrudHelper $crud, string $entityName, int $id)
+    public function delete(DataCrudHelper $crud, string $entityName, int $id, AuthorizationCheckerInterface $authChecker)
     {
         $entity = $crud->read($this->getEntityClass($entityName), $id);
         $this->denyAccessUnlessGranted($entityName.'|delete', $entity);

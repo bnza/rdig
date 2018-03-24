@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
  */
-class Site implements CrudEntityInterface
+class Site implements SiteRelateEntityInterface
 {
 
     /**
@@ -175,6 +175,11 @@ class Site implements CrudEntityInterface
     public function setName($name): void
     {
         $this->name = $name;
+    }
+
+    public function getSiteId(): int
+    {
+        return $this->getId();
     }
 
     public function toArray(bool $ancestors = true, bool $descendants = false)

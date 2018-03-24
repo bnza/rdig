@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *      message="Duplicate code key for this site"
  * )
  */
-class Area implements CrudEntityInterface
+class Area implements SiteRelateEntityInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -124,6 +124,11 @@ class Area implements CrudEntityInterface
     public function setSite($site): void
     {
         $this->site = $site;
+    }
+
+    public function getSiteId(): int
+    {
+        return $this->site->getId();
     }
 
     public function toArray(bool $ancestors = true, bool $descendants = false)

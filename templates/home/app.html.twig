@@ -11,7 +11,12 @@
           username: '{{ app.user.username }}',
           roles: [
               {% for role in app.user.roles %}
-              '{{ role|e }}',
+            '{{ role|e }}',
+              {% endfor %}
+          ],
+          allowedSites: [
+              {% for site in app.user.sites %}
+            {{ site.id }},
               {% endfor %}
           ]
         }

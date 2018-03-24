@@ -2,9 +2,11 @@
 
 namespace App\Security;
 
+use App\Entity\SiteRelateEntityInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 
 /**
  *
@@ -76,9 +78,15 @@ class TableCrudModifyVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         if ($this->decisionManager->decide($token, $this->roles)) {
-            return true;
+            if ($this->decisionManager->decide($token, ["ROLE_ADMIN"])) {
+                return true;
+            } else {
+                if ($subject && $subject instanceof SiteRelateEntityInterface) {
+                    return $token->getUser()->isSiteAllowed($subject);
+                }
+                return true;
+            }
         }
-
         return false;
     }
 }

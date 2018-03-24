@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -142,6 +143,18 @@ class User implements UserInterface, \Serializable, CrudEntityInterface
             $this->password,
             $this->roles
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @param SiteRelateEntityInterface $entity
+     * @return bool
+     */
+    public function isSiteAllowed(SiteRelateEntityInterface $entity): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq("id", $entity->getSiteId()))
+            ->setMaxResults(1);
+        return (bool) $this->sites->matching($criteria)->count();
     }
 
     public function toArray(bool $ancestors = true, bool $descendants = false)

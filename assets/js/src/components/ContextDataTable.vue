@@ -11,7 +11,7 @@
             <td class="justify-center layout px-0">
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id))"
+                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id), props.item.area.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -23,7 +23,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id))"
+                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id), props.item.area.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
