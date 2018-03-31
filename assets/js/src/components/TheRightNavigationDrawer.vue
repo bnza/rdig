@@ -1,6 +1,7 @@
 <template>
     <v-navigation-drawer
         clipped
+        :hide-overlay="true"
         :value="isNavigationDrawerOpen"
         app >
         <v-list
