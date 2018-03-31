@@ -9,7 +9,10 @@
             <v-flex xs3>
                 <v-text-field readonly label="Site" :value="campaign.site.code"/>
             </v-flex>
-            <v-flex xs9>
+            <v-flex xs3>
+                <v-text-field readonly label="Campaign" :value="campaign.year"/>
+            </v-flex>
+            <v-flex xs6>
                 <v-text-field readonly label="Year" :value="campaign.site.name"/>
             </v-flex>
         </v-layout>
@@ -75,7 +78,9 @@
           : undefined
       },
       type () {
-        const type = this.$store.getters.contextTypeName(this.item.type)
+        const type = this.item.type
+          ? this.$store.getters.bucketTypeName(this.item.type)
+          : undefined
         return type ? type.name : undefined
       }
     }
