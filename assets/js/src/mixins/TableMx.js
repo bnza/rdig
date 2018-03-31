@@ -4,13 +4,13 @@
  */
 
 import qs from 'qs'
+import RSTableMx from './RSTableMx'
 
 export const tableMxOpenModal = function (item, callerUuid, modalUuid) {
   callerUuid = callerUuid || this.uuid
   if (!callerUuid) {
     throw new Error(`The caller UUID must be provided when opening '${modalUuid}'`)
   }
-
 }
 
 export const tableMxOpenAddModal = function (item, callerUuid) {
@@ -46,6 +46,9 @@ export const tableMxModalOpeners = {
 }
 
 export default {
+  mixins: [
+    RSTableMx
+  ],
   computed: {
     tableMxFetchLimit () {
       return this.pagination.rowsPerPage || 25
@@ -67,6 +70,13 @@ export default {
         query.filter = this.searchCriteria
       }
       return qs.stringify(query)
+    },
+    tableMxVisibleHeaders () {
+      const vm = this
+      const headers = this.rsTableMxHeaders.filter(function (item) {
+        return vm.rsTableMxHeaderIsVisible(item.text)
+      })
+      return headers
     }
   },
   methods: {

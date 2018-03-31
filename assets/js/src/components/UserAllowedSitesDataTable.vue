@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         :pagination.sync="pagination"
-        :headers="rsTableMxHeaders"
+        :headers="tableMxVisibleHeaders"
         :items="items"
         :total-items="totalItems"
         :loading="isRequestPending"

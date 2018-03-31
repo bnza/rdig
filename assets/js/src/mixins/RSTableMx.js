@@ -22,8 +22,24 @@ export default {
     }
   },
   methods: {
-    $_RSTableMx_header (key) {
+    rsTableMxHeader (key) {
       return this.rsTableMxHeaders[key]
+    },
+    rsTableMxHeaderIsVisible (key) {
+      const header = this.rsTableMxHeaders.find(function (item) {
+        return item.text === key
+      })
+      if (!header) {
+        return false
+      }
+      if (header.hasOwnProperty('public')) {
+        if (!header.public) {
+          return this.$store.getters['account/isAuthenticated']
+        }
+        return true
+      } else {
+        return true
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         :pagination.sync="pagination"
-        :headers="rsTableMxHeaders"
+        :headers="tableMxVisibleHeaders"
         :items="items"
         :total-items="totalItems"
         :loading="isRequestPending"
@@ -45,12 +45,43 @@
                     <span>Show item</span>
                 </v-tooltip>
             </td>
-            <td class="text-xs-right"><strong>{{ getCode(props.item) }}</strong></td>
-            <td class="text-xs-right">{{ props.item.campaign.site.code }}</td>
-            <td class="text-xs-right">{{ props.item.campaign.year }}</td>
-            <td class="text-xs-right">{{ getContext(props.item) }}</td>
-            <td class="text-xs-right">{{ props.item.type }}</td>
-            <td class="text-xs-right">{{ props.item.num }}</td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Code')"
+                class="text-xs-right"
+            >
+                <strong>
+                    {{ getCode(props.item) }}
+                </strong>
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Site')"
+                class="text-xs-right"
+            >
+                {{ props.item.campaign.site.code }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Year')"
+                class="text-xs-right"
+            >
+                {{ props.item.campaign.year }}</td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Context')"
+                class="text-xs-right"
+            >
+                {{ getContext(props.item) }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Type')"
+                class="text-xs-right"
+            >
+                {{ props.item.type }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Num')"
+                class="text-xs-right"
+            >
+                {{ props.item.num }}
+            </td>
         </template>
     </v-data-table>
 </template>

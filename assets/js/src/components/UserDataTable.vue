@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         :pagination.sync="pagination"
-        :headers="rsTableMxHeaders"
+        :headers="tableMxVisibleHeaders"
         :items="items"
         :total-items="totalItems"
         :loading="isRequestPending"
@@ -38,12 +38,6 @@
 
   export default {
     name: 'user-data-table',
-    extends: BaseListDataTable,
-/*    data () {
-      return {
-        prefix_: 'admin',
-        table_: 'user'
-      }
-    }*/
+    extends: BaseListDataTable
   }
 </script>

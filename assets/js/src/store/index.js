@@ -152,32 +152,33 @@ export const state = {
         {
           text: 'ID',
           value: 'id',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Code',
           value: 'site.code',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Site',
           value: 'site.code',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Year',
           value: 'campaign.year',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Context',
           value: 'context.num',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Type',
           value: 'type',
-          class: 'subheading'
+          class: 'subheading',
+          public: false
         },
         {
           text: 'Num',

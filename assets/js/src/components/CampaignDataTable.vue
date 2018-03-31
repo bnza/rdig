@@ -1,7 +1,7 @@
 <template>
     <v-data-table
         :pagination.sync="pagination"
-        :headers="rsTableMxHeaders"
+        :headers="tableMxVisibleHeaders"
         :items="items"
         :total-items="totalItems"
         :loading="isRequestPending"
@@ -45,9 +45,24 @@
                     <span>Show item</span>
                 </v-tooltip>
             </td>
-            <td class="text-xs-right"><strong>{{ getCode(props.item) }}</strong></td>
-            <td class="text-xs-right">{{ props.item.site.code }}</td>
-            <td class="text-xs-right">{{ props.item.year }}</td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Code')"
+                class="text-xs-right"
+            >
+                <strong>{{ getCode(props.item) }}</strong>
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Site')"
+                class="text-xs-right"
+            >
+                {{ props.item.site.code }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Year')"
+                class="text-xs-right"
+            >
+                {{ props.item.year }}
+            </td>
         </template>
     </v-data-table>
 </template>
