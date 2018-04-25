@@ -23,7 +23,14 @@ const authorizeRoute = function (to, from, next) {
         if (authMxAuthorize(to, response.data.siteId, store, router)) {
           next()
         } else {
-          next('/login')
+          if (store.getters['account/isAuthenticated']) {
+            uuidMxSet(store, 'text', 'You don\'t have the permission to access this content', 'the-snack-bar')
+            uuidMxSet(store, 'color', 'error', 'the-snack-bar')
+            uuidMxSet(store, 'active', true, 'the-snack-bar')
+            next(false)
+          } else {
+            next('/login')
+          }
         }
       }
     )
@@ -31,7 +38,14 @@ const authorizeRoute = function (to, from, next) {
     if (authMxAuthorize(to, undefined, store, router)) {
       next()
     } else {
-      next('/login')
+      if (store.getters['account/isAuthenticated']) {
+        uuidMxSet(store, 'text', 'You don\'t have the permission to access this content', 'the-snack-bar')
+        uuidMxSet(store, 'color', 'error', 'the-snack-bar')
+        uuidMxSet(store, 'active', true, 'the-snack-bar')
+        next(false)
+      } else {
+        next('/login')
+      }
     }
   }
 }
