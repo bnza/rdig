@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\Event;
 
 use App\Exceptions\CrudException;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;

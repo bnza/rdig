@@ -6,7 +6,7 @@
  * Time: 15.56.
  */
 
-namespace App\EventSubscriber;
+namespace App\Event;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Doctrine\DBAL\DBALException;

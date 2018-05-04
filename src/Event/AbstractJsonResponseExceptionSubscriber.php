@@ -6,7 +6,7 @@
  * Time: 17.14
  */
 
-namespace App\EventSubscriber;
+namespace App\Event;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\KernelEvents;

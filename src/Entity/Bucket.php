@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BucketRepository")
@@ -40,8 +41,7 @@ class Bucket implements SiteRelateEntityInterface
      *      length=1,
      *      nullable=false,
      *      options={
-     *     "fixed" = true,
-     *     "check"="CHECK (type IN ('O', 'P', 'S'))"
+     *     "fixed" = true
      *     })
      */
     private $type;
@@ -67,6 +67,17 @@ class Bucket implements SiteRelateEntityInterface
      * @ORM\JoinColumn(name="context", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
     private $context;
+
+    /**
+     * One Bucket has Many Findings.
+     * @ORM\OneToMany(targetEntity="AbstractFinding", mappedBy="bucket")
+     */
+    private $findings;
+
+
+    public function __construct() {
+        $this->findings = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -100,7 +111,6 @@ class Bucket implements SiteRelateEntityInterface
         $this->type = $type;
     }
 
-
     /**
      * @return Campaign
      */
@@ -116,7 +126,6 @@ class Bucket implements SiteRelateEntityInterface
     {
         $this->campaign = $campaign;
     }
-
 
     /**
      * @return int

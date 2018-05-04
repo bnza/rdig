@@ -28,6 +28,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Event\DoctrineIgnoreTableEventListener:
+            tags:
+                - { name: doctrine.event_listener, event: postGenerateSchema }
+
     app.simple_authenticator:
             class: App\Security\SimpleAuthenticator
             arguments: ["@router", "@security.password_encoder"]
