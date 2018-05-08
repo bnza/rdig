@@ -46,10 +46,8 @@ class Campaign implements SiteRelateEntityInterface
      * )
      * @ORM\Column(
      *     type="smallint",
-     *     nullable=false,
-     *     options={
-     *      "check"="CHECK (year BETWEEN 2000 AND 2099)"
-     *     })
+     *     nullable=false
+     *     )
      */
     private $year;
 

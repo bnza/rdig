@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -31,8 +30,8 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
     private $id;
 
     /**
-     * @var Bucket
-     * Many Buckets have One Campaign.
+     * @var bucket
+     *             Many Buckets have One Campaign
      * @ORM\ManyToOne(targetEntity="Bucket", inversedBy="findings")
      * @ORM\JoinColumn(name="bucket", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
@@ -117,7 +116,7 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
     public function toArray(bool $ancestors = true, bool $descendants = false)
     {
         return [
-          'id' => '@TODO'
+          'id' => '@TODO',
         ];
     }
 
