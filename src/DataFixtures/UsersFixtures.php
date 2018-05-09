@@ -8,7 +8,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
+use App\Entity\Main\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;

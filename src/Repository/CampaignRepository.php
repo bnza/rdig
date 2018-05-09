@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Campaign;
+use App\Entity\Main\Campaign;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class CampaignRepository extends AbstractDataRepository

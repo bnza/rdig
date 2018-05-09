@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Site;
+use App\Entity\Main\Site;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class SiteRepository extends AbstractDataRepository

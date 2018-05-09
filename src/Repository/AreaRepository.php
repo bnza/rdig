@@ -8,7 +8,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Area;
+use App\Entity\Main\Area;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class AreaRepository extends AbstractDataRepository

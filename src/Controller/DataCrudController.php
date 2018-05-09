@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DataCrudController extends AbstractCrudController
 {
     protected $entities = [
-        'site' => 'App\Entity\Site',
-        'area' => 'App\Entity\Area',
-        'bucket' => 'App\Entity\Bucket',
-        'context' => 'App\Entity\Context',
-        'campaign' => 'App\Entity\Campaign'
+        'site' => 'App\Entity\Main\Site',
+        'area' => 'App\Entity\Main\Area',
+        'bucket' => 'App\Entity\Main\Bucket',
+        'context' => 'App\Entity\Main\Context',
+        'campaign' => 'App\Entity\Main\Campaign'
     ];
 
     public function getEntityClass($entity = '')

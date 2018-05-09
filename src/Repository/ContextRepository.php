@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Context;
+use App\Entity\Main\Context;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ContextRepository extends AbstractDataRepository

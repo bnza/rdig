@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Bucket;
+use App\Entity\Main\Bucket;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class BucketRepository extends AbstractDataRepository

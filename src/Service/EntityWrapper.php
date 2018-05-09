@@ -22,11 +22,11 @@ class EntityWrapper
     protected $entity;
 
     protected $entityClasses = [
-        'site' => 'App\Entity\Site',
-        'area' => 'App\Entity\Area',
-        'context' => 'App\Entity\Context',
-        'campaign' => 'App\Entity\Campaign',
-        'bucket' => 'App\Entity\Bucket',
+        'site' => 'App\Entity\Main\Site',
+        'area' => 'App\Entity\Main\Area',
+        'context' => 'App\Entity\Main\Campaign',
+        'campaign' => 'App\Entity\Main\Campaign',
+        'bucket' => 'App\Entity\Main\Bucket',
     ];
 
     /**

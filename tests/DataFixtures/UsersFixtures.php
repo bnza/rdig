@@ -6,7 +6,7 @@
 
 namespace App\Tests\DataFixtures;
 
-use App\Entity\User;
+use App\Entity\Main\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;

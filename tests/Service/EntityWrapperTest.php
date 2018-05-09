@@ -19,15 +19,15 @@ class EntityWrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSetEntityMethodEntityObjectParameter()
     {
-        $entity = new \App\Entity\Site();
+        $entity = new \App\Entity\Main\Site();
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($entity);
-        $this->assertInstanceOf('\App\Entity\Site', $wrapper->getEntity());
+        $this->assertInstanceOf('\App\Entity\Main\Site', $wrapper->getEntity());
     }
 
     public function testSetEntityMethodClassNameStringParameter()
     {
-        $class = '\App\Entity\Site';
+        $class = '\App\Entity\Main\Site';
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($class);
         $this->assertInstanceOf($class, $wrapper->getEntity());
@@ -40,7 +40,7 @@ class EntityWrapperTest extends \PHPUnit_Framework_TestCase
             'name' => 'Site name',
         ];
 
-        $class = '\App\Entity\Site';
+        $class = '\App\Entity\Main\Site';
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($class, $data);
         $this->assertInstanceOf($class, $wrapper->getEntity());
@@ -56,7 +56,7 @@ class EntityWrapperTest extends \PHPUnit_Framework_TestCase
             'name' => 'Site name',
         ];
 
-        $class = '\App\Entity\Site';
+        $class = '\App\Entity\Main\Site';
         $wrapper = new EntityWrapper($this->em);
         $wrapper->setEntity($class);
 

@@ -7,8 +7,8 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
-use App\Entity\Site;
+use App\Entity\Main\User;
+use App\Entity\Main\Site;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Query\Expr;
 use Symfony\Bridge\Doctrine\RegistryInterface;

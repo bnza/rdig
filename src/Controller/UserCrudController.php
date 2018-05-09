@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Site;
+use App\Entity\Main\User;
+use App\Entity\Main\Site;
 use App\Service\DataCrudHelper;
 use App\Exceptions\CrudException;
 use App\Service\EntityWrapper;

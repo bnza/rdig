@@ -2,7 +2,7 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Site;
+use App\Entity\Main\Site;
 use App\Service\DataCrudHelper;
 use App\Tests\RealDatabaseWorkflowWebTestCase;
 

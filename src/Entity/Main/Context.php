@@ -1,5 +1,5 @@
 <?php
-namespace App\Entity;
+namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;

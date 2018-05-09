@@ -6,7 +6,9 @@
  * Time: 10.25
  */
 
-namespace App\Entity;
+namespace App\Entity\Main;
+
+use App\Entity\CrudEntityInterface;
 
 
 interface SiteRelateEntityInterface extends CrudEntityInterface
