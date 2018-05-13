@@ -1,3 +1,5 @@
+
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
@@ -34,6 +36,14 @@ services:
             tags:
                 - { name: doctrine.event_listener, event: postGenerateSchema }
 
+    App\Event\DoctrineSqlitePreRemoveEventListener:
+                tags:
+                    - { name: doctrine.event_listener, event: preRemove }
+
     app.simple_authenticator:
             class: App\Security\SimpleAuthenticator
             arguments: ["@router", "@security.password_encoder"]
+
+    App\Service\Job\JobManager:
+            arguments:
+                $em: '@doctrine.orm.jobs_entity_manager'

@@ -23,6 +23,10 @@ trait RealDatabaseWorkflowTrait
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
+    /**
+     * @var string
+     */
+    protected $emName = 'default';
 
     protected function dropSchema()
     {
@@ -30,6 +34,7 @@ trait RealDatabaseWorkflowTrait
             $input = new ArrayInput(array(
                 'command' => 'doctrine:schema:drop',
                 '--force' => true,
+                '--em' => $this->emName
             ));
 
             $this->application->run($input, $this->output);
@@ -41,6 +46,7 @@ trait RealDatabaseWorkflowTrait
     {
         $input = new ArrayInput(array(
             'command' => 'doctrine:database:create',
+            '--connection' => $this->emName
         ));
 
         $this->application->run($input, $this->output);
@@ -52,18 +58,21 @@ trait RealDatabaseWorkflowTrait
             'command' => 'doctrine:schema:update',
             // (optional) pass options to the command
             '--force' => true,
+            '--em' => $this->emName
         ));
 
         $this->application->run($input, $this->output);
     }
 
-    protected function _setUp()
+    protected function _setUp(string $emName = 'default')
     {
         self::bootKernel();
+        $this->emName = $emName;
         $this->output = new NullOutput();
         $this->application = new Application(self::$kernel);
         $this->application->setAutoExit(false);
-        $this->em = self::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $emConfigName = "doctrine.orm.{$emName}_entity_manager";
+        $this->em = self::$kernel->getContainer()->get($emConfigName);
         $this->dropSchema();
         $this->createSchema();
         $this->updateSchema();

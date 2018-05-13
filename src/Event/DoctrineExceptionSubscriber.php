@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: petrux
- * Date: 03/02/18
- * Time: 15.56.
- */
 
 namespace App\Event;
 
@@ -25,7 +19,12 @@ class DoctrineExceptionSubscriber extends AbstractJsonResponseExceptionSubscribe
     {
         $re = '/Duplicate entry \'\w+-?\w?\'/m';
         preg_match($re, $event->getException()->getMessage(), $matches);
-        $this->setResponse($event, ['exception' => $matches[0]], 400);
+        if (count($matches)) {
+            $content =$matches[0];
+        } else {
+            $content = $event->getException()->getMessage();
+        }
+        $this->setResponse($event, ['exception' => $content], 400);
     }
 
 

@@ -1,0 +1,11 @@
+
+
+services:
+    App\Event\Job\JobEventSubscriber:
+        arguments: ['@doctrine.orm.jobs_entity_manager']
+
+    App\Service\Job\JobManager:
+        arguments:
+            $em: '@doctrine.orm.jobs_entity_manager'
+            $name: 'ioioi'
+

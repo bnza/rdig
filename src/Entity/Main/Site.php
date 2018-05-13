@@ -69,7 +69,7 @@ class Site implements SiteRelateEntityInterface
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getAreas()
     {

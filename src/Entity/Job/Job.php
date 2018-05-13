@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Job\JobRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Job
@@ -29,7 +29,7 @@ class Job
      * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $name;
+    private $name = '-';
 
     /**
      * @var string
@@ -51,7 +51,7 @@ class Job
 
     /**
      * One Job has Many Tasks.
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="job")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="job", cascade={"persist"})
      */
     private $tasks;
 
@@ -153,7 +153,7 @@ class Job
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getTasks()
     {
@@ -193,38 +193,29 @@ class Job
         return $this->tasks->count() - 1;
     }
 
-    /**
-     * @param bool $main
-     * @return \App\Service\Job\JobDbLogger
-     */
-    public function getLogger(bool $main = false)
-    {
-        $task = $main ? $this->getMainTask() : $this->getCurrentTask();
-        return $task->getLogger();
-    }
+//    /**
+//     * @param bool $main
+//     * @return \App\Service\Job\JobDbLogger
+//     */
+//    public function getLogger(bool $main = false)
+//    {
+//        $task = $main ? $this->getMainTask() : $this->getCurrentTask();
+//        return $task->getLogger();
+//    }
 
     public function __construct() {
         $this->tasks = new ArrayCollection();
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function setMainTask()
-    {
-        $main = new Task();
-        $main->setName('main');
-        $main->setIdx($this->tasks->count());
-        $this->addTask($main);
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function setHashValue()
-    {
-        $this->hash = $this->generateHash();
-    }
+//    /**
+//     * @ORM\PrePersist
+//     */
+//    public function setMainTask()
+//    {
+//        $main = new Task();
+//        $main->setName('app.job.main_task');
+//        $this->addTask($main);
+//    }
 
     /**
      * @ORM\PrePersist
@@ -234,17 +225,17 @@ class Job
         $this->createdAt = new \DateTime();
     }
 
-    /**
-     * @return bool
-     */
-    public function hasError(): bool
-    {
-        foreach ($this->tasks as $task)
-        {
-            if ($task->hasError()) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    /**
+//     * @return bool
+//     */
+//    public function hasError(): bool
+//    {
+//        foreach ($this->tasks as $task)
+//        {
+//            if ($task->hasError()) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }

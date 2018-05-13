@@ -44,6 +44,20 @@ class Finding implements SiteRelateEntityInterface
     private $remarks;
 
     /**
+     * @var VocFChronology
+     * @ORM\ManyToOne(targetEntity="VocFChronology")
+     */
+    private $chronology;
+
+    /**
+     * @return VocFChronology
+     */
+    public function getChronology(): VocFChronology
+    {
+        return $this->chronology;
+    }
+
+    /**
      * @return mixed
      */
     public function getRemarks()

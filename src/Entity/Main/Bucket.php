@@ -70,13 +70,27 @@ class Bucket implements SiteRelateEntityInterface
 
     /**
      * One Bucket has Many Findings.
-     * @ORM\OneToMany(targetEntity="AbstractFinding", mappedBy="bucket")
+     * @ORM\OneToMany(targetEntity="Pottery", mappedBy="bucket")
      */
-    private $findings;
+    private $potteries;
+
+    /**
+     * One Bucket has Many Findings.
+     * @ORM\OneToMany(targetEntity="Object", mappedBy="bucket")
+     */
+    private $objects;
+
+    /**
+     * One Bucket has Many Findings.
+     * @ORM\OneToMany(targetEntity="Sample", mappedBy="bucket")
+     */
+    private $samples;
 
 
     public function __construct() {
-        $this->findings = new ArrayCollection();
+        $this->potteries = new ArrayCollection();
+        $this->objects = new ArrayCollection();
+        $this->samples = new ArrayCollection();
     }
 
     /**
@@ -157,6 +171,40 @@ class Bucket implements SiteRelateEntityInterface
     public function setContext(Context $context): void
     {
         $this->context = $context;
+    }
+
+    /**
+     * @param Pottery $pottery
+     */
+    public function addPottery(Pottery $pottery)
+    {
+        $this->potteries[] = $pottery;
+        $pottery->setBucket($this);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPotteries()
+    {
+        return $this->potteries;
+    }
+
+    /**
+     * @param Object $object
+     */
+    public function addObject(Object $object)
+    {
+        $this->objects[] = $object;
+        $object->setBucket($this);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getObjects()
+    {
+        return $this->objects;
     }
 
     public function getSiteId(): int

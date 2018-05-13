@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Main\Site;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\ORMException;
 
 class SiteRepository extends AbstractDataRepository
 {
@@ -32,5 +33,19 @@ class SiteRepository extends AbstractDataRepository
         $this->addSortCriteria($sort);
 
         return $this->getListResultData();
+    }
+
+    /**
+     * @param string $code
+     * @return bool|Site
+     */
+    public function findByCode(string $code)
+    {
+        try {
+            $site = parent::findByCode($code);
+            return count($site) ? $site[0] : $site;
+        } catch (ORMException $e) {
+            return false;
+        }
     }
 }

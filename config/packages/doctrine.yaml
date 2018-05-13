@@ -45,7 +45,7 @@ doctrine:
                 mappings:
                     JobsEntity:
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Jobs'
+                        dir: '%kernel.project_dir%/src/Entity/Job'
                         is_bundle: false
                         prefix: 'App\Entity\Job'
                         alias: Job

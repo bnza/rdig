@@ -10,7 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AreaRepository")
  * @ORM\Table(uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"code", "site"})
+ *      @ORM\UniqueConstraint(columns={"code", "site"}),
+ *      @ORM\UniqueConstraint(columns={"name", "site"}),
  * })
  * @UniqueEntity(
  *      fields={"code", "site"},
@@ -28,10 +29,10 @@ class Area implements SiteRelateEntityInterface
 
     /**
      *  @Assert\Length(
-     *      max = 2
+     *      max = 4
      * )
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=2, nullable=false)
+     * @ORM\Column(type="string", length=4, nullable=false)
      */
     private $code;
 
@@ -129,6 +130,24 @@ class Area implements SiteRelateEntityInterface
     public function getSiteId(): int
     {
         return $this->site->getId();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getContexts()
+    {
+        return $this->contexts;
+    }
+
+    /**
+     * @param Context $context
+     * @throws \Exception
+     */
+    public function addContexts(Context $context)
+    {
+        $this->contexts[] = $context;
+        $context->setArea($this);
     }
 
     public function toArray(bool $ancestors = true, bool $descendants = false)

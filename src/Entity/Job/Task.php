@@ -2,7 +2,6 @@
 
 namespace App\Entity\Job;
 
-use App\Service\Job\JobDbLogger;
 use Doctrine\ORM\Mapping as ORM;
 use Psr\Log\LogLevel;
 
@@ -40,6 +39,18 @@ class Task
      * @ORM\Column(type="string", nullable=false)
      */
     private $name;
+
+    /**
+     * @var int
+     * @ORM\Column(type="smallint", nullable=false, options={"default"=1})
+     */
+    private $stepNum = 1;
+
+    /**
+     * @var int
+     * @ORM\Column(type="smallint", nullable=false, options={"default"=1})
+     */
+    private $curStep = 1;
 
     /**
      * @var JobDbLogger
@@ -119,6 +130,54 @@ class Task
     }
 
     /**
+     * @return int
+     */
+    public function getStepNum(): int
+    {
+        return $this->stepNum;
+    }
+
+    /**
+     * @param int $stepNum
+     */
+    public function setStepNum(int $stepNum): void
+    {
+        $this->stepNum = $stepNum;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurStep(): int
+    {
+        return $this->curStep;
+    }
+
+    /**
+     * @param int $curStep
+     */
+    public function setCurStep(int $curStep): void
+    {
+        $this->curStep = $curStep;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
      * @return JobDbLogger
      */
     public function getLogs()
@@ -175,12 +234,12 @@ class Task
         $this->updatedAt = new \DateTime();
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function addStartInfo()
-    {
-        $this->logs->info('Task started');
-    }
+//    /**
+//     * @ORM\PrePersist
+//     */
+//    public function addStartInfo()
+//    {
+//        $this->logs->info('Task started');
+//    }
 
 }

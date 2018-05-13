@@ -9,12 +9,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FindingRepository")
- * @ORM\Table(name="finding")
+ * @ORM\Table(name="finding", uniqueConstraints={
+ *      @ORM\UniqueConstraint(columns={"bucket", "discr", "num"})
+ * })
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=1)
  * @ORM\DiscriminatorMap({"O" = "Object", "P" = "Pottery", "S" = "Sample"})
  * @UniqueEntity(
- *      fields={"bucket", "num"},
+ *      fields={"bucket", "discr", "num"},
  *      errorPath="num",
  *      message="Duplicate finding number for this bucket"
  * )
@@ -48,6 +50,28 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
      * @ORM\Column(type="text", length=4, nullable=true)
      */
     private $remarks;
+
+    /**
+     * @var VocFChronology
+     * @ORM\ManyToOne(targetEntity="VocFChronology")
+     */
+    private $chronology;
+
+    /**
+     * @return VocFChronology
+     */
+    public function getChronology(): VocFChronology
+    {
+        return $this->chronology;
+    }
+
+    /**
+     * @param VocFChronology $chronology
+     */
+    public function setChronology(VocFChronology $chronology): void
+    {
+        $this->chronology = $chronology;
+    }
 
     /**
      * @return mixed
@@ -128,7 +152,7 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
         $finding = $event->getEntity();
         $num = $finding->getNum();
         if (is_numeric($num)) {
-            $num = sprintf('%010d', $finding->getNum());
+            $num = sprintf('%04d', (int) $finding->getNum());
         }
         $finding->setNum($num);
     }

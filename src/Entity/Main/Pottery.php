@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: petrux
- * Date: 04/05/18
- * Time: 9.15
- */
 
 namespace App\Entity\Main;
 
@@ -40,6 +34,264 @@ class Pottery extends AbstractFinding
     private $shape;
 
     /**
+     * @var VocPSurfaceTreatment
+     * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
+     */
+    private $innerSurfaceTreatment;
+
+    /**
+     * @var VocPSurfaceTreatment
+     * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
+     */
+    private $outerSurfaceTreatment;
+
+    /**
+     * @var VocPDecoration
+     * @ORM\ManyToOne(targetEntity="VocPDecoration")
+     */
+    private $innerDecoration;
+
+    /**
+     * @var VocPDecoration
+     * @ORM\ManyToOne(targetEntity="VocPDecoration")
+     */
+    private $outerDecoration;
+
+    /**
+     * @var VocPInclusionsFrequency
+     * @ORM\ManyToOne(targetEntity="VocPInclusionsFrequency")
+     */
+    private $inclusionsFrequency;
+
+    /**
+     * @var VocPInclusionsSize
+     * @ORM\ManyToOne(targetEntity="VocPInclusionsSize")
+     */
+    private $inclusionsSize;
+
+    /**
+     * @var VocPInclusionsType
+     * @ORM\ManyToOne(targetEntity="VocPInclusionsType")
+     */
+    private $inclusionsType;
+
+    /**
+     * @var VocFColor
+     * @ORM\ManyToOne(targetEntity="VocFColor")
+     */
+    private $coreColor;
+
+    /**
+     * @var VocFColor
+     * @ORM\ManyToOne(targetEntity="VocFColor")
+     */
+    private $innerColor;
+
+    /**
+     * @var VocFColor
+     * @ORM\ManyToOne(targetEntity="VocFColor")
+     */
+    private $outerColor;
+
+    /**
+     * @var VocPFiring
+     * @ORM\ManyToOne(targetEntity="VocPFiring")
+     */
+    private $firing;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $height;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $rimDiameter;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $rimWidth;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $wallWidth;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $maxWallDiameter;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $baseWidth;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $baseHeight;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $baseDiameter;
+
+    /**
+     * @return string
+     */
+    public function getRimDiameter(): string
+    {
+        return $this->rimDiameter;
+    }
+
+    /**
+     * @param string $rimDiameter
+     */
+    public function setRimDiameter(string $rimDiameter): void
+    {
+        $this->rimDiameter = $rimDiameter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRimWidth(): string
+    {
+        return $this->rimWidth;
+    }
+
+    /**
+     * @param string $rimWidth
+     */
+    public function setRimWidth(string $rimWidth): void
+    {
+        $this->rimWidth = $rimWidth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWallWidth(): string
+    {
+        return $this->wallWidth;
+    }
+
+    /**
+     * @param string $wallWidth
+     */
+    public function setWallWidth(string $wallWidth): void
+    {
+        $this->wallWidth = $wallWidth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMaxWallDiameter(): string
+    {
+        return $this->maxWallDiameter;
+    }
+
+    /**
+     * @param string $maxWallDiameter
+     */
+    public function setMaxWallDiameter(string $maxWallDiameter): void
+    {
+        $this->maxWallDiameter = $maxWallDiameter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseWidth(): string
+    {
+        return $this->baseWidth;
+    }
+
+    /**
+     * @param string $baseWidth
+     */
+    public function setBaseWidth(string $baseWidth): void
+    {
+        $this->baseWidth = $baseWidth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseHeight(): string
+    {
+        return $this->baseHeight;
+    }
+
+    /**
+     * @param string $baseHeight
+     */
+    public function setBaseHeight(string $baseHeight): void
+    {
+        $this->baseHeight = $baseHeight;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseDiameter(): string
+    {
+        return $this->baseDiameter;
+    }
+
+    /**
+     * @param string $baseDiameter
+     */
+    public function setBaseDiameter(string $baseDiameter): void
+    {
+        $this->baseDiameter = $baseDiameter;
+    }
+
+    /**
+     * @return VocPFiring
+     */
+    public function getFiring(): VocPFiring
+    {
+        return $this->firing;
+    }
+
+    /**
+     * @param VocPFiring $firing
+     */
+    public function setFiring(VocPFiring $firing): void
+    {
+        $this->firing = $firing;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHeight(): string
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param string $height
+     */
+    public function setHeight(string $height)
+    {
+        $this->height = $height;
+    }
+
+    /**
      * @return VocPClass
      */
     public function getClass(): VocPClass
@@ -53,6 +305,134 @@ class Pottery extends AbstractFinding
     public function setClass(VocPClass $class): void
     {
         $this->class = $class;
+    }
+
+    /**
+     * @return VocFColor
+     */
+    public function getCoreColor(): VocFColor
+    {
+        return $this->coreColor;
+    }
+
+    /**
+     * @param VocFColor $coreColor
+     */
+    public function setCoreColor(VocFColor $coreColor): void
+    {
+        $this->coreColor = $coreColor;
+    }
+
+    /**
+     * @return VocFColor
+     */
+    public function getInnerColor(): VocFColor
+    {
+        return $this->innerColor;
+    }
+
+    /**
+     * @param VocFColor $innerColor
+     */
+    public function setInnerColor(VocFColor $innerColor): void
+    {
+        $this->innerColor = $innerColor;
+    }
+
+    /**
+     * @return VocFColor
+     */
+    public function getOuterColor(): VocFColor
+    {
+        return $this->outerColor;
+    }
+
+    /**
+     * @param VocFColor $outerColor
+     */
+    public function setOuterColor(VocFColor $outerColor): void
+    {
+        $this->outerColor = $outerColor;
+    }
+
+    /**
+     * @return VocPDecoration
+     */
+    public function getInnerDecoration(): VocPDecoration
+    {
+        return $this->innerDecoration;
+    }
+
+    /**
+     * @param VocPDecoration $innerDecoration
+     */
+    public function setInnerDecoration(VocPDecoration $innerDecoration): void
+    {
+        $this->innerDecoration = $innerDecoration;
+    }
+
+    /**
+     * @return VocPDecoration
+     */
+    public function getOuterDecoration(): VocPDecoration
+    {
+        return $this->outerDecoration;
+    }
+
+    /**
+     * @return VocPInclusionsFrequency
+     */
+    public function getInclusionsFrequency(): VocPInclusionsFrequency
+    {
+        return $this->inclusionsFrequency;
+    }
+
+    /**
+     * @param VocPInclusionsFrequency $inclusionFrequency
+     */
+    public function setInclusionsFrequency(VocPInclusionsFrequency $inclusionFrequency): void
+    {
+        $this->inclusionsFrequency = $inclusionFrequency;
+    }
+
+    /**
+     * @return VocPInclusionsSize
+     */
+    public function getInclusionsSize(): VocPInclusionsSize
+    {
+        return $this->inclusionsSize;
+    }
+
+    /**
+     * @param VocPInclusionsSize $inclusionsSize
+     */
+    public function setInclusionsSize(VocPInclusionsSize $inclusionsSize): void
+    {
+        $this->inclusionsSize = $inclusionsSize;
+    }
+
+    /**
+     * @return VocPInclusionsType
+     */
+    public function getInclusionsType(): VocPInclusionsType
+    {
+        return $this->inclusionsType;
+    }
+
+    /**
+     * @param VocPInclusionsType $inclusionsType
+     */
+    public function setInclusionsType(VocPInclusionsType $inclusionsType): void
+    {
+        $this->inclusionsType = $inclusionsType;
+    }
+
+    /**
+     * @param VocPDecoration $outerDecoration
+     */
+    public function setOuterDecoration(VocPDecoration $outerDecoration): void
+    {
+        $this->outerDecoration = $outerDecoration;
     }
 
     /**
@@ -101,6 +481,38 @@ class Pottery extends AbstractFinding
     public function setTechnique(VocPTechnique $technique): void
     {
         $this->technique = $technique;
+    }
+
+    /**
+     * @return VocPSurfaceTreatment
+     */
+    public function getInnerSurfaceTreatment(): VocPSurfaceTreatment
+    {
+        return $this->innerSurfaceTreatment;
+    }
+
+    /**
+     * @param VocPSurfaceTreatment $innerSurfaceTreatment
+     */
+    public function setInnerSurfaceTreatment(VocPSurfaceTreatment $innerSurfaceTreatment): void
+    {
+        $this->innerSurfaceTreatment = $innerSurfaceTreatment;
+    }
+
+    /**
+     * @return VocPSurfaceTreatment
+     */
+    public function getOuterSurfaceTreatment(): VocPSurfaceTreatment
+    {
+        return $this->outerSurfaceTreatment;
+    }
+
+    /**
+     * @param VocPSurfaceTreatment $outerSurfaceTreatment
+     */
+    public function setOuterSurfaceTreatment(VocPSurfaceTreatment $outerSurfaceTreatment): void
+    {
+        $this->outerSurfaceTreatment = $outerSurfaceTreatment;
     }
 
 }

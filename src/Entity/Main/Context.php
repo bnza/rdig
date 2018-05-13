@@ -65,6 +65,12 @@ class Context implements SiteRelateEntityInterface
      */
     private $buckets;
 
+    /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct() {
         $this->buckets = new ArrayCollection();
     }
@@ -115,6 +121,22 @@ class Context implements SiteRelateEntityInterface
     public function setNum($num): void
     {
         $this->num = $num;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     /**
