@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Main\Site;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\ORMException;
 
 class SiteRepository extends AbstractDataRepository
@@ -11,6 +12,16 @@ class SiteRepository extends AbstractDataRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Site::class);
+    }
+
+    protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
+    {
+        return $this;
+    }
+
+    protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
+    {
+        return $this;
     }
 
     protected function addUserAllowedFilters(array $filter, ...$params)

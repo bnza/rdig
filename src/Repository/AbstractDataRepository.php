@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractDataRepository extends ServiceEntityRepository
 {
@@ -20,6 +21,10 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
      */
     protected $qbc;
     protected $alias = 'e';
+
+    abstract protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository;
+
+    abstract protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository;
 
     protected function getFilterExpressions(array $filter)
     {
@@ -51,27 +56,31 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     /**
      * @param null $limit
      * @param null $offset
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    protected function createFilterQueryBuilder($limit = null, $offset = null)
+    protected function createFilterQueryBuilder($limit = null, $offset = null): QueryBuilder
     {
         $this->qbf = $this
             ->createQueryBuilder($this->alias)
             ->setFirstResult($offset)
             ->setMaxResults($limit);
+        $this->addQueryBuilderSelects($this->qbf);
+        $this->addQueryBuilderLeftJoins($this->qbf);
         return $this->qbf;
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
-    protected function createCountQueryBuilder()
+    protected function createCountQueryBuilder(): QueryBuilder
     {
         $this->qbc = $this
             ->createQueryBuilder($this->alias);
 
         $this->qbc
             ->select($this->qbc->expr()->count($this->alias));
+
+        $this->addQueryBuilderLeftJoins($this->qbc);
 
         return $this->qbc;
     }

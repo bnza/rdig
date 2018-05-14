@@ -11,7 +11,7 @@ namespace App\Entity\Main;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity(readOnly=true, repositoryClass="App\Repository\FindingRepository")
  * @ORM\Table(name="vw_finding")
  */
 class Finding implements SiteRelateEntityInterface
@@ -34,20 +34,26 @@ class Finding implements SiteRelateEntityInterface
     private $bucket;
 
     /**
-     * @ORM\Column(type="string", length=4, nullable=false)
+     * @ORM\Column(type="string")
      */
     private $num;
 
     /**
-     * @ORM\Column(type="text", length=4, nullable=true)
+     * @ORM\Column(type="text")
      */
     private $remarks;
 
     /**
      * @var VocFChronology
      * @ORM\ManyToOne(targetEntity="VocFChronology")
+     * @ORM\JoinColumn(name="chronology", referencedColumnName="id")
      */
     private $chronology;
+
+    /**
+     * @ORM\Column(type="text", name="discr")
+     */
+    private $group;
 
     /**
      * @return VocFChronology
@@ -88,6 +94,23 @@ class Finding implements SiteRelateEntityInterface
     {
         return $this->bucket;
     }
+
+    /**
+     * @return string
+     */
+    public function getGroup(): string
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+    }
+
 
     /**
      * @return int

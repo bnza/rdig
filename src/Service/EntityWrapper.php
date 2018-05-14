@@ -27,6 +27,10 @@ class EntityWrapper
         'context' => 'App\Entity\Main\Campaign',
         'campaign' => 'App\Entity\Main\Campaign',
         'bucket' => 'App\Entity\Main\Bucket',
+        'finding' => 'App\Entity\Main\Finding',
+        'sample' => 'App\Entity\Main\Sample',
+        'object' => 'App\Entity\Main\Object',
+        'pottery' => 'App\Entity\Main\Pottery'
     ];
 
     /**

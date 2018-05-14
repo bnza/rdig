@@ -5,7 +5,7 @@ namespace App\Entity\Main;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PotteryRepository")
  */
 class Pottery extends AbstractFinding
 {
@@ -16,46 +16,16 @@ class Pottery extends AbstractFinding
     private $class;
 
     /**
-     * @var VocPPreservation
-     * @ORM\ManyToOne(targetEntity="VocPPreservation")
+     * @var VocFColor
+     * @ORM\ManyToOne(targetEntity="VocFColor")
      */
-    private $preservation;
+    private $coreColor;
 
     /**
-     * @var VocPTechnique
-     * @ORM\ManyToOne(targetEntity="VocPTechnique")
+     * @var VocPFiring
+     * @ORM\ManyToOne(targetEntity="VocPFiring")
      */
-    private $technique;
-
-    /**
-     * @var VocPShape
-     * @ORM\ManyToOne(targetEntity="VocPShape")
-     */
-    private $shape;
-
-    /**
-     * @var VocPSurfaceTreatment
-     * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
-     */
-    private $innerSurfaceTreatment;
-
-    /**
-     * @var VocPSurfaceTreatment
-     * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
-     */
-    private $outerSurfaceTreatment;
-
-    /**
-     * @var VocPDecoration
-     * @ORM\ManyToOne(targetEntity="VocPDecoration")
-     */
-    private $innerDecoration;
-
-    /**
-     * @var VocPDecoration
-     * @ORM\ManyToOne(targetEntity="VocPDecoration")
-     */
-    private $outerDecoration;
+    private $firing;
 
     /**
      * @var VocPInclusionsFrequency
@@ -79,13 +49,19 @@ class Pottery extends AbstractFinding
      * @var VocFColor
      * @ORM\ManyToOne(targetEntity="VocFColor")
      */
-    private $coreColor;
+    private $innerColor;
 
     /**
-     * @var VocFColor
-     * @ORM\ManyToOne(targetEntity="VocFColor")
+     * @var VocPDecoration
+     * @ORM\ManyToOne(targetEntity="VocPDecoration")
      */
-    private $innerColor;
+    private $innerDecoration;
+
+    /**
+     * @var VocPSurfaceTreatment
+     * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
+     */
+    private $innerSurfaceTreatment;
 
     /**
      * @var VocFColor
@@ -94,16 +70,66 @@ class Pottery extends AbstractFinding
     private $outerColor;
 
     /**
-     * @var VocPFiring
-     * @ORM\ManyToOne(targetEntity="VocPFiring")
+     * @var VocPDecoration
+     * @ORM\ManyToOne(targetEntity="VocPDecoration")
      */
-    private $firing;
+    private $outerDecoration;
+
+    /**
+     * @var VocPSurfaceTreatment
+     * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
+     */
+    private $outerSurfaceTreatment;
+
+    /**
+     * @var VocPPreservation
+     * @ORM\ManyToOne(targetEntity="VocPPreservation")
+     */
+    private $preservation;
+
+    /**
+     * @var VocPShape
+     * @ORM\ManyToOne(targetEntity="VocPShape")
+     */
+    private $shape;
+
+    /**
+     * @var VocPTechnique
+     * @ORM\ManyToOne(targetEntity="VocPTechnique")
+     */
+    private $technique;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $baseDiameter;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $baseHeight;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $baseWidth;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     private $height;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $maxWallDiameter;
 
     /**
      * @var string
@@ -122,30 +148,6 @@ class Pottery extends AbstractFinding
      * @ORM\Column(type="string", nullable=true)
      */
     private $wallWidth;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $maxWallDiameter;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $baseWidth;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $baseHeight;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $baseDiameter;
 
     /**
      * @return string

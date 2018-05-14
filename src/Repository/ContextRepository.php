@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Main\Context;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ContextRepository extends AbstractDataRepository
@@ -12,7 +13,25 @@ class ContextRepository extends AbstractDataRepository
         parent::__construct($registry, Context::class);
     }
 
-    protected function createQueryBuilders($limit = null, $offset = null)
+    protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
+    {
+        $qb
+            ->leftJoin('e.area', 'area')
+            ->leftJoin('area.site', 'site');
+
+        return $this;
+    }
+
+    protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
+    {
+        $qb
+            ->addSelect('area')
+            ->addSelect('site');
+
+        return $this;
+    }
+
+/*    protected function createQueryBuilders($limit = null, $offset = null)
     {
         $this
             ->createFilterQueryBuilder($limit, $offset)
@@ -23,7 +42,7 @@ class ContextRepository extends AbstractDataRepository
         $this->createCountQueryBuilder()
             ->leftJoin('e.area', 'area')
             ->leftJoin('area.site', 'site');
-    }
+    }*/
 
     public function getMaxSiteContextNum(int $siteId): int
     {

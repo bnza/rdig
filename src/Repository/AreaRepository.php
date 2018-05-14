@@ -9,6 +9,7 @@
 namespace App\Repository;
 
 use App\Entity\Main\Area;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class AreaRepository extends AbstractDataRepository
@@ -18,14 +19,19 @@ class AreaRepository extends AbstractDataRepository
         parent::__construct($registry, Area::class);
     }
 
-    protected function createQueryBuilders($limit = null, $offset = null)
+    protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
     {
-        $this
-            ->createFilterQueryBuilder($limit, $offset)
-            ->addSelect('site')
-            ->leftJoin('e.site', 'site');
-        $this->createCountQueryBuilder()
-            ->leftJoin('e.site', 'site');
+        $qb->leftJoin('e.site', 'site');
+
+        return $this;
+    }
+
+    protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
+    {
+        $qb
+            ->addSelect('site');
+
+        return $this;
     }
 
     /**

@@ -11,7 +11,7 @@ namespace App\Entity\Main;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SampleRepository")
  */
 class Sample extends AbstractFinding
 {

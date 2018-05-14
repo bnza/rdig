@@ -54,6 +54,7 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
     /**
      * @var VocFChronology
      * @ORM\ManyToOne(targetEntity="VocFChronology")
+     * @ORM\JoinColumn(name="chronology", referencedColumnName="id", nullable=true, onDelete="NO ACTION")
      */
     private $chronology;
 

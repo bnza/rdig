@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Main\Bucket;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class BucketRepository extends AbstractDataRepository
@@ -12,23 +13,26 @@ class BucketRepository extends AbstractDataRepository
         parent::__construct($registry, Bucket::class);
     }
 
-    protected function createQueryBuilders($limit = null, $offset = null)
+    protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
     {
-        $this
-            ->createFilterQueryBuilder($limit, $offset)
+        $qb
+            ->leftJoin('e.context', 'context')
+            ->leftJoin('e.campaign', 'campaign')
+            ->leftJoin('context.area', 'area')
+            ->leftJoin('campaign.site', 'site');
+
+        return $this;
+    }
+
+    protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
+    {
+        $qb
             ->addSelect('campaign')
             ->addSelect('context')
             ->addSelect('area')
-            ->addSelect('site')
-            ->leftJoin('e.context', 'context')
-            ->leftJoin('e.campaign', 'campaign')
-            ->leftJoin('context.area', 'area')
-            ->leftJoin('campaign.site', 'site');
-        $this->createCountQueryBuilder()
-            ->leftJoin('e.context', 'context')
-            ->leftJoin('e.campaign', 'campaign')
-            ->leftJoin('context.area', 'area')
-            ->leftJoin('campaign.site', 'site');
+            ->addSelect('site');
+
+        return $this;
     }
 
     /**

@@ -10,6 +10,7 @@ namespace App\Repository;
 use App\Entity\Main\User;
 use App\Entity\Main\Site;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -28,6 +29,16 @@ class UserRepository extends AbstractDataRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+    protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
+    {
+        return $this;
+    }
+
+    protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
+    {
+        return $this;
     }
 
     public function getUserAllowedSite(int $id, int $siteId)

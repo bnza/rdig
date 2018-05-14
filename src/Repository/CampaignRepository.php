@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Main\Campaign;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class CampaignRepository extends AbstractDataRepository
@@ -12,7 +13,22 @@ class CampaignRepository extends AbstractDataRepository
         parent::__construct($registry, Campaign::class);
     }
 
-    protected function createQueryBuilders($limit = null, $offset = null)
+    protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
+    {
+        $qb->leftJoin('e.site', 'site');
+
+        return $this;
+    }
+
+    protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
+    {
+        $qb
+            ->addSelect('site');
+
+        return $this;
+    }
+
+/*    protected function createQueryBuilders($limit = null, $offset = null)
     {
         $this
             ->createFilterQueryBuilder($limit, $offset)
@@ -20,7 +36,7 @@ class CampaignRepository extends AbstractDataRepository
             ->leftJoin('e.site', 'site');
         $this->createCountQueryBuilder()
             ->leftJoin('e.site', 'site');
-    }
+    }*/
 
     public function findByCodeRegExp(string $pattern) {
         $qb = $this
