@@ -47,6 +47,37 @@
         this.tableMxFetch()
         this.loaded = true
         this.$route.meta.reload = false
+      },
+      getVocabularyValue(vocItem)
+      {
+        if (vocItem && vocItem.hasOwnProperty('value'))
+        {
+          return vocItem.value
+        }
+      },
+      trimTableCellContent(content, length) {
+        length = length || 15;
+        return content && content.length > length
+          ? `${content.substr(0, length)}...`
+          : content
+      },
+      getDate(date) {
+        date = new Date(date.date);
+        return date.toLocaleDateString();
+      },
+      getBucketCode (bucket) {
+        let siteCode = bucket.campaign.site.code;
+        if (['TH', 'TG'].indexOf(siteCode) > -1) {
+          return `${bucket.campaign.site.code}.${bucket.campaign.year}.${bucket.context.area.code}.${bucket.num}`
+        } else {
+          return `${bucket.campaign.site.code}.${bucket.campaign.year}.${bucket.type}.${bucket.num}`
+        }
+      },
+      getContextCode (context) {
+        return `${context.type}.${context.num}`
+      },
+      getFindingCode (finding) {
+        return `${this.getBucketCode(finding.bucket)}.${finding.num}`
       }
     },
     watch: {

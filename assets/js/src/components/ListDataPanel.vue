@@ -68,6 +68,22 @@
         /* webpackChunkName: "ListBaseDataToolbar" */
         './ListDataToolbar'
         ),
+      FindingDataTable: () => import(
+        /* webpackChunkName: "FindingDataTable" */
+        './FindingDataTable'
+        ),
+      ObjectDataTable: () => import(
+        /* webpackChunkName: "ObjectDataTable" */
+        './ObjectDataTable'
+        ),
+      PotteryDataTable: () => import(
+        /* webpackChunkName: "PotteryDataTable" */
+        './PotteryDataTable'
+        ),
+      SampleDataTable: () => import(
+        /* webpackChunkName: "SampleDataTable" */
+        './SampleDataTable'
+        ),
       SiteDataTable: () => import(
         /* webpackChunkName: "SiteDataTable" */
         './SiteDataTable'

@@ -11,7 +11,7 @@
             <td class="justify-center layout px-0">
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id), props.item.campaign.site.id)"
+                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id), props.item.bucket.campaign.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -23,7 +23,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id), props.item.campaign.site.id)"
+                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id), props.item.bucket.campaign.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -50,38 +50,38 @@
                 class="text-xs-right"
             >
                 <strong>
-                    {{ getBucketCode(props.item) }}
+                    {{ getFindingCode(props.item) }}
                 </strong>
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Site')"
                 class="text-xs-right"
             >
-                {{ props.item.campaign.site.code }}
+                {{ props.item.bucket.campaign.site.code }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Year')"
                 class="text-xs-right"
             >
-                {{ props.item.campaign.year }}
+                {{ props.item.bucket.campaign.year }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Area')"
                 class="text-xs-right"
             >
-                {{ props.item.context.area.code }}
+                {{ props.item.bucket.context.area.code }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Context')"
                 class="text-xs-right"
             >
-                {{ getContextCode(props.item.context) }}
+                {{ getContextCode(props.item.bucket.context) }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Type')"
+                v-if="rsTableMxHeaderIsVisible('Group')"
                 class="text-xs-right"
             >
-                {{ props.item.type }}
+                {{ props.item.group }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Num')"
@@ -89,28 +89,43 @@
             >
                 {{ props.item.num }}
             </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Type')"
+                class="text-xs-right"
+            >
+                {{ getVocabularyValue(props.item.type) }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Status')"
+                class="text-xs-right"
+            >
+                {{ props.item.status }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Chronology')"
+            >
+                {{ getVocabularyValue(props.item.chronology) }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Remarks')"
+            >
+                <v-tooltip
+                    v-if="props.item.remarks"
+                    left
+                >
+                    <span slot="activator">{{ trimTableCellContent(props.item.remarks) }}</span>
+                    <span>{{ props.item.remarks }}</span>
+                </v-tooltip>
+            </td>
         </template>
     </v-data-table>
 </template>
 
 <script>
-  import BaseListDataTable from './BaseListDataTable'
+  import FindingDataTable from './FindingDataTable'
 
   export default {
-    name: 'bucket-data-table',
-    extends: BaseListDataTable,
-/*    methods: {
-      getCode (item) {
-        let siteCode = item.campaign.site.code;
-        if (['TH', 'TG'].indexOf(siteCode) > -1) {
-          return `${item.campaign.site.code}.${item.campaign.year}.${item.context.area.code}.${item.num}`
-        } else {
-          return `${item.campaign.site.code}.${item.campaign.year}.${item.type}.${item.num}`
-        }
-      },
-      getContext (item) {
-        return `${item.context.type}.${item.context.num}`
-      }
-    }*/
+    name: 'sample-data-table',
+    extends: FindingDataTable
   }
 </script>

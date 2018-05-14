@@ -26,7 +26,7 @@
                 <v-text-field readonly label="Area (code)" :value="context.area.code"/>
             </v-flex>
             <v-flex xs8>
-                <v-text-field readonly label="Area (code)" :value="context.area.name"/>
+                <v-text-field readonly label="Area (name)" :value="context.area.name"/>
             </v-flex>
             <v-flex xs2>
                 <v-text-field readonly label="Context" :value="contextCode"/>
@@ -34,23 +34,44 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-subheader><strong>Bucket</strong></v-subheader>
+                <v-subheader>Bucket</v-subheader>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs3>
+            <v-flex xs2>
+                <v-text-field readonly label="Code" :value="bucketCode"/>
+            </v-flex>
+            <v-flex xs2>
+                <v-text-field readonly label="Type" :value="bucketType"/>
+            </v-flex>
+            <v-flex xs8>
+                <v-text-field readonly label="Number" :value="bucket.num"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex align-start xs12>
+                <v-subheader><strong>Sample</strong></v-subheader>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs2>
                 <v-text-field
                     readonly
-                    label="Code"
-                    :value="code"
+                    label="Number"
+                    :value="item.num"
                     class="text-strong"
                 />
             </v-flex>
             <v-flex xs3>
-                <v-text-field readonly label="Type" :value="type"/>
+                <v-text-field readonly label="Type" :value="item.type ? item.type.value : undefined"/>
             </v-flex>
             <v-flex xs6>
-                <v-text-field readonly label="Number" :value="item.num"/>
+                <v-text-field readonly label="Status" :value="item.status"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex align-start xs12>
+                <v-text-field readonly textarea label="Remarks" :value="item.remarks"/>
             </v-flex>
         </v-layout>
     </v-container>
@@ -58,7 +79,7 @@
 
 <script>
   export default {
-    name: 'bucket-read-fields-item',
+    name: 'sample-read-fields-item',
     props: {
       item: {
         type: Object,
@@ -66,23 +87,26 @@
       }
     },
     computed: {
+      bucket () {
+        return this.item.bucket || { site: {}}
+      },
       campaign () {
-        return this.item.campaign || { site: {}}
+        return this.item.bucket && this.item.bucket.campaign || { site: {}}
       },
       context () {
-        return this.item.context || { area: {}}
+        return this.item.bucket && this.item.bucket.context || { area: {}}
       },
       contextCode () {
         return this.context.type ? `${this.context.type}.${this.context.num}` : undefined
       },
-      code () {
-        return this.item
-          ? `${this.item.type}.${this.item.num}`
+      bucketCode () {
+        return this.item && this.item.hasOwnProperty('bucket')
+          ? `${this.item.bucket.type}.${this.item.bucket.num}`
           : undefined
       },
-      type () {
-        const type = this.item.type
-          ? this.$store.getters.bucketTypeName(this.item.type)
+      bucketType () {
+        const type = this.item && this.item.bucket
+          ? this.$store.getters.bucketTypeName(this.item.bucket.type)
           : undefined
         return type ? type.name : undefined
       }

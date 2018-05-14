@@ -5,6 +5,7 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query;
 
 abstract class AbstractDataRepository extends ServiceEntityRepository
 {
@@ -134,6 +135,22 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
         $this->addSortCriteria($sort);
 
         return $this->getListResultData();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findAsArray(int $id)
+    {
+        return $this
+            ->createFilterQueryBuilder()
+            ->add('where', $this->qbf->expr()->eq('e.id','?1'))
+            ->setParameter(1, $id)
+            ->getQuery()
+            ->getSingleResult(Query::HYDRATE_ARRAY);
     }
 
     public function findByCodeRegExp(string $pattern) {

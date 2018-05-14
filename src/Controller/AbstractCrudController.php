@@ -6,6 +6,8 @@ use App\Exceptions\NotFoundCrudException;
 use App\Service\DataCrudHelper;
 use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -117,21 +119,23 @@ abstract class AbstractCrudController extends Controller
      * @return JsonResponse
      *
      * @throws NotFoundCrudException
+     * @throws NonUniqueResultException
      */
     public function read(string $entityName, int $id)
     {
         $response = new JsonResponse();
 
-        $entity = $this
-            ->getRepository($entityName)
-            ->find($id);
-
-        if (!$entity) {
+        try {
+            $content = $entity = $this
+                ->getRepository($entityName)
+                ->findAsArray($id);
+        } catch (NonUniqueResultException $e) {
+            throw $e;
+        } catch (NoResultException $e) {
             throw new NotFoundCrudException($id);
         }
 
-        $this->wrapper->setEntity($entity);
-        $response->setData($this->wrapper->getData());
+        $response->setData($content);
 
         return $response;
     }

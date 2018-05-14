@@ -52,6 +52,10 @@
         /* webpackChunkName: "SiteItemDataToolbar" */
         './SiteItemDataToolbar'
         ),
+      SampleReadDataForm: () => import(
+        /* webpackChunkName: "SampleReadDataForm" */
+        './SampleReadDataForm'
+        ),
       SiteReadDataForm: () => import(
         /* webpackChunkName: "SiteReadDataForm" */
         './SiteReadDataForm'

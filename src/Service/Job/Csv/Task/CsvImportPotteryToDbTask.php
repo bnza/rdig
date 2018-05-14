@@ -11,6 +11,7 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
     protected $vocabularyKeys = [
         'voc.f.chronology.value' => 'Chronology',
         'voc.p.class.value' => 'Class',
+        'voc.p.firing.value' => 'Firing',
         'voc.p.preservation.value' => 'Preservation',
         'voc.p.shape.value' => 'Shape',
         'voc.p.technique.value' => 'Technique',

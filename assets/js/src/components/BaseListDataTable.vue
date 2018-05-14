@@ -16,7 +16,6 @@
         } else {
           return routingMxItemActionPath(action, this.table__, id || this.id__, this.prefix, this.parent__)
         }
-        return fn(action, )
       },
       goToPath (action, list) {
         this.$router.push(this.getPath(action, list))
