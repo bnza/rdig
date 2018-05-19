@@ -12,30 +12,35 @@ class Pottery extends AbstractFinding
     /**
      * @var VocPClass
      * @ORM\ManyToOne(targetEntity="VocPClass")
+     * @ORM\JoinColumn(name="class", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $class;
 
     /**
      * @var VocFColor
      * @ORM\ManyToOne(targetEntity="VocFColor")
+     * @ORM\JoinColumn(name="core_color", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $coreColor;
 
     /**
      * @var VocPFiring
      * @ORM\ManyToOne(targetEntity="VocPFiring")
+     * @ORM\JoinColumn(name="firing", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $firing;
 
     /**
      * @var VocPInclusionsFrequency
      * @ORM\ManyToOne(targetEntity="VocPInclusionsFrequency")
+     * @ORM\JoinColumn(name="inclusions_frequency", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $inclusionsFrequency;
 
     /**
      * @var VocPInclusionsSize
      * @ORM\ManyToOne(targetEntity="VocPInclusionsSize")
+     * @ORM\JoinColumn(name="inclusions_size", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $inclusionsSize;
 
@@ -48,57 +53,65 @@ class Pottery extends AbstractFinding
     /**
      * @var VocFColor
      * @ORM\ManyToOne(targetEntity="VocFColor")
+     * @ORM\JoinColumn(name="inner_color", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $innerColor;
 
     /**
      * @var VocPDecoration
      * @ORM\ManyToOne(targetEntity="VocPDecoration")
+     * @ORM\JoinColumn(name="inner_decoration", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $innerDecoration;
 
     /**
      * @var VocPSurfaceTreatment
      * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
+     * @ORM\JoinColumn(name="inner_surface_treatment", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $innerSurfaceTreatment;
 
     /**
      * @var VocFColor
      * @ORM\ManyToOne(targetEntity="VocFColor")
+     * @ORM\JoinColumn(name="outer_color", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $outerColor;
 
     /**
      * @var VocPDecoration
      * @ORM\ManyToOne(targetEntity="VocPDecoration")
+     * @ORM\JoinColumn(name="inner_decoration", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $outerDecoration;
 
     /**
      * @var VocPSurfaceTreatment
      * @ORM\ManyToOne(targetEntity="VocPSurfaceTreatment")
+     * @ORM\JoinColumn(name="outer_surface_treatment", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $outerSurfaceTreatment;
 
     /**
      * @var VocPPreservation
      * @ORM\ManyToOne(targetEntity="VocPPreservation")
+     * @ORM\JoinColumn(name="preservation", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $preservation;
 
     /**
      * @var VocPShape
      * @ORM\ManyToOne(targetEntity="VocPShape")
+     * @ORM\JoinColumn(name="shape", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $shape;
 
     /**
      * @var VocPTechnique
      * @ORM\ManyToOne(targetEntity="VocPTechnique")
+     * @ORM\JoinColumn(name="technique", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $technique;
-
 
     /**
      * @var string

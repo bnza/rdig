@@ -30,6 +30,7 @@ class Sample extends AbstractFinding
     /**
      * @var VocSType
      * @ORM\ManyToOne(targetEntity="VocSType")
+     * @ORM\JoinColumn(name="type", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $type;
 

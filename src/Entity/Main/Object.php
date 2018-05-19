@@ -60,54 +60,63 @@ class Object extends AbstractFinding
     /**
      * @var VocOClass
      * @ORM\ManyToOne(targetEntity="VocOClass")
+     * @ORM\JoinColumn(name="class", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $class;
 
     /**
      * @var VocOMaterialClass
      * @ORM\ManyToOne(targetEntity="VocOMaterialClass")
+     * @ORM\JoinColumn(name="material_class", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $materialClass;
 
     /**
      * @var VocOMaterialType
      * @ORM\ManyToOne(targetEntity="VocOMaterialType")
+     * @ORM\JoinColumn(name="material_type", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $materialType;
 
     /**
      * @var VocOTechnique
      * @ORM\ManyToOne(targetEntity="VocOTechnique")
+     * @ORM\JoinColumn(name="technique", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $technique;
 
     /**
      * @var VocOType
      * @ORM\ManyToOne(targetEntity="VocOType")
+     * @ORM\JoinColumn(name="type", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $type;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
+     * @ORM\JoinColumn(name="sub_type", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $subType;
 
     /**
      * @var VocFColor
      * @ORM\ManyToOne(targetEntity="VocFColor")
+     * @ORM\JoinColumn(name="color", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $color;
 
     /**
      * @var VocOPreservation
      * @ORM\ManyToOne(targetEntity="VocOPreservation")
+     * @ORM\JoinColumn(name="preservation", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $preservation;
 
     /**
      * @var VocODecoration
      * @ORM\ManyToOne(targetEntity="VocODecoration")
+     * @ORM\JoinColumn(name="decoration", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $decoration;
 

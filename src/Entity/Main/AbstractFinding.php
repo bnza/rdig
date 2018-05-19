@@ -10,13 +10,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FindingRepository")
  * @ORM\Table(name="finding", uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"bucket", "discr", "num"})
+ *      @ORM\UniqueConstraint(columns={"bucket", "num"})
  * })
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=1)
  * @ORM\DiscriminatorMap({"O" = "Object", "P" = "Pottery", "S" = "Sample"})
  * @UniqueEntity(
- *      fields={"bucket", "discr", "num"},
+ *      fields={"bucket", "num"},
  *      errorPath="num",
  *      message="Duplicate finding number for this bucket"
  * )

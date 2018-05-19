@@ -46,7 +46,7 @@ class Finding implements SiteRelateEntityInterface
     /**
      * @var VocFChronology
      * @ORM\ManyToOne(targetEntity="VocFChronology")
-     * @ORM\JoinColumn(name="chronology", referencedColumnName="id")
+     * @ORM\JoinColumn(name="chronology", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $chronology;
 
