@@ -48,6 +48,14 @@
         /* webpackChunkName: "ContextReadDataForm" */
         './ContextReadDataForm'
         ),
+      ObjectReadDataForm: () => import(
+        /* webpackChunkName: "ObjectReadDataForm" */
+        './ObjectReadDataForm'
+        ),
+      PotteryReadDataForm: () => import(
+        /* webpackChunkName: "PotteryReadDataForm" */
+        './PotteryReadDataForm'
+        ),
       SiteItemDataToolbar: () => import(
         /* webpackChunkName: "SiteItemDataToolbar" */
         './SiteItemDataToolbar'
