@@ -57,8 +57,16 @@
             <v-flex xs2>
                 <v-text-field
                     readonly
-                    label="Number"
+                    label="Number (bucket)"
                     :value="item.num"
+                    class="text-strong"
+                />
+            </v-flex>
+            <v-flex xs2>
+                <v-text-field
+                    readonly
+                    label="Number (site)"
+                    :value="item.no"
                     class="text-strong"
                 />
             </v-flex>
@@ -74,8 +82,6 @@
                 <v-text-field readonly label="Subtype" :value="item.subtype"/>
             </v-flex>
         </v-layout>
-
-
         <v-layout row wrap>
             <v-flex align-start xs12 md6>
                 <v-text-field readonly textarea label="Description" :value="item.description"/>

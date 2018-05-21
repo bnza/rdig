@@ -6,6 +6,7 @@ use App\Service\Job\AbstractTask;
 use App\Service\Job\Csv\AbstractCsvJob;
 use App\Service\Job\JobInterface;
 use League\Csv\Reader;
+use League\Csv\Writer;
 
 abstract class AbstractCsvTask extends AbstractTask
 {
@@ -27,5 +28,15 @@ abstract class AbstractCsvTask extends AbstractTask
     public function setReader(Reader $reader)
     {
         return $this->job->setReader($reader);
+    }
+
+    public function getWriter(): Writer
+    {
+        return $this->job->getWriter();
+    }
+
+    public function setWriter(Writer $writer)
+    {
+        return $this->job->setReader($writer);
     }
 }

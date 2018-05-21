@@ -12,13 +12,16 @@ use App\Entity\Main\AbstractFinding;
 use App\Service\Job\JobInterface;
 use App\Event\Job\JobEvents;
 use App\Event\Job\TaskEvent;
+use App\Exceptions\CrudException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Util\Inflector;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
 {
+
     /**
      * @var array
      */
@@ -29,10 +32,16 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
      */
     protected $dataEm;
 
-    public function __construct(JobInterface $job, EntityManagerInterface $dataEm)
+    /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
+
+    public function __construct(JobInterface $job, EntityManagerInterface $dataEm, ValidatorInterface $validator)
     {
         parent::__construct($job);
         $this->dataEm = $dataEm;
+        $this->validator = $validator;
     }
 
     /**
@@ -83,15 +92,19 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
     protected function getFieldNamesArray()
     {
         return [
-            'site.code' => 'Site',
-            'area.name' => 'Area',
-            'campaign.year' => 'Year',
-            'context.num' => 'Locus no.',
-            'context.description' => 'Loci Description',
-            'context.type' => 'Locus Type',
-            'bucket.num' => 'Bucket',
-            'finding.remarks' => 'Remarks'
+            'site.code' => 'site',
+            'area.name' => 'area',
+            'campaign.year' => 'year',
+            'context.num' => 'locus no',
+            'context.description' => 'loci description',
+            'context.type' => 'locus type',
+            'bucket.num' => 'bucket',
+            'finding.remarks' => 'remarks'
         ];
+    }
+
+    private function getDataEntityManager() {
+        return $this->dataEm;
     }
 
     protected function getRecordValue(string $key, array $record)
@@ -100,16 +113,33 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
         return $record[$field];
     }
 
+    /**
+     * @param $entity
+     * @throws CrudException
+     */
     protected function persist($entity)
     {
-        $this->dataEm->persist($entity);
-        $this->dataEm->flush();
+        $errors = $this->validator->validate($entity);
+
+        if (count($errors) > 0) {
+            /*
+             * Uses a __toString method on the $errors variable which is a
+             * ConstraintViolationList object. This gives us a nice string
+             * for debugging.
+             */
+            $errorsString = (string) $errors;
+
+            throw new CrudException($errorsString);
+        }
+
+        $this->getDataEntityManager()->persist($entity);
+        $this->getDataEntityManager()->flush();
     }
 
     protected function getSite(array $record): Site
     {
         $code = $this->getRecordValue('site.code', $record);
-        $repo = $this->dataEm->getRepository(Site::class);
+        $repo = $this->getDataEntityManager()->getRepository(Site::class);
         $site = $repo->findByCode($code);
         if (!$site) {
             $site = new Site();
@@ -129,7 +159,9 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
     {
         $pattern="/(area\s+)?(\w+)/i";
         preg_match_all($pattern,$name,$matches);
-        $code = strtoupper(trim($matches[2][0]));
+        $count = count($matches[2]);
+        $code = $count ? $matches[2][0] : '';
+        $code = strtoupper(trim($code));
         $count = count($matches[2]);
         if (strlen($code) > 2) {
             $code = substr($code, 0, 3);
@@ -148,7 +180,7 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
 
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('name', $name));
-        $this->dataEm->refresh($site);
+        $this->getDataEntityManager()->refresh($site);
         $area = $site->getAreas()->matching($criteria)->first();
 
         if (!$area) {
@@ -164,8 +196,8 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
 
     protected function normalizeYear(string $year): int
     {
-        if (strlen($year) === 2) {
-            $year = "20$year";
+        if (strlen($year) < 4) {
+            $year = sprintf('2%03s', $year);
         }
         return (int) $year;
     }
@@ -178,7 +210,7 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
 
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('year', $year));
-        $this->dataEm->refresh($site);
+        $this->getDataEntityManager()->refresh($site);
         $campaign = $site->getCampaigns()->matching($criteria)->first();
 
         if (!$campaign) {
@@ -196,7 +228,7 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
         $num = (int) $this->getRecordValue('context.num', $record);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('num', $num));
-        $this->dataEm->refresh($area);
+        $this->getDataEntityManager()->refresh($area);
         $context = $area->getContexts()->matching($criteria)->first();
         if (!$context) {
             $type = strtoupper($this->getRecordValue('context.type', $record));
@@ -216,10 +248,11 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
     protected function getBucket(array $record, string $type): Bucket
     {
         $context = $this->getContext($record);
-        $num = (int) $this->getRecordValue('bucket.num', $record);
+        $num = sprintf("%'.05s", $this->getRecordValue('bucket.num', $record));
+        //$num = $this->getFindingNum($record);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('num', $num));
-        $this->dataEm->refresh($context);
+        $this->getDataEntityManager()->refresh($context);
         $bucket = $context->getBuckets()->matching($criteria)->first();
 
         if (!$bucket) {
@@ -248,9 +281,9 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
     protected function setVocabularyData($entity, array $record)
     {
         $skipLowerCase = [
-            'voc.p.color.inner.value',
-            'voc.p.color.outer.value',
-            'voc.p.color.core.value',
+            'voc.f.color.inner.value',
+            'voc.f.color.outer.value',
+            'voc.f.color.core.value',
             'voc.f.chronology.value'
         ];
 
@@ -273,13 +306,14 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
      * @param string $key
      * @param string $value
      * @return AbstractVocabulary
+     * @throws CrudException
      */
     protected function getVocabulary(string $key, string $value): AbstractVocabulary
     {
         if (preg_match('@(voc)\.([f|o|p|s])\.(\w+)@', $key, $matches))
         {
             $class = 'App\\Entity\\Main\\' . ucfirst($matches[1]) . ucfirst($matches[2]) . ucfirst(Inflector::classify($matches[3]));
-            $results = $this->dataEm->getRepository($class)->findByValue($value);
+            $results = $this->getDataEntityManager()->getRepository($class)->findByValue($value);
             $vocabulary = count($results) ? $results[0] : false;
             if (!$vocabulary) {
                 $vocabulary = new $class;
@@ -292,21 +326,43 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
         }
     }
 
+    /**
+     * @throws \League\Csv\Exception
+     * @throws \Exception
+     */
     public function execute()
     {
         $reader = $this->getReader();
         $reader->setHeaderOffset(0);
         $records = $reader->getRecords();
+        $errors = 0;
         foreach ($records as $offset => $record) {
             if ($this->job->isCancelled()) {
                 throw new \RuntimeException('Job cancelled by user input');
             }
             $this->setCurrentStepNum($offset + 1);
-            $this->insertRecord($record);
+            try {
+                $this->insertRecord($record);
+            } catch (CrudException $e)
+            {
+                ++$errors;
+                $this->job->writeImportError($record, $this->getCurrentStepNum(), $e->getMessage());
+            } /*catch (\Doctrine\DBAL\Types\ConversionException $e)
+            {
+                throw $e;
+            }*/
             $this->job->getDispatcher()->dispatch(JobEvents::TASK_STEP_TERMINATED, new TaskEvent($this));
+        }
+        if ($errors) {
+        /*    throw new \Exception(
+                sprintf("Failed to insert %d rows\nSee %s for details", $errors, $this->job->getImportErrorsPath())
+            );*/
         }
     }
 
+    /**
+     * @param array $record
+     */
     protected function insertRecord(array $record)
     {
         $bucket = $this->getBucket($record, $this->getBucketType());

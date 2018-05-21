@@ -10,6 +10,7 @@ use App\Service\Job\Common\Task\MainJobTask;
 use App\Event\Job\TaskEvent;
 use App\Event\Job\JobEvent;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Runner\Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractJob implements JobInterface
@@ -43,6 +44,11 @@ abstract class AbstractJob implements JobInterface
      * @var TaskInterface[]
      */
     protected $tasks;
+
+    /**
+     * @var string
+     */
+    protected $error;
 
     /**
      * @param int|string $jobIdentifier
@@ -132,6 +138,11 @@ abstract class AbstractJob implements JobInterface
         return $this->dispatcher;
     }
 
+    public function getHash(): string
+    {
+        return $this->getEntity()->getHash();
+    }
+
     /**
      * @return int
      */
@@ -174,6 +185,14 @@ abstract class AbstractJob implements JobInterface
     public function isSuccess(): bool
     {
         return (bool) (JobStatus::isSuccess($this->getStatus()));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isError(): bool
+    {
+        return (bool) (JobStatus::isError($this->getStatus()));
     }
 
     /**

@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(
  *      fields={"site", "year"},
  *      errorPath="year",
- *      message="Duplicate campaign year for this site"
+ *      message="Duplicate campaign year [{{ value }}] for this site"
  * )
  * @ORM\HasLifecycleCallbacks
  */
@@ -143,6 +143,16 @@ class Campaign implements SiteRelateEntityInterface
         }
 
         return $data;
+    }
+
+    public function __toString()
+    {
+        $siteCode = 'XX';
+        if ($this->getSite()) {
+            $siteCode = $this->getSite()->getCode() ? $this->getSite()->getCode() : $siteCode;
+        }
+        $campaignYear = $this->getYear() ? $this->getYear() : '0000';
+        return "$siteCode.$campaignYear";
     }
 
 }

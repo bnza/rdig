@@ -3,6 +3,7 @@
 namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ObjectRepository")
@@ -16,46 +17,53 @@ class Object extends AbstractFinding
     private $no;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $height;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $length;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $width;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $thickness;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $diameter;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $perforationDiameter;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $weigth;
+    private $weight;
 
     /**
      * @var VocOClass
@@ -139,6 +147,94 @@ class Object extends AbstractFinding
     private $description;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $drawing;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $envanterlik;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $etutluk;
+
+    /**
+     * @return bool
+     */
+    public function isDrawing(): bool
+    {
+        return $this->drawing;
+    }
+
+    /**
+     * @param mixed $drawing
+     */
+    public function setDrawing($drawing): void
+    {
+        $this->drawing = (bool) $drawing;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPhoto(): bool
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo): void
+    {
+        $this->photo = (bool) $photo;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEnvanterlik(): bool
+    {
+        return $this->envanterlik;
+    }
+
+    /**
+     * @param mixed $envanterlik
+     */
+    public function setEnvanterlik($envanterlik): void
+    {
+        $this->envanterlik = (bool) $envanterlik;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEtutluk(): bool
+    {
+        return $this->etutluk;
+    }
+
+    /**
+     * @param mixed $etutluk
+     */
+    public function setEtutluk($etutluk): void
+    {
+        $this->etutluk = (bool) $etutluk;
+    }
+
+    /**
      * @return int
      */
     public function getNo(): int
@@ -149,121 +245,121 @@ class Object extends AbstractFinding
     /**
      * @param int $no
      */
-    public function setNo(int $no): void
+    public function setNo($no): void
     {
         $this->no = $no;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getHeight(): string
+    public function getHeight(): float
     {
         return $this->height;
     }
 
     /**
-     * @param string $height
+     * @param float $height
      */
-    public function setHeight(string $height): void
+    public function setHeight($height)
     {
-        $this->height = $height;
+        $this->height = $this->castNumeric($height, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getLength(): string
+    public function getLength(): float
     {
         return $this->length;
     }
 
     /**
-     * @param string $length
+     * @param $length
      */
-    public function setLength(string $length): void
+    public function setLength($length): void
     {
-        $this->length = $length;
+        $this->length = $this->castNumeric($length, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getWidth(): string
+    public function getWidth(): float
     {
         return $this->width;
     }
 
     /**
-     * @param string $width
+     * @param float $width
      */
-    public function setWidth(string $width): void
+    public function setWidth($width)
     {
-        $this->width = $width;
+        $this->width = $this->castNumeric($width, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getThickness(): string
+    public function getThickness(): float
     {
         return $this->thickness;
     }
 
     /**
-     * @param string $thickness
+     * @param float $thickness
      */
-    public function setThickness(string $thickness): void
+    public function setThickness($thickness)
     {
-        $this->thickness = $thickness;
+        $this->thickness = $this->castNumeric($thickness, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getDiameter(): string
+    public function getDiameter(): float
     {
         return $this->diameter;
     }
 
     /**
-     * @param string $diameter
+     * @param float $diameter
      */
-    public function setDiameter(string $diameter): void
+    public function setDiameter($diameter)
     {
-        $this->diameter = $diameter;
+        $this->diameter = $this->castNumeric($diameter, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getPerforationDiameter(): string
+    public function getPerforationDiameter(): float
     {
         return $this->perforationDiameter;
     }
 
     /**
-     * @param string $perforationDiameter
+     * @param mixed $perforationDiameter
      */
-    public function setPerforationDiameter(string $perforationDiameter): void
+    public function setPerforationDiameter($perforationDiameter)
     {
-        $this->perforationDiameter = $perforationDiameter;
+        $this->perforationDiameter = $this->castNumeric($perforationDiameter, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getWeigth(): string
+    public function getWeight(): float
     {
-        return $this->weigth;
+        return $this->weight;
     }
 
     /**
-     * @param string $weigth
+     * @param float $weight
      */
-    public function setWeigth(string $weigth): void
+    public function setWeight($weight)
     {
-        $this->weigth = $weigth;
+        $this->weight = $this->castNumeric($weight, 'float');;
     }
 
     /**
@@ -410,7 +506,7 @@ class Object extends AbstractFinding
         if (is_string($retrievalDate)) {
             $retrievalDate = \DateTime::createFromFormat('d/m/Y', $retrievalDate);
         }
-        $this->retrievalDate = $retrievalDate;
+        $this->retrievalDate = $retrievalDate ? $retrievalDate: null;
     }
 
     /**

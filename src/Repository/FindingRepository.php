@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Main\Finding;
+use App\Entity\Main\AbstractFinding;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -41,6 +42,32 @@ class FindingRepository extends AbstractDataRepository
             ->addSelect('voc__f__chronology');
 
         return $this;
+    }
+
+    /**
+     * @param AbstractFinding $entity
+     * @return bool
+     *
+     */
+    protected function checkConstraints(AbstractFinding $entity)
+    {
+        // Check bucket-num unique constraint
+        $qb = $this
+            ->createQueryBuilder($this->alias);
+        $qb
+            ->add('where', [
+                $qb->expr()->andX(
+                    $qb->expr()->eq('e.bucket', '?1'),
+                    $qb->expr()->eq('e.num', '?1')
+                )
+            ])
+            ->setParameters([
+                $entity->getBucket(),
+                $entity->getNum()
+            ]);
+
+        $uniqueNum = !count($qb->getQuery()->execute());
+        return $uniqueNum;
     }
 
 }

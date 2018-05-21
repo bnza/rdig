@@ -8,9 +8,13 @@ use App\Service\Job\Csv\Task\CsvOpenFromFileTask;
 use App\Service\Job\Csv\Task\CsvCountRecordsTask;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use League\Csv\Writer;
 
 abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
 {
+    const IMPORT_ERROR_KEY = 'Import Error';
+
     /**
      * @var EntityManagerInterface
      */
@@ -22,15 +26,31 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
     private $path;
 
     /**
+     * @var string
+     */
+    protected $importErrorsPath;
+
+    /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
+
+    /**
      * @return string
      */
     abstract protected function getCsvImportToDbTaskClass(): string;
 
 
-    public function __construct(EventDispatcherInterface $dispatcher, EntityManagerInterface $em, EntityManagerInterface $dataEm, $hash = '')
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        EntityManagerInterface $em,
+        EntityManagerInterface $dataEm,
+        ValidatorInterface $validator,
+        $hash = '')
     {
         parent::__construct($dispatcher, $em, $hash);
         $this->dataEm = $dataEm;
+        $this->validator = $validator;
     }
 
     public function setFilePath(string $path)
@@ -60,7 +80,8 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
             [
                 $this->getCsvImportToDbTaskClass(),
                 [
-                    $this->dataEm
+                    $this->dataEm,
+                    $this->validator
                 ]
             ],
             [
@@ -70,5 +91,33 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
                 ]
             ],
         ];
+    }
+
+    public function getImportErrorsPath()
+    {
+        if (!$this->importErrorsPath)
+        {
+            $this->importErrorsPath = sys_get_temp_dir() . '/errors_' . $this->getHash() . '.csv';
+        }
+
+        return $this->importErrorsPath;
+    }
+
+    protected function initWriter()
+    {
+        $writer = Writer::createFromPath($this->getImportErrorsPath(), 'w+');
+        $header = $this->getReader()->getHeader();
+        $header[] = self::IMPORT_ERROR_KEY;
+        $writer->insertOne($header);
+        $this->setWriter($writer);
+    }
+
+    public function writeImportError(array $record, int $row, string $message)
+    {
+        if (!$this->writer) {
+            $this->initWriter();
+        }
+        $record[self::IMPORT_ERROR_KEY] = "row [$row]->$message";
+        $this->getWriter()->insertOne($record);
     }
 }

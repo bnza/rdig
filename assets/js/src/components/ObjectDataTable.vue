@@ -185,6 +185,46 @@
                 {{ getVocabularyValue(props.item.chronology) }}
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Photo')"
+            >
+                <v-checkbox
+                    :input-value="props.item.photo"
+                    :indeterminate="null === props.item.photo"
+                    readonly
+                    hide-details
+                />
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Drawing')"
+            >
+                <v-checkbox
+                    :input-value="props.item.drawing"
+                    :indeterminate="null === props.item.drawing"
+                    readonly
+                    hide-details
+                />
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Envanterlik')"
+            >
+                <v-checkbox
+                    :input-value="props.item.envanterlik"
+                    :indeterminate="null === props.item.envanterlik"
+                    readonly
+                    hide-details
+                />
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Etutluk')"
+            >
+                <v-checkbox
+                    :input-value="props.item.etutluk"
+                    :indeterminate="null === props.item.etutluk"
+                    readonly
+                    hide-details
+                />
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Description')"
             >
                 <v-tooltip

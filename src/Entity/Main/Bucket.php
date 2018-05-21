@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(
  *      fields={"campaign", "num"},
  *      errorPath="num",
- *      message="Duplicate bucket number for this campaign"
+ *      message="Duplicate bucket number [{{ value }}] for this campaign"
  * )
  * @ORM\HasLifecycleCallbacks()
  */
@@ -56,9 +56,10 @@ class Bucket implements SiteRelateEntityInterface
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="smallint", nullable=false, options={"unsigned" = true})
+     * @Assert\Regex("/^\d+\w?/")
+     * @ORM\Column(type="string", length=5, nullable=false)
      */
-    private $num = 0;
+    private $num;
 
     /**
      * @var Context
@@ -142,7 +143,7 @@ class Bucket implements SiteRelateEntityInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getNum()
     {
@@ -150,7 +151,7 @@ class Bucket implements SiteRelateEntityInterface
     }
 
     /**
-     * @param int $num
+     * @param string $num
      */
     public function setNum($num): void
     {
@@ -239,6 +240,34 @@ class Bucket implements SiteRelateEntityInterface
             $num = $repo->getMaxCampaignBucketNum($context->getCampaign()->getId()) + 1;
             $context->setNum($num);
         }
+
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @param LifecycleEventArgs $event
+     */
+    public function formatNum(LifecycleEventArgs $event)
+    {
+        $bucket = $event->getEntity();
+        $num = $bucket->getNum();
+        $num = sprintf("%'.05s", $num);
+        $bucket->setNum($num);
+    }
+
+    public function __toString()
+    {
+        $campaign = $this->getCampaign() ? (string) $this->getCampaign() : 'XX.0000';
+        if (in_array(substr($campaign, 0, 2), ['TH', 'TG']))
+        {
+            $area = $this->getContext() ? $this->getContext()->getArea() : null;
+            $bucketCode = $area ? $area->getCode() : 'XX';
+        } else
+        {
+            $bucketCode = $this->getType() ? $this->getType() : 'X';
+        }
+        $bucketNum = $this->getNum() ? $this->getNum() : '0';
+        return "$campaign.$bucketCode.$bucketNum";
 
     }
 }

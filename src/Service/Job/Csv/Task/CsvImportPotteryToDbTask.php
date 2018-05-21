@@ -61,31 +61,31 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
     {
         if (!$this->fieldsNames) {
             $fieldNames = [
-                'pottery.num' => 'Fragment',
-                'pottery.rim_diameter' => 'Rim Diameter',
-                'pottery.rim_width' => 'Rim Width',
-                'pottery.wall_width' => 'Wall Width',
-                'pottery.max_wall_diameter' => 'Max Wall Diameter',
-                'pottery.base_width' => 'Base Width',
-                'pottery.base_height' => 'Base Height',
-                'pottery.base_diameter' => 'Base Diameter',
-                'pottery.height' => 'Height',
-                'voc.f.chronology.value' => 'Date of sherd',
-                'voc.p.class.value' => 'Class',
-                'voc.p.preservation.value' => 'Preservation',
-                'voc.p.shape.value' => 'Shape',
-                'voc.p.technique.value' => 'Technique',
-                'voc.p.surface_treatment.outer.value' => 'Outer Surface Treatment',
-                'voc.p.surface_treatment.inner.value' => 'Inner Surface Treatment',
-                'voc.p.decoration.inner.value' => 'Inner Decoration',
-                'voc.p.decoration.outer.value' => 'Outer Decoration',
-                'voc.p.firing.value' => 'Firing',
-                'voc.p.inclusions_frequency.value' => 'Inclusions Frequency',
-                'voc.p.inclusions_size.value' => 'Inclusions Size',
-                'voc.p.inclusions_type.value' => 'Inclusions Type',
-                'voc.f.color.inner.value' => 'Inner color',
-                'voc.f.color.outer.value' => 'Outer color',
-                'voc.f.color.core.value' => 'Core color',
+                'pottery.num' => 'fragment',
+                'pottery.rim_diameter' => 'rim diameter',
+                'pottery.rim_width' => 'rim width',
+                'pottery.wall_width' => 'wall width',
+                'pottery.max_wall_diameter' => 'max wall diameter',
+                'pottery.base_width' => 'base width',
+                'pottery.base_height' => 'base height',
+                'pottery.base_diameter' => 'base diameter',
+                'pottery.height' => 'general height',
+                'voc.f.chronology.value' => 'date of sherd',
+                'voc.p.class.value' => 'pottery class',
+                'voc.p.preservation.value' => 'pottery preservation',
+                'voc.p.shape.value' => 'pottery shape',
+                'voc.p.technique.value' => 'pottery technique',
+                'voc.p.surface_treatment.outer.value' => 'outer surface treatment',
+                'voc.p.surface_treatment.inner.value' => 'inner surface treatment',
+                'voc.p.decoration.inner.value' => 'inner decoration',
+                'voc.p.decoration.outer.value' => 'outer decoration',
+                'voc.p.firing.value' => 'firing',
+                'voc.p.inclusions_frequency.value' => 'inclusions frequency',
+                'voc.p.inclusions_size.value' => 'inclusions size',
+                'voc.p.inclusions_type.value' => 'inclusions type',
+                'voc.f.color.inner.value' => 'inner colour',
+                'voc.f.color.outer.value' => 'outer colour',
+                'voc.f.color.core.value' => 'core colour',
             ];
             $this->fieldsNames = array_merge(parent::getFieldNamesArray(), $fieldNames);
         }
@@ -95,12 +95,18 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
 
     protected function getFindingNum(array $record): string
     {
-        return sprintf('%04d', (int) $this->getRecordValue('pottery.num', $record));
+        $num = $this->getRecordValue('pottery.num', $record);
+        return sprintf("%'.06s", $num);
     }
 
     protected function getBucketType(): string
     {
         return 'P';
+    }
+
+    protected function formatFindingNum($num)
+    {
+        sprintf("%'.06s", $num);
     }
 
     protected function getEntity(Bucket $bucket, string $num)

@@ -62,8 +62,10 @@
           : content
       },
       getDate(date) {
-        date = new Date(date.date);
-        return date.toLocaleDateString();
+        if (date) {
+          date = new Date(date.date);
+          return date.toLocaleDateString();
+        }
       },
       getBucketCode (bucket) {
         let siteCode = bucket.campaign.site.code;

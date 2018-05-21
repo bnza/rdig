@@ -3,6 +3,8 @@
 namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PotteryRepository")
@@ -114,164 +116,188 @@ class Pottery extends AbstractFinding
     private $technique;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $baseDiameter;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $baseHeight;
 
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $baseWidth;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $height;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $maxWallDiameter;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $rimDiameter;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $rimWidth;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @AppAssert\NullableType("float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $wallWidth;
 
     /**
-     * @return string
+     * @return float
      */
-    public function getRimDiameter(): string
+    public function getRimDiameter(): float
     {
         return $this->rimDiameter;
     }
 
     /**
-     * @param string $rimDiameter
+     * @param float $rimDiameter
      */
-    public function setRimDiameter(string $rimDiameter): void
+    public function setRimDiameter($rimDiameter)
     {
-        $this->rimDiameter = $rimDiameter;
+        $this->rimDiameter = $this->castNumeric($rimDiameter, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getRimWidth(): string
+    public function getRimWidth(): float
     {
         return $this->rimWidth;
     }
 
     /**
-     * @param string $rimWidth
+     * @param float $rimWidth
      */
-    public function setRimWidth(string $rimWidth): void
+    public function setRimWidth($rimWidth)
     {
-        $this->rimWidth = $rimWidth;
+        $this->rimWidth = $this->castNumeric($rimWidth, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getWallWidth(): string
+    public function getWallWidth(): float
     {
         return $this->wallWidth;
     }
 
     /**
-     * @param string $wallWidth
+     * @param float $wallWidth
      */
-    public function setWallWidth(string $wallWidth): void
+    public function setWallWidth($wallWidth)
     {
-        $this->wallWidth = $wallWidth;
+        $this->wallWidth = $this->castNumeric($wallWidth, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getMaxWallDiameter(): string
+    public function getMaxWallDiameter(): float
     {
         return $this->maxWallDiameter;
     }
 
     /**
-     * @param string $maxWallDiameter
+     * @param float $maxWallDiameter
      */
-    public function setMaxWallDiameter(string $maxWallDiameter): void
+    public function setMaxWallDiameter($maxWallDiameter)
     {
-        $this->maxWallDiameter = $maxWallDiameter;
+        $this->maxWallDiameter = $this->castNumeric($maxWallDiameter, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getBaseWidth(): string
+    public function getBaseWidth(): float
     {
         return $this->baseWidth;
     }
 
     /**
-     * @param string $baseWidth
+     * @param float $baseWidth
      */
-    public function setBaseWidth(string $baseWidth): void
+    public function setBaseWidth($baseWidth)
     {
-        $this->baseWidth = $baseWidth;
+        $this->baseWidth = $this->castNumeric($baseWidth, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getBaseHeight(): string
+    public function getBaseHeight(): float
     {
         return $this->baseHeight;
     }
 
     /**
-     * @param string $baseHeight
+     * @param float $baseHeight
      */
-    public function setBaseHeight(string $baseHeight): void
+    public function setBaseHeight($baseHeight)
     {
-        $this->baseHeight = $baseHeight;
+        $this->baseHeight = $this->castNumeric($baseHeight, 'float');
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getBaseDiameter(): string
+    public function getBaseDiameter(): float
     {
         return $this->baseDiameter;
     }
 
     /**
-     * @param string $baseDiameter
+     * @param float $baseDiameter
      */
-    public function setBaseDiameter(string $baseDiameter): void
+    public function setBaseDiameter($baseDiameter)
     {
-        $this->baseDiameter = $baseDiameter;
+        $this->baseDiameter = $this->castNumeric($baseDiameter, 'float');
+    }
+
+    /**
+     * @return float
+     */
+    public function getHeight(): float
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param float $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $this->castNumeric($height, 'float');;
     }
 
     /**
@@ -288,22 +314,6 @@ class Pottery extends AbstractFinding
     public function setFiring(VocPFiring $firing): void
     {
         $this->firing = $firing;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHeight(): string
-    {
-        return $this->height;
-    }
-
-    /**
-     * @param string $height
-     */
-    public function setHeight(string $height)
-    {
-        $this->height = $height;
     }
 
     /**

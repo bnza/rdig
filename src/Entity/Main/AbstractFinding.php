@@ -2,6 +2,7 @@
 
 namespace App\Entity\Main;
 
+use function Couchbase\defaultDecoder;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -18,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *      fields={"bucket", "num"},
  *      errorPath="num",
- *      message="Duplicate finding number for this bucket"
+ *      message="Duplicate finding number [{{ value }}] for this bucket "
  * )
  * @ORM\HasLifecycleCallbacks()
  */
@@ -41,13 +42,12 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=4, nullable=false)
+     * @ORM\Column(type="string", length=6, nullable=false)
      */
     private $num;
 
     /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="text", length=4, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $remarks;
 
@@ -147,14 +147,47 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
 
     /**
      * @ORM\PrePersist
+     * @param LifecycleEventArgs $event
      */
     public function formatNum(LifecycleEventArgs $event)
     {
         $finding = $event->getEntity();
         $num = $finding->getNum();
-        if (is_numeric($num)) {
-            $num = sprintf('%04d', (int) $finding->getNum());
-        }
+        sprintf("%'.06s", $num);
         $finding->setNum($num);
+    }
+
+    public function __toString()
+    {
+        $bucketCode = $this->getBucket() ? (string) $this->getBucket() : 'XX.0000.X.0';
+        $findingNum = $this->getNum() ? $this->getNum() : '0';
+        return "$bucketCode.$findingNum";
+    }
+
+    protected function castNumeric($number, string $type = 'int', bool $throw = false)
+    {
+        if (is_numeric($number))
+        {
+            switch ($type) {
+                case 'int':
+                case 'integer':
+                    return (int) $number;
+                case 'bool':
+                case 'boolean':
+                    return (bool) $number;
+                case 'float':
+                case 'double':
+                case 'real':
+                    return (float) $number;
+                default:
+                    if ($throw) {
+                        throw new \InvalidArgumentException(sprintf("[%s] is not a valid number type", $number, $type));
+                    }
+            }
+        }
+        if ($throw) {
+            throw new \InvalidArgumentException(sprintf("%s is not a valid [%s] number", $number, $type));
+        }
+        return $number;
     }
 }

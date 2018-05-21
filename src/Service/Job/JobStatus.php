@@ -45,4 +45,13 @@ class JobStatus
     {
         return (bool) ($status & (~JobStatus::RUNNING & JobStatus::TERMINATED & ~JobStatus::ERROR));
     }
+
+    /**
+     * @param int $status
+     * @return bool
+     */
+    public static function isError(int $status)
+    {
+        return (bool) ($status & JobStatus::ERROR);
+    }
 }
