@@ -20,10 +20,6 @@
       return {
         isRequestPending: false
       }
-    }/*,
-    // TODO debug!!!
-    created () {
-      this.$emit('created', this.uuid)
-    }*/
+    }
   }
 </script>

@@ -107,7 +107,7 @@
                 flat
                 icon
                 color="indigo darken-4"
-                @click.native="toggleGroupsVisibility('area')"
+                @click.native="toggleGroupsVisibility('context')"
             >
                 <v-icon>{{getVisibilityIcon('context')}}</v-icon>
             </v-btn>
@@ -152,11 +152,9 @@
                     <v-text-field label="Value" v-model="search_['context.num'].value"/>
                 </v-flex>
             </v-layout>
-        </div>
-        <div v-show="groupsVisibility.bucket">
             <v-layout row wrap>
                 <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Year" disabled/>
+                    <v-text-field color="black" class="label" value="Description" disabled/>
                 </v-flex>
                 <v-flex xs3>
                     <v-select
@@ -164,15 +162,17 @@
                         single-line
                         bottom
                         :items="operators.number"
-                        v-model="search_['campaign.year'].op"
+                        v-model="search_['context.description'].op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs6>
-                    <v-text-field label="Value" v-model="search_['campaign.year'].value"/>
+                    <v-text-field label="Value" v-model="search_['context.description'].value"/>
                 </v-flex>
             </v-layout>
+        </div>
+        <div v-show="groupsVisibility.bucket">
             <v-layout row wrap>
                 <v-flex xs3>
                     <v-text-field color="black" class="label" value="Type" disabled/>
@@ -241,6 +241,7 @@
           'area.name': {},
           'context.type': {},
           'context.num': {},
+          'context.description': {},
           'campaign.year': {},
           type: {},
           num: {}

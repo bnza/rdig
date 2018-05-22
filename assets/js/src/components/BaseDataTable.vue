@@ -2,6 +2,7 @@
   import RSTableMx from '../mixins/RSTableMx'
   import TableMx from '../mixins/TableMx'
   import BaseDataComponent from './BaseDataComponent'
+  import qs from 'qs'
 
   export default {
     name: 'base-data-table',
@@ -14,9 +15,11 @@
       return {
         pagination: {
           page: 1,
-          rowsPerPage: 10,
-          sortBy: 'id'
+          rowsPerPage: 25,
+          sortBy: 'id',
+          descending: false
         },
+        dirty: false,
         loaded: false,
         items: [],
         totalItems: 0
@@ -85,7 +88,8 @@
     watch: {
       pagination: {
         handler (value, oldValue) {
-          if (value !== oldValue) {
+          if (!this.dirty) {
+            this.navigateToQuery()
             this.fetch()
           }
         },
@@ -93,7 +97,8 @@
       },
       searchCriteria: {
         handler (value, oldValue) {
-          if (value !== oldValue) {
+          if (!this.dirty) {
+            this.navigateToQuery()
             this.fetch()
           }
         },
@@ -104,6 +109,21 @@
           this.fetch()
         }
       }
+    },
+    created () {
+      const pagination = this.paginationFromFullPath
+      const searchCriteria = this.searchCriteriaFromFullPath
+      if (pagination && searchCriteria) {
+        this.dirty = true
+        this.pagination = pagination
+        this.dirty = false
+        this.searchCriteria = searchCriteria
+      }  else if (searchCriteria) {
+        this.searchCriteria = searchCriteria
+      } else if (pagination) {
+        this.pagination = pagination
+      }
+
     }
   }
 </script>

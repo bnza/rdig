@@ -50,6 +50,35 @@ export default {
     RSTableMx
   ],
   computed: {
+    queryFromFullPath () {
+      let query = this.$route.fullPath.match(/\?(.*)$/)
+      if (query) {
+        query = qs.parse(query[1])
+      }
+      return query
+    },
+    paginationFromFullPath () {
+      const query = this.queryFromFullPath || {}
+      const querySort = query.sort || {}
+      const offset = query.offset || 0
+      const rowsPerPage = query.limit || 25
+      let sortBy = 'id'
+      if (Object.keys(querySort).length > 0) {
+        sortBy = Object.keys(querySort)[0]
+      }
+      return {
+        rowsPerPage: rowsPerPage,
+        page: Math.floor(offset / rowsPerPage) + 1,
+        sortBy: sortBy,
+        descending: querySort[sortBy] === 'DESC'
+      }
+    },
+    searchCriteriaFromFullPath () {
+      const query = this.queryFromFullPath || {}
+      if (query.filter) {
+        return query.filter
+      }
+    },
     tableMxFetchLimit () {
       return this.pagination.rowsPerPage || 25
     },
@@ -59,7 +88,7 @@ export default {
     tableMxFetchQuery () {
       let query = {
         limit: this.tableMxFetchLimit,
-        offset: this.tableMxFetchOffset,
+        offset: this.tableMxFetchOffset
       }
       if (this.pagination.sortBy) {
         query.sort = {
@@ -80,6 +109,10 @@ export default {
     }
   },
   methods: {
+    navigateToQuery () {
+      let path = `${this.$route.path}?${this.tableMxFetchQuery}`
+      this.$router.replace(path)
+    },
     tableMxFetch () {
       let url = `${this.routingMxListUrl}?${this.tableMxFetchQuery}`
       let config = {

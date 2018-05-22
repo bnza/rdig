@@ -61,7 +61,7 @@
           ? this.dataFormComponent.routingMxGetChildListPath(table)
           : this.dataFormComponent.routingMxItemPath
 
-        this.$router.push(path)
+        this.$router.replace(path)
       }
     }
   }
