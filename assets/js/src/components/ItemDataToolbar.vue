@@ -8,7 +8,7 @@
         <v-btn
             flat
             icon
-            @click="goToList('read')"
+            @click="$router.go(-1)"
         >
             <v-icon>arrow_back</v-icon>
         </v-btn>

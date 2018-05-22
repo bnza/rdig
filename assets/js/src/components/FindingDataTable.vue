@@ -11,7 +11,7 @@
             <td class="justify-center layout px-0">
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id), props.item.bucket.campaign.site.id)"
+                        :disabled="!authMxAuthorize(getSpecPath('update', false, props.item), props.item.bucket.campaign.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -23,7 +23,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id), props.item.bucket.campaign.site.id)"
+                        :disabled="!authMxAuthorize(getSpecPath('delete', false, props.item), props.item.bucket.campaign.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -38,7 +38,7 @@
                         icon
                         class="mx-0"
                         slot="activator"
-                        @click="routingMxGoToItem(props.item.id)"
+                        @click="goToSpecItem(props.item)"
                     >
                         <v-icon color="blue darken-1">arrow_forward</v-icon>
                     </v-btn>
@@ -114,6 +114,24 @@
 
   export default {
     name: 'finding-data-table',
-    extends: BaseListDataTable
+    extends: BaseListDataTable,
+    methods: {
+      replacePathSpec (path, group) {
+        const specs = {
+          O: 'object',
+          P: 'pottery',
+          S: 'sample'
+        }
+        return path.replace(/finding/, specs[group])
+      },
+      getSpecPath (action, list, item) {
+        let path = this.getPath(action, list, item.id);
+        return this.replacePathSpec(path, item.group)
+      },
+      goToSpecItem (item) {
+        let path = this.replacePathSpec(this.routingMxGetItemPath(item.id), item.group)
+        this.$router.push(path)
+      }
+    }
   }
 </script>
