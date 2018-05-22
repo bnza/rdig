@@ -148,6 +148,9 @@ export const state = {
     },
     bucket: {
       label: 'Bucket',
+      item: {
+        toolbar: 'BucketItemDataToolbar'
+      },
       headers: [
         {
           text: 'ID',

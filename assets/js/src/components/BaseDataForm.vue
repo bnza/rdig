@@ -81,7 +81,9 @@
       if (this.item__) {
         this.item_ = this.item__
       } else if (this.id__) {
-        this.formMxRead()
+        this.formMxRead().then((response) => {
+          this.$emit('ready', this.item)
+        })
       }
     }
   }

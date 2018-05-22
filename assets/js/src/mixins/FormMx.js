@@ -66,7 +66,7 @@ export default {
           method: 'get',
           url: url
         }
-        this.formMxCrud(config).then(
+        return this.formMxCrud(config).then(
           (response) => {
             this.item = response.data
           }

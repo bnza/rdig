@@ -26,7 +26,7 @@
                 <v-text-field readonly label="Area (code)" :value="context.area.code"/>
             </v-flex>
             <v-flex xs8>
-                <v-text-field readonly label="Area (code)" :value="context.area.name"/>
+                <v-text-field readonly label="Area (name)" :value="context.area.name"/>
             </v-flex>
             <v-flex xs2>
                 <v-text-field readonly label="Context" :value="contextCode"/>

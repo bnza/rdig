@@ -32,6 +32,11 @@
   export default {
     name: 'item-data-item-toolbar',
     extends: BaseDataComponentToolbar,
+    props: {
+      item: {
+        type: Object
+      }
+    },
     methods: {
       setChildTable (table) {
         if (!table) {

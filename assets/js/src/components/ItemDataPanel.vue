@@ -4,6 +4,7 @@
             ref="toolbar"
             :is="toolbarComponentName"
             :dCuid="dCuid"
+            :item="item"
             v-bind="$props"
             v-on="$listeners"
             @forward="forwardEventToDataComponent"
@@ -13,6 +14,7 @@
             v-bind="$props"
             :is="dataComponentName"
             @created="setDataComponentUuid"
+            @ready="setItem"
             v-on="$listeners"
         />
     </article>
@@ -27,6 +29,11 @@
   export default {
     name: 'item-data-panel',
     extends: BaseDataPanel,
+    data () {
+      return {
+        item: null
+      }
+    },
     components: {
       ItemDataToolbar: () => import(
         /* webpackChunkName: "ItemDataToolbar" */
@@ -35,6 +42,10 @@
       AreaReadDataForm: () => import(
         /* webpackChunkName: "AreaReadDataForm" */
         './AreaReadDataForm'
+        ),
+      BucketItemDataToolbar: () => import(
+        /* webpackChunkName: "BucketItemDataToolbar" */
+        './BucketItemDataToolbar'
         ),
       BucketReadDataForm: () => import(
         /* webpackChunkName: "BucketReadDataForm" */
@@ -91,6 +102,11 @@
           component = this.rsTableMxTable.item.toolbar || component
         }
         return component
+      }
+    },
+    methods: {
+      setItem (a,b) {
+        this.item = a
       }
     }
   }
