@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * })
  * @UniqueEntity(
  *      fields={"num", "site"},
- *      message="Duplicate context number for this area"
+ *      message="Duplicate context number for this site"
  * )
  * @ORM\HasLifecycleCallbacks
  */

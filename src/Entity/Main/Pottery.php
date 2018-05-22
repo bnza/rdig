@@ -173,6 +173,51 @@ class Pottery extends AbstractFinding
     private $wallWidth;
 
     /**
+     * @var string
+     * @AppAssert\NullableType("string")
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $drawingNumber;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $restored;
+
+    /**
+     * @return string
+     */
+    public function getDrawingNumber(): string
+    {
+        return $this->drawingNumber;
+    }
+
+    /**
+     * @param string $drawingNumber
+     */
+    public function setDrawingNumber(string $drawingNumber): void
+    {
+        $this->drawingNumber = $drawingNumber;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRestored(): bool
+    {
+        return $this->restored;
+    }
+
+    /**
+     * @param $restored
+     */
+    public function setRestored($restored): void
+    {
+        $this->restored = (bool) $restored;
+    }
+
+    /**
      * @return float
      */
     public function getRimDiameter(): float

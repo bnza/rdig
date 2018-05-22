@@ -37,6 +37,8 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
         'pottery.base_height' => 'BaseHeight',
         'pottery.base_diameter' => 'BaseDiameter',
         'pottery.height' => 'Height',
+        'pottery.restored' => 'Restored',
+        'pottery.drawing_number' => 'DrawingNumber',
     ];
 
     /**
@@ -86,6 +88,8 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
                 'voc.f.color.inner.value' => 'inner colour',
                 'voc.f.color.outer.value' => 'outer colour',
                 'voc.f.color.core.value' => 'core colour',
+                'pottery.restored' => 'restored',
+                'pottery.drawing_number' => 'drawing number',
             ];
             $this->fieldsNames = array_merge(parent::getFieldNamesArray(), $fieldNames);
         }
