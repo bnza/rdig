@@ -361,6 +361,11 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Chronology',
+          value: 'voc__f__chronology.value',
+          class: 'subheading'
+        },
+        {
           text: 'Photo',
           value: 'photo',
           class: 'subheading'
@@ -378,11 +383,6 @@ export const state = {
         {
           text: 'Etutluk',
           value: 'etutluk',
-          class: 'subheading'
-        },
-        {
-          text: 'Chronology',
-          value: 'voc__f__chronology.value',
           class: 'subheading'
         },
         {
