@@ -18,21 +18,21 @@ class PotteryRepository extends FindingRepository
     {
         parent::addQueryBuilderLeftJoins($qb);
         $qb
-            ->leftJoin('e.class', 'voc__p__class')
-            ->leftJoin('e.coreColor', 'voc__f__core_color')
-            ->leftJoin('e.firing', 'voc__p__firing')
-            ->leftJoin('e.inclusionsFrequency', 'voc__p__inclusions_frequency')
-            ->leftJoin('e.inclusionsSize', 'voc__p__inclusions_size')
-            ->leftJoin('e.inclusionsType', 'voc__p__inclusions_type')
-            ->leftJoin('e.innerColor', 'voc__f__inner_color')
-            ->leftJoin('e.innerDecoration', 'voc__p__inner_decoration')
-            ->leftJoin('e.innerSurfaceTreatment', 'voc__p__inner_surface_treatment')
-            ->leftJoin('e.outerColor', 'voc__f__outer_color')
-            ->leftJoin('e.outerDecoration', 'voc__p__outer_decoration')
-            ->leftJoin('e.outerSurfaceTreatment', 'voc__p__outer_surface_treatment')
-            ->leftJoin('e.preservation', 'voc__p__preservation')
-            ->leftJoin('e.shape', 'voc__p__shape')
-            ->leftJoin('e.technique', 'voc__p__technique')
+            ->leftJoin('e.class', 'class')
+            ->leftJoin('e.coreColor', 'coreColor')
+            ->leftJoin('e.firing', 'firing')
+            ->leftJoin('e.inclusionsFrequency', ' inclusionsFrequency')
+            ->leftJoin('e.inclusionsSize', 'inclusionsSize')
+            ->leftJoin('e.inclusionsType', 'inclusionsType')
+            ->leftJoin('e.innerColor', 'innerColor')
+            ->leftJoin('e.innerDecoration', 'innerDecoration')
+            ->leftJoin('e.innerSurfaceTreatment', 'innerSurfaceTreatment')
+            ->leftJoin('e.outerColor', 'outerColor')
+            ->leftJoin('e.outerDecoration', 'outerDecoration')
+            ->leftJoin('e.outerSurfaceTreatment', 'outerSurfaceTreatment')
+            ->leftJoin('e.preservation', 'preservation')
+            ->leftJoin('e.shape', 'shape')
+            ->leftJoin('e.technique', 'technique')
         ;
 
         return $this;
@@ -42,21 +42,21 @@ class PotteryRepository extends FindingRepository
     {
         parent::addQueryBuilderSelects($qb);
         $qb
-            ->addSelect('voc__p__class')
-            ->addSelect('voc__f__core_color')
-            ->addSelect('voc__p__firing')
-            ->addSelect('voc__p__inclusions_frequency')
-            ->addSelect('voc__p__inclusions_size')
-            ->addSelect('voc__p__inclusions_type')
-            ->addSelect('voc__f__inner_color')
-            ->addSelect('voc__p__inner_decoration')
-            ->addSelect('voc__p__inner_surface_treatment')
-            ->addSelect('voc__f__outer_color')
-            ->addSelect('voc__p__outer_decoration')
-            ->addSelect('voc__p__outer_surface_treatment')
-            ->addSelect('voc__p__preservation')
-            ->addSelect('voc__p__shape')
-            ->addSelect('voc__p__technique')
+            ->addSelect('class')
+            ->addSelect('coreColor')
+            ->addSelect('firing')
+            ->addSelect('inclusionsFrequency')
+            ->addSelect('inclusionsSize')
+            ->addSelect('inclusionsType')
+            ->addSelect('innerColor')
+            ->addSelect('innerDecoration')
+            ->addSelect('innerSurfaceTreatment')
+            ->addSelect('outerColor')
+            ->addSelect('outerDecoration')
+            ->addSelect('outerSurfaceTreatment')
+            ->addSelect('preservation')
+            ->addSelect('shape')
+            ->addSelect('technique')
         ;
 
         return $this;

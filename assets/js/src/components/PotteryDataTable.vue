@@ -207,10 +207,27 @@
                 {{ props.item.baseDiameter }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('height')"
+                v-if="rsTableMxHeaderIsVisible('Height')"
                 class="text-xs-right"
             >
                 {{ props.item.height }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Restored')"
+                class="text-xs-right"
+            >
+                <v-checkbox
+                    :input-value="props.item.restored"
+                    :indeterminate="null === props.item.restored"
+                    readonly
+                    hide-details
+                />
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Drawing Number')"
+                class="text-xs-right"
+            >
+                {{ props.item.drawingNumber }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Chronology')"

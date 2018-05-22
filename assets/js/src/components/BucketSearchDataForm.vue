@@ -220,7 +220,7 @@
   import {merge} from 'deepmerge'
 
   export default {
-    name: 'context-search-data-form',
+    name: 'bucket-search-data-form',
     extends: BaseSearchDataForm,
     data () {
       return {

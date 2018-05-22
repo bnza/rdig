@@ -98,6 +98,7 @@ abstract class AbstractCrudController extends Controller
         $filter = $request->get('filter') ?: [];
 
         $limit = $request->get('limit') ?: 10;
+        $limit = $limit > 50 ? 50 : $limit;
 
         $offset = $request->get('offset') ?: 0;
 

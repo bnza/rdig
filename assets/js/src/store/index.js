@@ -435,77 +435,77 @@ export const state = {
         },
         {
           text: 'Class',
-          value: 'voc__p__class.value',
+          value: 'class.value',
           class: 'subheading'
         },
         {
           text: 'Shape',
-          value: 'voc__p__shape.value',
+          value: 'shape.value',
           class: 'subheading'
         },
         {
           text: 'Preservation',
-          value: 'voc__p__preservation.value',
+          value: 'preservation.value',
           class: 'subheading'
         },
         {
           text: 'Technique',
-          value: 'voc__p__technique.value',
+          value: 'technique.value',
           class: 'subheading'
         },
         {
           text: 'Inclusions Type',
-          value: 'voc__p__inclusions_type.value',
+          value: 'inclusionsType.value',
           class: 'subheading'
         },
         {
           text: 'Inclusions Size',
-          value: 'voc__p__inclusions_size.value',
+          value: 'inclusionsSize.value',
           class: 'subheading'
         },
         {
           text: 'Inclusions Frequency',
-          value: 'voc__p__inclusions_frequecy.value',
+          value: 'inclusionsFrequecy.value',
           class: 'subheading'
         },
         {
           text: 'Inner Surface Treatment',
-          value: 'voc__p__inner_surface_treatment.value',
+          value: 'innerSurfaceTreatment.value',
           class: 'subheading'
         },
         {
           text: 'Outer Surface Treatment',
-          value: 'oc__p__outer_surface_treatment.value',
+          value: 'outerSurfaceTreatment.value',
           class: 'subheading'
         },
         {
           text: 'Inner Decoration',
-          value: 'voc__p__inner_decoration.value',
+          value: 'innerDecoration.value',
           class: 'subheading'
         },
         {
           text: 'Outer Decoration',
-          value: 'voc__p__outer_decoration.value',
+          value: 'outerDecoration.value',
           class: 'subheading'
         },
         {
           text: 'Firing',
-          value: 'voc__p__firing.value',
+          value: 'firing.value',
           class: 'subheading'
         },
         {
           text: 'Inner Color',
-          value: 'voc__f__inner_color.value',
+          value: 'innerColor.value',
           class: 'subheading'
         },
         {
           text: 'Outer Color',
-          value: 'voc__f__outer_color.value',
+          value: 'outerColor.value',
           class: 'subheading'
         },
         {
           text: 'Core Color',
-          value: 'voc__f__core_color.value',
+          value: 'coreColor.value',
           class: 'subheading'
         },
         {
@@ -549,8 +549,18 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Restored',
+          value: 'restored',
+          class: 'subheading'
+        },
+        {
+          text: 'Drawing Number',
+          value: 'drawingNumber',
+          class: 'subheading'
+        },
+        {
           text: 'Chronology',
-          value: 'voc__f__chronology.value',
+          value: 'chronology.value',
           class: 'subheading'
         },
         {

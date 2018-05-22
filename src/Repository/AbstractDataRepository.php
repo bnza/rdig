@@ -23,9 +23,9 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     protected $qbc;
     protected $alias = 'e';
 
-    abstract protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository;
+    abstract protected function addQueryBuilderLeftJoins(QueryBuilder $qb): self;
 
-    abstract protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository;
+    abstract protected function addQueryBuilderSelects(QueryBuilder $qb): self;
 
     protected function getFilterExpressions(array $filter)
     {
@@ -33,14 +33,34 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
         $expressions = [];
         $params = [];
         $i = 1;
+        $noOperandOps = [
+          'isNull',
+          'isNotNull',
+        ];
         foreach ($filter as $field => $criterium) {
+            // LEFT EXPRESSION: field alias
             $le = false === strpos($field, '.')
                 ? "{$this->alias}.{$field}"
                 : $field;
-            $re = "?{$i}";
+            // RIGHT OPERAND: value parameter
+            $re = ":p{$i}";
             // TODO check criterium op
             array_push($expressions, $this->qbf->expr()->{$criterium['op']}($le, $re));
-            $params[$i] = $criterium['value'];
+
+            if (!in_array($criterium['op'], $noOperandOps)) {
+                if (array_key_exists('cast', $criterium)) {
+                    switch ($criterium['cast']) {
+                    case 'bool':
+                        $param = false == $criterium['value'] || 'false' === $criterium['value'] ? false : true;
+                        break;
+                    default:
+                        $param = $criterium['value'];
+                }
+                } else {
+                    $param = $criterium['value'];
+                }
+                $params[":p{$i}"] = $param;
+            }
             ++$i;
         }
         if (count($expressions) > 1) {
@@ -57,6 +77,7 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     /**
      * @param null $limit
      * @param null $offset
+     *
      * @return QueryBuilder
      */
     protected function createFilterQueryBuilder($limit = null, $offset = null): QueryBuilder
@@ -67,6 +88,7 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
             ->setMaxResults($limit);
         $this->addQueryBuilderSelects($this->qbf);
         $this->addQueryBuilderLeftJoins($this->qbf);
+
         return $this->qbf;
     }
 
@@ -139,7 +161,9 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
 
     /**
      * @param int $id
+     *
      * @return array
+     *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -147,13 +171,13 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     {
         return $this
             ->createFilterQueryBuilder()
-            ->add('where', $this->qbf->expr()->eq('e.id','?1'))
+            ->add('where', $this->qbf->expr()->eq('e.id', '?1'))
             ->setParameter(1, $id)
             ->getQuery()
             ->getSingleResult(Query::HYDRATE_ARRAY);
     }
 
-    public function findByCodeRegExp(string $pattern) {
-
+    public function findByCodeRegExp(string $pattern)
+    {
     }
 }

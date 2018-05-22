@@ -36,13 +36,29 @@
               value: 'neq'
             },
             {
+              symbol: '<',
+              value: 'lt'
+            },
+            {
+              symbol: '>',
+              value: 'gt'
+            },
+            {
               symbol: 'LIKE',
               value: 'like'
             },
             {
               symbol: 'NOT LIKE',
               value: 'notLike'
-            }
+            },
+            {
+              symbol: 'IS NULL',
+              value: 'isNull'
+            },
+            {
+              symbol: 'IS NOT NULL',
+              value: 'isNotNull'
+            },
           ],
           number: [
             {
@@ -64,7 +80,29 @@
             {
               symbol: '>',
               value: 'gt'
-            }
+            },
+            {
+              symbol: 'IS NULL',
+              value: 'isNull'
+            },
+            {
+              symbol: 'IS NOT NULL',
+              value: 'isNotNull'
+            },
+          ],
+          boolean: [
+            {
+              symbol: '',
+              value: ''
+            },
+            {
+              symbol: 'IS NULL',
+              value: 'isNull'
+            },
+            {
+              symbol: '=',
+              value: 'eq',
+            },
           ]
         }
       },
@@ -73,7 +111,6 @@
         for (let criterium in this.search_) {
           if (this.search_.hasOwnProperty(criterium)
             && this.search_[criterium].op
-            && this.search_[criterium].value
           ) {
             search[criterium] = JSON.parse(JSON.stringify(this.search_[criterium]))
           }

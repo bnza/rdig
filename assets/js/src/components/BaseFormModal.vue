@@ -63,10 +63,11 @@
     methods: {
       closeDialog (reload) {
         // Force table reload
-        const reloadTable = function (route) {
+/*        const reloadTable = function (route) {
           route.meta.reload = reload
         }
-        this.$router.replace(this.dataFormComponent.routingMxListPath, reloadTable)
+        this.$router.replace(this.dataFormComponent.routingMxListPath, reloadTable)*/
+        this.$router.go(-1)
       }
     },
     beforeRouteEnter (to, from, next) {
