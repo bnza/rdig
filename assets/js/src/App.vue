@@ -6,6 +6,7 @@
             <v-content>
                 <v-container fluid>
                     <the-snack-bar/>
+                    <h1 class="text-xs-center" v-if="$store.state.siteFilter">{{$store.state.siteFilter.name}}</h1>
                     <router-view/>
                     <router-view name="modals"></router-view>
                 </v-container>
@@ -29,7 +30,15 @@
         this.$store.commit('account/SET_USER', window.user)
         delete window.user
       }
-      let el = document.getElementById("user-data")
+      let el = document.getElementById('user-data')
+      if (el) {
+        el.remove()
+      }
+      if (window.filteredSite) {
+        this.$store.commit('SET_SITE_FILTER', window.filteredSite)
+        delete window.filteredSite
+      }
+      el = document.getElementById('filtered-site')
       if (el) {
         el.remove()
       }

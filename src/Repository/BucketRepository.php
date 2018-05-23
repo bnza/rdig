@@ -4,13 +4,12 @@ namespace App\Repository;
 
 use App\Entity\Main\Bucket;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class BucketRepository extends AbstractDataRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected function getEntityClass(): string
     {
-        parent::__construct($registry, Bucket::class);
+        return Bucket::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository

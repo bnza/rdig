@@ -22,4 +22,12 @@
         }
         {% endif %}
     </script>
+    <script id="filtered-site">
+      {%  if filteredSite %}
+        window.filteredSite = {
+          code: '{{ filteredSite.code }}',
+          name: '{{ filteredSite.name }}'
+        }
+      {% endif %}
+    </script>
 {% endblock %}

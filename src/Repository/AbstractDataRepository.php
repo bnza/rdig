@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Service\SiteFilter;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 
@@ -21,7 +24,40 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
      * @var \Doctrine\ORM\QueryBuilder
      */
     protected $qbc;
+
+    /**
+     * @var string
+     */
     protected $alias = 'e';
+
+    /**
+     * @var SiteFilter
+     */
+    protected $siteFilter;
+
+    public function __construct(RegistryInterface $registry, SiteFilter $siteFilter)
+    {
+        parent::__construct($registry, $this->getEntityClass());
+        $this->siteFilter = $siteFilter;
+    }
+
+    /**
+     * Called by service constructor
+     * @see config/service.yaml
+     *
+     * @param SiteFilter $siteFilter
+     */
+    public function setSiteFilter(SiteFilter $siteFilter)
+    {
+        $this->siteFilter = $siteFilter;
+    }
+
+    abstract protected function getEntityClass(): string;
+
+    protected function getSiteCodeAlias(): string
+    {
+        return 'site.code';
+    }
 
     abstract protected function addQueryBuilderLeftJoins(QueryBuilder $qb): self;
 
@@ -119,11 +155,23 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
      */
     protected function addFilters(array $filter, ...$params)
     {
+        // Ad general site filter
+        $sfc = $this->siteFilter->getSiteCode();
+        if ($sfc) {
+            $siteCodeAlias = $this->getSiteCodeAlias();
+            if ($siteCodeAlias) {
+                $expr = $this->qbf->expr()->eq($siteCodeAlias, ':siteCodeFilter');
+                $this->qbf->add('where', $expr)->setParameter(':siteCodeFilter', $sfc);
+                $this->qbc->add('where', $expr)->setParameter(':siteCodeFilter', $sfc);
+            }
+        }
+
         if ($filter) {
             list($expressions, $parameters) = $this->getFilterExpressions($filter);
             // Filter Query
             $this->qbf->add('where', $expressions);
             $this->qbf->setParameters($parameters);
+
             // Count Query
             $this->qbc->add('where', $expressions);
             $this->qbc->setParameters($parameters);

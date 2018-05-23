@@ -10,12 +10,17 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class FindingRepository extends AbstractDataRepository
 {
-    public function __construct(RegistryInterface $registry, string $class = '')
+   /* public function __construct(RegistryInterface $registry, string $class = '')
     {
         if (!$class) {
             $class = Finding::class;
         }
         parent::__construct($registry, $class);
+    }*/
+
+    protected function getEntityClass(): string
+    {
+        return Finding::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository

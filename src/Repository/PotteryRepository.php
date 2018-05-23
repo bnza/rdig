@@ -4,14 +4,13 @@ namespace App\Repository;
 
 use App\Entity\Main\Pottery;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 
 class PotteryRepository extends FindingRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected function getEntityClass(): string
     {
-        parent::__construct($registry, Pottery::class);
+        return Pottery::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository

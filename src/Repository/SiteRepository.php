@@ -9,9 +9,14 @@ use Doctrine\ORM\ORMException;
 
 class SiteRepository extends AbstractDataRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected function getEntityClass(): string
     {
-        parent::__construct($registry, Site::class);
+        return Site::class;
+    }
+
+    protected function getSiteCodeAlias(): string
+    {
+        return 'e.code';
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
@@ -58,5 +63,13 @@ class SiteRepository extends AbstractDataRepository
         } catch (ORMException $e) {
             return false;
         }
+    }
+
+    public function findAllAsArray()
+    {
+        return $this
+            ->createQueryBuilder($this->alias)
+            ->getQuery()
+            ->getArrayResult();
     }
 }

@@ -1,12 +1,12 @@
 security:
     encoders:
-        App\Entity\User:
+        App\Entity\Main\User:
             algorithm: bcrypt
 
     providers:
         rdig_db_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Main\User
                 property: username
 
     role_hierarchy:

@@ -7,10 +7,14 @@ import requests from './requests'
 Vue.use(Vuex)
 
 const SET_TOKEN = 'SET_TOKEN'
+const SET_SITE_FILTER = 'SET_SITE_FILTER'
 
 export const mutations = {
   [SET_TOKEN] (state, token) {
     state.token = token
+  },
+  [SET_SITE_FILTER] (state, siteFilter) {
+    state.siteFilter = siteFilter
   }
 }
 
@@ -674,7 +678,8 @@ export const state = {
       ]
     }
   },
-  token: ''
+  token: '',
+  siteFilter: null
 }
 
 export const getters = {

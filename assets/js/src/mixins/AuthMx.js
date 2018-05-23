@@ -35,6 +35,12 @@ export const authMxAuthorize = (path, siteId, store, router) => {
             return false
           }
         }
+      } else if (route.hasOwnProperty('meta') && route.meta.hasOwnProperty('requiresRole')) {
+        return authMxIsAdmin ||
+          (
+            authMxIsAuthenticated &&
+            store.getters['account/roles'].indexOf(route.meta.requiresRole) > -1
+          )
       }
     }
     console.warn(`${path} does not resolve any action params. Authorization skipped`)

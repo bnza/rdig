@@ -8,9 +8,10 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ContextRepository extends AbstractDataRepository
 {
-    public function __construct(RegistryInterface $registry)
+
+    protected function getEntityClass(): string
     {
-        parent::__construct($registry, Context::class);
+        return Context::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository

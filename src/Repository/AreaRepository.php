@@ -10,19 +10,31 @@ namespace App\Repository;
 
 use App\Entity\Main\Area;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Collections\Criteria;
 
 class AreaRepository extends AbstractDataRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected function getEntityClass(): string
     {
-        parent::__construct($registry, Area::class);
+        return Area::class;
+    }
+
+    protected function getSiteCodeAlias(): string
+    {
+        return 'site.code';
+    }
+
+    protected function addSiteFilter(string $code): AbstractDataRepository
+    {
+        $criteria = $this->qbf->expr()->eq('site.code', ':siteCodeFilter');
+        $this->qbf->addCriteria($criteria)->setParameter(':siteCodeFilter', $code);
+        $this->qbc->addCriteria($criteria)->setParameter(':siteCodeFilter', $code);
+        return $this;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
     {
         $qb->leftJoin('e.site', 'site');
-
         return $this;
     }
 

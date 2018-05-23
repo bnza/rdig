@@ -4,13 +4,12 @@ namespace App\Repository;
 
 use App\Entity\Main\Campaign;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class CampaignRepository extends AbstractDataRepository
 {
-    public function __construct(RegistryInterface $registry)
+    protected function getEntityClass(): string
     {
-        parent::__construct($registry, Campaign::class);
+        return Campaign::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository

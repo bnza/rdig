@@ -66,6 +66,14 @@ const TheUpdateModal = () => import(
   /* webpackChunkName: "TheEditModal" */
   '../components/TheEditModal'
   )
+const TheMainSetting = () => import(
+  /* webpackChunkName: "TheMainSetting" */
+  '../components/TheMainSetting'
+  )
+const SettingSiteFilter = () => import(
+  /* webpackChunkName: "SettingSiteFilter" */
+  '../components/SettingSiteFilter'
+  )
 
 export const dataRoutes = {
   path: '/:prefix(data|admin)/:table',
@@ -181,6 +189,22 @@ export const dataRoutes = {
   ]
 }
 
+export const settingRoutes = {
+  path: '/:prefix(settings)',
+  component: TheMainSetting,
+  props: true,
+  children: [
+    {
+      path: ':setting(siteFilter)',
+      name: 'setting_user_site_filter',
+      component: SettingSiteFilter,
+      beforeEnter: authorizeRoute,
+      meta: { requiresRole: 'ROLE_USER' },
+      props: true
+    }
+    ]
+}
+
 let router = new Router({
   routes: [
     {
@@ -204,7 +228,8 @@ let router = new Router({
         modals: TheLogoutModal
       }
     },
-    dataRoutes
+    dataRoutes,
+    settingRoutes
   ]
 })
 

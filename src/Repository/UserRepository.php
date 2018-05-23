@@ -11,8 +11,6 @@ use App\Entity\Main\User;
 use App\Entity\Main\Site;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Query\Expr;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class UserRepository extends AbstractDataRepository
 {
@@ -26,9 +24,19 @@ class UserRepository extends AbstractDataRepository
         ];
     }
 
-    public function __construct(RegistryInterface $registry)
+    protected function getSiteCodeAlias(): string
     {
-        parent::__construct($registry, User::class);
+        return '';
+    }
+
+    protected function addSiteFilter(string $code): AbstractDataRepository
+    {
+        return $this;
+    }
+
+    protected function getEntityClass(): string
+    {
+        return User::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository

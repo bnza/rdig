@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
     <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-    <title>{% block title %}rDig - *Dig reloaded{% endblock %}</title>
+    <title>{% block title %}{%  if filteredSite %}{{ filteredSite.name }} :: {% endif %}rDig - *Dig reloaded{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
 </head>
 <body>

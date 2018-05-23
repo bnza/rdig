@@ -9,6 +9,7 @@
             class="grey lighten-4"
         >
             <nav-table-list-group />
+            <nav-user-list-group v-if="authMxIsAuthenticated"/>
             <nav-admin-list-group v-if="authMxIsAdmin"/>
             <nav-login-list-tile />
         </v-list>
@@ -20,6 +21,7 @@
   import UuidMx from '../mixins/UuidMx'
   import NavLoginListTile from './NavLoginListTile'
   import NavTableListGroup from './NavTableListGroup'
+  import NavUserListGroup from './NavUserListGroup'
   import NavAdminListGroup from './NavAdminListGroup'
 
   export default {
@@ -27,7 +29,8 @@
     components: {
       NavLoginListTile,
       NavTableListGroup,
-      NavAdminListGroup
+      NavAdminListGroup,
+      NavUserListGroup
     },
     mixins: [
       UuidMx,
