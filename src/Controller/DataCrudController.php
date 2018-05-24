@@ -34,8 +34,12 @@ class DataCrudController extends AbstractCrudController
 
     public function getSiteId(string $entityName, int $id)
     {
-        return new JsonResponse([
-            'siteId' => $this->getRepository($entityName)->find($id)->getSiteId()
-        ]);
+        $entity = $this->getRepository($entityName)->find($id);
+        if ($entity) {
+            return new JsonResponse([
+                'siteId' => $entity->getSiteId()
+            ]);
+        }
+        return new JsonResponse(['error' =>"No $entityName with ID = $id"], 400);
     }
 }

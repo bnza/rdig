@@ -33,6 +33,13 @@ const authorizeRoute = function (to, from, next) {
           }
         }
       }
+    ).catch(
+      (reason) => {
+        uuidMxSet(store, 'text', reason.response.data.error)
+        uuidMxSet(store, 'color', 'error', 'the-snack-bar')
+        uuidMxSet(store, 'active', true, 'the-snack-bar')
+        next(false)
+      }
     )
   } else {
     if (authMxAuthorize(to, undefined, store, router)) {

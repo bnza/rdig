@@ -38,6 +38,11 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
         'object.photo' => 'Photo',
         'object.envanterlik' => 'Envanterlik',
         'object.etutluk' => 'Etutluk',
+        'object.location' => 'Location',
+        'object.coordinate_n' => 'CoordN',
+        'object.coordinate_e' => 'CoordE',
+        'object.coordinate_z' => 'CoordZ',
+        'object.conservation_year' => 'ConservationYear'
     ];
 
     /**
@@ -88,6 +93,11 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
                 'object.photo' => 'photo',
                 'object.envanterlik' => 'envanterlik',
                 'object.etutluk' => 'etutluk',
+                'object.location' => 'location',
+                'object.coordinate_n' => 'coordinates n',
+                'object.coordinate_e' => 'coordinates e',
+                'object.coordinate_z' => 'elevation',
+                'object.conservation_year' => 'year of conservation'
             ];
             $this->fieldsNames = array_merge(parent::getFieldNamesArray(), $fieldNames);
         }

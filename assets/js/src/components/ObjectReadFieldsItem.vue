@@ -70,6 +70,9 @@
                     class="text-strong"
                 />
             </v-flex>
+            <v-flex xs4 align-end>
+                <v-text-field readonly label="Date of retrieval" :value="item.retrievalDate"/>
+            </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs4>
@@ -80,6 +83,64 @@
             </v-flex>
             <v-flex xs4>
                 <v-text-field readonly label="Subtype" :value="item.subtype"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs4>
+                <v-text-field readonly label="Material Class" :value="item.materialClass ? item.materialClass.value : undefined"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-text-field readonly label="Material Type" :value="item.materialType ? item.materialType.value : undefined"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-text-field readonly label="Technique" :value="item.technique ? item.technique.value : undefined"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs4>
+                <v-text-field readonly label="Decoration" :value="item.decoration ? item.decoration.value : undefined"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-text-field readonly label="Color" :value="item.color ? item.color.value : undefined"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-text-field readonly label="Preservation state" :value="item.preservation ? item.preservation.value : undefined"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs3>
+                <v-text-field readonly label="Height" :value="item.height"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Length" :value="item.length"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Width" :value="item.width"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Thickness" :value="item.thickness"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs3>
+                <v-text-field readonly label="Diameter" :value="item.diameter"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Perforation Diameter" :value="item.perforationDiameter"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Weight" :value="item.weight"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs4>
+                <v-text-field readonly label="Coordinate N" :value="item.coordN"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-text-field readonly label="Coordinate E" :value="item.coordE"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-text-field readonly label="Coordinate Z" :value="item.coordZ"/>
             </v-flex>
         </v-layout>
         <v-layout row wrap>

@@ -140,6 +140,21 @@
                 {{ getVocabularyValue(props.item.preservation) }}
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Coord N')"
+            >
+                {{ props.item.coordN }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Coord E')"
+            >
+                {{ props.item.coordE }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Coord Z')"
+            >
+                {{ props.item.coordZ }}
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Fragments')"
             >
                 {{ props.item.fragments }}
@@ -203,6 +218,16 @@
                     readonly
                     hide-details
                 />
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Year of conservation')"
+            >
+                {{ props.item.conservationYear }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Location')"
+            >
+                {{ props.item.location }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Envanterlik')"

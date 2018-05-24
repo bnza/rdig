@@ -147,6 +147,47 @@ class Object extends AbstractFinding
     private $description;
 
     /**
+     * @Assert\Range(
+     *     min = 2000,
+     *     max = 2099,
+     *     minMessage = "Campaign's year lower limit is {{ limit }}",
+     *     maxMessage = "Campaign's year upper limit is {{ limit }}"
+     * )
+     * @ORM\Column(
+     *     type="smallint",
+     *     nullable=true
+     *     )
+     */
+    private $conservationYear;
+
+    /**
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $coordN;
+
+    /**
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $coordE;
+
+    /**
+     * @var float
+     * @Assert\Type("float")
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $coordZ;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $location;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -171,9 +212,89 @@ class Object extends AbstractFinding
     private $etutluk;
 
     /**
+     * @return mixed
+     */
+    public function getConservationYear()
+    {
+        return $this->conservationYear;
+    }
+
+    /**
+     * @param mixed $conservationYear
+     */
+    public function setConservationYear($conservationYear): void
+    {
+        $this->conservationYear = $conservationYear;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCoordN(): float
+    {
+        return $this->coordN;
+    }
+
+    /**
+     * @param float $coordN
+     */
+    public function setCoordN(float $coordN): void
+    {
+        $this->coordN = $coordN;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCoordE(): float
+    {
+        return $this->coordE;
+    }
+
+    /**
+     * @param float $coordE
+     */
+    public function setCoordE(float $coordE): void
+    {
+        $this->coordE = $coordE;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCoordZ(): float
+    {
+        return $this->coordZ;
+    }
+
+    /**
+     * @param float $coordZ
+     */
+    public function setCoordZ(float $coordZ): void
+    {
+        $this->coordZ = $coordZ;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation(string $location): void
+    {
+        $this->location = $location;
+    }
+
+    /**
      * @return bool
      */
-    public function isDrawing(): bool
+    public function getDrawing(): bool
     {
         return $this->drawing;
     }

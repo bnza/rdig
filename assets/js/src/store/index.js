@@ -328,6 +328,21 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Coord N',
+          value: 'coordN',
+          class: 'subheading'
+        },
+        {
+          text: 'Coord E',
+          value: 'coordE',
+          class: 'subheading'
+        },
+        {
+          text: 'Coord Z',
+          value: 'coordZ',
+          class: 'subheading'
+        },
+        {
           text: 'Fragments',
           value: 'fragments',
           class: 'subheading'
@@ -380,6 +395,16 @@ export const state = {
         {
           text: 'Drawing',
           value: 'drawing',
+          class: 'subheading'
+        },
+        {
+          text: 'Year of conservation',
+          value: 'conservationYear',
+          class: 'subheading'
+        },
+        {
+          text: 'Location',
+          value: 'location',
           class: 'subheading'
         },
         {
