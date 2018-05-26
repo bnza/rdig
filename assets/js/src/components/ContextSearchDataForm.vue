@@ -141,6 +141,25 @@
                     <v-text-field label="Value" v-model="search_.num.value"/>
                 </v-flex>
             </v-layout>
+            <v-layout row wrap>
+                <v-flex xs3>
+                    <v-text-field color="black" class="label" value="Description" disabled/>
+                </v-flex>
+                <v-flex xs3>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.description.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs6>
+                    <v-text-field label="Value" v-model="search_.description.value"/>
+                </v-flex>
+            </v-layout>
         </div>
     </div>
 </template>
@@ -169,7 +188,8 @@
           'area.code': {},
           'area.name': {},
           type: {},
-          num: {}
+          num: {},
+          description: {}
         }
       },
     }

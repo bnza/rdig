@@ -110,7 +110,7 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
     protected function getRecordValue(string $key, array $record)
     {
         $field = $this->getFieldNamesArray()[$key];
-        return $record[$field];
+        return trim($record[$field]);
     }
 
     /**

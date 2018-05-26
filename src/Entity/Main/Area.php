@@ -15,7 +15,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  * })
  * @UniqueEntity(
  *      fields={"code", "site"},
- *      message="Duplicate code key for this site"
+ *      message="Duplicate area code for this site"
+ * )
+ * @UniqueEntity(
+ *      fields={"name", "site"},
+ *      message="Duplicate area name for this site"
  * )
  */
 class Area implements SiteRelateEntityInterface

@@ -147,6 +147,11 @@ export const state = {
           text: 'Num',
           value: 'num',
           class: 'subheading'
+        },
+        {
+          text: 'Description',
+          value: 'description',
+          class: 'subheading'
         }
       ]
     },
@@ -278,18 +283,23 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Object no.',
+          value: 'no',
+          class: 'subheading'
+        },
+        {
           text: 'Date of retrieval',
           value: 'retrievalDate',
           class: 'subheading'
         },
         {
           text: 'Class',
-          value: 'voc__o__class.value',
+          value: 'class.value',
           class: 'subheading'
         },
         {
           text: 'Type',
-          value: 'voc__o__type.value',
+          value: 'type.value',
           class: 'subheading'
         },
         {
@@ -299,32 +309,32 @@ export const state = {
         },
         {
           text: 'Material Class',
-          value: 'voc__o__material_class.value',
+          value: 'materialClass.value',
           class: 'subheading'
         },
         {
           text: 'Material Type',
-          value: 'voc__o__material_type.value',
+          value: 'materialType.value',
           class: 'subheading'
         },
         {
           text: 'Technique',
-          value: 'voc__o__technique.value',
+          value: 'technique.value',
           class: 'subheading'
         },
         {
           text: 'Decoration',
-          value: 'voc__o__decoration.value',
+          value: 'decoration.value',
           class: 'subheading'
         },
         {
           text: 'Color',
-          value: 'voc__f__color.value',
+          value: 'color.value',
           class: 'subheading'
         },
         {
           text: 'Preservation state',
-          value: 'voc__o__preservation.value',
+          value: 'preservation.value',
           class: 'subheading'
         },
         {
@@ -384,7 +394,7 @@ export const state = {
         },
         {
           text: 'Chronology',
-          value: 'voc__f__chronology.value',
+          value: 'chronology.value',
           class: 'subheading'
         },
         {

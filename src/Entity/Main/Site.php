@@ -4,10 +4,15 @@ namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
+ * @UniqueEntity(
+ *      fields={"code"},
+ *      message="Duplicate site code"
+ * )
  */
 class Site implements SiteRelateEntityInterface
 {

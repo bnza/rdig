@@ -56,6 +56,38 @@
                 flat
                 icon
                 color="indigo darken-4"
+                @click.native="toggleGroupsVisibility('campaign')"
+            >
+                <v-icon>{{getVisibilityIcon('campaign')}}</v-icon>
+            </v-btn>
+            Campaign
+        </v-subheader>
+        <div v-show="groupsVisibility.campaign">
+            <v-layout row wrap>
+                <v-flex xs3>
+                    <v-text-field color="black" class="label" value="Year" disabled/>
+                </v-flex>
+                <v-flex xs3>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_['campaign.year'].op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs6>
+                    <v-text-field label="Value" v-model="search_['campaign.year'].value"/>
+                </v-flex>
+            </v-layout>
+        </div>
+        <v-subheader>
+            <v-btn
+                flat
+                icon
+                color="indigo darken-4"
                 @click.native="toggleGroupsVisibility('area')"
             >
                 <v-icon>{{getVisibilityIcon('area')}}</v-icon>
@@ -227,6 +259,7 @@
         groupsVisibility: {
           site: false,
           area: false,
+          campaign: false,
           context: false,
           bucket: true
         }

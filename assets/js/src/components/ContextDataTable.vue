@@ -69,6 +69,17 @@
             >
                 <strong>{{ props.item.num }}</strong>
             </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Description')"
+            >
+                <v-tooltip
+                    v-if="props.item.description"
+                    left
+                >
+                    <span slot="activator">{{ trimTableCellContent(props.item.description) }}</span>
+                    <span>{{ props.item.description }}</span>
+                </v-tooltip>
+            </td>
         </template>
     </v-data-table>
 </template>

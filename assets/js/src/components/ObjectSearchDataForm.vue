@@ -230,27 +230,27 @@
                 flat
                 icon
                 color="indigo darken-4"
-                @click.native="toggleGroupsVisibility('inclusions')"
+                @click.native="toggleGroupsVisibility('coords')"
             >
-                <v-icon>{{getVisibilityIcon('inclusions')}}</v-icon>
+                <v-icon>{{getVisibilityIcon('coords')}}</v-icon>
             </v-btn>
-            Inclusions
+            Coords
         </v-subheader>
-        <div v-show="groupsVisibility.inclusions">
+        <div v-show="groupsVisibility.coords">
             <v-layout row wrap>
                 <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
                         bottom
-                        :items="operators.text"
-                        v-model="search_['inclusionsFrequency.value'].op"
+                        :items="operators.number"
+                        v-model="search_.coordN.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Inclusions Frequency" v-model="search_['inclusionsFrequency.value'].value"/>
+                    <v-text-field label="Coord N" v-model="search_.coordN.value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -260,13 +260,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['inclusionsSize.value'].op"
+                        v-model="search_.coordN.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Inclusions Size" v-model="search_['inclusionsSize.value'].value"/>
+                    <v-text-field label="Coord N" v-model="search_.coordN.value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -276,13 +276,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['inclusionsType.value'].op"
+                        v-model="search_.coordZ.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Inclusions Type" v-model="search_['inclusionsType.value'].value"/>
+                    <v-text-field label="Coord Z" v-model="search_.coordZ.value"/>
                 </v-flex>
             </v-layout>
         </div>
@@ -291,13 +291,13 @@
                 flat
                 icon
                 color="indigo darken-4"
-                @click.native="toggleGroupsVisibility('color')"
+                @click.native="toggleGroupsVisibility('conservation')"
             >
-                <v-icon>{{getVisibilityIcon('color')}}</v-icon>
+                <v-icon>{{getVisibilityIcon('conservation')}}</v-icon>
             </v-btn>
-            Color
+            Conservation
         </v-subheader>
-        <div v-show="groupsVisibility.color">
+        <div v-show="groupsVisibility.conservation">
             <v-layout row wrap>
                 <v-flex xs4>
                     <v-select
@@ -305,13 +305,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['innerColor.value'].op"
+                        v-model="search_.conservationYear.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Inner Color" v-model="search_['innerColor.value'].value"/>
+                    <v-text-field label="Year of conservation" v-model="search_.conservationYear.value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -321,13 +321,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['coreColor.value'].op"
+                        v-model="search_.location.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Core Color" v-model="search_['coreColor.value'].value"/>
+                    <v-text-field label="Location" v-model="search_.location.value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -337,13 +337,37 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['outerColor.value'].op"
+                        v-model="search_.envanterlik.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Outer Color" v-model="search_['outerColor.value'].value"/>
+                <v-flex xs8 align-center>
+                    <v-checkbox
+                        label="Envanterlik"
+                        v-model="search_.envanterlik.value"
+                        hide-details
+                    />
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.etutluk.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8 align-center>
+                    <v-checkbox
+                        label="Etutluk"
+                        v-model="search_.etutluk.value"
+                        hide-details
+                    />
                 </v-flex>
             </v-layout>
         </div>
@@ -352,13 +376,13 @@
                 flat
                 icon
                 color="indigo darken-4"
-                @click.native="toggleGroupsVisibility('surfaceTreatment')"
+                @click.native="toggleGroupsVisibility('material')"
             >
-                <v-icon>{{getVisibilityIcon('Surface Treatment')}}</v-icon>
+                <v-icon>{{getVisibilityIcon('material')}}</v-icon>
             </v-btn>
-            Surface Treatment
+            Material
         </v-subheader>
-        <div v-show="groupsVisibility.surfaceTreatment">
+        <div v-show="groupsVisibility.material">
             <v-layout row wrap>
                 <v-flex xs4>
                     <v-select
@@ -366,13 +390,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['innerSurfaceTreatment.value'].op"
+                        v-model="search_['materialClass.value'].op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Inner Surface Treatment" v-model="search_['innerSurfaceTreatment.value'].value"/>
+                    <v-text-field label="Material Class" v-model="search_['materialClass.value'].value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -382,58 +406,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['outerSurfaceTreatment.value'].op"
+                        v-model="search_['materialType.value'].op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Outer Surface Treatment" v-model="search_['outerSurfaceTreatment.value'].value"/>
-                </v-flex>
-            </v-layout>
-        </div>
-        <v-subheader>
-            <v-btn
-                flat
-                icon
-                color="indigo darken-4"
-                @click.native="toggleGroupsVisibility('decoration')"
-            >
-                <v-icon>{{getVisibilityIcon('Decoration')}}</v-icon>
-            </v-btn>
-            Decoration
-        </v-subheader>
-        <div v-show="groupsVisibility.decoration">
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_['innerDecoration.value'].op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Inner Decoration" v-model="search_['innerDecoration.value'].value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_['outerDecoration.value'].op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Outer Decoration" v-model="search_['outerDecoration.value'].value"/>
+                    <v-text-field label="Material Type" v-model="search_['materialType.value'].value"/>
                 </v-flex>
             </v-layout>
         </div>
@@ -444,123 +423,11 @@
                 color="indigo darken-4"
                 @click.native="toggleGroupsVisibility('measure')"
             >
-                <v-icon>{{getVisibilityIcon('Measure')}}</v-icon>
+                <v-icon>{{getVisibilityIcon('measure')}}</v-icon>
             </v-btn>
             Measure
         </v-subheader>
         <div v-show="groupsVisibility.measure">
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.rimDiameter.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Rim Diameter" v-model="search_.rimDiameter.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.rimWidth.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Rim Width" v-model="search_.rimWidth.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.wallWidth.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Wall Width" v-model="search_.wallWidth.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.maxWallDiameter.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Max Wall Diameter" v-model="search_.maxWallDiameter.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.baseWidth.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Base Width" v-model="search_.baseWidth.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.baseHeight.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Base Height" v-model="search_.baseHeight.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.baseDiameter.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Base Diameter" v-model="search_.baseDiameter.value"/>
-                </v-flex>
-            </v-layout>
             <v-layout row wrap>
                 <v-flex xs4>
                     <v-select
@@ -577,40 +444,104 @@
                     <v-text-field label="Height" v-model="search_.height.value"/>
                 </v-flex>
             </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.length.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Length" v-model="search_.length.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.width.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="width" v-model="search_.width.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.thickness.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Thickness" v-model="search_.thickness.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.diameter.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Diameter" v-model="search_.diameter.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.perforationDiameter.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Perforation Diameter" v-model="search_.perforationDiameter.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.weight.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Weight" v-model="search_.weight.value"/>
+                </v-flex>
+            </v-layout>
         </div>
         <div v-show="groupsVisibility.finding">
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.num.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="No. in bucket" v-model="search_.num.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
-                        v-model="search_.no.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Object no." v-model="search_.no.value"/>
-                </v-flex>
-            </v-layout>
             <v-layout row wrap>
                 <v-flex xs4>
                     <v-select
@@ -634,13 +565,45 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['shape.value'].op"
+                        v-model="search_['type.value'].op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Shape" v-model="search_['shape.value'].value"/>
+                    <v-text-field label="Type" v-model="search_['type.value'].value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_.subType.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Subtype" v-model="search_.subType.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_['decoration.value'].op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Decoration" v-model="search_['decoration.value'].value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -682,13 +645,29 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_['firing.value'].op"
+                        v-model="search_['color.value'].op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Firing" v-model="search_['firing.value'].value"/>
+                    <v-text-field label="Color" v-model="search_['color.value'].value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
+                        v-model="search_['chronology.value'].op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Chronology" v-model="search_['chronology.value'].value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -698,15 +677,35 @@
                         single-line
                         bottom
                         :items="operators.boolean"
-                        v-model="search_.restored.op"
+                        v-model="search_.photo.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8 align-center>
                     <v-checkbox
-                        label="Restored"
-                        v-model="search_.restored.value"
+                        label="Photo"
+                        v-model="search_.photo.value"
+                        hide-details
+                    />
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.boolean"
+                        v-model="search_.drawing.op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8 align-center>
+                    <v-checkbox
+                        label="Drawing"
+                        v-model="search_.drawing.value"
                         hide-details
                     />
                 </v-flex>
@@ -718,13 +717,13 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_.drawingNumber.op"
+                        v-model="search_.description.op"
                         item-text="symbol"
                         item-value="value"
                     />
                 </v-flex>
                 <v-flex xs8>
-                    <v-text-field label="Drawing Number" v-model="search_.drawingNumber.value"/>
+                    <v-text-field label="Description" v-model="search_.description.value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -751,7 +750,7 @@
   import BaseSearchDataForm from './BaseSearchDataForm'
 
   export default {
-    name: 'pottery-search-data-form',
+    name: 'object-search-data-form',
     extends: BaseSearchDataForm,
     data () {
       return {
@@ -761,10 +760,9 @@
           campaign: false,
           context: false,
           bucket: false,
-          inclusions: false,
-          color: false,
-          decoration: false,
-          surfaceTreatment: false,
+          coords: false,
+          material: false,
+          conservation: false,
           measure: false,
           finding: true
         }
@@ -783,33 +781,34 @@
           'campaign.year': {},
           'bucket.type': {},
           'bucket.num': {},
-          'inclusionsFrequency.value': {},
-          'inclusionsSize.value': {},
-          'inclusionsType.value': {},
-          'coreColor.value': {},
-          'innerColor.value': {},
-          'outerColor.value': {},
+          'color.value': {},
+          'chronology.value': {},
           'class.value': {},
-          'shape.value': {},
+          'type.value': {},
           'preservation.value': {},
           'technique.value': {},
-          'firing.value': {},
-          'innerSurfaceTreatment.value': {},
-          'outerSurfaceTreatment.value': {},
-          'innerDecoration.value': {},
-          'outerDecoration.value': {},
-          num: {}, //num in bucket
-          no: {}, //num in site
-          rimDiameter: {},
-          rimWidth: {},
-          wallWidth: {},
-          maxWallDiameter: {},
-          baseWidth: {},
-          baseHeight: {},
-          baseDiameter: {},
+          'materialClass.value': {},
+          'materialType.value': {},
+          'decoration.value': {},
+          coordN: {},
+          coordE: {},
+          coordZ: {},
           height: {},
+          length: {},
+          width: {},
+          thickness: {},
+          diameter: {},
+          perforationDiameter: {},
+          weight: {},
+          subType: {},
           remarks: {},
-          drawingNumber: {},
+          description: {},
+          conservationYear: {},
+          location: {},
+          envanterlik: {},
+          etutluk: {},
+          drawing: {},
+          photo: {},
           restored: {cast: 'bool'}
         }
       },

@@ -238,9 +238,9 @@ class Object extends AbstractFinding
     /**
      * @param float $coordN
      */
-    public function setCoordN(float $coordN): void
+    public function setCoordN($coordN): void
     {
-        $this->coordN = $coordN;
+        $this->coordN = (float) $coordN;
     }
 
     /**
@@ -254,9 +254,9 @@ class Object extends AbstractFinding
     /**
      * @param float $coordE
      */
-    public function setCoordE(float $coordE): void
+    public function setCoordE($coordE): void
     {
-        $this->coordE = $coordE;
+        $this->coordE = (float) $coordE;
     }
 
     /**
@@ -270,9 +270,9 @@ class Object extends AbstractFinding
     /**
      * @param float $coordZ
      */
-    public function setCoordZ(float $coordZ): void
+    public function setCoordZ($coordZ): void
     {
-        $this->coordZ = $coordZ;
+        $this->coordZ = (float) $coordZ;
     }
 
     /**
@@ -625,7 +625,7 @@ class Object extends AbstractFinding
     public function setRetrievalDate($retrievalDate): void
     {
         if (is_string($retrievalDate)) {
-            $retrievalDate = \DateTime::createFromFormat('d/m/Y', $retrievalDate);
+            $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDate);
         }
         $this->retrievalDate = $retrievalDate ? $retrievalDate: null;
     }

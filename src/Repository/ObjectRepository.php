@@ -18,14 +18,14 @@ class ObjectRepository extends FindingRepository
     {
         parent::addQueryBuilderLeftJoins($qb);
         $qb
-            ->leftJoin('e.type', 'voc__o__type')
-            ->leftJoin('e.decoration', 'voc__o__decoration')
-            ->leftJoin('e.class', 'voc__o__class')
-            ->leftJoin('e.materialClass', 'voc__o__material_class')
-            ->leftJoin('e.materialType', 'voc__o__material_type')
-            ->leftJoin('e.technique', 'voc__o__technique')
-            ->leftJoin('e.color', 'voc__f__color')
-            ->leftJoin('e.preservation', 'voc__o__preservation')
+            ->leftJoin('e.type', 'type')
+            ->leftJoin('e.decoration', 'decoration')
+            ->leftJoin('e.class', 'class')
+            ->leftJoin('e.materialClass', 'materialClass')
+            ->leftJoin('e.materialType', 'materialType')
+            ->leftJoin('e.technique', 'technique')
+            ->leftJoin('e.color', 'color')
+            ->leftJoin('e.preservation', 'preservation')
         ;
 
         return $this;
@@ -35,14 +35,14 @@ class ObjectRepository extends FindingRepository
     {
         parent::addQueryBuilderSelects($qb);
         $qb
-            ->addSelect('voc__o__class')
-            ->addSelect('voc__o__decoration')
-            ->addSelect('voc__o__type')
-            ->addSelect('voc__o__material_class')
-            ->addSelect('voc__o__material_type')
-            ->addSelect('voc__o__technique')
-            ->addSelect('voc__f__color')
-            ->addSelect('voc__o__preservation')
+            ->addSelect('class')
+            ->addSelect('decoration')
+            ->addSelect('type')
+            ->addSelect('materialClass')
+            ->addSelect('materialType')
+            ->addSelect('technique')
+            ->addSelect('color')
+            ->addSelect('preservation')
         ;
 
         return $this;

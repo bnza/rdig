@@ -90,6 +90,12 @@
                 {{ props.item.num }}
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Object no.')"
+                class="text-xs-right"
+            >
+                {{ props.item.no }}
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Date of retrieval')"
             >
                 {{ getDate(props.item.retrievalDate) }}
