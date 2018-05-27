@@ -8,15 +8,6 @@ use App\Entity\Job\Task as TaskEntity;
 
 abstract class AbstractTask implements TaskInterface
 {
-//    /**
-//     * @var int
-//     */
-//    protected $currentStepNum = 0;
-//
-//    /**
-//     * @var int
-//     */
-//    protected $stepsNum = 1;
 
     /**
      * @var JobInterface

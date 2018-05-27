@@ -5,7 +5,7 @@ namespace App\Service\Job\Csv;
 use App\Service\Job\Common\Task\BeginTransactionTask;
 use App\Service\Job\Common\Task\CommitTransactionTask;
 use App\Service\Job\Csv\Task\CsvOpenFromFileTask;
-use App\Service\Job\Csv\Task\CsvCountRecordsTask;
+use App\Service\Job\Csv\Task\CsvReaderCountRecordsTask;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -14,11 +14,6 @@ use League\Csv\Writer;
 abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
 {
     const IMPORT_ERROR_KEY = 'Import Error';
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $dataEm;
 
     /**
      * @var string
@@ -48,8 +43,7 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
         ValidatorInterface $validator,
         $hash = '')
     {
-        parent::__construct($dispatcher, $em, $hash);
-        $this->dataEm = $dataEm;
+        parent::__construct($dispatcher, $em, $dataEm, $hash);
         $this->validator = $validator;
     }
 
@@ -74,7 +68,7 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
                 ]
             ],
             [
-                CsvCountRecordsTask::class,
+                CsvReaderCountRecordsTask::class,
                 []
             ],
             [

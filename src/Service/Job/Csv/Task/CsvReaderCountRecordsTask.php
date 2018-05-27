@@ -2,10 +2,7 @@
 
 namespace App\Service\Job\Csv\Task;
 
-use App\Service\Job\Csv\AbstractCsvJob;
-use League\Csv\Reader;
-
-class CsvCountRecordsTask extends AbstractCsvTask
+class CsvReaderCountRecordsTask extends AbstractCsvTask
 {
     public function execute()
     {

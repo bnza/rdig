@@ -95,8 +95,9 @@ class JobManager
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exists', $class));
         }
         if (!in_array(JobInterface::class, class_implements($class))) {
+            $class = is_string($class) ? $class : get_class($class);
             throw new \InvalidArgumentException(
-                sprintf('Class "%s" does not implement "%s" interface', get_class($class), JobInterface::class)
+                sprintf('Class "%s" does not implement "%s" interface', $class, JobInterface::class)
             );
         }
         $jobEntity = new JobEntity();

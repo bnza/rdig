@@ -37,6 +37,6 @@ abstract class AbstractCsvTask extends AbstractTask
 
     public function setWriter(Writer $writer)
     {
-        return $this->job->setReader($writer);
+        return $this->job->setWriter($writer);
     }
 }

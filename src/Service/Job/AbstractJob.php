@@ -243,7 +243,6 @@ abstract class AbstractJob implements JobInterface
         $task = $this->tasks[$i];
 
         $args = $this->injectTaskParameters($task[1]);
-
         $task = new $task[0](...$args);
         return $task;
     }

@@ -3,11 +3,18 @@
 namespace App\Service\Job\Csv;
 
 use App\Service\Job\AbstractJob;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use League\Csv\Reader;
 use League\Csv\Writer;
 
 abstract class AbstractCsvJob extends AbstractJob
 {
+    /**
+     * @var EntityManagerInterface;
+     */
+    protected $dataEm;
+
     /**
      * @var Reader
      */
@@ -22,6 +29,16 @@ abstract class AbstractCsvJob extends AbstractJob
      * @var int
      */
     protected $recordCount;
+
+    public function __construct(
+        EventDispatcherInterface $dispatcher,
+        EntityManagerInterface $em,
+        EntityManagerInterface $dataEm,
+        $hash = '')
+    {
+        parent::__construct($dispatcher, $em, $hash);
+        $this->dataEm = $dataEm;
+    }
 
     public function getReader(): Reader
     {

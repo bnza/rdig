@@ -5,7 +5,7 @@ namespace App\Service\Job\Csv\Task;
 use App\Service\Job\Csv\AbstractCsvJob;
 use League\Csv\Writer;
 
-class CsvCreateFromPath extends AbstractCsvTask
+class CsvWriterCreateFromPath extends AbstractCsvTask
 {
     /**
      * @var string
@@ -31,6 +31,11 @@ class CsvCreateFromPath extends AbstractCsvTask
     public function execute()
     {
         $writer = Writer::createFromPath($this->path, 'w+');
+        $this->setWriter($writer);
+        if ($this->header) {
+            $writer->insertOne($this->header);
+
+        }
         $this->setWriter($writer);
     }
 

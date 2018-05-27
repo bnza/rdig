@@ -6,7 +6,6 @@ use App\Service\SiteFilter;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 
@@ -208,6 +207,18 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param array $filter
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getFilterQueryCount(array $filter): int
+    {
+        $this->createQueryBuilders([], 0);
+        $this->addFilters($filter);
+        return $this->qbc->getQuery()->getSingleScalarResult();
+    }
+
+    /**
      * @param int $id
      *
      * @return array
@@ -227,5 +238,6 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
 
     public function findByCodeRegExp(string $pattern)
     {
+        // TODO throw LogicException or make method abstract
     }
 }
