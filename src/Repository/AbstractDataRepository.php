@@ -41,7 +41,8 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
     }
 
     /**
-     * Called by service constructor
+     * Called by service constructor.
+     *
      * @see config/service.yaml
      *
      * @param SiteFilter $siteFilter
@@ -208,13 +209,16 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
 
     /**
      * @param array $filter
+     *
      * @return int
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getFilterQueryCount(array $filter): int
     {
         $this->createQueryBuilders([], 0);
         $this->addFilters($filter);
+
         return $this->qbc->getQuery()->getSingleScalarResult();
     }
 

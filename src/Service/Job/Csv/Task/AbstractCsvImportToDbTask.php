@@ -10,6 +10,7 @@ use App\Entity\Main\Area;
 use App\Entity\Main\Campaign;
 use App\Entity\Main\AbstractFinding;
 use App\Service\Job\JobInterface;
+use App\Service\Job\Common\UtilTrait;
 use App\Event\Job\JobEvents;
 use App\Event\Job\TaskEvent;
 use App\Exceptions\CrudException;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
 {
+    use UtilTrait;
 
     /**
      * @var array
@@ -157,20 +159,7 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
      */
     protected function getAreaCode(string $name): string
     {
-        $pattern="/(area\s+)?(\w+)/i";
-        preg_match_all($pattern,$name,$matches);
-        $count = count($matches[2]);
-        $code = $count ? $matches[2][0] : '';
-        $code = strtoupper(trim($code));
-        $count = count($matches[2]);
-        if (strlen($code) > 2) {
-            $code = substr($code, 0, 3);
-        } else if (count($matches[2]) > 1) {
-            for ($i = 1; $i < $count; $i++) {
-                $code .= strtoupper(substr($matches[2][$i], 0, 1));
-            }
-        }
-        return $code;
+        return $this->getAreaCodeFromName($name);
     }
 
     protected function getArea(array $record): Area

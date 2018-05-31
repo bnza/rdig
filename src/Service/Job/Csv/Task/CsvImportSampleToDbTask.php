@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Criteria;
 class CsvImportSampleToDbTask extends AbstractCsvImportToDbTask
 {
     protected $vocabularyKeys = [
-        'voc.s.type.value' => 'Type'
+        'voc.s.type.value' => 'Type',
     ];
 
     protected $scalarKeys = [
@@ -41,11 +41,11 @@ class CsvImportSampleToDbTask extends AbstractCsvImportToDbTask
     {
         if (!$this->fieldsNames) {
             $fieldNames = [
-                'sample.num' => 'Sample no. In bucket',
-                'sample.no' => 'Abs. No',
-                'sample.retrieval_date' => 'Date of retrieval',
-                'sample.status' => 'Status',
-                'voc.s.type.value' => 'Sample type'
+                'sample.num' => 'no in bucket',
+                'sample.no' => 'sample no',
+                'sample.retrieval_date' => 'date of retrieval',
+                'sample.status' => 'status',
+                'voc.s.type.value' => 'sample type',
             ];
             $this->fieldsNames = array_merge(parent::getFieldNamesArray(), $fieldNames);
         }
@@ -67,6 +67,7 @@ class CsvImportSampleToDbTask extends AbstractCsvImportToDbTask
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('num', $num));
+
         return $bucket->getObjects()->matching($criteria)->first();
     }
 
