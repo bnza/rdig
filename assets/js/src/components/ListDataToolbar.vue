@@ -18,6 +18,7 @@
         </v-toolbar-title>
         <v-spacer/>
         <v-btn
+            v-if="$store.getters['account/isAuthenticated']"
             icon
             @click="$router.push(routingMxCreatePath)"
         >
