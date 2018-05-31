@@ -71,7 +71,7 @@
                 />
             </v-flex>
             <v-flex xs4 align-end>
-                <v-text-field readonly label="Date of retrieval" :value="item.retrievalDate"/>
+                <v-text-field readonly label="Date of retrieval" :value="retievalDate"/>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -155,6 +155,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'object-read-fields-item',
     props: {
@@ -186,6 +187,13 @@
           ? this.$store.getters.bucketTypeName(this.item.bucket.type)
           : undefined
         return type ? type.name : undefined
+      },
+      retievalDate() {
+        let date = this.item && this.item.retrievalDate
+        if (date) {
+          date = new Date(date.date);
+          return date.toLocaleDateString();
+        }
       }
     }
   }

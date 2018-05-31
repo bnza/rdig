@@ -602,22 +602,6 @@
                         single-line
                         bottom
                         :items="operators.text"
-                        v-model="search_.no.op"
-                        item-text="symbol"
-                        item-value="value"
-                    />
-                </v-flex>
-                <v-flex xs8>
-                    <v-text-field label="Object no." v-model="search_.no.value"/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs4>
-                    <v-select
-                        label="Operator"
-                        single-line
-                        bottom
-                        :items="operators.text"
                         v-model="search_['class.value'].op"
                         item-text="symbol"
                         item-value="value"
@@ -799,7 +783,6 @@
           'innerDecoration.value': {},
           'outerDecoration.value': {},
           num: {}, //num in bucket
-          no: {}, //num in site
           rimDiameter: {},
           rimWidth: {},
           wallWidth: {},

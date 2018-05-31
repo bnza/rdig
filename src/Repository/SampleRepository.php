@@ -17,7 +17,7 @@ class SampleRepository extends FindingRepository
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
     {
         parent::addQueryBuilderLeftJoins($qb);
-        $qb->leftJoin('e.type', 'voc__s__type');
+        $qb->leftJoin('e.type', 'type');
 
         return $this;
     }
@@ -25,7 +25,7 @@ class SampleRepository extends FindingRepository
     protected function addQueryBuilderSelects(QueryBuilder $qb): AbstractDataRepository
     {
         parent::addQueryBuilderSelects($qb);
-        $qb->addSelect('voc__s__type');
+        $qb->addSelect('type');
 
         return $this;
     }

@@ -64,12 +64,6 @@
           ? `${content.substr(0, length)}...`
           : content
       },
-      getDate(date) {
-        if (date) {
-          date = new Date(date.date);
-          return date.toLocaleDateString();
-        }
-      },
       getBucketCode (bucket) {
         let siteCode = bucket.campaign.site.code;
         if (['TH', 'TG'].indexOf(siteCode) > -1) {

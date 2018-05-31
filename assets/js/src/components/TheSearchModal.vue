@@ -74,6 +74,10 @@
         /* webpackChunkName: "ContextSearchDataForm" */
         './ContextSearchDataForm'
         ),
+      FindingSearchDataForm: () => import(
+        /* webpackChunkName: "FindingSearchDataForm" */
+        './FindingSearchDataForm'
+        ),
       ObjectSearchDataForm: () => import(
         /* webpackChunkName: "ObjectSearchDataForm" */
         './ObjectSearchDataForm'
@@ -81,6 +85,10 @@
       PotterySearchDataForm: () => import(
         /* webpackChunkName: "PotterySearchDataForm" */
         './PotterySearchDataForm'
+        ),
+      SampleSearchDataForm: () => import(
+        /* webpackChunkName: "SampleSearchDataForm" */
+        './SampleSearchDataForm'
         ),
       SiteSearchDataForm: () => import(
         /* webpackChunkName: "SiteSearchDataForm" */

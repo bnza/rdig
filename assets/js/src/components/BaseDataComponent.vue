@@ -16,9 +16,17 @@
         default: true
       }
     },
-    data () {
+    data() {
       return {
         isRequestPending: false
+      }
+    },
+    methods: {
+      getDate(date) {
+        if (date) {
+          date = new Date(date.date);
+          return date.toLocaleDateString();
+        }
       }
     }
   }

@@ -31,7 +31,7 @@ class FindingRepository extends AbstractDataRepository
             ->leftJoin('bucket.campaign', 'campaign')
             ->leftJoin('context.area', 'area')
             ->leftJoin('campaign.site', 'site')
-            ->leftJoin('e.chronology', 'voc__f__chronology');
+            ->leftJoin('e.chronology', 'chronology');
 
         return $this;
     }
@@ -44,7 +44,7 @@ class FindingRepository extends AbstractDataRepository
             ->addSelect('context')
             ->addSelect('area')
             ->addSelect('site')
-            ->addSelect('voc__f__chronology');
+            ->addSelect('chronology');
 
         return $this;
     }
