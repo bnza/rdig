@@ -100,7 +100,7 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
     protected function getFindingNum(array $record): string
     {
         $num = $this->getRecordValue('pottery.num', $record);
-        return sprintf("%'.06s", $num);
+        return sprintf("%'.04s", $num);
     }
 
     protected function getBucketType(): string
@@ -110,7 +110,7 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
 
     protected function formatFindingNum($num)
     {
-        sprintf("%'.06s", $num);
+        sprintf("%'.04s", $num);
     }
 
     protected function getEntity(Bucket $bucket, string $num)

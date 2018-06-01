@@ -18,7 +18,7 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
     /**
      * @var string
      */
-    private $path;
+    protected $path;
 
     /**
      * @var string

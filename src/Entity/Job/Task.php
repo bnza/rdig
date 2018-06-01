@@ -234,12 +234,14 @@ class Task
         $this->updatedAt = new \DateTime();
     }
 
-//    /**
-//     * @ORM\PrePersist
-//     */
-//    public function addStartInfo()
-//    {
-//        $this->logs->info('Task started');
-//    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function setTaskIs()
+    {
+        if (!$this->idx) {
+            $this->setIdx($this->getJob()->getTasks()->count());
+        }
+    }
 
 }

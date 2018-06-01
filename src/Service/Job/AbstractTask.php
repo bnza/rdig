@@ -29,7 +29,6 @@ abstract class AbstractTask implements TaskInterface
     {
         $taskEntity = new TaskEntity();
         $taskEntity->setName($this->getName());
-        $taskEntity->setIdx($this->job->getCurrentTaskIndex());
         $this->entity = $taskEntity;
         $jobEntity = $this->job->getEntity();
         $jobEntity->addTask($this->entity);

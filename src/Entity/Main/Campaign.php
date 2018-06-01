@@ -152,6 +152,7 @@ class Campaign implements SiteRelateEntityInterface
             $siteCode = $this->getSite()->getCode() ? $this->getSite()->getCode() : $siteCode;
         }
         $campaignYear = $this->getYear() ? $this->getYear() : '0000';
+        $campaignYear = substr($campaignYear, -2);
         return "$siteCode.$campaignYear";
     }
 

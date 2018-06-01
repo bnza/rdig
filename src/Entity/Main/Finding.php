@@ -34,7 +34,7 @@ class Finding implements SiteRelateEntityInterface
     private $bucket;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=4, nullable=false))
      */
     private $num;
 

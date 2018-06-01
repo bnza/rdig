@@ -237,8 +237,8 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
     protected function getBucket(array $record, string $type): Bucket
     {
         $context = $this->getContext($record);
-        $num = sprintf("%'.05s", $this->getRecordValue('bucket.num', $record));
-        //$num = $this->getFindingNum($record);
+        $num = preg_replace("/^0+/", "", $this->getRecordValue('bucket.num', $record));
+        $num = sprintf("%'.04s", $num);
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('num', $num));
         $this->getDataEntityManager()->refresh($context);

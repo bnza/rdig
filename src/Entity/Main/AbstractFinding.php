@@ -33,8 +33,8 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
     private $id;
 
     /**
-     * @var bucket
-     *             Many Buckets have One Campaign
+     * @var Bucket
+     * Many Buckets have One Campaign
      * @ORM\ManyToOne(targetEntity="Bucket", inversedBy="findings")
      * @ORM\JoinColumn(name="bucket", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
@@ -42,7 +42,13 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=6, nullable=false)
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 4,
+     *     maxMessage = "Bucket num must be at least {{ limit }} characters long",
+     *     maxMessage = "Bucket num cannot be longer than {{ limit }} characters"
+     *     )
+     * @ORM\Column(type="string", length=4, nullable=false)
      */
     private $num;
 
@@ -153,7 +159,10 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
     {
         $finding = $event->getEntity();
         $num = $finding->getNum();
-        sprintf("%'.06s", $num);
+        if (strlen((string) $num) > 4) {
+            throw new \InvalidArgumentException("Finding num must be max 4 char length $num given");
+        }
+        sprintf("%'.04s", $num);
         $finding->setNum($num);
     }
 

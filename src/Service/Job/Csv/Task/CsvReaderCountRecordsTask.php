@@ -6,10 +6,8 @@ class CsvReaderCountRecordsTask extends AbstractCsvTask
 {
     public function execute()
     {
-        $count = 0;
-        foreach ($this->getReader()->getRecords() as $offset => $record) {
-            ++$count;
-        }
+        $this->getReader()->setHeaderOffset(0);
+        $count = count($this->getReader());
         $this->job->setRecordCount($count);
     }
 

@@ -66,10 +66,11 @@
       },
       getBucketCode (bucket) {
         let siteCode = bucket.campaign.site.code;
+        const campaignYear = `${bucket.campaign.year}`.substr(-2)
         if (['TH', 'TG'].indexOf(siteCode) > -1) {
-          return `${bucket.campaign.site.code}.${bucket.campaign.year}.${bucket.context.area.code}.${bucket.num}`
+          return `${siteCode}.${campaignYear}.${bucket.context.area.code}.${bucket.num}`
         } else {
-          return `${bucket.campaign.site.code}.${bucket.campaign.year}.${bucket.type}.${bucket.num}`
+          return `${siteCode}.${campaignYear}.${bucket.type}.${bucket.num}`
         }
       },
       getContextCode (context) {

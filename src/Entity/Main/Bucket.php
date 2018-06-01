@@ -4,6 +4,7 @@ namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Prophecy\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -57,7 +58,13 @@ class Bucket implements SiteRelateEntityInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Regex("/^\d+\w?/")
-     * @ORM\Column(type="string", length=5, nullable=false)
+     * @Assert\Length(
+     *     min = 1,
+     *     max = 4,
+     *     maxMessage = "Bucket num must be at least {{ limit }} characters long",
+     *     maxMessage = "Bucket num cannot be longer than {{ limit }} characters"
+     *     )
+     * @ORM\Column(type="string", length=4, nullable=false)
      */
     private $num;
 
@@ -251,13 +258,16 @@ class Bucket implements SiteRelateEntityInterface
     {
         $bucket = $event->getEntity();
         $num = $bucket->getNum();
-        $num = sprintf("%'.05s", $num);
+        if (strlen((string) $num) > 4) {
+            throw new \InvalidArgumentException("Bucket num must be max 4 char length $num given");
+        }
+        $num = sprintf("%'.04s", $num);
         $bucket->setNum($num);
     }
 
     public function __toString()
     {
-        $campaign = $this->getCampaign() ? (string) $this->getCampaign() : 'XX.0000';
+        $campaign = $this->getCampaign() ? (string) $this->getCampaign() : 'XX.00';
         if (in_array(substr($campaign, 0, 2), ['TH', 'TG']))
         {
             $area = $this->getContext() ? $this->getContext()->getArea() : null;
@@ -266,7 +276,7 @@ class Bucket implements SiteRelateEntityInterface
         {
             $bucketCode = $this->getType() ? $this->getType() : 'X';
         }
-        $bucketNum = $this->getNum() ? $this->getNum() : '0';
+        $bucketNum = $this->getNum() ? $this->getNum() : '0000';
         return "$campaign.$bucketCode.$bucketNum";
 
     }
