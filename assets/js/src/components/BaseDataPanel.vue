@@ -7,7 +7,7 @@
     ],
     data () {
       return {
-        dCuid: ''
+        dCuid: '' //dataComponent UUID
       }
     },
     computed: {
@@ -19,6 +19,12 @@
       setDataComponentUuid (uuid) {
         this.dCuid = uuid
       },
+      /**
+       * Forward to data component method
+       * First argument must be the method name followed by the method's args
+       * It's called by toolbar $emit method
+       * e.g. this.$emit('forward', 'theDataComponentMethodName', 'firstArg', 'secondArg')
+       */
       forwardEventToDataComponent () {
         if (this.dataComponent) {
           let args = [...arguments]

@@ -86,7 +86,7 @@ abstract class AbstractCsvExportFindingToFileJob extends AbstractCsvJob
         $this->entityName = $entityName;
     }
 
-    protected function getCsvOutputPath(): string
+    public function getCsvOutputPath(): string
     {
         if (!$this->csvExportPath) {
             $this->csvExportPath = sys_get_temp_dir() . '/export_' . $this->getHash() . '.csv';

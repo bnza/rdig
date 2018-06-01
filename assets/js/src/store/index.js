@@ -251,6 +251,9 @@ export const state = {
     },
     object: {
       label: 'Object',
+      list: {
+        toolbar: 'FindingListDataToolbar'
+      },
       headers: [
         {
           text: 'ID',
@@ -441,6 +444,9 @@ export const state = {
     },
     pottery: {
       label: 'Pottery',
+      list: {
+        toolbar: 'FindingListDataToolbar'
+      },
       headers: [
         {
           text: 'ID',
@@ -611,6 +617,9 @@ export const state = {
     },
     sample: {
       label: 'Sample',
+      list: {
+        toolbar: 'FindingListDataToolbar'
+      },
       headers: [
         {
           text: 'ID',

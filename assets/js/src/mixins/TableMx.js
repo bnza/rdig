@@ -5,6 +5,7 @@
 
 import qs from 'qs'
 import RSTableMx from './RSTableMx'
+import QueryMx from './QueryMx'
 
 export const tableMxOpenModal = function (item, callerUuid, modalUuid) {
   callerUuid = callerUuid || this.uuid
@@ -47,10 +48,11 @@ export const tableMxModalOpeners = {
 
 export default {
   mixins: [
-    RSTableMx
+    RSTableMx,
+    QueryMx
   ],
   computed: {
-    queryFromFullPath () {
+/*    queryFromFullPath () {
       let query = this.$route.fullPath.match(/\?(.*)$/)
       if (query) {
         query = qs.parse(query[1])
@@ -78,7 +80,7 @@ export default {
       if (query.filter) {
         return query.filter
       }
-    },
+    },*/
     tableMxFetchLimit () {
       return this.pagination.rowsPerPage || 25
     },

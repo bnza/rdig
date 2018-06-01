@@ -65,6 +65,10 @@ const TheDeleteModal = () => import(
   /* webpackChunkName: "TheDeleteModal" */
   '../components/TheDeleteModal'
   )
+const TheDownloadModal =() => import(
+  /* webpackChunkName: "TheDownloadModal" */
+  '../components/TheDownloadModal'
+  )
 const TheSearchModal = () => import(
   /* webpackChunkName: "TheSearchModal" */
   '../components/TheSearchModal'
@@ -91,6 +95,16 @@ export const dataRoutes = {
       path: ':action(read)',
       name: 'data_list_read',
       component: TheDataList,
+      beforeEnter: authorizeRoute,
+      props: true
+    },
+    {
+      path: ':action(download)',
+      name: 'data_list_download',
+      components: {
+        default: TheDataList,
+        modal: TheDownloadModal
+      },
       beforeEnter: authorizeRoute,
       props: true
     },

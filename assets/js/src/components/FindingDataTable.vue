@@ -131,6 +131,11 @@
       goToSpecItem (item) {
         let path = this.replacePathSpec(this.routingMxGetItemPath(item.id), item.group)
         this.$router.push(path)
+      },
+      openDownloadModal () {
+        this.uuidMxSet('totalSelectedItem', this.totalItems, 'the-download-modal')
+        let path = `${this.routingMxBasePath}/download`
+        this.$router.push(path)
       }
     }
   }

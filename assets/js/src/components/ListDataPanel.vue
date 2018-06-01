@@ -25,15 +25,6 @@
             v-bind="$props"
             @created="setDataListComponentUuid"
         />
-<!--        <component
-            ref="modalComponent"
-            v-bind:is="modalComponentName"
-            :uuidMxRegister="true"
-            v-on="$listeners"
-            v-bind="$props"
-            @closeModal="closeModal"
-            @forward="forwardEventToDataComponent"
-        />-->
     </article>
 </template>
 
@@ -64,13 +55,17 @@
         /* webpackChunkName: "ContextDataTable" */
         './ContextDataTable'
         ),
-      ListDataToolbar: () => import(
-        /* webpackChunkName: "ListBaseDataToolbar" */
-        './ListDataToolbar'
-        ),
       FindingDataTable: () => import(
         /* webpackChunkName: "FindingDataTable" */
         './FindingDataTable'
+        ),
+      FindingListDataToolbar: () => import(
+        /* webpackChunkName: "FindingDataToolbar" */
+        './FindingListDataToolbar'
+        ),
+      ListDataToolbar: () => import(
+        /* webpackChunkName: "ListBaseDataToolbar" */
+        './ListDataToolbar'
         ),
       ObjectDataTable: () => import(
         /* webpackChunkName: "ObjectDataTable" */
