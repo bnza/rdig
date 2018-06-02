@@ -9,6 +9,13 @@ admin__user__create:
     requirements:
             entityName: 'user'
 
+admin__user__update:
+    path:       /admin/{entityName}/{id}
+    controller: App\Controller\UserCrudController::update
+    methods:    [PUT]
+    requirements:
+            entityName: 'user'
+
 admin__user__list:
     path:       /admin/{entityName}
     controller: App\Controller\UserCrudController::list
@@ -111,7 +118,7 @@ data__crud__read:
             entityName: '[\w\-?]+'
             id: '\d+'
 
-data__crud__put:
+data__crud__update:
     path:       /data/{entityName}/{id}
     controller: App\Controller\DataCrudController::update
     methods:    [PUT]

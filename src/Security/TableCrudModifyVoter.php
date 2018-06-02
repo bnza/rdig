@@ -20,7 +20,7 @@ class TableCrudModifyVoter extends Voter
     private $tables = [
         'user' => ['ROLE_ADMIN'],
         'site' => ['ROLE_ADMIN'],
-        'area' => ['ROLE_ADMIN'],
+        'area' => ['ROLE_SUPER_USER'],
         'bucket' => ['ROLE_USER'],
         'campaign' => ['ROLE_ADMIN'],
         'context' => ['ROLE_USER'],

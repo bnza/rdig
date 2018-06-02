@@ -10,9 +10,11 @@ use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Exceptions\NotFoundCrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -63,7 +65,9 @@ class UserCrudController extends AbstractCrudController
         $user = new User();
         $data = json_decode($request->getContent(), true);
         $user->setUsername($data['username']);
-        $user->setRoles(['ROLE_USER']);
+        $roles = $data['roles'];
+        array_unshift($roles, 'ROLE_USER');
+        $user->setRoles($roles);
         $user->setPassword($this->encoder->encodePassword($user, $data['password']));
         $crud->setEntity($user)->persist();
         $response = new JsonResponse($crud->getData(), 201);
@@ -74,27 +78,56 @@ class UserCrudController extends AbstractCrudController
     }
 
     /**
-     * @param DataCrudHelper $crud
-     * @param string         $entityName
-     * @param int            $id
+     * @param DataCrudHelper                $crud
+     * @param string                        $entityName
+     * @param int                           $id
+     * @param AuthorizationCheckerInterface $authChecker
+     * @param UserInterface|null            $user
      *
      * @return JsonResponse
      *
      * @throws CrudException
+     * @throws NotFoundCrudException
+     * @throws \App\Exceptions\DataValidationCrudException
      * @throws \App\Exceptions\InvalidRequestDataCrudException
-     * @throws \App\Exceptions\NotFoundCrudException
      */
-    public function delete(DataCrudHelper $crud, string $entityName, int $id, AuthorizationCheckerInterface $authChecker)
+    public function delete(DataCrudHelper $crud, string $entityName, int $id, AuthorizationCheckerInterface $authChecker, UserInterface $user = null)
     {
         $entity = $crud->read($this->getEntityClass($entityName), $id);
         $this->denyAccessUnlessGranted($entityName.'|delete', $entity);
-        if ('admin' === $entity->getUsername()) {
-            throw new CrudException('admin user cannot be deleted');
+        if (in_array('ROLE_SUPER_ADMIN', $entity->getRoles())) {
+            throw new CrudException('super admin user cannot be deleted');
         }
+        if ($user->getUsername() === $entity->getUsername()) {
+            throw new CrudException('You cannot delete yourself');
+        }
+
         $responseArray = $crud->delete($entity, $id);
         $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
 
         return $response;
+    }
+
+    public function update(Request $request, DataCrudHelper $crud, string $entityName, AuthorizationCheckerInterface $authChecker)
+    {
+        $data = $request->getContent();
+        $entity = $crud->read($this->getEntityClass($entityName), $data);
+        /*$this->denyAccessUnlessGranted($entityName.'|update', $entity);*/
+
+        if (!$authChecker->isGranted('ROLE_USER')) {
+            return new Response('Access Denied.', '403');
+        }
+
+        $attribute = $entityName .'|update';
+        if (!$authChecker->isGranted($attribute, $entity)) {
+            return new Response('Access Denied', '403');
+        }
+
+        $responseArray = $crud->update($entity, $data);
+        $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+
+        return $response;
+
     }
 
     public function changePassword(Request $request, DataCrudHelper $crud, string $entityName, int $id)

@@ -2,9 +2,14 @@
     <v-tooltip bottom>
         <v-btn flat slot="activator" @click="executeAction">
             {{authMxUsername}}
-            <v-icon large>{{iconText}}</v-icon>
+            <v-icon
+                large
+                :color="roleColor"
+            >
+                {{ iconText }}
+            </v-icon>
         </v-btn>
-        <span>{{actionText}}</span>
+        <span>{{ actionText }}</span>
     </v-tooltip>
 </template>
 
@@ -24,6 +29,9 @@
       },
       actionText () {
         return this.authMxIsAuthenticated ?  'Logout' : 'Login'
+      },
+      roleColor () {
+        return this.$store.getters['account/roleColor']
       }
     },
     methods: {

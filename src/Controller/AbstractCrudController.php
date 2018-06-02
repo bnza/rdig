@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractCrudController extends Controller
 {
@@ -178,13 +178,15 @@ abstract class AbstractCrudController extends Controller
      * @param string $entityName
      * @param int $id
      *
+     * @param AuthorizationCheckerInterface $authChecker
+     * @param UserInterface $user
      * @return JsonResponse
      *
      * @throws NotFoundCrudException
-     * @throws \App\Exceptions\InvalidRequestDataCrudException
      * @throws \App\Exceptions\DataValidationCrudException
+     * @throws \App\Exceptions\InvalidRequestDataCrudException
      */
-    public function delete(DataCrudHelper $crud, string $entityName, int $id, AuthorizationCheckerInterface $authChecker)
+    public function delete(DataCrudHelper $crud, string $entityName, int $id, AuthorizationCheckerInterface $authChecker, UserInterface $user = null)
     {
         $entity = $crud->read($this->getEntityClass($entityName), $id);
         //$this->denyAccessUnlessGranted($entityName.'|delete', $entity);
