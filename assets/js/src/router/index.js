@@ -57,7 +57,7 @@ const authorizeRoute = function (to, from, next) {
   }
 }
 
-const TheCreateModal =() => import(
+const TheCreateModal = () => import(
   /* webpackChunkName: "TheAddModal" */
   '../components/TheAddModal'
   )
@@ -65,7 +65,7 @@ const TheDeleteModal = () => import(
   /* webpackChunkName: "TheDeleteModal" */
   '../components/TheDeleteModal'
   )
-const TheDownloadModal =() => import(
+const TheDownloadModal = () => import(
   /* webpackChunkName: "TheDownloadModal" */
   '../components/TheDownloadModal'
   )
@@ -80,6 +80,10 @@ const TheUpdateModal = () => import(
 const TheMainSetting = () => import(
   /* webpackChunkName: "TheMainSetting" */
   '../components/TheMainSetting'
+  )
+const TheVocList = () => import(
+  /* webpackChunkName: "TheVocList" */
+  '../components/TheVocList'
   )
 const SettingSiteFilter = () => import(
   /* webpackChunkName: "SettingSiteFilter" */
@@ -210,20 +214,33 @@ export const dataRoutes = {
   ]
 }
 
+export const vocRoutes = {
+  path: '/:prefix(voc)/:type(f|o|p|s)',
+  component: TheMainData,
+  props: true,
+  children: [
+    {
+      path: ':name/read',
+      component: TheVocList,
+      name: 'voc_list_read'
+    }
+  ]
+}
+
 export const settingRoutes = {
   path: '/:prefix(settings)',
   component: TheMainSetting,
   props: true,
   children: [
     {
-      path: ':setting(siteFilter)',
+      path: ':setting(site-filter)',
       name: 'setting_user_site_filter',
       component: SettingSiteFilter,
       beforeEnter: authorizeRoute,
-      meta: { requiresRole: 'ROLE_USER' },
+      meta: {requiresRole: 'ROLE_USER'},
       props: true
     }
-    ]
+  ]
 }
 
 let router = new Router({
@@ -250,6 +267,7 @@ let router = new Router({
       }
     },
     dataRoutes,
+    vocRoutes,
     settingRoutes
   ]
 })

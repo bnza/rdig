@@ -9,7 +9,7 @@
             </v-list-tile-content>
         </v-list-tile>
         <v-list-tile
-            @click="goToSetting('siteFilter')"
+            @click="goToSetting('site-filter')"
         >
             <v-list-tile-content>
                 <v-list-tile-title>Select Site</v-list-tile-title>

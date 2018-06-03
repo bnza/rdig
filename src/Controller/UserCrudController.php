@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserCrudController extends AbstractCrudController
+class UserCrudController extends AbstractCrudDataController
 {
     /**
      * @var UserPasswordEncoderInterface

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Exceptions\NotFoundEntityCrudException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class DataCrudController extends AbstractCrudController
+class DataCrudController extends AbstractCrudDataController
 {
     protected $entities = [
         'site' => 'App\Entity\Main\Site',

@@ -17,6 +17,11 @@ export default {
   isAdmin: (state, getters) => {
     return getters.roles.indexOf('ROLE_ADMIN') > -1 || getters.roles.indexOf('ROLE_SUPER_ADMIN') > -1
   },
+  isSuperUser: (state, getters) => {
+    return getters.roles.indexOf('ROLE_SUPER_USER') > -1 ||
+      getters.roles.indexOf('ROLE_ADMIN') > -1 ||
+      getters.roles.indexOf('ROLE_SUPER_ADMIN') > -1
+  },
   isSiteAllowed: (state, getters) => (siteId) => {
     return getters.isAuthenticated && state.user.allowedSites.indexOf(siteId) > -1
   },
