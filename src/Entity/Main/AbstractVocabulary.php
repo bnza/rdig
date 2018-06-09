@@ -22,7 +22,7 @@ abstract class AbstractVocabulary implements CrudEntityInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false, unique=true)
+     * @ORM\Column(type="string", length=191, nullable=false, unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $value;
