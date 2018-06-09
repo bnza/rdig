@@ -2,7 +2,10 @@
     <v-layout row wrap>
         <v-flex xs12 md10 offset-md1>
             <v-card>
-                <v-card-text>
+                <v-card-media v-bind:src="rdigLogoDarkSrc" height="200px" contain>
+                </v-card-media>
+
+                <!--<v-card-text>
                     <v-container grid-list-xl text-xs-center>
                         <v-flex xs12>
                             <img
@@ -17,7 +20,7 @@
                             <p>The rDig project</p>
                         </v-flex>
                     </v-container>
-                </v-card-text>
+                </v-card-text>-->
             </v-card>
         </v-flex>
     </v-layout>
@@ -28,10 +31,10 @@
     name: 'the-main-home',
     computed: {
       rdigLogoDarkSrc() {
-        return require('~/assets/images/rdig_dark.png')
+        return require('~/assets/images/rdig_dark.svg')
       },
       rdigLogoDarkLogoSrc() {
-        return require('~/assets/images/rdig_logo.png')
+        return require('~/assets/images/rdig_logo.svg')
       }
     }
   }
