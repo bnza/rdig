@@ -78,7 +78,7 @@
                 {{ getContextCode(props.item.context) }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Type')"
+                v-if="rsTableMxHeaderIsVisible('Group')"
                 class="text-xs-right"
             >
                 {{ props.item.type }}
