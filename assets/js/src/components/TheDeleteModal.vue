@@ -75,6 +75,18 @@
         /* webpackChunkName: "ContextDeleteDataForm" */
         './ContextDeleteDataForm'
         ),
+      ObjectDeleteDataForm: () => import(
+        /* webpackChunkName: "ObjectDeleteDataForm" */
+        './ObjectDeleteDataForm'
+        ),
+      PotteryDeleteDataForm: () => import(
+        /* webpackChunkName: "PotteryDeleteDataForm" */
+        './PotteryDeleteDataForm'
+        ),
+      SampleDeleteDataForm: () => import(
+        /* webpackChunkName: "SampleDeleteDataForm" */
+        './SampleDeleteDataForm'
+        ),
       SiteDeleteDataForm: () => import(
         /* webpackChunkName: "SiteDeleteDataForm" */
         './SiteDeleteDataForm'

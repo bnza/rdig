@@ -68,6 +68,14 @@
         /* webpackChunkName: "ContextEditDataForm" */
         './ContextEditDataForm'
         ),
+      ObjectAddDataForm: () => import(
+        /* webpackChunkName: "ObjectEditDataForm" */
+        './ObjectEditDataForm'
+        ),
+      PotteryAddDataForm: () => import(
+        /* webpackChunkName: "PotteryEditDataForm" */
+        './PotteryEditDataForm'
+        ),
       SiteAddDataForm: () => import(
         /* webpackChunkName: "SiteEditDataForm" */
         './SiteEditDataForm'

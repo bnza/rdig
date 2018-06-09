@@ -10,6 +10,9 @@
                     style="min-height: 0;"
                     grid-list-md
                 >
+                    <v-layout row wrap v-if="item.id">
+                        <p class="orange--text text--darken-2"><v-icon large color="orange darken-2">warning</v-icon> Be careful changing vocabulary value will affect all items referencing it</p>
+                    </v-layout>
                     <v-layout row wrap>
                         <v-text-field
                             label="Value"

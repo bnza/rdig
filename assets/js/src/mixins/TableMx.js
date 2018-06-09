@@ -80,7 +80,7 @@ export default {
       if (query.filter) {
         return query.filter
       }
-    },*/
+    },
     tableMxFetchLimit () {
       return this.pagination.rowsPerPage || 25
     },
@@ -101,7 +101,7 @@ export default {
         query.filter = this.searchCriteria
       }
       return qs.stringify(query)
-    },
+    },*/
     tableMxVisibleHeaders () {
       const vm = this
       const headers = this.rsTableMxHeaders.filter(function (item) {
@@ -111,12 +111,12 @@ export default {
     }
   },
   methods: {
-    navigateToQuery () {
+/*    navigateToQuery () {
       let path = `${this.$route.path}?${this.tableMxFetchQuery}`
       this.$router.replace(path)
-    },
+    },*/
     tableMxFetch () {
-      let url = `${this.routingMxListUrl}?${this.tableMxFetchQuery}`
+      let url = `${this.routingMxListUrl}?${this.fetchQuery}`
       let config = {
         method: 'get',
         url: url

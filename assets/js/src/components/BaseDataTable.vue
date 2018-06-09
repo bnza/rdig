@@ -1,6 +1,7 @@
 <script>
   import RSTableMx from '../mixins/RSTableMx'
   import TableMx from '../mixins/TableMx'
+  import QueryMx from '../mixins/QueryMx'
   import BaseDataComponent from './BaseDataComponent'
   import qs from 'qs'
 
@@ -13,14 +14,14 @@
     ],
     data () {
       return {
-        pagination: {
+/*        pagination: {
           page: 1,
           rowsPerPage: 25,
           sortBy: 'id',
           descending: false
         },
         dirty: false,
-        loaded: false,
+        loaded: false,*/
         items: [],
         totalItems: 0
       }
@@ -36,14 +37,14 @@
           this.loaded = !value
         }
       },
-      searchCriteria: {
+      /*searchCriteria: {
         get () {
           return this.uuidMxGet('searchCriteria')
         },
         set (value) {
           this.uuidMxSet('searchCriteria', value)
         }
-      }
+      }*/
     },
     methods: {
       fetch () {
@@ -81,7 +82,7 @@
       }
     },
     watch: {
-      pagination: {
+      /*pagination: {
         handler (value, oldValue) {
           if (!this.dirty) {
             this.navigateToQuery()
@@ -98,14 +99,14 @@
           }
         },
         deep: true
-      },
+      },*/
       reload (flag) {
         if (flag) {
           this.fetch()
         }
       }
     },
-    created () {
+    /*created () {
       const pagination = this.paginationFromFullPath
       const searchCriteria = this.searchCriteriaFromFullPath
       if (pagination && searchCriteria) {
@@ -118,7 +119,6 @@
       } else if (pagination) {
         this.pagination = pagination
       }
-
-    }
+    }*/
   }
 </script>

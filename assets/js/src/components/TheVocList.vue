@@ -22,12 +22,14 @@
             :items="items"
             @delete="openDeleteDialog"
             @update="openEditDialog"
+            @pagination="setPagination"
         />
     </article>
 </template>
 
 <script>
   import UuidMx from '../mixins/UuidMx'
+  import QueryMx from '../mixins/QueryMx'
   import ListVocToolbar from './ListVocToolbar'
   import BaseVocDataTable from './BaseVocDataTable'
   import BaseVocDeleteDialog from './BaseVocDeleteDialog'
@@ -42,6 +44,7 @@
       BaseVocEditDialog
     },
     mixins: [
+      QueryMx,
       UuidMx
     ],
     data () {
@@ -50,7 +53,13 @@
         isDeleteDialogOpen: false,
         isEditDialogOpen: false,
         item: {},
-        items: []
+        items: [],
+        totalItems: 0
+      }
+    },
+    computed: {
+      vocabulary () {
+        return this.$route.params.type  + this.$route.params.name
       }
     },
     methods: {
@@ -58,7 +67,7 @@
         this.isRequestPending = true
         const config = {
           method: 'get',
-          url: `voc/${this.$route.params.type}/${this.$route.params.name}`
+          url: `voc/${this.$route.params.type}/${this.$route.params.name}?${this.fetchQuery}`
         }
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
@@ -70,6 +79,9 @@
             this.isRequestPending = false
           }
         )
+      },
+      setPagination (pagination) {
+        this.pagination = pagination
       },
       openDeleteDialog(item) {
         this.item = item
@@ -145,8 +157,14 @@
         )
       }
     },
-    created() {
-      this.fetch()
+    watch: {
+      vocabulary: {
+        handler (value, oldValue) {
+          if (value !== oldValue) {
+            this.fetch()
+          }
+        }
+      }
     }
   }
 </script>
