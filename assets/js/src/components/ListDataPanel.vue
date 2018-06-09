@@ -142,7 +142,6 @@
       setDataListComponentUuid(uuid) {
         this.setDataComponentUuid(uuid)
         this.$listeners.listDataComponentCreated(uuid)
-        //this.$emit('listDataComponentCreated', uuid)
       }
     }
   }

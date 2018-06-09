@@ -40,7 +40,7 @@
                     flat
                     color="indigo darken-4"
                     @click.native="runJob"
-                    :disabled="!totalSelectedItem && !requestPending"
+                    :disabled="!totalSelectedItem && !isRequestPending"
                 >
                     Download
                 </v-btn>

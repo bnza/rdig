@@ -341,6 +341,11 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Fragments',
+          value: 'fragments',
+          class: 'subheading'
+        },
+        {
           text: 'Coord N',
           value: 'coordN',
           class: 'subheading'

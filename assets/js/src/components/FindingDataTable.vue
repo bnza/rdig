@@ -134,7 +134,7 @@
       },
       openDownloadModal () {
         this.uuidMxSet('totalSelectedItem', this.totalItems, 'the-download-modal')
-        let path = `${this.routingMxBasePath}/download`
+        let path = `/data/${this.$route.params.table}/download`
         this.$router.push(path)
       }
     }

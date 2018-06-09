@@ -36,6 +36,10 @@ abstract class AbstractCsvExportEntityToFileTask extends AbstractCsvExportToFile
             $value = $value[$keys[$i]];
         }
 
+        if ($value instanceof \DateTime) {
+            $value = $value->format('d/m/y');
+        }
+
         return $value;
     }
 

@@ -161,6 +161,13 @@ class Object extends AbstractFinding
     private $conservationYear;
 
     /**
+     * @var int
+     * @Assert\Type("integer")
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $fragments;
+
+    /**
      * @var float
      * @Assert\Type("float")
      * @ORM\Column(type="float", nullable=true)
@@ -210,6 +217,22 @@ class Object extends AbstractFinding
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $etutluk;
+
+    /**
+     * @return int
+     */
+    public function getFragments(): int
+    {
+        return $this->fragments;
+    }
+
+    /**
+     * @param int $fragments
+     */
+    public function setFragments($fragments): void
+    {
+        $this->fragments = $fragments;
+    }
 
     /**
      * @return mixed

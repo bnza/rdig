@@ -54,7 +54,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs2>
+            <v-flex xs3>
                 <v-text-field
                     readonly
                     label="Number (bucket)"
@@ -62,7 +62,7 @@
                     class="text-strong"
                 />
             </v-flex>
-            <v-flex xs2>
+            <v-flex xs3>
                 <v-text-field
                     readonly
                     label="Number (site)"
@@ -70,8 +70,11 @@
                     class="text-strong"
                 />
             </v-flex>
-            <v-flex xs4 align-end>
+            <v-flex xs3>
                 <v-text-field readonly label="Date of retrieval" :value="retievalDate"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Fragments" :value="item.fragments"/>
             </v-flex>
         </v-layout>
         <v-layout row wrap>

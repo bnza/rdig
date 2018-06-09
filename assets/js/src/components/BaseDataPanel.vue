@@ -26,9 +26,9 @@
        * e.g. this.$emit('forward', 'theDataComponentMethodName', 'firstArg', 'secondArg')
        */
       forwardEventToDataComponent () {
-        if (this.dataComponent) {
+        if (this.$refs.dataComponent) {
           let args = [...arguments]
-          this.dataComponent[args.splice(0,1)](args || undefined)
+          this.$refs.dataComponent[args.splice(0,1)](args || undefined)
         }
       }
     }

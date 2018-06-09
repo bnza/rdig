@@ -146,6 +146,11 @@
                 {{ getVocabularyValue(props.item.preservation) }}
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Fragments')"
+            >
+                {{ props.item.fragments }}
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Coord N')"
             >
                 {{ props.item.coordN }}

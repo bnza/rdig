@@ -249,6 +249,22 @@
                         single-line
                         bottom
                         :items="operators.text"
+                        v-model="search_['type.value'].op"
+                        item-text="symbol"
+                        item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Type" v-model="search_['type.value'].value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                        label="Operator"
+                        single-line
+                        bottom
+                        :items="operators.text"
                         v-model="search_['chronology.value'].op"
                         item-text="symbol"
                         item-value="value"
