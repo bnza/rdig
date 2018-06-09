@@ -166,11 +166,6 @@
                 {{ props.item.coordZ }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Fragments')"
-            >
-                {{ props.item.fragments }}
-            </td>
-            <td
                 v-if="rsTableMxHeaderIsVisible('Height')"
             >
                 {{ props.item.height }}

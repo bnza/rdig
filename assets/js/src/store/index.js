@@ -361,11 +361,6 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Fragments',
-          value: 'fragments',
-          class: 'subheading'
-        },
-        {
           text: 'Height',
           value: 'height',
           class: 'subheading'
