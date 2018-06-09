@@ -231,7 +231,7 @@ class Object extends AbstractFinding
      */
     public function setFragments($fragments): void
     {
-        $this->fragments = $fragments;
+        $this->fragments = (int) $fragments;
     }
 
     /**
