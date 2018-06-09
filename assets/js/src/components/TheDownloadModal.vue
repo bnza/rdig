@@ -110,7 +110,7 @@
         this.isRequestPending = true
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
-            const filename = response.headers['content-disposition'].match(/filename=\"([\w|\.]+)/)[1]
+            const filename = response.headers['content-disposition'].match(/filename=\"?([\w|\.]+)/)[1]
             fileDownload(response.data, filename)
             this.isRequestPending = false
             this.closeDialog()
