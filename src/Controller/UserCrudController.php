@@ -65,7 +65,7 @@ class UserCrudController extends AbstractCrudDataController
         $user = new User();
         $data = json_decode($request->getContent(), true);
         $user->setUsername($data['username']);
-        $roles = $data['roles'];
+        $roles = array_key_exists('roles',$data) ? $data['roles'] : [];
         array_unshift($roles, 'ROLE_USER');
         $user->setRoles($roles);
         $user->setPassword($this->encoder->encodePassword($user, $data['password']));
