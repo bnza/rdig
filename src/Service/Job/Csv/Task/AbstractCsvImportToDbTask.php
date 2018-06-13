@@ -24,6 +24,8 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
 {
     use UtilTrait;
 
+    const CHUNK_SIZE = 1000;
+
     /**
      * @var array
      */
@@ -38,6 +40,11 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
      * @var ValidatorInterface
      */
     protected $validator;
+
+    /**
+     * @var int
+     */
+    protected $persistCount = 0;
 
     public function __construct(JobInterface $job, EntityManagerInterface $dataEm, ValidatorInterface $validator)
     {
@@ -135,6 +142,13 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
         }
 
         $this->getDataEntityManager()->persist($entity);
+        if ($this->persistCount % self::CHUNK_SIZE === 0) {
+            $this->flush();
+        }
+    }
+
+    protected function flush()
+    {
         $this->getDataEntityManager()->flush();
     }
 
@@ -342,10 +356,11 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
             }*/
             $this->job->getDispatcher()->dispatch(JobEvents::TASK_STEP_TERMINATED, new TaskEvent($this));
         }
+        $this->flush();
         if ($errors) {
-        /*    throw new \Exception(
-                sprintf("Failed to insert %d rows\nSee %s for details", $errors, $this->job->getImportErrorsPath())
-            );*/
+            /*    throw new \Exception(
+                    sprintf("Failed to insert %d rows\nSee %s for details", $errors, $this->job->getImportErrorsPath())
+                );*/
         }
     }
 
