@@ -1,9 +1,7 @@
 <script>
   import RSTableMx from '../mixins/RSTableMx'
   import TableMx from '../mixins/TableMx'
-  import QueryMx from '../mixins/QueryMx'
   import BaseDataComponent from './BaseDataComponent'
-  import qs from 'qs'
 
   export default {
     name: 'base-data-table',
@@ -14,14 +12,6 @@
     ],
     data () {
       return {
-/*        pagination: {
-          page: 1,
-          rowsPerPage: 25,
-          sortBy: 'id',
-          descending: false
-        },
-        dirty: false,
-        loaded: false,*/
         items: [],
         totalItems: 0
       }
@@ -37,14 +27,6 @@
           this.loaded = !value
         }
       },
-      /*searchCriteria: {
-        get () {
-          return this.uuidMxGet('searchCriteria')
-        },
-        set (value) {
-          this.uuidMxSet('searchCriteria', value)
-        }
-      }*/
     },
     methods: {
       fetch () {
@@ -78,47 +60,18 @@
         return `${context.type}.${context.num}`
       },
       getFindingCode (finding) {
-        return `${this.getBucketCode(finding.bucket)}.${finding.num}`
+        const siteCode = finding.bucket.campaign.site.code;
+        const campaignYear = `${finding.bucket.campaign.year}`.substr(-2)
+        let num = finding.type === 'S' ? `sample${finding.num}` : finding.num
+        return `${siteCode}.${campaignYear}.P.${finding.bucket.num}/${num}`
       }
     },
     watch: {
-      /*pagination: {
-        handler (value, oldValue) {
-          if (!this.dirty) {
-            this.navigateToQuery()
-            this.fetch()
-          }
-        },
-        deep: true
-      },
-      searchCriteria: {
-        handler (value, oldValue) {
-          if (!this.dirty) {
-            this.navigateToQuery()
-            this.fetch()
-          }
-        },
-        deep: true
-      },*/
       reload (flag) {
         if (flag) {
           this.fetch()
         }
       }
     },
-    /*created () {
-      const pagination = this.paginationFromFullPath
-      const searchCriteria = this.searchCriteriaFromFullPath
-      if (pagination && searchCriteria) {
-        this.dirty = true
-        this.pagination = pagination
-        this.dirty = false
-        this.searchCriteria = searchCriteria
-      }  else if (searchCriteria) {
-        this.searchCriteria = searchCriteria
-      } else if (pagination) {
-        this.pagination = pagination
-      }
-    }*/
   }
 </script>
