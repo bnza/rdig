@@ -7,6 +7,16 @@
         :loading="isRequestPending"
         :rows-per-page-items="[10, 25, 50]"
     >
+        <template slot="no-data">
+            <v-alert :value="true" outline color="info" icon="info">
+                No data
+            </v-alert>
+        </template>
+        <template slot="no-results">
+            <v-alert :value="true" outline color="info" icon="info">
+                No matching items found
+            </v-alert>
+        </template>
         <template slot="items" slot-scope="props">
             <td class="justify-center layout px-0">
                 <v-tooltip bottom>
