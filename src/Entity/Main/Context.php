@@ -60,6 +60,13 @@ class Context implements SiteRelateEntityInterface
     private $area;
 
     /**
+     * @var VocFChronology
+     * @ORM\ManyToOne(targetEntity="VocFChronology")
+     * @ORM\JoinColumn(name="chronology", referencedColumnName="id", nullable=true, onDelete="NO ACTION")
+     */
+    private $chronology;
+
+    /**
      * One Site has Many Areas.
      * @ORM\OneToMany(targetEntity="Bucket", mappedBy="context")
      */
@@ -124,6 +131,22 @@ class Context implements SiteRelateEntityInterface
     }
 
     /**
+     * @return VocFChronology
+     */
+    public function getChronology(): VocFChronology
+    {
+        return $this->chronology;
+    }
+
+    /**
+     * @param VocFChronology $chronology
+     */
+    public function setChronology(VocFChronology $chronology): void
+    {
+        $this->chronology = $chronology;
+    }
+
+    /**
      * @return string
      */
     public function getDescription(): string
@@ -134,7 +157,7 @@ class Context implements SiteRelateEntityInterface
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
+    public function setDescription($description): void
     {
         $this->description = $description;
     }

@@ -9,7 +9,7 @@
             item-text="name"
             item-value="id"
             :error-messages="areaIdErrors"
-            :search-input.sync="search"
+            :search-input.sync="searchArea"
             @blur="formMxValidate('areaId')"
             autocomplete
         />
@@ -53,6 +53,29 @@
                     readonly
                 />
             </v-flex>
+            <v-flex xs12>
+                <v-select
+                    label="Chronology"
+                    bottom
+                    :items="vocabularies.f.chronology"
+                    v-model="vocabularyChronology"
+                    item-text="value"
+                    item-value="id"
+                    :search-input.sync="searchVocChronology"
+                    @blur="formMxValidate('chronology')"
+                    autocomplete
+                    return-object
+                />
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex align-start xs12>
+                <v-text-field
+                    textarea
+                    label="Description"
+                    v-model="item.description"
+                    @blur="formMxValidate('description')"/>
+            </v-flex>
         </v-layout>
     </v-form>
 </template>
@@ -61,8 +84,8 @@
   import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
   import AreaReadFieldsItem from './AreaReadFieldsItem'
-  import { validationMixin } from 'vuelidate'
-  import { required, maxLength } from 'vuelidate/lib/validators'
+  import {validationMixin} from 'vuelidate'
+  import {required, maxLength} from 'vuelidate/lib/validators'
   import {debounce} from '../util'
 
   export default {
@@ -74,60 +97,71 @@
     mixins: [
       validationMixin
     ],
-    data () {
+    data() {
       return {
         areas: [],
-        search: null,
+        searchArea: null,
+        searchVocChronology: null,
         loading: false
       }
     },
     validations: {
-      areaId: { required },
-      type: { required }
+      areaId: {required},
+      type: {required},
+      chronology: {},
+      description: {}
     },
     computed: {
       area: {
-        get () {
-          return this.item.area || { site: {} }
+        get() {
+          return this.item.area || {site: {}}
         },
-        set (value) {
+        set(value) {
           Vue.set(this.item, 'area', value)
         }
       },
       areaId: {
-        get () {
+        get() {
           return this.item.area ? this.item.area.id : undefined
         },
-        set (value) {
+        set(value) {
           if (!this.item.area) {
             Vue.set(this.item, 'area', {})
           }
           Vue.set(this.item.area, 'id', value)
         }
       },
+      vocabularyChronology: {
+        get() {
+          return this.item.chronology ? this.item.chronology : {}
+        },
+        set(value) {
+          Vue.set(this.item, 'chronology', value)
+        }
+      },
       type: {
-        get () {
+        get() {
           return this.item.type
         },
-        set (value) {
+        set(value) {
           Vue.set(this.item_, 'type', value.toUpperCase())
         }
       },
       num: {
-        get () {
+        get() {
           return this.item.num
         },
-        set (value) {
+        set(value) {
           Vue.set(this.item, 'num', value)
         }
       },
-      typeErrors () {
+      typeErrors() {
         const errors = []
         if (!this.$v.type.$dirty) return errors
         !this.$v.type.required && errors.push('Context type is required.')
         return errors
       },
-      areaIdErrors () {
+      areaIdErrors() {
         const errors = []
         if (!this.$v.areaId.$dirty) return errors
         !this.$v.areaId.required && errors.push('Area is required.')
@@ -135,33 +169,40 @@
       }
     },
     watch: {
-      search (val) {
+      // select values MUST be set for showing text
+      item (val) {
+        if (val.chronology && !this.vocabularies.f.chronology) {
+          Vue.set(this.vocabularies.f, 'chronology', [this.item.chronology])
+        }
+      },
+      searchArea (val) {
         val && this.fetchAreas(val)
+      },
+      searchVocChronology (val) {
+        val && this.fetchVocabulary('f', 'chronology', val)
       }
     },
     methods: {
-    fetchAreas : debounce(function (pattern) {
-       this.loading = true
-       if (typeof pattern === 'string') {
-         const config = {
-           method: 'get',
-           url: `data/area?re=${pattern}`
-         }
-         this.$store.dispatch('requests/perform', config).then(
-           (response) => {
-             this.loading = false
-             this.areas = response.data
-           }
-         ).catch(
-           (error) => {
-             this.loading = false
-           }
-         )
-       }
-       }, 250)
-    },
-    mounted () {
-      if (!this.areaId && this.parent__) {
+      fetchAreas: debounce(function (pattern) {
+        this.loading = true
+        if (typeof pattern === 'string') {
+          const config = {
+            method: 'get',
+            url: `data/area?re=${pattern}`
+          }
+          this.$store.dispatch('requests/perform', config).then(
+            (response) => {
+              this.loading = false
+              this.areas = response.data
+            }
+          ).catch(
+            (error) => {
+              this.loading = false
+            }
+          )
+        }
+      }, 250),
+      fetchArea () {
         const config = {
           method: 'get',
           url: `data/area/${this.parent__.id}`
@@ -175,6 +216,11 @@
             this.loading = false
           }
         )
+      }
+    },
+    mounted() {
+      if (!this.areaId && this.parent__) {
+        this.fetchArea()
       }
     }
   }

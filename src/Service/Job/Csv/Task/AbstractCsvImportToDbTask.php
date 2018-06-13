@@ -108,7 +108,8 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
             'context.description' => 'loci description',
             'context.type' => 'locus type',
             'bucket.num' => 'bucket',
-            'finding.remarks' => 'remarks'
+            'finding.remarks' => 'remarks',
+            'context.chronology' => 'date of context'
         ];
     }
 
@@ -235,10 +236,17 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
         $context = $area->getContexts()->matching($criteria)->first();
         if (!$context) {
             $type = strtoupper($this->getRecordValue('context.type', $record));
+
+
             $context = new Context();
             $context->setArea($area);
             $context->setNum($num);
             $context->setType($type);
+            $chronologyValue = trim($this->getRecordValue('context.chronology', $record));
+            if ($chronologyValue) {
+                $chronologyVoc = $this->getVocabulary('voc.f.chronology.value', $chronologyValue);
+                $context->setChronology($chronologyVoc);
+            }
             $description = $this->getRecordValue('context.description', $record);
             if ($description) {
                 $context->setDescription($description);

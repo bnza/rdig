@@ -74,6 +74,11 @@
                 {{ props.item.type }}
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Chronology')"
+            >
+                {{ getVocabularyValue(props.item.chronology) }}
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Num')"
                 class="text-xs-right"
             >

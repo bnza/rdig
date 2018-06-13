@@ -1,6 +1,9 @@
 <script>
+  import Vue from 'vue'
   import BaseDataComponent from './BaseDataComponent'
   import FormMx from '../mixins/FormMx'
+  import {debounce} from '../util'
+
   export default {
     name: 'base-data-form',
     extends: BaseDataComponent,
@@ -17,7 +20,13 @@
     },
     data () {
       return {
-        item_: {}
+        item_: {},
+        vocabularies: {
+          f: {},
+          o: {},
+          p: {},
+          s: {}
+        }
       }
     },
     computed: {
@@ -34,6 +43,25 @@
       }
     },
     methods: {
+      fetchVocabulary : debounce(function (type, name, pattern) {
+        this.loading = true
+        if (typeof pattern === 'string') {
+          const config = {
+            method: 'get',
+            url: `voc/${type}/${name}/re/${pattern}`
+          }
+          this.$store.dispatch('requests/perform', config).then(
+            (response) => {
+              this.loading = false
+              Vue.set(this.vocabularies[type], name, response.data)
+            }
+          ).catch(
+            (error) => {
+              this.loading = false
+            }
+          )
+        }
+      }, 250),
       update () {
         this.formMxUpdate().then(
           () => {

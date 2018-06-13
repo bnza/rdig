@@ -134,14 +134,18 @@ export const state = {
         {
           text: 'Area',
           value: 'area.code',
-          class: 'subheading',
-          width: '10%'
+          class: 'subheading'
         },
         {
           text: 'Type',
           value: 'type',
           class: 'subheading',
           width: '10%'
+        },
+        {
+          text: 'Chronology',
+          value: 'chronology.value',
+          class: 'subheading'
         },
         {
           text: 'Num',

@@ -65,6 +65,33 @@ class VocabularyController extends AbstractCrudController
     }
 
     /**
+     * @Route("/{type}/{name}/re/{pattern}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+", "pattern" = ".+"})
+     * @Method({"GET"})
+     *
+     * @param string $name
+     * @param string $type
+     * @param string $pattern
+     *
+     * @return JsonResponse
+     *
+     * @throws CrudException
+     */
+    public function regexp(string $name, string $type, string $pattern)
+    {
+        $repo = $this->getRepository($this->getEntityClass($type, $name));
+        $results = $repo
+            ->createQueryBuilder('e')
+            ->orderBy('e.value')
+            ->where('e.value LIKE :pattern')
+            ->setMaxResults(10)
+            ->setParameter('pattern', "%$pattern%")
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return new JsonResponse($results);
+    }
+
+    /**
      * @Route("/{type}/{name}", name="voc_create", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+"})
      * @Method({"POST"})
      *
