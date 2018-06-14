@@ -74,6 +74,12 @@
                 {{ props.item.type }}
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Type of context')"
+                class="text-xs-right"
+            >
+                {{ props.item.cType }}
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Chronology')"
             >
                 {{ getVocabularyValue(props.item.chronology) }}

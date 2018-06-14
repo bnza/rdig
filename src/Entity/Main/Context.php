@@ -38,6 +38,13 @@ class Context implements SiteRelateEntityInterface
     private $type = "F";
 
     /**
+     * @var int
+     * @Assert\Type("integer")
+     * @ORM\Column(type="smallint", nullable=true, options={"unsigned" = true})
+     */
+    private $cType;
+
+    /**
      * @Assert\NotBlank()
      * @ORM\Column(type="integer", nullable=false, options={"unsigned" = true})
      */
@@ -115,6 +122,27 @@ class Context implements SiteRelateEntityInterface
     }
 
     /**
+     * @return int
+     */
+    public function getCType(): int
+    {
+        return $this->cType;
+    }
+
+    /**
+     * @param int $cType
+     */
+    public function setCType($cType): void
+    {
+        if (!$cType) {
+            $cType = null;
+        } else {
+            $cType = (int) $cType;
+        }
+        $this->cType = $cType;
+    }
+
+    /**
      * @return mixed
      */
     public function getNum()
@@ -141,7 +169,7 @@ class Context implements SiteRelateEntityInterface
     /**
      * @param VocFChronology $chronology
      */
-    public function setChronology(VocFChronology $chronology): void
+    public function setChronology($chronology): void
     {
         $this->chronology = $chronology;
     }

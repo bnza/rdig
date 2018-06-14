@@ -140,7 +140,11 @@ export const state = {
           text: 'Type',
           value: 'type',
           class: 'subheading',
-          width: '10%'
+        },
+        {
+          text: 'Type of context',
+          value: 'cType',
+          class: 'subheading',
         },
         {
           text: 'Chronology',

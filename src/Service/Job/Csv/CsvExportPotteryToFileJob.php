@@ -41,8 +41,12 @@ class CsvExportPotteryToFileJob extends AbstractCsvExportFindingToFileJob
         'base diameter' => 'baseDiameter',
         'general height' => 'height',
         'date of sherd' => 'chronology.value',
+        'date of context' => 'bucket.context.chronology.value',
         'drawing number' => 'drawingNumber',
         'restored' => 'restored',
+        'pottery location' => 'location',
+        'envanterlik' => 'envanterlik',
+        'etutluk' => 'etutluk',
         'loci description' => 'bucket.context.description',
         ];
 

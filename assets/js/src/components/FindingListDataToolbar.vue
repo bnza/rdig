@@ -32,7 +32,7 @@
             </v-tooltip>
             <v-tooltip bottom>
                 <v-btn
-                    v-if="$store.getters['account/isAuthenticated']"
+                    v-if="!parent__ && $store.getters['account/isAuthenticated']"
                     icon
                     flat
                     @click="openDownloadModal"

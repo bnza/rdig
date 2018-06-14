@@ -53,7 +53,9 @@
           this.$store.dispatch('requests/perform', config).then(
             (response) => {
               this.loading = false
-              Vue.set(this.vocabularies[type], name, response.data)
+              // Prepend empty item
+              let data = [{id: '', value: ''}, ...response.data]
+              Vue.set(this.vocabularies[type], name, data)
             }
           ).catch(
             (error) => {

@@ -183,7 +183,73 @@ class Pottery extends AbstractFinding
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
+    private $envanterlik;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $etutluk;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $location;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     private $restored;
+
+    /**
+     * @return bool
+     */
+    public function isEnvanterlik(): bool
+    {
+        return $this->envanterlik;
+    }
+
+    /**
+     * @param bool $envanterlik
+     */
+    public function setEnvanterlik($envanterlik): void
+    {
+        $this->envanterlik = (bool) $envanterlik;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEtutluk(): bool
+    {
+        return $this->etutluk;
+    }
+
+    /**
+     * @param bool $etutluk
+     */
+    public function setEtutluk($etutluk): void
+    {
+        $this->etutluk = (bool) $etutluk;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation($location): void
+    {
+        $this->location = $location;
+    }
 
     /**
      * @return string

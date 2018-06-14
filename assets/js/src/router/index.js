@@ -187,6 +187,16 @@ export const dataRoutes = {
       props: true
     },
     {
+      path: ':id(\\d+)/:childTable/:action(download)',
+      name: 'data_child_list_download',
+      components: {
+        default: TheDataItem,
+        modal: TheDownloadModal
+      },
+      beforeEnter: authorizeRoute,
+      props: true
+    },
+    {
       path: ':id(\\d+)/:childTable/:childId(\\d+)/:action(read)',
       name: 'data_child_item_read',
       redirect: '/:prefix/:childTable/:childId/read'

@@ -42,30 +42,7 @@ class VocabularyController extends AbstractCrudController
     }
 
     /**
-     * @Route("/{type}/{name}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+"})
-     * @Method({"GET"})
-     *
-     * @param string $name
-     * @param string $type
-     *
-     * @return JsonResponse
-     *
-     * @throws CrudException
-     */
-    public function list(string $name, string $type)
-    {
-        $repo = $this->getRepository($this->getEntityClass($type, $name));
-        $results = $repo
-            ->createQueryBuilder('e')
-            ->orderBy('e.value')
-            ->getQuery()
-            ->getResult(Query::HYDRATE_ARRAY);
-
-        return new JsonResponse($results);
-    }
-
-    /**
-     * @Route("/{type}/{name}/re/{pattern}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+", "pattern" = ".+"})
+     * @Route("/{type}/{name}/re/{pattern}", name="voc_regexp", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+", "pattern" = ".+"})
      * @Method({"GET"})
      *
      * @param string $name
@@ -85,6 +62,29 @@ class VocabularyController extends AbstractCrudController
             ->where('e.value LIKE :pattern')
             ->setMaxResults(10)
             ->setParameter('pattern', "%$pattern%")
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return new JsonResponse($results);
+    }
+
+    /**
+     * @Route("/{type}/{name}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+"})
+     * @Method({"GET"})
+     *
+     * @param string $name
+     * @param string $type
+     *
+     * @return JsonResponse
+     *
+     * @throws CrudException
+     */
+    public function list(string $name, string $type)
+    {
+        $repo = $this->getRepository($this->getEntityClass($type, $name));
+        $results = $repo
+            ->createQueryBuilder('e')
+            ->orderBy('e.value')
             ->getQuery()
             ->getResult(Query::HYDRATE_ARRAY);
 

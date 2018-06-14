@@ -45,12 +45,22 @@
                     @blur="formMxValidate('type')"
                 />
             </v-flex>
-            <v-flex xs9>
+            <v-flex xs6>
                 <v-text-field
                     label="Num"
                     type="text"
                     v-model="num"
                     readonly
+                />
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field
+                    label="Type of context"
+                    type="number"
+                    v-model="item.cType"
+                    :error-messages="cTypeErrors"
+                    @input="formMxValidate('cType')"
+                    @blur="formMxValidate('cType')"
                 />
             </v-flex>
             <v-flex xs12>
@@ -85,7 +95,7 @@
   import BaseDataForm from './BaseDataForm'
   import AreaReadFieldsItem from './AreaReadFieldsItem'
   import {validationMixin} from 'vuelidate'
-  import {required, maxLength} from 'vuelidate/lib/validators'
+  import {required, between} from 'vuelidate/lib/validators'
   import {debounce} from '../util'
 
   export default {
@@ -109,7 +119,8 @@
       areaId: {required},
       type: {required},
       chronology: {},
-      description: {}
+      description: {},
+      cType: {between: between(1, 3)}
     },
     computed: {
       area: {
@@ -136,6 +147,9 @@
           return this.item.chronology ? this.item.chronology : {}
         },
         set(value) {
+          if (value.id === '') {
+            value = null
+          }
           Vue.set(this.item, 'chronology', value)
         }
       },
@@ -166,7 +180,13 @@
         if (!this.$v.areaId.$dirty) return errors
         !this.$v.areaId.required && errors.push('Area is required.')
         return errors
-      }
+      },
+      cTypeErrors() {
+        const errors = []
+        //if (!this.$v.cType.$dirty) return errors
+        !this.$v.cType.between && errors.push('Type of context value must be comprised between 1 and 3')
+        return errors
+      },
     },
     watch: {
       // select values MUST be set for showing text

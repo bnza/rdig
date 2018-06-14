@@ -79,7 +79,8 @@
         this.$router.go(-1)
       },
       runJob () {
-        let url = `job/csv/export/${this.$route.params.table}/create`
+        let table = this.$route.params.hasOwnProperty('childTable') ? this.$route.params.childTable : this.$route.params.table
+        let url = `job/csv/export/${table}/create`
         let config = {
           method: 'get',
           url: url
@@ -101,8 +102,8 @@
       },
       downloadCsv () {
         let query = this.$route.fullPath.match(/\?(.*)$/)
-
-        let url = `job/csv/export/${this.$route.params.table}/run/${this.job.hash}?${query}`
+        let table = this.$route.params.hasOwnProperty('childTable') ? this.$route.params.childTable : this.$route.params.table
+        let url = `job/csv/export/${table}/run/${this.job.hash}?${query}`
         let config = {
           method: 'get',
           url: url

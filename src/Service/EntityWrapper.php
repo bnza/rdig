@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\CrudEntityInterface;
+use App\Exceptions\NotFoundCrudException;
 use App\Exceptions\NotFoundEntityCrudException;
 use Doctrine\Common\Util;
 use Doctrine\ORM\Mapping\Entity;
