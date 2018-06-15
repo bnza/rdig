@@ -19,11 +19,29 @@
                 <v-icon>more_vert</v-icon>
             </v-btn>
             <v-list>
-                <v-list-tile
+                <!--<v-list-tile
                     v-if="item"
                     @click="setChildTable(childSpecTable)"
                 >
                     <v-list-tile-title>{{ capitalize(childSpecTable) }}</v-list-tile-title>
+                </v-list-tile>-->
+                <v-list-tile
+                    v-if="item"
+                    @click="setChildTable('object')"
+                >
+                    <v-list-tile-title>Object</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile
+                    v-if="item"
+                    @click="setChildTable('pottery')"
+                >
+                    <v-list-tile-title>Pottery</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile
+                    v-if="item"
+                    @click="setChildTable('sample')"
+                >
+                    <v-list-tile-title>Sample</v-list-tile-title>
                 </v-list-tile>
             </v-list>
         </v-menu>

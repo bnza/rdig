@@ -56,11 +56,17 @@
                 </v-tooltip>
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Code')"
+                v-if="rsTableMxHeaderIsVisible('Field Code')"
+                class="text-xs-right"
+            >
+                {{ getFindingFieldCode(props.item) }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Reg Code')"
                 class="text-xs-right"
             >
                 <strong>
-                    {{ getFindingCode(props.item) }}
+                    {{ getFindingRegCode(props.item) }}
                 </strong>
             </td>
             <td
@@ -94,10 +100,16 @@
                 {{ props.item.group }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Num')"
+                v-if="rsTableMxHeaderIsVisible('Field no')"
                 class="text-xs-right"
             >
                 {{ props.item.num }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Reg no')"
+                class="text-xs-right"
+            >
+                {{ props.item.no }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Type')"

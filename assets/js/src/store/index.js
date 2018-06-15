@@ -635,7 +635,12 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Code',
+          text: 'Field Code',
+          value: 'site.code',
+          class: 'subheading'
+        },
+        {
+          text: 'Reg Code',
           value: 'site.code',
           class: 'subheading'
         },
@@ -655,8 +660,13 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Num',
+          text: 'Field no',
           value: 'num',
+          class: 'subheading'
+        },
+        {
+          text: 'Reg no',
+          value: 'no',
           class: 'subheading'
         },
         {

@@ -60,7 +60,7 @@
                 class="text-xs-right"
             >
                 <strong>
-                    {{ getFindingCode(props.item) }}
+                    {{ getFindingFieldCode(props.item) }}
                 </strong>
             </td>
             <td

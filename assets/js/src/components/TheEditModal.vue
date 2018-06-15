@@ -77,6 +77,10 @@
         /* webpackChunkName: "PotteryEditDataForm" */
         './PotteryEditDataForm'
         ),
+      SampleEditDataForm: () => import(
+        /* webpackChunkName: "SampleEditDataForm" */
+        './SampleEditDataForm'
+        ),
       SiteEditDataForm: () => import(
         /* webpackChunkName: "SiteEditDataForm" */
         './SiteEditDataForm'

@@ -75,7 +75,7 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
     /**
      * @param VocFChronology $chronology
      */
-    public function setChronology(VocFChronology $chronology): void
+    public function setChronology(VocFChronology $chronology = null): void
     {
         $this->chronology = $chronology;
     }

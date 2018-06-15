@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Exceptions\NotFoundEntityCrudException;
+use App\Repository\BucketRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DataCrudController extends AbstractCrudDataController
@@ -41,5 +42,28 @@ class DataCrudController extends AbstractCrudDataController
             ]);
         }
         return new JsonResponse(['error' =>"No $entityName with ID = $id"], 400);
+    }
+
+    /**
+     * @param BucketRepository $repo
+     * @param string $subject
+     *
+     * @return JsonResponse
+     */
+    public function bucketRegexp(BucketRepository $repo, string $subject)
+    {
+        $results = $repo->getByCodePattern($subject);
+
+/*        $repo = $this->getRepository($this->getEntityClass('bucket'));
+        $results = $repo
+            ->createQueryBuilder('e')
+            ->orderBy('e.value')
+            ->where('e.value LIKE :pattern')
+            ->setMaxResults(10)
+            ->setParameter('pattern', "%$pattern%")
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);*/
+
+        return new JsonResponse($results);
     }
 }

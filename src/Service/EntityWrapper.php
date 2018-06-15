@@ -32,7 +32,8 @@ class EntityWrapper
         'sample' => 'App\Entity\Main\Sample',
         'object' => 'App\Entity\Main\Object',
         'pottery' => 'App\Entity\Main\Pottery',
-        'chronology' => 'App\Entity\Main\VocFChronology'
+        'chronology' => 'App\Entity\Main\VocFChronology',
+        'type' => 'App\Entity\Main\Voc%Type'
     ];
 
     /**
@@ -45,17 +46,21 @@ class EntityWrapper
         $this->em = $em;
     }
 
-    public function getEntityClass(string $entityClassKey)
+    public function getEntityClass(string $entityClassKey, string $vocType = "")
     {
         if (array_key_exists($entityClassKey, $this->entityClasses)) {
-            return $this->entityClasses[$entityClassKey];
+            $class = $this->entityClasses[$entityClassKey];
+            if ($vocType) {
+                $class = str_replace("%", strtoupper($vocType), $class);
+            }
+            return $class;
         }
         throw new NotFoundEntityCrudException($entityClassKey);
     }
 
-    public function getRepository(string $entityClassKey)
+    public function getRepository(string $entityClassKey, string $vocType = "")
     {
-        return $this->em->getRepository($this->getEntityClass($entityClassKey));
+        return $this->em->getRepository($this->getEntityClass($entityClassKey, $vocType));
     }
 
     /**
@@ -95,16 +100,19 @@ class EntityWrapper
             $data = json_decode($data, true);
         }
 
+        $vocType = array_key_exists('discr', $data) ? $data['discr'] : "";
+
         foreach ($data as $key => $value) {
             if ($key !== 'id') {
                 // value is an entity instance?
                 if (is_array($value) && array_key_exists('id', $value)) {
                     // TODO nest array_key_exists check
                     // retrieve it from repository
-                   $value = $this->getRepository($key)->find($value['id']);
+                   $value = $this->getRepository($key, $vocType)->find($value['id']);
                 }
                 $setMethod = 'set'.ucfirst($this->camelcase($key));
                 if (method_exists($this->entity, $setMethod)) {
+                    $value = $value === '' ? null : $value;
                     $this->entity->$setMethod($value);
                 }
             }

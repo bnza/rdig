@@ -59,11 +59,18 @@
       getContextCode (context) {
         return `${context.type}.${context.num}`
       },
-      getFindingCode (finding) {
+      getFindingFieldCode (finding) {
         const siteCode = finding.bucket.campaign.site.code;
         const campaignYear = `${finding.bucket.campaign.year}`.substr(-2)
-        let num = finding.type === 'S' ? `sample${finding.num}` : finding.num
+        let num = finding.discr === 'S' ? `sample${finding.num}` : finding.num
         return `${siteCode}.${campaignYear}.P.${finding.bucket.num}/${num}`
+      },
+      getFindingRegCode (finding) {
+        if (!finding.no) {
+          return undefined
+        }
+        const siteCode = finding.bucket.campaign.site.code;
+        return `${siteCode}.${finding.discr}.${finding.no}`
       }
     },
     watch: {

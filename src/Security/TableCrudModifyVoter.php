@@ -24,6 +24,9 @@ class TableCrudModifyVoter extends Voter
         'bucket' => ['ROLE_USER'],
         'campaign' => ['ROLE_ADMIN'],
         'context' => ['ROLE_USER'],
+        'object' => ['ROLE_USER'],
+        'pottery' => ['ROLE_USER'],
+        'sample' => ['ROLE_USER'],
         'user-allowed-sites' => ['ROLE_ADMIN']
     ];
 

@@ -61,7 +61,7 @@ class Sample extends AbstractFinding
     /**
      * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus($status): void
     {
         $this->status = $status;
     }
