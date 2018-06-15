@@ -4,13 +4,35 @@ namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Table(name="object", uniqueConstraints={
+ *      @ORM\UniqueConstraint(columns={"site", "no"})
+ * })
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ObjectRepository")
+ *
+ * @UniqueEntity(
+ *      fields={"site", "no"},
+ *      errorPath="no",
+ *      message="Duplicate registration number [{{ value }}] for this site "
+ * )
+ *
+ * @ORM\HasLifecycleCallbacks()
  */
 class Object extends AbstractFinding
 {
     /**
+     * @var Site
+     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\JoinColumn(name="site", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
+     */
+    private $site;
+
+    /**
+     * Registration number
      * @var integer
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -217,6 +239,22 @@ class Object extends AbstractFinding
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $etutluk;
+
+    /**
+     * @return Site
+     */
+    public function getSite(): Site
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param Site $site
+     */
+    public function setSite(Site $site): void
+    {
+        $this->site = $site;
+    }
 
     /**
      * @return int
@@ -699,6 +737,17 @@ class Object extends AbstractFinding
     public function setDecoration(VocODecoration $decoration): void
     {
         $this->decoration = $decoration;
+    }
+
+    /**
+     * Override site using the bucket one
+     * @ORM\PrePersist
+     * @param LifecycleEventArgs $event
+     */
+    public function setSiteByBucket(LifecycleEventArgs $event)
+    {
+        $finding = $event->getEntity();
+        $this->site = $finding->getBucket()->getContext()->getCampaign()->getSite();
     }
 
 }

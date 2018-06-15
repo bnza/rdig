@@ -2,7 +2,6 @@
 
 namespace App\Entity\Main;
 
-use function Couchbase\defaultDecoder;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -11,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FindingRepository")
  * @ORM\Table(name="finding", uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"bucket", "num"})
+ *      @ORM\UniqueConstraint(columns={"bucket", "discr", "num"})
  * })
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=1)
@@ -19,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *      fields={"bucket", "num"},
  *      errorPath="num",
- *      message="Duplicate finding number [{{ value }}] for this bucket "
+ *      message="Duplicate field number [{{ value }}] for this finding type in this bucket "
  * )
  * @ORM\HasLifecycleCallbacks()
  */
@@ -109,6 +108,10 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
      */
     public function setNum($num): void
     {
+        // Psuedo-numeric values (eg. 1, 1a) will formatted by leading zeros
+        if (preg_match('/\d+[[:alpha:]]?$/', $num)) {
+            $num = sprintf("%'.04s", $num);
+        }
         $this->num = $num;
     }
 
@@ -151,20 +154,20 @@ abstract class AbstractFinding implements SiteRelateEntityInterface
         ];
     }
 
-    /**
-     * @ORM\PrePersist
-     * @param LifecycleEventArgs $event
-     */
-    public function formatNum(LifecycleEventArgs $event)
-    {
-        $finding = $event->getEntity();
-        $num = $finding->getNum();
-        if (strlen((string) $num) > 4) {
-            throw new \InvalidArgumentException("Finding num must be max 4 char length $num given");
-        }
-        sprintf("%'.04s", $num);
-        $finding->setNum($num);
-    }
+//    /**
+//     * @ORM\PrePersist
+//     * @param LifecycleEventArgs $event
+//     */
+//    public function formatNum(LifecycleEventArgs $event)
+//    {
+//        $finding = $event->getEntity();
+//        $num = $finding->getNum();
+//        if (strlen((string) $num) > 4) {
+//            throw new \InvalidArgumentException("Finding num must be max 4 char length $num given");
+//        }
+//        sprintf("%'.04s", $num);
+//        $finding->setNum($num);
+//    }
 
     public function __toString()
     {

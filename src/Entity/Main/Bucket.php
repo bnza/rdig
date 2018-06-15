@@ -4,7 +4,6 @@ namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Prophecy\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,8 +47,8 @@ class Bucket implements SiteRelateEntityInterface
     private $type;
 
     /**
-     * @var Campaign
-     * Many Buckets have One Campaign.
+     * @var campaign
+     *               Many Buckets have One Campaign
      * @ORM\ManyToOne(targetEntity="Campaign", inversedBy="buckets")
      * @ORM\JoinColumn(name="campaign", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
@@ -69,8 +68,8 @@ class Bucket implements SiteRelateEntityInterface
     private $num;
 
     /**
-     * @var Context
-     * Many Buckets have One Context.
+     * @var context
+     *              Many Buckets have One Context
      * @ORM\ManyToOne(targetEntity="Context", inversedBy="buckets")
      * @ORM\JoinColumn(name="context", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
@@ -78,24 +77,27 @@ class Bucket implements SiteRelateEntityInterface
 
     /**
      * One Bucket has Many Findings.
+     *
      * @ORM\OneToMany(targetEntity="Pottery", mappedBy="bucket")
      */
     private $potteries;
 
     /**
      * One Bucket has Many Findings.
+     *
      * @ORM\OneToMany(targetEntity="Object", mappedBy="bucket")
      */
     private $objects;
 
     /**
      * One Bucket has Many Findings.
+     *
      * @ORM\OneToMany(targetEntity="Sample", mappedBy="bucket")
      */
     private $samples;
 
-
-    public function __construct() {
+    public function __construct()
+    {
         $this->potteries = new ArrayCollection();
         $this->objects = new ArrayCollection();
         $this->samples = new ArrayCollection();
@@ -199,7 +201,7 @@ class Bucket implements SiteRelateEntityInterface
     }
 
     /**
-     * @param Object $object
+     * @param object $object
      */
     public function addObject(Object $object)
     {
@@ -225,12 +227,12 @@ class Bucket implements SiteRelateEntityInterface
         $data = [
             'id' => $this->id,
             'type' => $this->type,
-            'num' => $this->num
+            'num' => $this->num,
         ];
 
         if ($ancestors) {
-            $data['campaign'] =  $this->campaign->toArray();
-            $data['context'] =  $this->context->toArray();
+            $data['campaign'] = $this->campaign->toArray();
+            $data['context'] = $this->context->toArray();
         }
 
         return $data;
@@ -247,11 +249,11 @@ class Bucket implements SiteRelateEntityInterface
             $num = $repo->getMaxCampaignBucketNum($context->getCampaign()->getId()) + 1;
             $context->setNum($num);
         }
-
     }
 
     /**
      * @ORM\PrePersist
+     *
      * @param LifecycleEventArgs $event
      */
     public function formatNum(LifecycleEventArgs $event)
@@ -268,16 +270,14 @@ class Bucket implements SiteRelateEntityInterface
     public function __toString()
     {
         $campaign = $this->getCampaign() ? (string) $this->getCampaign() : 'XX.00';
-        if (in_array(substr($campaign, 0, 2), ['TH', 'TG']))
-        {
+        if (in_array(substr($campaign, 0, 2), ['TH', 'TG'])) {
             $area = $this->getContext() ? $this->getContext()->getArea() : null;
             $bucketCode = $area ? $area->getCode() : 'XX';
-        } else
-        {
+        } else {
             $bucketCode = $this->getType() ? $this->getType() : 'X';
         }
         $bucketNum = $this->getNum() ? $this->getNum() : '0000';
-        return "$campaign.$bucketCode.$bucketNum";
 
+        return "$campaign.$bucketCode.$bucketNum";
     }
 }

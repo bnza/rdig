@@ -18,17 +18,31 @@ export const tableMxOpenAddModal = function (item, callerUuid) {
   return this.tableMxOpenModal(item || {}, callerUuid, 'the-add-modal')
 }
 
-export const tableMxOpenDeleteModal = function (i, callerUuid) {
+/**
+ * Replace path table with the given one
+ * @param i
+ * @param callerUuid
+ * @param replace Object eg {finding: 'sample'}
+ */
+export const tableMxOpenDeleteModal = function (i, callerUuid, replace) {
   let item = this.items[i]
   this.uuidMxSet('item', item, 'the-delete-modal')
   let path = this.routingMxGetDeletePath(item['id'])
+  if (replace) {
+    const replaced = Object.keys(replace)[0]
+    path = path.replace(replaced, replace[replaced])
+  }
   this.$router.push(path)
 }
 
-export const tableMxOpenEditModal = function (i, callerUuid) {
+export const tableMxOpenEditModal = function (i, callerUuid, replace) {
   let item = this.items && this.items[i] ? this.items[i] : {}
   this.tableMxOpenModal(item, callerUuid, 'the-edit-modal')
   let path = this.routingMxGetUpdatePath(item['id'])
+  if (replace) {
+    const replaced = Object.keys(replace)[0]
+    path = path.replace(replaced, replace[replaced])
+  }
   this.$router.push(path)
 }
 
@@ -52,56 +66,6 @@ export default {
     QueryMx
   ],
   computed: {
-/*    queryFromFullPath () {
-      let query = this.$route.fullPath.match(/\?(.*)$/)
-      if (query) {
-        query = qs.parse(query[1])
-      }
-      return query
-    },
-    paginationFromFullPath () {
-      const query = this.queryFromFullPath || {}
-      const querySort = query.sort || {}
-      const offset = query.offset || 0
-      const rowsPerPage = query.limit || 25
-      let sortBy = 'id'
-      if (Object.keys(querySort).length > 0) {
-        sortBy = Object.keys(querySort)[0]
-      }
-      return {
-        rowsPerPage: rowsPerPage,
-        page: Math.floor(offset / rowsPerPage) + 1,
-        sortBy: sortBy,
-        descending: querySort[sortBy] === 'DESC'
-      }
-    },
-    searchCriteriaFromFullPath () {
-      const query = this.queryFromFullPath || {}
-      if (query.filter) {
-        return query.filter
-      }
-    },
-    tableMxFetchLimit () {
-      return this.pagination.rowsPerPage || 25
-    },
-    tableMxFetchOffset () {
-      return this.pagination.rowsPerPage * (this.pagination.page - 1)
-    },
-    tableMxFetchQuery () {
-      let query = {
-        limit: this.tableMxFetchLimit,
-        offset: this.tableMxFetchOffset
-      }
-      if (this.pagination.sortBy) {
-        query.sort = {
-          [this.pagination.sortBy]: this.pagination.descending ? 'DESC' : 'ASC'
-        }
-      }
-      if (this.searchCriteria) {
-        query.filter = this.searchCriteria
-      }
-      return qs.stringify(query)
-    },*/
     tableMxVisibleHeaders () {
       const vm = this
       const headers = this.rsTableMxHeaders.filter(function (item) {
@@ -111,10 +75,6 @@ export default {
     }
   },
   methods: {
-/*    navigateToQuery () {
-      let path = `${this.$route.path}?${this.tableMxFetchQuery}`
-      this.$router.replace(path)
-    },*/
     tableMxFetch () {
       let url = `${this.routingMxListUrl}?${this.fetchQuery}`
       let config = {

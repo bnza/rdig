@@ -25,7 +25,7 @@
                         icon
                         class="mx-0"
                         slot="activator"
-                        @click="tableMxOpenEditModal(props.index)"
+                        @click="tableMxOpenEditModal(props.index, undefined, {finding: specs[props.item.group]})"
                     >
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
@@ -37,7 +37,7 @@
                         icon
                         class="mx-0"
                         slot="activator"
-                        @click="tableMxOpenDeleteModal(props.index)"
+                        @click="tableMxOpenDeleteModal(props.index, undefined, {finding: specs[props.item.group]})"
                     >
                         <v-icon color="pink">delete</v-icon>
                     </v-btn>
@@ -125,14 +125,18 @@
   export default {
     name: 'finding-data-table',
     extends: BaseListDataTable,
-    methods: {
-      replacePathSpec (path, group) {
-        const specs = {
+    data () {
+      return {
+        specs: {
           O: 'object',
           P: 'pottery',
           S: 'sample'
         }
-        return path.replace(/finding/, specs[group])
+      }
+    },
+    methods: {
+      replacePathSpec (path, group) {
+        return path.replace(/finding/, this.specs[group])
       },
       getSpecPath (action, list, item) {
         let path = this.getPath(action, list, item.id);
