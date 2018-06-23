@@ -42,7 +42,7 @@ class VocabularyController extends AbstractCrudController
     }
 
     /**
-     * @Route("/{type}/{name}/re/{pattern}", name="voc_regexp", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+", "pattern" = ".+"})
+     * @Route("/{type}/{name}/re/{pattern}", name="voc_regexp", requirements={"type" = "f|o|p|s", "name" = "[\w-?]+", "pattern" = ".*"})
      * @Method({"GET"})
      *
      * @param string $name
@@ -53,15 +53,21 @@ class VocabularyController extends AbstractCrudController
      *
      * @throws CrudException
      */
-    public function regexp(string $name, string $type, string $pattern)
+    public function regexp(string $name, string $type, string $pattern = '')
     {
         $repo = $this->getRepository($this->getEntityClass($type, $name));
-        $results = $repo
+        $qb = $repo
             ->createQueryBuilder('e')
             ->orderBy('e.value')
-            ->where('e.value LIKE :pattern')
-            ->setMaxResults(10)
-            ->setParameter('pattern', "%$pattern%")
+            ->setMaxResults(15);
+
+        if ($pattern) {
+            $qb
+                ->where('e.value LIKE :pattern')
+                ->setParameter('pattern', "%$pattern%");
+        }
+
+        $results = $qb
             ->getQuery()
             ->getResult(Query::HYDRATE_ARRAY);
 
@@ -69,7 +75,7 @@ class VocabularyController extends AbstractCrudController
     }
 
     /**
-     * @Route("/{type}/{name}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+"})
+     * @Route("/{type}/{name}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "\w{3,}-?+"})
      * @Method({"GET"})
      *
      * @param string $name

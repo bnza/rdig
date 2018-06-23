@@ -36,7 +36,8 @@ trait UtilTrait
             } else if (preg_match('/^\d[[:alpha:]]?$/', $match)) {
                 $codes[] = strtoupper($match);
             } else if (strtolower($match) !== 'area') {
-                $codes[] = strtoupper(substr($match, 0, 1));
+                $length = count($matches[0]) === 1 ? 3 : 1;
+                $codes[] = strtoupper(substr($match, 0, $length));
             }
         }
 

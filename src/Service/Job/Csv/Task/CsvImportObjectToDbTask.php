@@ -126,11 +126,12 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
 
     protected function createEntity(Bucket $bucket, string $num, array $record)
     {
-        $pottery = new Object();
-        $pottery->setBucket($bucket);
-        $pottery->setNum($num);
-        $this->setScalarData($pottery, $record);
-        $this->setVocabularyData($pottery, $record);
-        $this->persist($pottery);
+        $object = new Object();
+        $object->setBucket($bucket);
+        $object->setNum($num);
+        $object->setCampaign($bucket->getCampaign());
+        $this->setScalarData($object, $record);
+        $this->setVocabularyData($object, $record);
+        $this->persist($object);
     }
 }

@@ -138,7 +138,7 @@
   import {debounce} from '../util'
 
   export default {
-    name: 'bucket-edit-data-form',
+    name: 'sample-edit-data-form',
     extends: BaseDataForm,
     mixins: [
       validationMixin

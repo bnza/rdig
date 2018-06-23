@@ -612,6 +612,21 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Location',
+          value: 'location',
+          class: 'subheading'
+        },
+        {
+          text: 'Envanterlik',
+          value: 'envanterlik',
+          class: 'subheading'
+        },
+        {
+          text: 'Etutluk',
+          value: 'etutluk',
+          class: 'subheading'
+        },
+        {
           text: 'Chronology',
           value: 'chronology.value',
           class: 'subheading'

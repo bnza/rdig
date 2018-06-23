@@ -262,8 +262,9 @@ class Pottery extends AbstractFinding
     /**
      * @param string $drawingNumber
      */
-    public function setDrawingNumber(string $drawingNumber): void
+    public function setDrawingNumber($drawingNumber): void
     {
+        $drawingNumber = $drawingNumber === '' ? null : $drawingNumber;
         $this->drawingNumber = $drawingNumber;
     }
 
@@ -422,7 +423,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPFiring $firing
      */
-    public function setFiring(VocPFiring $firing): void
+    public function setFiring(VocPFiring $firing = null): void
     {
         $this->firing = $firing;
     }
@@ -438,7 +439,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPClass $class
      */
-    public function setClass(VocPClass $class): void
+    public function setClass(VocPClass $class = null): void
     {
         $this->class = $class;
     }
@@ -454,7 +455,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocFColor $coreColor
      */
-    public function setCoreColor(VocFColor $coreColor): void
+    public function setCoreColor(VocFColor $coreColor = null): void
     {
         $this->coreColor = $coreColor;
     }
@@ -470,7 +471,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocFColor $innerColor
      */
-    public function setInnerColor(VocFColor $innerColor): void
+    public function setInnerColor(VocFColor $innerColor = null): void
     {
         $this->innerColor = $innerColor;
     }
@@ -486,7 +487,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocFColor $outerColor
      */
-    public function setOuterColor(VocFColor $outerColor): void
+    public function setOuterColor(VocFColor $outerColor = null): void
     {
         $this->outerColor = $outerColor;
     }
@@ -502,7 +503,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPDecoration $innerDecoration
      */
-    public function setInnerDecoration(VocPDecoration $innerDecoration): void
+    public function setInnerDecoration(VocPDecoration $innerDecoration = null): void
     {
         $this->innerDecoration = $innerDecoration;
     }
@@ -526,7 +527,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPInclusionsFrequency $inclusionFrequency
      */
-    public function setInclusionsFrequency(VocPInclusionsFrequency $inclusionFrequency): void
+    public function setInclusionsFrequency(VocPInclusionsFrequency $inclusionFrequency = null): void
     {
         $this->inclusionsFrequency = $inclusionFrequency;
     }
@@ -542,7 +543,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPInclusionsSize $inclusionsSize
      */
-    public function setInclusionsSize(VocPInclusionsSize $inclusionsSize): void
+    public function setInclusionsSize(VocPInclusionsSize $inclusionsSize = null): void
     {
         $this->inclusionsSize = $inclusionsSize;
     }
@@ -558,7 +559,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPInclusionsType $inclusionsType
      */
-    public function setInclusionsType(VocPInclusionsType $inclusionsType): void
+    public function setInclusionsType(VocPInclusionsType $inclusionsType = null): void
     {
         $this->inclusionsType = $inclusionsType;
     }
@@ -566,7 +567,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPDecoration $outerDecoration
      */
-    public function setOuterDecoration(VocPDecoration $outerDecoration): void
+    public function setOuterDecoration(VocPDecoration $outerDecoration = null): void
     {
         $this->outerDecoration = $outerDecoration;
     }
@@ -582,7 +583,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPPreservation $preservation
      */
-    public function setPreservation(VocPPreservation $preservation): void
+    public function setPreservation(VocPPreservation $preservation = null): void
     {
         $this->preservation = $preservation;
     }
@@ -598,7 +599,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPShape $shape
      */
-    public function setShape(VocPShape $shape): void
+    public function setShape(VocPShape $shape = null): void
     {
         $this->shape = $shape;
     }
@@ -614,7 +615,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPTechnique $technique
      */
-    public function setTechnique(VocPTechnique $technique): void
+    public function setTechnique(VocPTechnique $technique = null): void
     {
         $this->technique = $technique;
     }
@@ -630,7 +631,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPSurfaceTreatment $innerSurfaceTreatment
      */
-    public function setInnerSurfaceTreatment(VocPSurfaceTreatment $innerSurfaceTreatment): void
+    public function setInnerSurfaceTreatment(VocPSurfaceTreatment $innerSurfaceTreatment = null): void
     {
         $this->innerSurfaceTreatment = $innerSurfaceTreatment;
     }
@@ -646,7 +647,7 @@ class Pottery extends AbstractFinding
     /**
      * @param VocPSurfaceTreatment $outerSurfaceTreatment
      */
-    public function setOuterSurfaceTreatment(VocPSurfaceTreatment $outerSurfaceTreatment): void
+    public function setOuterSurfaceTreatment(VocPSurfaceTreatment $outerSurfaceTreatment = null): void
     {
         $this->outerSurfaceTreatment = $outerSurfaceTreatment;
     }

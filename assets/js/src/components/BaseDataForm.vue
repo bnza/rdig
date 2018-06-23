@@ -13,12 +13,12 @@
     props: {
       item__: {
         type: Object,
-        validator (value) {
+        validator(value) {
           return typeof value === 'undefined' || value.hasOwnProperty('id')
         }
       }
     },
-    data () {
+    data() {
       return {
         item_: {},
         vocabularies: {
@@ -30,41 +30,52 @@
       }
     },
     computed: {
-      id () {
+      id() {
         return this.id__ || this.item.id
       },
       item: {
-        get () {
+        get() {
           return Object.keys(this.item_).length > 0 ? this.item_ : this.item__ || this.item_
         },
-        set (value) {
+        set(value) {
           this.item_ = JSON.parse(JSON.stringify(value))
         }
       }
     },
     methods: {
-      fetchVocabulary : debounce(function (type, name, pattern) {
-        this.loading = true
-        if (typeof pattern === 'string') {
-          const config = {
-            method: 'get',
-            url: `voc/${type}/${name}/re/${pattern}`
+      fetchVocabulary: debounce(
+        /**
+         * Fetch vocabulary values for v-select entries filling the corresponding vocabularies array
+         * which match the item value (eg. item.firing -> vocabularies.p.firing).
+         * If no item key is provided the vocabulary name is used instead
+         * @param type
+         * @param name
+         * @param pattern
+         * @param itemKey
+         */
+        function (type, name, pattern, itemKey) {
+          this.loading = true
+          if (typeof pattern === 'string') {
+            const config = {
+              method: 'get',
+              url: `voc/${type}/${name}/re/${pattern}`
+            }
+            this.$store.dispatch('requests/perform', config).then(
+              (response) => {
+                this.loading = false
+                // Prepend empty item
+                let data = [{id: '', value: ''}, ...response.data]
+                itemKey = itemKey || name
+                Vue.set(this.vocabularies[type], itemKey, data)
+              }
+            ).catch(
+              (error) => {
+                this.loading = false
+              }
+            )
           }
-          this.$store.dispatch('requests/perform', config).then(
-            (response) => {
-              this.loading = false
-              // Prepend empty item
-              let data = [{id: '', value: ''}, ...response.data]
-              Vue.set(this.vocabularies[type], name, data)
-            }
-          ).catch(
-            (error) => {
-              this.loading = false
-            }
-          )
-        }
-      }, 250),
-      update () {
+        }, 250),
+      update() {
         this.formMxUpdate().then(
           () => {
             this.$emit('sync')
@@ -77,7 +88,7 @@
           }
         )
       },
-      create () {
+      create() {
         this.formMxCreate().then(
           () => {
             this.$emit('sync')
@@ -90,24 +101,25 @@
           }
         )
       },
-      delete () {
+      delete() {
         this.formMxDelete().then(
           () => {
             this.$emit('sync')
           }
         ).catch(
-          () => {}
+          () => {
+          }
         )
       }
     },
     watch: {
-      id (value) {
+      id(value) {
         if (!this.item || this.item.id !== value) {
           this.formMxRead()
         }
       }
     },
-    created () {
+    created() {
       if (this.item__) {
         this.item_ = this.item__
       } else if (this.id__) {

@@ -33,7 +33,20 @@ class EntityWrapper
         'object' => 'App\Entity\Main\Object',
         'pottery' => 'App\Entity\Main\Pottery',
         'chronology' => 'App\Entity\Main\VocFChronology',
-        'type' => 'App\Entity\Main\Voc%Type'
+        'class' => 'App\Entity\Main\Voc%Class',
+        'shape' => 'App\Entity\Main\VocPShape',
+        'firing' => 'App\Entity\Main\VocPFiring',
+        'inclusionsType' => 'App\Entity\Main\VocPInclusionsType',
+        'inclusionsSize' => 'App\Entity\Main\VocPInclusionsSize',
+        'inclusionsFrequency' => 'App\Entity\Main\VocPInclusionsFrequency',
+        'innerSurfaceTreatment' => 'App\Entity\Main\VocPSurfaceTreatment',
+        'outerSurfaceTreatment' => 'App\Entity\Main\VocPSurfaceTreatment',
+        'coreColor' => 'App\Entity\Main\VocFColor',
+        'innerColor' => 'App\Entity\Main\VocFColor',
+        'outerColor' => 'App\Entity\Main\VocFColor',
+        'technique' => 'App\Entity\Main\VocPTechnique',
+        'type' => 'App\Entity\Main\Voc%Type',
+        'preservation' => 'App\Entity\Main\Voc%Preservation',
     ];
 
     /**

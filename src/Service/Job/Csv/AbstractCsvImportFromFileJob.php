@@ -91,7 +91,7 @@ abstract class AbstractCsvImportFromFileJob extends AbstractCsvJob
     {
         if (!$this->importErrorsPath)
         {
-            $this->importErrorsPath = sys_get_temp_dir() . '/errors_' . $this->getHash() . '.csv';
+            $this->importErrorsPath = sys_get_temp_dir() . '/errors_' . substr(basename($this->path), 0, 5) . '_' . substr($this->getHash(), 0, 4) . '.csv';
         }
 
         return $this->importErrorsPath;

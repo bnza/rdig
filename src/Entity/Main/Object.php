@@ -9,15 +9,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="object", uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"site", "no"})
+ *      @ORM\UniqueConstraint(columns={"campaign", "no"})
  * })
  *
  * @ORM\Entity(repositoryClass="App\Repository\ObjectRepository")
  *
  * @UniqueEntity(
- *      fields={"site", "no"},
+ *      fields={"campaign", "no"},
  *      errorPath="no",
- *      message="Duplicate registration number [{{ value }}] for this site "
+ *      message="Duplicate registration number [{{ value }}] for this campaign"
  * )
  *
  * @ORM\HasLifecycleCallbacks()
@@ -25,11 +25,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Object extends AbstractFinding
 {
     /**
-     * @var Site
-     * @ORM\ManyToOne(targetEntity="Site")
-     * @ORM\JoinColumn(name="site", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
+     * @var Campaign
+     * @ORM\ManyToOne(targetEntity="Campaign")
+     * @ORM\JoinColumn(name="campaign", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
-    private $site;
+    private $campaign;
 
     /**
      * Registration number
@@ -241,19 +241,19 @@ class Object extends AbstractFinding
     private $etutluk;
 
     /**
-     * @return Site
+     * @return Campaign
      */
-    public function getSite(): Site
+    public function getCampaign(): Campaign
     {
-        return $this->site;
+        return $this->campaign;
     }
 
     /**
-     * @param Site $site
+     * @param Campaign $campaign
      */
-    public function setSite(Site $site): void
+    public function setCampaign(Campaign $campaign): void
     {
-        $this->site = $site;
+        $this->campaign = $campaign;
     }
 
     /**
@@ -744,10 +744,10 @@ class Object extends AbstractFinding
      * @ORM\PrePersist
      * @param LifecycleEventArgs $event
      */
-    public function setSiteByBucket(LifecycleEventArgs $event)
+    public function setCampaignByBucket(LifecycleEventArgs $event)
     {
         $finding = $event->getEntity();
-        $this->site = $finding->getBucket()->getContext()->getCampaign()->getSite();
+        $this->campaign = $finding->getBucket()->getCampaign();
     }
 
 }

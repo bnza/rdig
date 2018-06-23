@@ -15,13 +15,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  *
  * @ORM\Table(name="sample", uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"site", "no"})
+ *      @ORM\UniqueConstraint(columns={"campaign", "no"})
  * })
  *
  * @UniqueEntity(
- *      fields={"site", "no"},
+ *      fields={"campaign", "no"},
  *      errorPath="no",
- *      message="Duplicate registration number [{{ value }}] for this site "
+ *      message="Duplicate registration number [{{ value }}] for this campaign "
  * )
  *
  * @ORM\Entity(repositoryClass="App\Repository\SampleRepository")
@@ -30,11 +30,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Sample extends AbstractFinding
 {
     /**
-     * @var Site
-     * @ORM\ManyToOne(targetEntity="Site")
-     * @ORM\JoinColumn(name="site", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
+     * @var Campaign
+     * @ORM\ManyToOne(targetEntity="Campaign")
+     * @ORM\JoinColumn(name="campaign", referencedColumnName="id", nullable=false, onDelete="NO ACTION")
      */
-    private $site;
+    private $campaign;
 
     /**
      * @var integer
@@ -56,19 +56,19 @@ class Sample extends AbstractFinding
     private $type;
 
     /**
-     * @return Site
+     * @return Campaign
      */
-    public function getSite(): Site
+    public function getCampaign(): Campaign
     {
-        return $this->site;
+        return $this->campaign;
     }
 
     /**
-     * @param Site $site
+     * @param Campaign $campaign
      */
-    public function setSite(Site $site): void
+    public function setCampaign(Campaign $campaign): void
     {
-        $this->site = $site;
+        $this->campaign = $campaign;
     }
 
     /**
@@ -124,10 +124,10 @@ class Sample extends AbstractFinding
      * @ORM\PrePersist
      * @param LifecycleEventArgs $event
      */
-    public function setSiteByBucket(LifecycleEventArgs $event)
+    public function setCampaignByBucket(LifecycleEventArgs $event)
     {
         $finding = $event->getEntity();
-        $this->site = $finding->getBucket()->getContext()->getSite();
+        $this->campaign = $finding->getBucket()->getCampaign();
     }
 
 }
