@@ -69,6 +69,16 @@
                     type="text"
                     :value="getFindingFieldCode(item)"
                     class="text-strong"
+                    color="blue-grey"
+                    readonly
+                />
+            </v-flex>
+            <v-flex xs6>
+                <v-text-field
+                    label="Registration code"
+                    type="text"
+                    :value="getFindingFieldCode(item)"
+                    color="blue-grey"
                     readonly
                 />
             </v-flex>
@@ -85,32 +95,6 @@
         <v-layout row wrap>
             <v-flex align-start xs12>
                 <v-subheader>Classification</v-subheader>
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs6>
-                <v-text-field
-                    label="Field no"
-                    type="text"
-                    v-model="item.num"
-                    :error-messages="fieldNumErrors"
-                    @input="formMxValidate('vFieldNum')"
-                />
-            </v-flex>
-            <v-flex xs6>
-                <v-select
-                    label="Chronology"
-                    bottom
-                    :items="vocabularies.f.chronology"
-                    v-model="item.chronology"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocChronology"
-                    :loading="loadingVocChronology"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vChronology')"
-                />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -174,6 +158,38 @@
                     return-object
                     autocomplete
                     @blur="formMxValidate('vFiring')"
+                />
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs6>
+                <v-select
+                    label="Preservation State"
+                    bottom
+                    :items="vocabularies.p.preservation"
+                    v-model="item.preservation"
+                    item-text="value"
+                    item-value="id"
+                    :search-input.sync="searchVocPreservation"
+                    :loading="loadingVocPreservation"
+                    return-object
+                    autocomplete
+                    @blur="formMxValidate('vPreservation')"
+                />
+            </v-flex>
+            <v-flex xs6>
+                <v-select
+                    label="Chronology"
+                    bottom
+                    :items="vocabularies.f.chronology"
+                    v-model="item.chronology"
+                    item-text="value"
+                    item-value="id"
+                    :search-input.sync="searchVocChronology"
+                    :loading="loadingVocChronology"
+                    return-object
+                    autocomplete
+                    @blur="formMxValidate('vChronology')"
                 />
             </v-flex>
         </v-layout>
@@ -503,6 +519,8 @@
         loadingVocOuterDecoration: false,
         searchVocOuterSurfaceTreatment: null,
         loadingVocOuterSurfaceTreatment: false,
+        searchVocPreservation: null,
+        loadingVocPreservation: false,
         searchVocShape: null,
         loadingVocShape: false,
         searchVocTechnique: null,
@@ -603,6 +621,7 @@
       vOuterColor: {},
       vOuterDecoration: {},
       vOuterSurfaceTreatment: {},
+      vPreservation: {},
       vRestored: {},
       vRimWidth: {},
       vRimDiameter: {},
@@ -632,7 +651,8 @@
           ['innerColor', 'f', 'innerColor'],
           ['coreColor', 'f', 'coreColor'],
           ['shape', 'p', 'shape'],
-          ['technique', 'p', 'technique']
+          ['technique', 'p', 'technique'],
+          ['preservation', 'p', 'preservation'],
         ]
         for (const vocabulary of vocabularies) {
           this.checkSelectVocabularies(val, ...vocabulary)
@@ -682,6 +702,9 @@
       },
       searchVocOuterColor(val) {
         val && this.fetchVocabulary('f', 'color', val, 'outerColor')
+      },
+      searchVocPreservation(val) {
+        val && this.fetchVocabulary('p', 'preservation', val)
       },
       searchVocShape(val) {
         val && this.fetchVocabulary('p', 'shape', val)

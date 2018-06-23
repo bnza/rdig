@@ -266,6 +266,17 @@
                 />
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Inscription')"
+            >
+                <v-tooltip
+                    v-if="props.item.inscription"
+                    left
+                >
+                    <span slot="activator">{{ trimTableCellContent(props.item.inscription) }}</span>
+                    <span>{{ props.item.description }}</span>
+                </v-tooltip>
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Description')"
             >
                 <v-tooltip

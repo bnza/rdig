@@ -13,10 +13,7 @@
         </v-subheader>
         <div v-if="!parent__" v-show="groupsVisibility.site">
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Code" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -27,19 +24,16 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs8>
                     <v-text-field
-                        label="Value"
+                        label="Code"
                         v-model="search_['site.code'].value"
                         mask="##"
                     />
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Name" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -50,8 +44,8 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
-                    <v-text-field label="Value" v-model="search_['site.name'].value"/>
+                <v-flex xs8>
+                    <v-text-field label="Name" v-model="search_['site.name'].value"/>
                 </v-flex>
             </v-layout>
         </div>
@@ -62,16 +56,13 @@
                 color="indigo darken-4"
                 @click.native="toggleGroupsVisibility('area')"
             >
-                <v-icon>{{getVisibilityIcon('area')}}</v-icon>
+                <v-icon>{{getVisibilityIcon('campaign')}}</v-icon>
             </v-btn>
             Campaign
         </v-subheader>
         <div v-show="groupsVisibility.campaign">
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Year" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -82,9 +73,9 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs8>
                     <v-text-field
-                        label="Value"
+                        label="Year"
                         v-model="search_.year.value"
                         mask="####"
                     />

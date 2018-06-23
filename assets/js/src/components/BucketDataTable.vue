@@ -87,12 +87,12 @@
             >
                 {{ getContextCode(props.item.context) }}
             </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Group')"
-                class="text-xs-right"
-            >
-                {{ props.item.type }}
-            </td>
+            <!--<td-->
+                <!--v-if="rsTableMxHeaderIsVisible('Group')"-->
+                <!--class="text-xs-right"-->
+            <!--&gt;-->
+                <!--{{ props.item.type }}-->
+            <!--</td>-->
             <td
                 v-if="rsTableMxHeaderIsVisible('Num')"
                 class="text-xs-right"

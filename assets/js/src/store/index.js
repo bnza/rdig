@@ -26,7 +26,8 @@ export const state = {
     { id: 'G', 'name': 'grave' },
     { id: 'L', 'name': 'locus' },
     { id: 'P', 'name': 'pitt' },
-    { id: 'W', 'name': 'wall' }
+    { id: 'W', 'name': 'wall' },
+    { id: 'Y', 'name': 'surface' }
   ],
   bucketTypes: [
     { id: 'O', 'name': 'object' },
@@ -199,12 +200,12 @@ export const state = {
           value: 'context.num',
           class: 'subheading'
         },
-        {
+/*        {
           text: 'Group',
           value: 'group',
           class: 'subheading',
           public: false
-        },
+        },*/
         {
           text: 'Num',
           value: 'num',
@@ -436,6 +437,11 @@ export const state = {
         {
           text: 'Etutluk',
           value: 'etutluk',
+          class: 'subheading'
+        },
+        {
+          text: 'Inscription',
+          value: 'inscription',
           class: 'subheading'
         },
         {

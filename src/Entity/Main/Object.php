@@ -347,7 +347,7 @@ class Object extends AbstractFinding
     /**
      * @param string $location
      */
-    public function setLocation(string $location): void
+    public function setLocation($location): void
     {
         $this->location = $location;
     }
@@ -555,7 +555,7 @@ class Object extends AbstractFinding
     /**
      * @param VocOClass $class
      */
-    public function setClass(VocOClass $class): void
+    public function setClass(VocOClass $class = null): void
     {
         $this->class = $class;
     }
@@ -571,7 +571,7 @@ class Object extends AbstractFinding
     /**
      * @param VocOMaterialClass $materialClass
      */
-    public function setMaterialClass(VocOMaterialClass $materialClass): void
+    public function setMaterialClass(VocOMaterialClass $materialClass = null): void
     {
         $this->materialClass = $materialClass;
     }
@@ -587,7 +587,7 @@ class Object extends AbstractFinding
     /**
      * @param VocOMaterialType $materialType
      */
-    public function setMaterialType(VocOMaterialType $materialType): void
+    public function setMaterialType(VocOMaterialType $materialType = null): void
     {
         $this->materialType = $materialType;
     }
@@ -603,7 +603,7 @@ class Object extends AbstractFinding
     /**
      * @param VocOTechnique $technique
      */
-    public function setTechnique(VocOTechnique $technique): void
+    public function setTechnique(VocOTechnique $technique = null): void
     {
         $this->technique = $technique;
     }
@@ -619,7 +619,7 @@ class Object extends AbstractFinding
     /**
      * @param VocOType $type
      */
-    public function setType(VocOType $type): void
+    public function setType(VocOType $type = null): void
     {
         $this->type = $type;
     }
@@ -635,7 +635,7 @@ class Object extends AbstractFinding
     /**
      * @param string $subType
      */
-    public function setSubType(string $subType): void
+    public function setSubType($subType): void
     {
         $this->subType = $subType;
     }
@@ -651,7 +651,7 @@ class Object extends AbstractFinding
     /**
      * @param VocFColor $color
      */
-    public function setColor(VocFColor $color): void
+    public function setColor(VocFColor $color = null): void
     {
         $this->color = $color;
     }
@@ -667,7 +667,7 @@ class Object extends AbstractFinding
     /**
      * @param VocOPreservation $preservation
      */
-    public function setPreservation(VocOPreservation $preservation): void
+    public function setPreservation(VocOPreservation $preservation = null): void
     {
         $this->preservation = $preservation;
     }
@@ -685,8 +685,14 @@ class Object extends AbstractFinding
      */
     public function setRetrievalDate($retrievalDate): void
     {
+
         if (is_string($retrievalDate)) {
-            $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDate);
+            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $retrievalDate)) {
+                $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDate);
+            } else {
+                $retrievalDate = new \DateTime($retrievalDate);
+            }
+
         }
         $this->retrievalDate = $retrievalDate ? $retrievalDate: null;
     }
@@ -702,7 +708,7 @@ class Object extends AbstractFinding
     /**
      * @param string $inscription
      */
-    public function setInscription(string $inscription): void
+    public function setInscription($inscription): void
     {
         $this->inscription = $inscription;
     }
@@ -718,7 +724,7 @@ class Object extends AbstractFinding
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
@@ -734,7 +740,7 @@ class Object extends AbstractFinding
     /**
      * @param VocODecoration $decoration
      */
-    public function setDecoration(VocODecoration $decoration): void
+    public function setDecoration(VocODecoration $decoration = null): void
     {
         $this->decoration = $decoration;
     }

@@ -47,7 +47,7 @@
           ? `${content.substr(0, length)}...`
           : content
       },
-      getBucketCode (bucket) {
+/*      getBucketCode (bucket) {
         let siteCode = bucket.campaign.site.code;
         const campaignYear = `${bucket.campaign.year}`.substr(-2)
         if (['TH', 'TG'].indexOf(siteCode) > -1) {
@@ -55,7 +55,7 @@
         } else {
           return `${siteCode}.${campaignYear}.${bucket.type}.${bucket.num}`
         }
-      },
+      },*/
       getContextCode (context) {
         return `${context.type}.${context.num}`
       },

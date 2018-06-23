@@ -13,10 +13,7 @@
         </v-subheader>
         <div v-if="!parent__" v-show="groupsVisibility.site">
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Code" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -27,15 +24,12 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
-                    <v-text-field label="Value" v-model="search_['site.code'].value"/>
+                <v-flex xs8>
+                    <v-text-field label="Code" v-model="search_['site.code'].value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Name" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -46,8 +40,8 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
-                    <v-text-field label="Value" v-model="search_['site.name'].value"/>
+                <v-flex xs8>
+                    <v-text-field label="Name" v-model="search_['site.name'].value"/>
                 </v-flex>
             </v-layout>
         </div>
@@ -64,10 +58,7 @@
         </v-subheader>
         <div v-show="groupsVisibility.area">
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Code" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -78,15 +69,12 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
-                    <v-text-field label="Value" v-model="search_.code.value"/>
+                <v-flex xs8>
+                    <v-text-field label="Code" v-model="search_.code.value"/>
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-text-field color="black" class="label" value="Name" disabled/>
-                </v-flex>
-                <v-flex xs3>
+                <v-flex xs4>
                     <v-select
                         label="Operator"
                         single-line
@@ -97,8 +85,8 @@
                         item-value="value"
                     />
                 </v-flex>
-                <v-flex xs6>
-                    <v-text-field label="Value" v-model="search_.name.value"/>
+                <v-flex xs8>
+                    <v-text-field label="Name" v-model="search_.name.value"/>
                 </v-flex>
             </v-layout>
         </div>

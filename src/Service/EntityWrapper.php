@@ -44,9 +44,14 @@ class EntityWrapper
         'coreColor' => 'App\Entity\Main\VocFColor',
         'innerColor' => 'App\Entity\Main\VocFColor',
         'outerColor' => 'App\Entity\Main\VocFColor',
-        'technique' => 'App\Entity\Main\VocPTechnique',
+        'technique' => 'App\Entity\Main\Voc%Technique',
         'type' => 'App\Entity\Main\Voc%Type',
         'preservation' => 'App\Entity\Main\Voc%Preservation',
+        'decoration' => 'App\Entity\Main\Voc%Decoration',
+        'innerDecoration' => 'App\Entity\Main\VocPDecoration',
+        'outerDecoration' => 'App\Entity\Main\VocPDecoration',
+        'materialClass' => 'App\Entity\Main\VocOMaterialClass',
+        'materialType' => 'App\Entity\Main\VocOMaterialType',
     ];
 
     /**

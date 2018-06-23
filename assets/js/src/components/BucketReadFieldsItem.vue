@@ -38,7 +38,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs3>
+            <v-flex xs4>
                 <v-text-field
                     readonly
                     label="Code"
@@ -46,10 +46,10 @@
                     class="text-strong"
                 />
             </v-flex>
-            <v-flex xs3>
-                <v-text-field readonly label="Type" :value="type"/>
-            </v-flex>
-            <v-flex xs6>
+            <!--<v-flex xs3>-->
+                <!--<v-text-field readonly label="Type" :value="type"/>-->
+            <!--</v-flex>-->
+            <v-flex xs8>
                 <v-text-field readonly label="Number" :value="item.num"/>
             </v-flex>
         </v-layout>
@@ -57,8 +57,13 @@
 </template>
 
 <script>
+  import CodeMx from '../mixins/CodeMx'
+
   export default {
     name: 'bucket-read-fields-item',
+    mixins: [
+      CodeMx,
+    ],
     props: {
       item: {
         type: Object,
@@ -77,7 +82,7 @@
       },
       code () {
         return this.item
-          ? `${this.item.type}.${this.item.num}`
+          ? this.getBucketCode(this.item)
           : undefined
       },
       type () {
