@@ -25,7 +25,7 @@ class EntityWrapper
     protected $entityClasses = [
         'site' => 'App\Entity\Main\Site',
         'area' => 'App\Entity\Main\Area',
-        'context' => 'App\Entity\Main\Campaign',
+        'context' => 'App\Entity\Main\Context',
         'campaign' => 'App\Entity\Main\Campaign',
         'bucket' => 'App\Entity\Main\Bucket',
         'finding' => 'App\Entity\Main\Finding',

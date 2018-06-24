@@ -14,6 +14,9 @@ export default {
   roles: (state, getters) => {
     return getters.isAuthenticated ? state.user.roles : []
   },
+  isSuperAdmin: (state, getters) => {
+    return getters.roles.indexOf('ROLE_SUPER_ADMIN') > -1
+  },
   isAdmin: (state, getters) => {
     return getters.roles.indexOf('ROLE_ADMIN') > -1 || getters.roles.indexOf('ROLE_SUPER_ADMIN') > -1
   },

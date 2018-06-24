@@ -30,16 +30,10 @@ class Bucket implements SiteRelateEntityInterface
     private $id;
 
     /**
-     *  @Assert\Length(
-     *     min = 1,
-     *     max = 1
-     * )
-     * @Assert\NotBlank()
-     * @Assert\Choice(choices={"O", "P", "S"}, message="Choose a valid type.")
      * @ORM\Column(
      *      type="string",
      *      length=1,
-     *      nullable=false,
+     *      nullable=true,
      *      options={
      *     "fixed" = true
      *     })

@@ -104,31 +104,32 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs3>
-                <v-radio-group
-                    v-if="!item.id"
-                    v-model="item.type"
-                    label="Type"
-                    column
-                >
-                    <v-radio label="Object" value="O"/>
-                    <v-radio label="Pottery" value="P"/>
-                    <v-radio label="Sample" value="S"/>
-                </v-radio-group>
+            <!--<v-flex xs3>-->
+                <!--<v-radio-group-->
+                    <!--v-if="!item.id"-->
+                    <!--v-model="item.type"-->
+                    <!--label="Type"-->
+                    <!--column-->
+                <!--&gt;-->
+                    <!--<v-radio label="Object" value="O"/>-->
+                    <!--<v-radio label="Pottery" value="P"/>-->
+                    <!--<v-radio label="Sample" value="S"/>-->
+                <!--</v-radio-group>-->
+                <!--<v-text-field-->
+                    <!--v-else-->
+                    <!--label="Type"-->
+                    <!--type="text"-->
+                    <!--:value="typeName"-->
+                    <!--readonly-->
+                <!--/>-->
+            <!--</v-flex>-->
+            <v-flex xs12>
                 <v-text-field
-                    v-else
-                    label="Type"
+                    label="Number"
                     type="text"
-                    :value="typeName"
-                    readonly
-                />
-            </v-flex>
-            <v-flex xs9>
-                <v-text-field
-                    label="Num"
-                    type="text"
-                    v-model="num"
-                    readonly
+                    v-model="item.num"
+                    @input="formMxValidate('num')"
+                    :readonly="!!item.id || !$store.getters['account/isSuperUser']"
                 />
             </v-flex>
         </v-layout>
@@ -165,7 +166,8 @@
     validations: {
       campaignId: { required },
       contextId: { required },
-      type: { required }
+      num: {}
+//      type: { required }
     },
     computed: {
       campaign: {
@@ -236,14 +238,14 @@
       typeName () {
         return this.type ? this.$store.getters.bucketTypeName(this.type).name : undefined
       },
-      num: {
+/*      num: {
         get () {
           return this.item.num
         },
         set (value) {
           Vue.set(this.item, 'num', value)
         }
-      },
+      },*/
       typeErrors () {
         const errors = []
         if (!this.$v.type.$dirty) return errors
