@@ -687,7 +687,7 @@ class Object extends AbstractFinding
     {
 
         if (is_string($retrievalDate)) {
-            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $retrievalDate)) {
+            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{2,4}$/', $retrievalDate)) {
                 $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDate);
             } else {
                 $retrievalDate = new \DateTime($retrievalDate);
