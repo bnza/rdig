@@ -687,8 +687,7 @@ class Object extends AbstractFinding
      */
     public function setRetrievalDate($retrievalDate): void
     {
-
-        if (is_string($retrievalDate)) {
+        if ($retrievalDate && is_string($retrievalDate)) {
             $retrievalDateString = $retrievalDate;
             if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{2}$/', $retrievalDate)) {
 
@@ -701,13 +700,14 @@ class Object extends AbstractFinding
                 if (!$retrievalDate) {
                     throw new CrudException("Invalid date format ($retrievalDateString)");
                 }
+            } else if (preg_match('/^\d{4}$/', $retrievalDate)) {
+                $retrievalDate = null;
             } else {
                 try {
                     $retrievalDate = new \DateTime($retrievalDateString);
                 } catch (\Exception $e) {
                     throw new CrudException("Invalid date format ($retrievalDateString)");
                 }
-
             }
 
         }
