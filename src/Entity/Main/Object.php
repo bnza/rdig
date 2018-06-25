@@ -690,9 +690,14 @@ class Object extends AbstractFinding
 
         if (is_string($retrievalDate)) {
             $retrievalDateString = $retrievalDate;
-            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{2,4}$/', $retrievalDate)) {
+            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{2}$/', $retrievalDate)) {
 
                 $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDateString);
+                if (!$retrievalDate) {
+                    throw new CrudException("Invalid date format ($retrievalDateString)");
+                }
+            } else if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $retrievalDate)) {
+                $retrievalDate = \DateTime::createFromFormat('d/m/Y', $retrievalDateString);
                 if (!$retrievalDate) {
                     throw new CrudException("Invalid date format ($retrievalDateString)");
                 }
