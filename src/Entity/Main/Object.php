@@ -2,6 +2,7 @@
 
 namespace App\Entity\Main;
 
+use App\Exceptions\CrudException;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -682,15 +683,26 @@ class Object extends AbstractFinding
 
     /**
      * @param string|\DateTime $retrievalDate
+     * @throws CrudException
      */
     public function setRetrievalDate($retrievalDate): void
     {
 
         if (is_string($retrievalDate)) {
+            $retrievalDateString = $retrievalDate;
             if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{2,4}$/', $retrievalDate)) {
-                $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDate);
+
+                $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDateString);
+                if (!$retrievalDate) {
+                    throw new CrudException("Invalid date format ($retrievalDateString)");
+                }
             } else {
-                $retrievalDate = new \DateTime($retrievalDate);
+                try {
+                    $retrievalDate = new \DateTime($retrievalDateString);
+                } catch (\Exception $e) {
+                    throw new CrudException("Invalid date format ($retrievalDateString)");
+                }
+
             }
 
         }

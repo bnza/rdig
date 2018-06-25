@@ -44,7 +44,7 @@ class CsvImportFindingToDbTask extends AbstractCsvTask
      */
     public function getTask()
     {
-        $row = $this->job->getReader()->fetchOne(1);
+        $row = $this->job->getReader()->fetchOne(0);
         $type = strtoupper($row['infix']);
         $class = $this->classes[$type];
         return new $class($this->job, $this->dataEm, $this->validator);
