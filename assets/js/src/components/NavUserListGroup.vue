@@ -24,7 +24,7 @@
     methods: {
       goToSetting (setting, prefix) {
         prefix = prefix || 'settings'
-        const path = `${prefix}/${setting}`
+        const path = `/${prefix}/${setting}`
         this.$router.push(path)
       }
     }
