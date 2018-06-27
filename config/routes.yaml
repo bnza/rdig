@@ -31,10 +31,10 @@ admin__user__read:
             entityName: 'user'
             id: '\d+'
 
-admin__user__change-password:
-    path:       /admin/{entityName}/{id}/change-password
-    controller: App\Controller\UserCrudController::changePassword
-    methods:    [POST]
+admin__user__reset-password:
+    path:       /admin/{entityName}/{id}/reset-password
+    controller: App\Controller\UserCrudController::resetPassword
+    methods:    [PUT]
     requirements:
             entityName: 'user'
             id: '\d+'
@@ -91,7 +91,7 @@ admin__user__delete:
 user__change-password:
     path:       /user/change-password
     controller: App\Controller\UserCrudController::changeUserPassword
-    methods:    [POST]
+    methods:    [PUT]
 
 data__crud__bucket-regexp:
     path:       /data/bucket/re/{subject}

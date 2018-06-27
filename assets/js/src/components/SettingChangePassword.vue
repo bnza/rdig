@@ -43,6 +43,7 @@
                         required
                     />
                 </v-layout>
+                <v-progress-linear v-if="isRequestPending" :indeterminate="true"></v-progress-linear>
             </v-form>
         </v-card-text>
         <v-card-actions>
@@ -107,15 +108,17 @@
       },
       submit () {
         const config = {
-          method: 'post',
+          method: 'put',
           url: `user/change-password`,
           data: {
             oldPassword: this.oldPassword,
             newPassword: this.password
           }
         }
+        this.isRequestPending = true;
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
+            this.isRequestPending = false;
             this.uuidMxSet('text', response.data.message, 'the-snack-bar')
             this.uuidMxSet('color', 'success', 'the-snack-bar')
             this.uuidMxSet('active', true, 'the-snack-bar')
@@ -123,6 +126,7 @@
           }
         ).catch(
           (error) => {
+            this.isRequestPending = false;
             this.uuidMxSet('text', error.response.data.error, 'the-snack-bar')
             this.uuidMxSet('color', 'error', 'the-snack-bar')
             this.uuidMxSet('active', true, 'the-snack-bar')

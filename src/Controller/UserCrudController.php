@@ -131,19 +131,23 @@ class UserCrudController extends AbstractCrudDataController
 
     }
 
-    public function adminChangeUserPassword(Request $request, DataCrudHelper $crud, string $entityName, int $id)
+    public function resetPassword(Request $request, DataCrudHelper $crud, string $entityName, int $id)
     {
         /**
          * @var User
          */
         $user = $crud->read($this->getEntityClass(), $id);
         $data = json_decode($request->getContent(), true);
-        $this->denyAccessUnlessGranted('user|change-password', [$user, $this->encoder]);
-        $user->setPassword($this->encoder->encodePassword($user, $data['newPassword']));
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $newPassword = substr(base64_encode(sha1(mt_rand())), 0, 8);
+        $user->setPassword($this->encoder->encodePassword($user, $newPassword));
         $crud->persist();
 
         return new JsonResponse(
-            ['message' => sprintf('Successfully changed password for user %s', $user->getUsername())],
+            [
+                'message' => sprintf('Successfully reset password for user %s', $user->getUsername()),
+                'password' => $newPassword
+            ],
             200
         );
     }

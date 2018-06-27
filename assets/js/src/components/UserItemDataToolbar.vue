@@ -22,6 +22,10 @@
                 <v-list-tile @click="setChildTable('user-allowed-sites')">
                     <v-list-tile-title>User site privileges</v-list-tile-title>
                 </v-list-tile>
+                <v-divider />
+                <v-list-tile @click="$emit('forward', 'openResetUserPasswordModal')">
+                    <v-list-tile-title>Reset user password</v-list-tile-title>
+                </v-list-tile>
             </v-list>
         </v-menu>
     </v-toolbar>

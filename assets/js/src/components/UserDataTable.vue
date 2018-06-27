@@ -28,7 +28,7 @@
                     >
                         <v-icon color="teal">edit</v-icon>
                     </v-btn>
-                    <span>Change password</span>
+                    <span>Edit user</span>
                 </v-tooltip>
                 <v-btn icon class="mx-0" @click="tableMxOpenDeleteModal(props.index)">
                     <v-icon color="pink">delete</v-icon>
