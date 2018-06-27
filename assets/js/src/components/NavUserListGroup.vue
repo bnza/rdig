@@ -15,6 +15,13 @@
                 <v-list-tile-title>Select Site</v-list-tile-title>
             </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile
+            @click="goToSetting('change-password')"
+        >
+            <v-list-tile-content>
+                <v-list-tile-title>Change password</v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
     </v-list-group>
 </template>
 

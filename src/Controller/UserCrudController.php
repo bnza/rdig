@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserCrudController extends AbstractCrudDataController
 {
@@ -130,15 +131,53 @@ class UserCrudController extends AbstractCrudDataController
 
     }
 
-    public function changePassword(Request $request, DataCrudHelper $crud, string $entityName, int $id)
+    public function adminChangeUserPassword(Request $request, DataCrudHelper $crud, string $entityName, int $id)
     {
         /**
          * @var User
          */
         $user = $crud->read($this->getEntityClass(), $id);
         $data = json_decode($request->getContent(), true);
-        $this->denyAccessUnlessGranted('user|change-password', [$user, $this->encoder, $data['oldPassword']]);
+        $this->denyAccessUnlessGranted('user|change-password', [$user, $this->encoder]);
         $user->setPassword($this->encoder->encodePassword($user, $data['newPassword']));
+        $crud->persist();
+
+        return new JsonResponse(
+            ['message' => sprintf('Successfully changed password for user %s', $user->getUsername())],
+            200
+        );
+    }
+
+    public function changeUserPassword(Request $request, DataCrudHelper $crud, UserInterface $user)
+    {
+        /**
+         * @var User
+         */
+        // $user = $crud->read($this->getEntityClass(), $id);
+        $data = json_decode($request->getContent(), true);
+        if (is_array($data) && !array_key_exists('oldPassword', $data) || !$data['oldPassword']) {
+            return new JsonResponse(
+                ['error' => 'Old password must be supplied'],
+                400
+            );
+        }
+        try {
+            $this->denyAccessUnlessGranted('user|change-password', [$user, $this->encoder, $data['oldPassword']]);
+        } catch (AccessDeniedException $e) {
+            return new JsonResponse(
+                ['error' => $e->getMessage()],
+                403
+            );
+        }
+
+        if (is_array($data) && !array_key_exists('newPassword', $data) || !$data['newPassword']) {
+            return new JsonResponse(
+                ['error' => 'New password must be supplied'],
+                400
+            );
+        }
+        $user->setPassword($this->encoder->encodePassword($user, $data['newPassword']));
+        $crud->setEntity($user)->persist();
 
         return new JsonResponse(
             ['message' => sprintf('Successfully changed password for user %s', $user->getUsername())],

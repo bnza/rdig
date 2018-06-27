@@ -59,7 +59,7 @@ class UserPasswordChangeVoter extends Voter
         if ($token->isAuthenticated()) {
             if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
                 return true;
-            } else if (array_key_exists(2, $subject)) {
+            } else if (array_key_exists(2, $subject) && $subject[2]) {
                 $isOldPasswordValid = $subject[1]->isPasswordValid($subject[0], $subject[2]);
                 $isCurrentUser = $subject[0]->getUsername() === $token->getUsername();
                 return $isCurrentUser && $isOldPasswordValid;

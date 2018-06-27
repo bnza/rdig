@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            <span class="headline">Login</span>
+            <span class="headline">Filter site</span>
         </v-card-title>
         <v-card-text>
             <v-form>

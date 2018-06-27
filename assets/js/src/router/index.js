@@ -89,6 +89,10 @@ const SettingSiteFilter = () => import(
   /* webpackChunkName: "SettingSiteFilter" */
   '../components/SettingSiteFilter'
   )
+const SettingChangePassword = () => import(
+  /* webpackChunkName: "SettingChangePassword" */
+  '../components/SettingChangePassword'
+  )
 
 export const dataRoutes = {
   path: '/:prefix(data|admin)/:table',
@@ -246,6 +250,14 @@ export const settingRoutes = {
       path: ':setting(site-filter)',
       name: 'setting_user_site_filter',
       component: SettingSiteFilter,
+      beforeEnter: authorizeRoute,
+      meta: {requiresRole: 'ROLE_USER'},
+      props: true
+    },
+    {
+      path: ':setting(change-password)',
+      name: 'setting_user_change_password',
+      component: SettingChangePassword,
       beforeEnter: authorizeRoute,
       meta: {requiresRole: 'ROLE_USER'},
       props: true

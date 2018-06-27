@@ -88,6 +88,11 @@ admin__user__delete:
     requirements:
             entityName: 'user'
 
+user__change-password:
+    path:       /user/change-password
+    controller: App\Controller\UserCrudController::changeUserPassword
+    methods:    [POST]
+
 data__crud__bucket-regexp:
     path:       /data/bucket/re/{subject}
     controller: App\Controller\DataCrudController::bucketRegexp
