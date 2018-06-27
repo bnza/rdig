@@ -734,6 +734,11 @@ export const state = {
           text: 'Roles',
           value: 'roles',
           class: 'subheading'
+        },
+        {
+          text: 'Status',
+          value: 'attempts',
+          class: 'subheading'
         }
       ]
     },

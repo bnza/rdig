@@ -137,7 +137,6 @@ class UserCrudController extends AbstractCrudDataController
          * @var User
          */
         $user = $crud->read($this->getEntityClass(), $id);
-        $data = json_decode($request->getContent(), true);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $newPassword = substr(base64_encode(sha1(mt_rand())), 0, 8);
         $user->setPassword($this->encoder->encodePassword($user, $newPassword));
@@ -147,6 +146,24 @@ class UserCrudController extends AbstractCrudDataController
             [
                 'message' => sprintf('Successfully reset password for user %s', $user->getUsername()),
                 'password' => $newPassword
+            ],
+            200
+        );
+    }
+
+    public function resetLoginAttempts(DataCrudHelper $crud, int $id)
+    {
+        /**
+         * @var User
+         */
+        $user = $crud->read($this->getEntityClass(), $id);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $user->setAttempts(0);
+        $crud->persist();
+
+        return new JsonResponse(
+            [
+                'message' => sprintf('Successfully reset login attempts for user %s', $user->getUsername()),
             ],
             200
         );

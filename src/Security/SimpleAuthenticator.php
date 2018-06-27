@@ -7,6 +7,7 @@
 
 namespace App\Security;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,19 +23,33 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SimpleAuthenticator extends AbstractGuardAuthenticator
 {
+    const MAX_ATTEMPTS = 3;
     const NO_USERNAME_SUPPLIED = 'No username supplied';
     const NO_PASSWORD_SUPPLIED = 'No password supplied';
     const WRONG_CREDENTIALS = 'Wrong credentials';
+    const TOO_MANY_ATTEMPTS = 'Maximum login attempts exceeded. Please contact your administrator';
     const MUST_LOGIN = 'You must login to access this content';
 
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $encoder;
 
+    /**
+     * @var RouterInterface
+     */
     private $router;
 
-    public function __construct(RouterInterface $router, UserPasswordEncoderInterface $encoder)
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+
+    public function __construct(RouterInterface $router, UserPasswordEncoderInterface $encoder, ObjectManager $em)
     {
         $this->router = $router;
         $this->encoder = $encoder;
+        $this->em = $em;
     }
 
     public function supports(Request $request)
@@ -57,7 +72,12 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
         }
 
         try {
-            return $userProvider->loadUserByUsername($credentials['username']);
+            $user = $userProvider->loadUserByUsername($credentials['username']);
+            if ($user->getAttempts() > self::MAX_ATTEMPTS) {
+                throw new BadCredentialsException(self::TOO_MANY_ATTEMPTS);
+            }
+
+            return $user;
         } catch (UsernameNotFoundException $e) {
             throw new BadCredentialsException(self::WRONG_CREDENTIALS);
         }
@@ -77,6 +97,9 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
             return true;
         }
 
+        $user->setAttempts($user->getAttempts() + 1);
+        $this->em->persist($user);
+        $this->em->flush();
         throw new BadCredentialsException(self::WRONG_CREDENTIALS);
     }
 
@@ -89,10 +112,15 @@ class SimpleAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $user = $token->getUser();
+        $user->setAttempts(0);
+        $this->em->persist($user);
+        $this->em->flush();
         $roles = $token->getUser()->getRoles();
         $sites = $token->getUser()->getSites()->map(function ($item) {
             return $item->getId();
         })->getValues();
+
         return new JsonResponse([
             'username' => $token->getUsername(),
             'roles' => $roles,

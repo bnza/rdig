@@ -39,6 +39,14 @@ admin__user__reset-password:
             entityName: 'user'
             id: '\d+'
 
+admin__user__reset-login-attempts:
+    path:       /admin/{entityName}/{id}/reset-login-attempts
+    controller: App\Controller\UserCrudController::resetLoginAttempts
+    methods:    [PUT]
+    requirements:
+            entityName: 'user'
+            id: '\d+'
+
 admin__user__allowed-sites:
     path:       /admin/{entityName}/{id}/user-allowed-sites
     controller: App\Controller\UserCrudController::userAllowedSites

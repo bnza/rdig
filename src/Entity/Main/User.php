@@ -32,6 +32,11 @@ class User implements UserInterface, \Serializable, CrudEntityInterface
     private $password;
 
     /**
+     * @ORM\Column(type="smallint", options={"default": 0})
+     */
+    private $attempts = 0;
+
+    /**
      * @ORM\Column(
      *     type="string",
      *     options={"default": "ROLE_USER"}
@@ -124,6 +129,22 @@ class User implements UserInterface, \Serializable, CrudEntityInterface
 
     public function eraseCredentials()
     {
+    }
+
+    /**
+     * @return int
+     */
+    public function getAttempts(): int
+    {
+        return $this->attempts;
+    }
+
+    /**
+     * @param mixed $attempts
+     */
+    public function setAttempts($attempts): void
+    {
+        $this->attempts = $attempts;
     }
 
     public function serialize()

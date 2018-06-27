@@ -73,16 +73,30 @@ export default {
     return false
   },
   roleColor: (state, getters) => {
+    // let color = 'black'
+    // if (getters.roles.indexOf('ROLE_SUPER_ADMIN') > -1) {
+    //   color = 'red darken-2'
+    // } else if (getters.roles.indexOf('ROLE_ADMIN') > -1) {
+    //   color = 'orange darken-2'
+    // } else if (getters.roles.indexOf('ROLE_SUPER_USER') > -1) {
+    //   color = 'yellow darken-2'
+    // } else if (getters.roles.indexOf('ROLE_USER') > -1) {
+    //   color = 'teal'
+    // }
+    // return color
+    return getters.getRoleColor(getters.roles)
+  },
+  getRoleColor: () => (roles) => {
     let color = 'black'
-    if (getters.roles.indexOf('ROLE_SUPER_ADMIN') > -1) {
+    if (roles.indexOf('ROLE_SUPER_ADMIN') > -1) {
       color = 'red darken-2'
-    } else if (getters.roles.indexOf('ROLE_ADMIN') > -1) {
+    } else if (roles.indexOf('ROLE_ADMIN') > -1) {
       color = 'orange darken-2'
-    } else if (getters.roles.indexOf('ROLE_SUPER_USER') > -1) {
+    } else if (roles.indexOf('ROLE_SUPER_USER') > -1) {
       color = 'yellow darken-2'
-    } else if (getters.roles.indexOf('ROLE_USER') > -1) {
+    } else if (roles.indexOf('ROLE_USER') > -1) {
       color = 'teal'
     }
     return color
-  }
+}
 }

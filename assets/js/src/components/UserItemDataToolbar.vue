@@ -26,6 +26,9 @@
                 <v-list-tile @click="$emit('forward', 'openResetUserPasswordModal')">
                     <v-list-tile-title>Reset user password</v-list-tile-title>
                 </v-list-tile>
+                <v-list-tile @click="$emit('forward', 'openResetLoginAttemptsModal')">
+                    <v-list-tile-title>Reset login attempts</v-list-tile-title>
+                </v-list-tile>
             </v-list>
         </v-menu>
     </v-toolbar>

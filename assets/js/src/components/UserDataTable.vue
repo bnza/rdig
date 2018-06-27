@@ -37,8 +37,27 @@
                     <v-icon color="blue darken-1">arrow_forward</v-icon>
                 </v-btn>
             </td>
-            <td class="text-xs-right"><strong>{{ props.item.username }}</strong></td>
-            <td class="text-xs-right">{{ props.item.roles }}</td>
+            <td class="text-xs-right">
+                <strong>{{ props.item.username }}</strong>
+            </td>
+            <td class="text-xs-right">
+                {{ props.item.roles }}
+                <v-icon
+                    :color="$store.getters['account/getRoleColor'](props.item.roles)"
+                >
+                    perm_identity
+                </v-icon>
+            </td>
+            <td class="text-xs-right">
+                <v-tooltip
+                    v-if="props.item.attempts > 3"
+                    top
+                >
+                    <span slot="activator"><v-icon color="error">warning</v-icon></span>
+                    <span>Maximum login attempts exceeded</span>
+                </v-tooltip>
+                <v-icon v-else color="success">done</v-icon>
+            </td>
         </template>
     </v-data-table>
 </template>
