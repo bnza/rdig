@@ -370,15 +370,18 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="Rim Diameter"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1"
                     v-model="item.rimDiameter"
                     @input="formMxValidate('vRimDiameter')"
                 />
             </v-flex>
             <v-flex align-start xs3>
                 <v-text-field
-                    label="Rim Width"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1"
                     v-model="item.rimWidth"
                     @input="formMxValidate('vRimWidth')"
                 />
@@ -386,7 +389,9 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="Wall Width"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1"
                     v-model="item.wallWidth"
                     @input="formMxValidate('vWallWidth')"
                 />
@@ -394,7 +399,9 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="Max Wall Diameter"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1"
                     v-model="item.maxWallDiameter"
                     @input="formMxValidate('vMaxWallDiameter')"
                 />
@@ -404,7 +411,7 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="Base Width"
-                    type="text"
+                    type="number"
                     v-model="item.baseWidth"
                     @input="formMxValidate('vBaseWidth')"
                 />
@@ -412,7 +419,9 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="Base Height"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1"
                     v-model="item.baseHeight"
                     @input="formMxValidate('vBaseHeight')"
                 />
@@ -420,7 +429,9 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="Base Diameter"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1"
                     v-model="item.baseDiameter"
                     @input="formMxValidate('vBaseDiameter')"
                 />
@@ -428,7 +439,9 @@
             <v-flex align-start xs3>
                 <v-text-field
                     label="General Height"
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.1s"
                     v-model="item.height"
                     @input="formMxValidate('vGeneralHeight')"
                 />
@@ -553,7 +566,7 @@
         if (!this.$v.vFieldNum.$dirty) return errors
         !this.$v.vFieldNum.required && errors.push('Field no is required.')
         return errors
-      },
+      }
     },
     methods: {
       /**
@@ -567,9 +580,6 @@
         if (item[key] && !this.vocabularies[vocType][vocName]) {
           Vue.set(this.vocabularies[vocType], vocName, [item[key]])
         }
-      },
-      fetchVocabularyFirstEntries (event, type, name) {
-        console.log(event)
       },
       addBucketCode(bucket) {
         let year = bucket.campaign.year.toString().substr(2)

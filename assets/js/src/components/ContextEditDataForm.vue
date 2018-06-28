@@ -1,13 +1,15 @@
 <template>
     <v-form>
         <v-select
-            v-if="!parent__ && !item.id"
+            v-if="!parent__ && isEditable"
             label="Area"
             bottom
             :items="areas"
             v-model="areaId"
             item-text="name"
             item-value="id"
+            hint="Site area, prepending site code (e.g. TH.A)"
+            persistent-hint
             :error-messages="areaIdErrors"
             :search-input.sync="searchArea"
             @blur="formMxValidate('areaId')"
@@ -50,7 +52,7 @@
                     label="Num"
                     type="text"
                     v-model="num"
-                    readonly
+                    :readonly="isEditable"
                 />
             </v-flex>
             <v-flex xs3>
@@ -70,7 +72,6 @@
                     :items="vocabularies.f.chronology"
                     v-model="vocabularyChronology"
                     item-text="value"
-                    item-value="id"
                     :search-input.sync="searchVocChronology"
                     @blur="formMxValidate('chronology')"
                     autocomplete
@@ -123,6 +124,9 @@
       cType: {between: between(1, 3)}
     },
     computed: {
+      isEditable () {
+        return !this.item.id || this.$store.getters['account/isAdmin']
+      },
       area: {
         get() {
           return this.item.area || {site: {}}
@@ -192,7 +196,14 @@
       // select values MUST be set for showing text
       item (val) {
         if (val.chronology && !this.vocabularies.f.chronology) {
-          Vue.set(this.vocabularies.f, 'chronology', [this.item.chronology])
+          Vue.set(this.vocabularies.f, 'chronology', [val.chronology])
+        }
+        if (val.area && !this.areas.length) {
+          const area = {
+            id: val.area.id,
+            name: `${val.area.site.code}.${val.area.code}`
+          }
+          Vue.set(this, 'areas', [area])
         }
       },
       searchArea (val) {

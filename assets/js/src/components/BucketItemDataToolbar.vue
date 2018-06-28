@@ -27,19 +27,19 @@
                 </v-list-tile>-->
                 <v-list-tile
                     v-if="item"
-                    @click="setChildTable('object')"
+                    @click="navigateToChild('object')"
                 >
                     <v-list-tile-title>Object</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
                     v-if="item"
-                    @click="setChildTable('pottery')"
+                    @click="navigateToChild('pottery')"
                 >
                     <v-list-tile-title>Pottery</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
                     v-if="item"
-                    @click="setChildTable('sample')"
+                    @click="navigateToChild('sample')"
                 >
                     <v-list-tile-title>Sample</v-list-tile-title>
                 </v-list-tile>
@@ -68,6 +68,18 @@
     methods: {
       capitalize (string) {
         return string ? capitalize(string) : string
+      },
+      navigateToChild (table) {
+        this.$router.push({
+          name: 'data_child_list_read',
+          params: {
+            prefix: 'data',
+            table: 'bucket',
+            id: this.$route.params.id,
+            childTable: table,
+            action: 'read'
+          }
+        })
       }
     }
   }

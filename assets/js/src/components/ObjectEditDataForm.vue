@@ -297,6 +297,8 @@
             <v-flex align-start xs4>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Height"
                     v-model="item.height"
                     @input="formMxValidate('vHeight')"
@@ -305,6 +307,8 @@
             <v-flex align-start xs4>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Length"
                     v-model="item.length"
                     @input="formMxValidate('vLength')"
@@ -313,6 +317,8 @@
             <v-flex align-start xs4>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Width"
                     v-model="item.width"
                     @input="formMxValidate('vWidth')"
@@ -323,6 +329,8 @@
             <v-flex align-start xs6>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Thickness"
                     v-model="item.thickness"
                     @input="formMxValidate('vThickness')"
@@ -331,6 +339,8 @@
             <v-flex align-start xs6>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Weight"
                     v-model="item.weight"
                     @input="formMxValidate('vWeight')"
@@ -341,6 +351,8 @@
             <v-flex align-start xs6>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Diameter"
                     v-model="item.diameter"
                     @input="formMxValidate('vDiameter')"
@@ -349,6 +361,8 @@
             <v-flex align-start xs6>
                 <v-text-field
                     type="number"
+                    min="0"
+                    step="0.1"
                     label="Perforation Diameter"
                     v-model="item.perforationDiameter"
                     @input="formMxValidate('vPerforationDiameter')"
@@ -414,7 +428,7 @@
         <v-layout row wrap>
             <v-flex xs3>
                 <v-text-field
-                    type="text"
+                    type="number"
                     label="Year of conservation"
                     v-model="item.conservationYear"
                     @input="formMxValidate('vConservationYear')"

@@ -10,6 +10,11 @@ export default {
       type: String
     }
   },
+  data () {
+    return {
+      violations: []
+    }
+  },
   computed: {
     $_FormMx_uuid () {
       return this.callerUuid || this.uuid
@@ -32,6 +37,7 @@ export default {
               if (error.response.data.error.exception) {
                 this.uuidMxSet('text', text + error.response.data.error.exception, 'the-snack-bar')
               } else if (error.response.data.error.violations) {
+                this.violations = error.response.data.error.violations;
                 this.uuidMxSet('text', text + error.response.data.error.violations[0].message, 'the-snack-bar')
               }
             } else if (error.response.data) {
@@ -123,6 +129,14 @@ export default {
         this.$v[key].$touch()
       }
       this.uuidMxSet('isInvalid', this.$v.$invalid, this.$_FormMx_uuid)
-    }, 250)
+    }, 250),
+    getViolationMessage (key) {
+      const violation = this.violations.find((item) => {
+        return item.property === key
+      })
+      if (violation) {
+        return violation.message
+      }
+    },
   }
 }
