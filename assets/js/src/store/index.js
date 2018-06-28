@@ -140,12 +140,12 @@ export const state = {
         {
           text: 'Type',
           value: 'type',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Type of context',
           value: 'cType',
-          class: 'subheading',
+          class: 'subheading'
         },
         {
           text: 'Chronology',
@@ -200,12 +200,6 @@ export const state = {
           value: 'context.num',
           class: 'subheading'
         },
-/*        {
-          text: 'Group',
-          value: 'group',
-          class: 'subheading',
-          public: false
-        },*/
         {
           text: 'Num',
           value: 'num',
@@ -767,6 +761,108 @@ export const state = {
     }
   },
   token: '',
+  vocabularies: {
+    VocFChronology: {
+      type: 'f',
+      name: 'chronology',
+      label: 'Chronology'
+    },
+    VocFColor: {
+      type: 'f',
+      name: 'color',
+      label: 'Color (Munsell)'
+    },
+    VocOClass: {
+      type: 'o',
+      name: 'class',
+      label: 'Class (object)'
+    },
+    VocODecoration: {
+      type: 'o',
+      name: 'decoration',
+      label: 'Decoration (object)'
+    },
+    VocOMaterialClass: {
+      type: 'o',
+      name: 'material-class',
+      label: 'Material Class'
+    },
+    VocOMaterialType: {
+      type: 'o',
+      name: 'material-type',
+      label: 'Material Type'
+    },
+    VocOPreservation: {
+      type: 'o',
+      name: 'preservation',
+      label: 'Preservation (object)'
+    },
+    VocOTechnique: {
+      type: 'o',
+      name: 'technique',
+      label: 'Technique (object)'
+    },
+    VocOTType: {
+      type: 'o',
+      name: 'type',
+      label: 'Type (object)'
+    },
+    VocPClass: {
+      type: 'p',
+      name: 'class',
+      label: 'Class (pottery)'
+    },
+    VocPDecoration: {
+      type: 'p',
+      name: 'decoration',
+      label: 'Decoration (pottery)'
+    },
+    VocPFiring: {
+      type: 'p',
+      name: 'firing',
+      label: 'Firing'
+    },
+    VocPInclusionsFrequency: {
+      type: 'p',
+      name: 'inclusions-frequency',
+      label: 'Inclusions Frequency'
+    },
+    VocPInclusionsSize: {
+      type: 'p',
+      name: 'inclusions-size',
+      label: 'Inclusions Size'
+    },
+    VocPInclusionsType: {
+      type: 'p',
+      name: 'inclusions-type',
+      label: 'Inclusions Type'
+    },
+    VocPPreservation: {
+      type: 'p',
+      name: 'preservation',
+      label: 'Preservation (pottery)'
+    },
+    VocPShape: {
+      type: 'p',
+      name: 'shape',
+      label: 'Shape'
+    },
+    VocPSurfaceTreatment: {
+      type: 'p',
+      name: 'surface-treatment',
+      label: 'Surface Treatment'
+    },
+    VocPTechnique: {
+      type: 'p',
+      name: 'technique',
+      label: 'Technique (pottery)'
+    },
+    VocSTType: {
+      type: 's',
+      name: 'type',
+      label: 'Type (sample)'
+    }
+  },
   siteFilter: null
 }
 

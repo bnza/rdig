@@ -75,7 +75,7 @@ class VocabularyController extends AbstractCrudController
     }
 
     /**
-     * @Route("/{type}/{name}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "\w{3,}-?+"})
+     * @Route("/{type}/{name}", name="voc_list", requirements={"type" = "f|o|p|s", "name" = "[\w+-?]+"})
      * @Method({"GET"})
      *
      * @param string $name

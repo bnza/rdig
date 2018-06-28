@@ -17,55 +17,6 @@
                     <v-list-tile-title>{{vocabularies[key].label}}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <!--<v-list-tile
-                @click="$router.push('/voc/f/chronology/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>Chronology</v-list-tile-title>
-                </v-lists-tile-content>
-            </v-list-tile>
-            <v-list-tile
-                @click="$router.push('/voc/o/material-class/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>Material class</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-                @click="$router.push('/voc/o/material-type/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>Material type</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-                @click="$router.push('/voc/o/preservation/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>Preservation (object)</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-                @click="$router.push('/voc/o/technique/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>technique (object)</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-                @click="$router.push('/voc/o/type/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>Type (object)</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-                @click="$router.push('/voc/p/type/read')"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title>Type (pottery)</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>-->
         </v-list-group>
 </template>
 
@@ -78,116 +29,18 @@
     mixins: [
       RSTableMx
     ],
-    data () {
-      return {
-        vocabularies : {
-          VocFChronology : {
-            type: 'f',
-            name: 'chronology',
-            label: 'Chronology'
-          },
-          VocFColor : {
-            type: 'f',
-            name: 'color',
-            label: 'Color (Munsell)'
-          },
-          VocOClass : {
-            type: 'o',
-            name: 'class',
-            label: 'Class (object)'
-          },
-          VocODecoration : {
-            type: 'o',
-            name: 'decoration',
-            label: 'Decoration (object)'
-          },
-          VocOMaterialClass : {
-            type: 'o',
-            name: 'material-class',
-            label: 'Material Class'
-          },
-          VocOMaterialType : {
-            type: 'o',
-            name: 'material-type',
-            label: 'Material Type'
-          },
-          VocOPreservation : {
-            type: 'o',
-            name: 'preservation',
-            label: 'Preservation (object)'
-          },
-          VocOTechnique: {
-            type: 'o',
-            name: 'technique',
-            label: 'Technique (object)'
-          },
-          VocOTType: {
-            type: 'o',
-            name: 'type',
-            label: 'Type (object)'
-          },
-          VocPClass : {
-            type: 'p',
-            name: 'class',
-            label: 'Class (pottery)'
-          },
-          VocPDecoration : {
-            type: 'p',
-            name: 'decoration',
-            label: 'Decoration (pottery)'
-          },
-          VocPFiring : {
-            type: 'p',
-            name: 'firing',
-            label: 'Firing'
-          },
-          VocPInclusionsFrequency : {
-            type: 'p',
-            name: 'inclusions-frequency',
-            label: 'Inclusions Frequency'
-          },
-          VocPInclusionsSize : {
-            type: 'p',
-            name: 'inclusions-size',
-            label: 'Inclusions Size'
-          },
-          VocPInclusionsType : {
-            type: 'p',
-            name: 'inclusions-type',
-            label: 'Inclusions Type'
-          },
-          VocPPreservation : {
-            type: 'p',
-            name: 'preservation',
-            label: 'Preservation (pottery)'
-          },
-          VocPShape : {
-            type: 'p',
-            name: 'shape',
-            label: 'Shape'
-          },
-          VocPSurfaceTreatment : {
-            type: 'p',
-            name: 'surface-treatment',
-            label: 'Surface Treatment'
-          },
-          VocSTType: {
-            type: 's',
-            name: 'type',
-            label: 'Type (sample)'
-          },
-        }
-      }
-    },
     computed: {
       tables () {
         return this.rsTableMxTables
       },
+      vocabularies () {
+        return this.$store.state.vocabularies;
+      },
       sortedVocabularyKey () {
-        let keys = Object.keys(this.vocabularies)
-        let vocs = this.vocabularies
+        let vocabularies = this.$store.state.vocabularies
+        const keys = Object.keys(vocabularies)
         return keys.sort(function(a, b) {
-            return vocs[a].label.localeCompare(vocs[b].label);
+            return vocabularies[a].label.localeCompare(vocabularies[b].label);
           }
         )
       }

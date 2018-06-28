@@ -16,6 +16,8 @@ export const authMxAuthorize = (path, siteId, store, router) => {
   if (route.matched.length > 0) {
     if (route.params.prefix === 'admin') {
       return authMxIsAdmin
+    } else if (route.params.prefix === 'voc') {
+      return authMxIsAuthenticated
     } else {
       if (route.params && route.params.hasOwnProperty('action')) {
         if (readOnlyActions.indexOf(route.params.action) > -1) {

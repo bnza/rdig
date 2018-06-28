@@ -6,7 +6,7 @@
     >
         <v-toolbar-side-icon/>
         <v-toolbar-title>
-            Vocabulary {{$route.params.name}}
+            Vocabulary {{vocTitle($route.params.type, $route.params.name)}}
         </v-toolbar-title>
         <v-spacer/>
         <v-btn
@@ -21,6 +21,16 @@
 
 <script>
   export default {
-    name: 'list-voc-toolbar'
+    name: 'list-voc-toolbar',
+    methods: {
+      vocTitle(type, name) {
+        const vocabularies = this.$store.state.vocabularies
+        for (let key in vocabularies) {
+          if (vocabularies[key].type === type && vocabularies[key].name === name) {
+            return vocabularies[key].label
+          }
+        }
+      }
+    }
   }
 </script>

@@ -238,7 +238,8 @@ export const vocRoutes = {
       component: TheVocList,
       name: 'voc_list_read'
     }
-  ]
+  ],
+  beforeEnter: authorizeRoute
 }
 
 export const settingRoutes = {
