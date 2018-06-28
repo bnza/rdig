@@ -16,9 +16,13 @@
                         wrap
                         v-if="isRequestPending"
                     >
-                        <v-progress-linear :indeterminate="true"></v-progress-linear>
+                        <!--<v-progress-linear :indeterminate="true"></v-progress-linear>-->
                     </v-layout>
                     <v-layout row wrap>
+                        <v-alert outline color="indigo darken-4" :value="isRequestPending">
+                            Please wait. It may takes a while <br/>
+                            <v-progress-linear color="indigo darken-4" :indeterminate="true" />
+                        </v-alert>
                         <p v-if="totalSelectedItem">
                             Do you really want to download the selected {{totalSelectedItem}} rows from <strong>{{this.$route.params.table}}</strong> as CSV?<br/>
                         </p>
@@ -40,7 +44,7 @@
                     flat
                     color="indigo darken-4"
                     @click.native="runJob"
-                    :disabled="!totalSelectedItem && !isRequestPending"
+                    :disabled="!totalSelectedItem || isRequestPending"
                 >
                     Download
                 </v-btn>
