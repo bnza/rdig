@@ -8,12 +8,12 @@ use App\Service\EntityWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 
 abstract class AbstractCrudDataController extends AbstractCrudController
 {
@@ -27,22 +27,10 @@ abstract class AbstractCrudDataController extends AbstractCrudController
      */
     protected $wrapper;
 
-    abstract public function getEntityClass($entity = '');
-
     public function __construct(ManagerRegistry $doctrine, EntityWrapper $wrapper)
     {
         $this->doctrine = $doctrine;
         $this->wrapper = $wrapper;
-    }
-
-    /**
-     * @param $entityName
-     *
-     * @return \App\Repository\AbstractDataRepository;
-     */
-    protected function getRepository($entityName)
-    {
-        return $this->doctrine->getRepository($this->getEntityClass($entityName));
     }
 
     /**
@@ -66,7 +54,7 @@ abstract class AbstractCrudDataController extends AbstractCrudController
             return new Response('Access Denied.', '403');
         }
 
-        $attribute = $entityName .'|create';
+        $attribute = $entityName.'|create';
         if (!$authChecker->isGranted($attribute, $entity)) {
             return new Response('You have not modify privilege on this site', '403');
         }
@@ -81,6 +69,8 @@ abstract class AbstractCrudDataController extends AbstractCrudController
 
         return $response;
     }
+
+    abstract public function getEntityClass($entity = '');
 
     /**
      * @param Request $request
@@ -111,6 +101,16 @@ abstract class AbstractCrudDataController extends AbstractCrudController
         }
 
         return new JsonResponse($entities);
+    }
+
+    /**
+     * @param $entityName
+     *
+     * @return \App\Repository\AbstractDataRepository;
+     */
+    protected function getRepository($entityName)
+    {
+        return $this->doctrine->getRepository($this->getEntityClass($entityName));
     }
 
     /**
@@ -162,7 +162,7 @@ abstract class AbstractCrudDataController extends AbstractCrudController
             return new Response('Access Denied.', '403');
         }
 
-        $attribute = $entityName .'|create';
+        $attribute = $entityName.'|create';
         if (!$authChecker->isGranted($attribute, $entity)) {
             return new Response('You have not modify privilege on this site', '403');
         }
@@ -174,12 +174,12 @@ abstract class AbstractCrudDataController extends AbstractCrudController
     }
 
     /**
-     * @param DataCrudHelper $crud
-     * @param string $entityName
-     * @param int $id
-     *
+     * @param DataCrudHelper                $crud
+     * @param string                        $entityName
+     * @param int                           $id
      * @param AuthorizationCheckerInterface $authChecker
-     * @param UserInterface $user
+     * @param UserInterface                 $user
+     *
      * @return JsonResponse
      *
      * @throws NotFoundCrudException
@@ -193,12 +193,16 @@ abstract class AbstractCrudDataController extends AbstractCrudController
             return new Response('Access Denied.', '403');
         }
 
-        $attribute = $entityName .'|create';
+        $attribute = $entityName.'|create';
         if (!$authChecker->isGranted($attribute, $entity)) {
             return new Response('You have not modify privilege on this site', '403');
         }
-        $responseArray = $crud->delete($entity);
-        $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+        try {
+            $responseArray = $crud->delete($entity);
+            $response = new JsonResponse($responseArray['data'], $responseArray['statusCode']);
+        } catch (ForeignKeyConstraintViolationException $e) {
+            return new JsonResponse('The item you want to delete is referenced elsewhere. You cannot delete it', 400);
+        }
 
         return $response;
     }
