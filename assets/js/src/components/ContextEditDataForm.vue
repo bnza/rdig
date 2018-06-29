@@ -52,7 +52,7 @@
                     label="Num"
                     type="text"
                     v-model="num"
-                    :readonly="isEditable"
+                    :readonly="!isEditable"
                 />
             </v-flex>
             <v-flex xs3>

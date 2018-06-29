@@ -56,11 +56,17 @@
                 </v-tooltip>
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Code')"
+                v-if="rsTableMxHeaderIsVisible('Field Code')"
+                class="text-xs-right"
+            >
+                {{ getFindingFieldCode(props.item) }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Reg Code')"
                 class="text-xs-right"
             >
                 <strong>
-                    {{ getFindingFieldCode(props.item) }}
+                    {{ getFindingRegCode(props.item) }}
                 </strong>
             </td>
             <td

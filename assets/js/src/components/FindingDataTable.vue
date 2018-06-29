@@ -56,11 +56,17 @@
                 </v-tooltip>
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Code')"
+                v-if="rsTableMxHeaderIsVisible('Field Code')"
+                class="text-xs-right"
+            >
+                {{ getFindingFieldCode(props.item) }}
+            </td>
+            <td
+                v-if="rsTableMxHeaderIsVisible('Reg Code')"
                 class="text-xs-right"
             >
                 <strong>
-                    {{ getFindingFieldCode(props.item) }}
+                    {{ getFindingRegCode(props.item) }}
                 </strong>
             </td>
             <td
@@ -125,7 +131,7 @@
   export default {
     name: 'finding-data-table',
     extends: BaseListDataTable,
-    data () {
+    data() {
       return {
         specs: {
           O: 'object',
@@ -135,18 +141,18 @@
       }
     },
     methods: {
-      replacePathSpec (path, group) {
+      replacePathSpec(path, group) {
         return path.replace(/finding/, this.specs[group])
       },
-      getSpecPath (action, list, item) {
+      getSpecPath(action, list, item) {
         let path = this.getPath(action, list, item.id);
         return this.replacePathSpec(path, item.group)
       },
-      goToSpecItem (item) {
+      goToSpecItem(item) {
         let path = this.replacePathSpec(this.routingMxGetItemPath(item.id), item.group)
         this.$router.push(path)
       },
-      openDownloadModal () {
+      openDownloadModal() {
         this.uuidMxSet('totalSelectedItem', this.totalItems, 'the-download-modal')
         //let path = `/data/${this.$route.params.table}/download`
         let path = `${this.routingMxBasePath}/download`

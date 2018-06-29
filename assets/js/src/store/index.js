@@ -216,7 +216,12 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Code',
+          text: 'Field Code',
+          value: 'site.code',
+          class: 'subheading'
+        },
+        {
+          text: 'Reg Code',
           value: 'site.code',
           class: 'subheading'
         },
@@ -264,7 +269,12 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Code',
+          text: 'Field Code',
+          value: 'site.code',
+          class: 'subheading'
+        },
+        {
+          text: 'Reg Code',
           value: 'site.code',
           class: 'subheading'
         },
@@ -462,7 +472,12 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Code',
+          text: 'Field Code',
+          value: 'site.code',
+          class: 'subheading'
+        },
+        {
+          text: 'Reg Code',
           value: 'site.code',
           class: 'subheading'
         },

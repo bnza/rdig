@@ -6,30 +6,34 @@ export default {
         return date.toLocaleDateString();
       }
     },
+    getCampaignCode (campaign) {
+      if (!campaign.site || !campaign.year) {
+        return undefined
+      }
+      const campaignYear = `${campaign.year}`.substr(-2)
+      return `${campaign.site.code}.${campaignYear}`
+    },
     getBucketCode (bucket) {
       if (!bucket.campaign) {
         return undefined
       }
-      const siteCode = bucket.campaign.site.code;
-      const campaignYear = `${bucket.campaign.year}`.substr(-2)
-      return `${siteCode}${campaignYear}.P.${bucket.num}`
+      return `${this.getCampaignCode(bucket.campaign)}.P.${bucket.num}`
     },
     getFindingFieldCode (finding) {
       if (!finding.bucket || !finding.num) {
         return undefined
       }
-      // const siteCode = finding.bucket.campaign.site.code;
-      // const campaignYear = `${finding.bucket.campaign.year}`.substr(-2)
       let num = finding.discr === 'S' ? `sample${finding.num}` : finding.num
       return `${this.getBucketCode(finding.bucket)}/${num}`
     },
     getFindingRegCode (finding) {
-      if (!finding.no) {
+      if (finding.discr !== 'P' && !finding.no) {
+        return undefined
+      } else if (!finding.num){
         return undefined
       }
-      const siteCode = finding.bucket.campaign.site.code;
-      const campaignYear = `${finding.bucket.campaign.year}`.substr(-2)
-      return `${siteCode}${campaignYear}.${finding.discr}.${finding.no}`
+      const fieldNum = finding.discr === 'P' ? finding.num : finding.no;
+      return `${this.getCampaignCode(finding.bucket.campaign)}.${finding.discr}.${fieldNum}`
     }
   }
 }
