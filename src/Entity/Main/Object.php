@@ -10,13 +10,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="object", uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"campaign", "no"})
+ *      @ORM\UniqueConstraint(columns={"campaign", "no", "duplicate"})
  * })
  *
  * @ORM\Entity(repositoryClass="App\Repository\ObjectRepository")
  *
  * @UniqueEntity(
- *      fields={"campaign", "no"},
+ *      fields={"campaign", "no", "duplicate"},
  *      errorPath="no",
  *      message="Duplicate registration number [{{ value }}] for this campaign"
  * )
@@ -38,6 +38,17 @@ class Object extends AbstractFinding
      * @ORM\Column(type="integer", nullable=true)
      */
     private $no;
+
+    /**
+     * @ORM\Column(
+     *      type="string",
+     *      length=1,
+     *      nullable=true,
+     *      options={
+     *     "fixed" = true
+     *     })
+     */
+    private $duplicate;
 
     /**
      * @var float
@@ -434,6 +445,22 @@ class Object extends AbstractFinding
     }
 
     /**
+     * @return mixed
+     */
+    public function getDuplicate()
+    {
+        return $this->duplicate;
+    }
+
+    /**
+     * @param mixed $duplicate
+     */
+    public function setDuplicate($duplicate): void
+    {
+        $this->duplicate = $duplicate;
+    }
+
+    /**
      * @return float
      */
     public function getHeight(): float
@@ -769,8 +796,10 @@ class Object extends AbstractFinding
      */
     public function setCampaignByBucket(LifecycleEventArgs $event)
     {
-        $finding = $event->getEntity();
-        $this->campaign = $finding->getBucket()->getCampaign();
+        if (!isset($this->campaign)) {
+            $finding = $event->getEntity();
+            $this->campaign = $finding->getBucket()->getCampaign();
+        }
     }
 
 }

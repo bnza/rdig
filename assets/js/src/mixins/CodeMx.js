@@ -1,9 +1,9 @@
 export default {
   methods: {
-    getDate(date) {
+    getDate (date) {
       if (date) {
-        date = new Date(date.date);
-        return date.toLocaleDateString();
+        date = new Date(date.date)
+        return date.toLocaleDateString()
       }
     },
     getCampaignCode (campaign) {
@@ -27,13 +27,15 @@ export default {
       return `${this.getBucketCode(finding.bucket)}/${num}`
     },
     getFindingRegCode (finding) {
-      if (finding.discr !== 'P' && !finding.no) {
+      // Finding table has not discr field
+      const group = finding.discr || finding.group
+      if (group !== 'P' && !finding.no) {
         return undefined
-      } else if (!finding.num){
+      } else if (!finding.num) {
         return undefined
       }
-      const fieldNum = finding.discr === 'P' ? finding.num : finding.no;
-      return `${this.getCampaignCode(finding.bucket.campaign)}.${finding.discr}.${fieldNum}`
+      const fieldNum = finding.discr === 'P' ? finding.num : finding.no
+      return `${this.getCampaignCode(finding.bucket.campaign)}.${group}.${fieldNum}`
     }
   }
 }

@@ -54,12 +54,26 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
+            <v-flex xs5>
+                <v-text-field
+                    readonly
+                    label="Reg Code"
+                    :value="getFindingRegCode(item)"
+                    class="text-strong"
+                />
+            </v-flex>
+            <v-flex xs5>
+                <v-text-field
+                    readonly
+                    label="Field Code"
+                    :value="getFindingFieldCode(item)"
+                />
+            </v-flex>
             <v-flex xs2>
                 <v-text-field
                     readonly
                     label="Number"
                     :value="item.num"
-                    class="text-strong"
                 />
             </v-flex>
         </v-layout>
@@ -152,8 +166,12 @@
 </template>
 
 <script>
+  import CodeMx from '../mixins/CodeMx'
   export default {
     name: 'sample-read-fields-item',
+    mixins: [
+      CodeMx
+    ],
     props: {
       item: {
         type: Object,

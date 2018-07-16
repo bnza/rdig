@@ -126,8 +126,10 @@ class Sample extends AbstractFinding
      */
     public function setCampaignByBucket(LifecycleEventArgs $event)
     {
-        $finding = $event->getEntity();
-        $this->campaign = $finding->getBucket()->getCampaign();
+        if (!isset($this->campaign)) {
+            $finding = $event->getEntity();
+            $this->campaign = $finding->getBucket()->getCampaign();
+        }
     }
 
 }

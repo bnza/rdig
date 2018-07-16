@@ -39,6 +39,11 @@ class Finding implements SiteRelateEntityInterface
     private $num;
 
     /**
+     * @ORM\Column(type="integer"))
+     */
+    private $no;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $remarks;
@@ -75,6 +80,14 @@ class Finding implements SiteRelateEntityInterface
      * @return mixed
      */
     public function getNum()
+    {
+        return $this->num;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNo()
     {
         return $this->num;
     }

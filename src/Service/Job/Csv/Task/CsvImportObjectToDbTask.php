@@ -22,7 +22,6 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
 
     protected $scalarKeys = [
         'finding.remarks' => 'Remarks',
-        'object.no' => 'No',
         'object.retrieval_date' => 'RetrievalDate',
         'object.sub_type' => 'SubType',
         'object.height' => 'Height',
@@ -124,12 +123,22 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
         return $bucket->getObjects()->matching($criteria)->first();
     }
 
+    protected function setFindingNo (Object $object, array $record)
+    {
+        preg_match('/(\d+)([[:alpha:]]?)$/', $this->getRecordValue('object.no', $record) ,$matches);
+        $object->setNo((int) $matches[1]);
+        if (isset($matches[2]) && $matches[2]) {
+            $object->setDuplicate($matches[2]);
+        }
+    }
+
     protected function createEntity(Bucket $bucket, string $num, array $record)
     {
         $object = new Object();
         $object->setBucket($bucket);
+        $object->setCampaign($this->getCampaign($record));
         $object->setNum($num);
-        $object->setCampaign($bucket->getCampaign());
+        $this->setFindingNo($object, $record);
         $this->setScalarData($object, $record);
         $this->setVocabularyData($object, $record);
         $this->persist($object);

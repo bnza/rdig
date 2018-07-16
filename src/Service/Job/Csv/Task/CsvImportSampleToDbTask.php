@@ -76,7 +76,7 @@ class CsvImportSampleToDbTask extends AbstractCsvImportToDbTask
         $entity = new Sample();
         $entity->setBucket($bucket);
         $entity->setNum($num);
-        $entity->setCampaign($bucket->getCampaign());
+        $entity->setCampaign($this->getCampaign($record));
         $this->setScalarData($entity, $record);
         $this->setVocabularyData($entity, $record);
         $this->persist($entity);
