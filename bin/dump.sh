@@ -11,7 +11,7 @@ MONTH=`date +%m`
 DATE=${YEAR}${MONTH}`date +%d%H%M%S`
 
 # get temp dir
-TEMP_ERR_FILE=$(mktemp)
+TEMP_ERR_FILE=$(mktemp -t rdig.dump.XXXX)
 TEMP_DIR=$(dirname ${TEMP_ERR_FILE})
 TEMP_DUMP_DIR=${TEMP_DIR}/rdig/dumps
 rm ${TEMP_ERR_FILE}
