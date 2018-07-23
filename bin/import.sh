@@ -7,7 +7,7 @@ do
     FILENAME="$1"/"$FILE""$TYPE".csv
        if [ -f "$FILENAME" ]
        then
-        echo '['$I'/21] => '$FILENAME
+        echo '['$I'] => '$FILENAME
         bin/console rdig:job:csv:import:from_file "$FILENAME" --no-debug
         ((I+=1))
        fi
