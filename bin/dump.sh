@@ -56,3 +56,6 @@ if [[ ${DATABASE_URL} =~ ^mysql://([A-Za-z_]*):([A-Za-z_]*)@([0-9A-Za-z\.]*):([0
 fi
 cat ${TEMP_ERR_FILE} >> ${DEST_LOG_FILE}
 echo "[${DATE}]>>>" >> ${DEST_LOG_FILE}
+
+# rm err_file
+rm ${TEMP_ERR_FILE}
