@@ -95,6 +95,7 @@
         }
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
+            document.title = 'rDig - *Dig reloaded'
             this.$store.commit('SET_SITE_FILTER', null)
             this.uuidMxSet('text', `Successfully reset site filter`, 'the-snack-bar')
             this.uuidMxSet('color', 'success', 'the-snack-bar')

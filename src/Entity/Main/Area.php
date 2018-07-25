@@ -50,6 +50,14 @@ class Area implements SiteRelateEntityInterface
     private $name;
 
     /**
+     * @Assert\Length(
+     *      max = 255
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $location;
+
+    /**
      * @var Site
      * Many Areas have One Site.
      * @ORM\ManyToOne(targetEntity="Site", inversedBy="areas")
@@ -134,6 +142,22 @@ class Area implements SiteRelateEntityInterface
     public function getSiteId(): int
     {
         return $this->site->getId();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     */
+    public function setLocation($location): void
+    {
+        $this->location = $location;
     }
 
     /**
