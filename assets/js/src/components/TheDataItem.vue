@@ -57,11 +57,24 @@
        * @param string
        */
       setChildList (table) {
-        let path = table
+        let route = {
+          route: 'data_item_read',
+          params: {
+            prefix: this.$route.params.prefix,
+            table: this.$route.params.table,
+            id: this.$route.params.id,
+            action: 'read'
+          }
+        }
+        if (table) {
+          route.name = 'data_child_list_read'
+          route.params.childTable = table
+        }
+/*        let path = table
           ? this.dataFormComponent.routingMxGetChildListPath(table)
-          : this.dataFormComponent.routingMxItemPath
+          : this.dataFormComponent.routingMxItemPath*/
 
-        this.$router.replace(path)
+        this.$router.replace(route)
       }
     }
   }
