@@ -35,7 +35,8 @@ export default {
         return undefined
       }
       const fieldNum = finding.discr === 'P' ? finding.num : finding.no
-      return `${this.getCampaignCode(finding.bucket.campaign)}.${group}.${fieldNum}`
+      const duplicate = finding.duplicate || ''
+      return `${this.getCampaignCode(finding.bucket.campaign)}.${group}.${fieldNum}${duplicate}`
     }
   }
 }

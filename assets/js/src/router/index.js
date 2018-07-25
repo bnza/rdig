@@ -296,7 +296,7 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
+  // console.log(to)
   if (to.matched.length === 0) {
     uuidMxSet(store, 'text', 'Requested resource does not exist', 'the-snack-bar')
     uuidMxSet(store, 'color', 'warning', 'the-snack-bar')
