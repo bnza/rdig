@@ -143,6 +143,11 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Num',
+          value: 'num',
+          class: 'subheading'
+        },
+        {
           text: 'Type of context',
           value: 'cType',
           class: 'subheading'
@@ -150,11 +155,6 @@ export const state = {
         {
           text: 'Chronology',
           value: 'chronology.value',
-          class: 'subheading'
-        },
-        {
-          text: 'Num',
-          value: 'num',
           class: 'subheading'
         },
         {
