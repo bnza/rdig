@@ -1,12 +1,5 @@
-<!--
-    <div>
-        <*-data-list-toolbar> **store.state.tables.*.list.toolbar** e.g. UserDataListToolbar
-        <*-data-table> **route.params.table**                e.g. UserDataTable
-    </div>
--->
-
 <template>
-    <article>
+    <article class="data-list">
         <component
             :flat="true"
             ref="toolbar"
@@ -143,6 +136,9 @@
         this.setDataComponentUuid(uuid)
         this.$listeners.listDataComponentCreated(uuid)
       }
+    },
+    mounted () {
+      this.$emit('mounted')
     }
   }
 </script>

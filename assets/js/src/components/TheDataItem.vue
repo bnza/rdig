@@ -16,6 +16,7 @@
             :parent__="parent"
             :uuidMxRegister="true"
             @setChildList="setChildList"
+            @mounted="scrollToList"
             v-on="$listeners"
         />
     </section>
@@ -75,6 +76,10 @@
           : this.dataFormComponent.routingMxItemPath*/
 
         this.$router.replace(route)
+      },
+      scrollToList () {
+        let el = this.$el.getElementsByClassName("data-list")[0];
+        el.scrollIntoView();
       }
     }
   }
