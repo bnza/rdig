@@ -155,19 +155,25 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
      */
     protected function addFilters(array $filter, ...$params)
     {
-        // Ad general site filter
+
         $sfc = $this->siteFilter->getSiteCode();
+
+        // Ad general site filter
         if ($sfc) {
             $siteCodeAlias = $this->getSiteCodeAlias();
             if ($siteCodeAlias) {
-                $expr = $this->qbf->expr()->eq($siteCodeAlias, ':siteCodeFilter');
-                $this->qbf->add('where', $expr)->setParameter(':siteCodeFilter', $sfc);
-                $this->qbc->add('where', $expr)->setParameter(':siteCodeFilter', $sfc);
+                $siteCodeFilterExpr = $this->qbf->expr()->eq($siteCodeAlias, ':siteCodeFilter');
             }
         }
 
         if ($filter) {
             list($expressions, $parameters) = $this->getFilterExpressions($filter);
+
+            // Add general site filter
+            if (isset($siteCodeFilterExpr)) {
+                $expressions = $this->qbf->expr()->andX($expressions, $siteCodeFilterExpr);
+                $parameters[':siteCodeFilter'] = $sfc;
+            }
             // Filter Query
             $this->qbf->add('where', $expressions);
             $this->qbf->setParameters($parameters);
@@ -175,7 +181,11 @@ abstract class AbstractDataRepository extends ServiceEntityRepository
             // Count Query
             $this->qbc->add('where', $expressions);
             $this->qbc->setParameters($parameters);
+        } else if (isset($siteCodeFilterExpr)) {
+            $this->qbf->add('where', $siteCodeFilterExpr)->setParameter(':siteCodeFilter', $sfc);
+            $this->qbc->add('where', $siteCodeFilterExpr)->setParameter(':siteCodeFilter', $sfc);
         }
+
     }
 
     protected function addSortCriteria(array $sort)
