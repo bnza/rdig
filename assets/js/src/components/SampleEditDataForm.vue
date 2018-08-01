@@ -6,6 +6,8 @@
                     label="Site"
                     type="text"
                     :value="item.bucket ? item.bucket.campaign.site.name : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -14,6 +16,8 @@
                     label="Year"
                     type="text"
                     :value="item.bucket ? item.bucket.campaign.year : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -22,6 +26,8 @@
                     label="Area"
                     type="text"
                     :value="item.bucket ? item.bucket.context.area.name : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -32,6 +38,8 @@
                     label="Context"
                     type="text"
                     :value="item.bucket ? `${item.bucket.context.type}.${item.bucket.context.num}` : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -50,6 +58,31 @@
                     mask="AA.##.P.###n"
                     :error-messages="bucketErrors"
                     @blur="formMxValidate('bucket')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
+                />
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs6>
+                <v-text-field
+                        label="Field code"
+                        type="text"
+                        :value="getFindingFieldCode(item)"
+                        class="text-strong readonly-field"
+                        color="grey lighten-1"
+                        readonly
+                />
+            </v-flex>
+            <v-flex xs6>
+                <v-text-field
+                        label="Registration code"
+                        type="text"
+                        class="text-strong readonly-field"
+                        :value="getFindingRegCode(item)"
+                        color="grey lighten-1"
+                        readonly
                 />
             </v-flex>
         </v-layout>
@@ -61,6 +94,9 @@
                     v-model="item.num"
                     :error-messages="fieldNumErrors"
                     @input="formMxValidate('vFieldNum')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
             <v-flex xs6>
@@ -87,6 +123,9 @@
                     autocomplete
                     :error-messages="typeErrors"
                     @blur="formMxValidate('vType')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
             <v-flex xs6>

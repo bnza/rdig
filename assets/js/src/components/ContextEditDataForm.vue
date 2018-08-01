@@ -21,6 +21,8 @@
                     label="Site"
                     type="text"
                     v-model="area.site.code"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -29,6 +31,8 @@
                     label="Area"
                     type="text"
                     v-model="item.area.code"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -53,6 +57,7 @@
                     type="text"
                     v-model="num"
                     :readonly="!isEditable"
+                    :color="!isEditable ? 'grey lighten-1' : ''"
                 />
             </v-flex>
             <v-flex xs3>

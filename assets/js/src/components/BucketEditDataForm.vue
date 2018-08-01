@@ -9,6 +9,8 @@
                 <v-text-field
                     type="text"
                     :value="contextSiteCodePrefix"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -38,6 +40,8 @@
                     label="Site"
                     type="text"
                     :value="campaign.site.code"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -46,6 +50,8 @@
                     label="Campaign"
                     type="text"
                     :value="campaign.year"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -60,6 +66,8 @@
                 <v-text-field
                     type="text"
                     :value="campaignSiteCodePrefix"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -91,6 +99,8 @@
                     label="Area"
                     type="text"
                     :value="context.area.code"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -99,37 +109,22 @@
                     label="Context"
                     type="text"
                     :value="context.num"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <!--<v-flex xs3>-->
-                <!--<v-radio-group-->
-                    <!--v-if="!item.id"-->
-                    <!--v-model="item.type"-->
-                    <!--label="Type"-->
-                    <!--column-->
-                <!--&gt;-->
-                    <!--<v-radio label="Object" value="O"/>-->
-                    <!--<v-radio label="Pottery" value="P"/>-->
-                    <!--<v-radio label="Sample" value="S"/>-->
-                <!--</v-radio-group>-->
-                <!--<v-text-field-->
-                    <!--v-else-->
-                    <!--label="Type"-->
-                    <!--type="text"-->
-                    <!--:value="typeName"-->
-                    <!--readonly-->
-                <!--/>-->
-            <!--</v-flex>-->
             <v-flex xs12>
                 <v-text-field
                     label="Number"
                     type="text"
                     v-model="item.num"
                     @input="formMxValidate('num')"
-                    :readonly="!!item.id || !$store.getters['account/isSuperUser']"
+                    :readonly="isReadOnly"
+                    :hint="isReadOnly ? 'Only superuser can change bucket number' : ''"
+                    :color="isReadOnly ? 'grey lighten-1' : ''"
                 />
             </v-flex>
         </v-layout>
@@ -170,6 +165,9 @@
 //      type: { required }
     },
     computed: {
+      isReadOnly () {
+        return !!this.item.id || !this.$store.getters['account/isSuperUser']
+      },
       campaign: {
         get () {
           return this.item.campaign || { site: {} }

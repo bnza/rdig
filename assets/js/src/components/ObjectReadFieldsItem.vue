@@ -38,14 +38,8 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs2>
+            <v-flex xs12>
                 <v-text-field readonly label="Code" :value="bucketCode"/>
-            </v-flex>
-            <v-flex xs2>
-                <v-text-field readonly label="Type" :value="bucketType"/>
-            </v-flex>
-            <v-flex xs8>
-                <v-text-field readonly label="Number" :value="bucket.num"/>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -182,7 +176,7 @@
       },
       bucketCode () {
         return this.item && this.item.hasOwnProperty('bucket')
-          ? `${this.item.bucket.type}.${this.item.bucket.num}`
+          ? `${this.item.bucket.campaign.site.code}.${this.item.bucket.campaign.year}.P.${this.item.bucket.num}`
           : undefined
       },
       bucketType () {
@@ -201,9 +195,3 @@
     }
   }
 </script>
-
-<style scoped>
-    .text-strong >>> input[type="text"] {
-        font-weight: bold;
-    }
-</style>

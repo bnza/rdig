@@ -28,7 +28,8 @@
       forwardEventToDataComponent () {
         if (this.$refs.dataComponent) {
           let args = [...arguments]
-          this.$refs.dataComponent[args.splice(0,1)](args || undefined)
+          let method = args.splice(0,1)
+          this.$refs.dataComponent[method](args || undefined)
         }
       }
     }

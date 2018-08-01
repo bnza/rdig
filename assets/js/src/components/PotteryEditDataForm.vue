@@ -6,7 +6,8 @@
                     label="Site"
                     type="text"
                     :value="item.bucket ? item.bucket.campaign.site.name : undefined"
-                    color="blue-grey"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -15,7 +16,8 @@
                     label="Year"
                     type="text"
                     :value="item.bucket ? item.bucket.campaign.year : undefined"
-                    color="blue-grey"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -24,7 +26,8 @@
                     label="Area"
                     type="text"
                     :value="item.bucket ? item.bucket.context.area.name : undefined"
-                    color="blue-grey"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -35,7 +38,8 @@
                     label="Context"
                     type="text"
                     :value="item.bucket ? `${item.bucket.context.type}.${item.bucket.context.num}` : undefined"
-                    color="blue-grey"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -68,8 +72,8 @@
                     label="Field code"
                     type="text"
                     :value="getFindingFieldCode(item)"
-                    class="text-strong"
-                    color="blue-grey"
+                    class="text-strong readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -78,7 +82,8 @@
                     label="Registration code"
                     type="text"
                     :value="getFindingFieldCode(item)"
-                    color="blue-grey"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -89,6 +94,9 @@
                     v-model="item.num"
                     :error-messages="fieldNumErrors"
                     @input="formMxValidate('vFieldNum')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
         </v-layout>
@@ -742,9 +750,3 @@
     }
   }
 </script>
-
-<style scoped>
-    .text-strong >>> input[type="text"] {
-        font-weight: bold;
-    }
-</style>

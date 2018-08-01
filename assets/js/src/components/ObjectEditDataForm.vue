@@ -6,6 +6,8 @@
                     label="Site"
                     type="text"
                     :value="item.bucket ? item.bucket.campaign.site.name : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -14,6 +16,8 @@
                     label="Year"
                     type="text"
                     :value="item.bucket ? item.bucket.campaign.year : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -22,6 +26,8 @@
                     label="Area"
                     type="text"
                     :value="item.bucket ? item.bucket.context.area.name : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -32,6 +38,8 @@
                     label="Context"
                     type="text"
                     :value="item.bucket ? `${item.bucket.context.type}.${item.bucket.context.num}` : undefined"
+                    class="readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -50,6 +58,9 @@
                     mask="AA.##.P.###n"
                     :error-messages="bucketErrors"
                     @blur="formMxValidate('bucket')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
         </v-layout>
@@ -64,7 +75,8 @@
                     label="Field code"
                     type="text"
                     :value="getFindingFieldCode(item)"
-                    class="text-strong"
+                    class="text-strong readonly-field"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -72,7 +84,9 @@
                 <v-text-field
                     label="Registration code"
                     type="text"
+                    class="text-strong readonly-field"
                     :value="getFindingRegCode(item)"
+                    color="grey lighten-1"
                     readonly
                 />
             </v-flex>
@@ -85,12 +99,15 @@
                     v-model="item.num"
                     :error-messages="fieldNumErrors"
                     @input="formMxValidate('vFieldNum')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
             <v-flex xs6>
                 <v-text-field
                     label="Reg no"
-                    type="text"
+                    type="number"
                     v-model="item.no"
                     @input="formMxValidate('vRegNum')"
                 />
@@ -116,6 +133,9 @@
                     autocomplete
                     :error-messages="classErrors"
                     @blur="formMxValidate('vClass')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
             <v-flex xs6>
@@ -132,6 +152,9 @@
                     autocomplete
                     :error-messages="typeErrors"
                     @blur="formMxValidate('vType')"
+                    persistent-hint
+                    hint="This field is required"
+                    required
                 />
             </v-flex>
             <v-flex xs12>
@@ -527,6 +550,9 @@
       vType() {
         return this.item.type ? this.item.type.id : undefined
       },
+      vClass() {
+        return this.item.class ? this.item.class.id : undefined
+      },
       vFieldNum() {
         return this.item.num
       },
@@ -597,7 +623,7 @@
     validations: {
       bucket: {required},
       vChronology: {},
-      vClass: {},
+      vClass: {required},
       vColor: {},
       vConservationYear: {},
       vCoordE: {},
@@ -626,7 +652,7 @@
       vSubType: {},
       vTechnique: {},
       vThickness: {},
-      vType: {},
+      vType: {required},
       vWeight: {},
       vWidth: {},
     },
@@ -706,3 +732,12 @@
     }
   }
 </script>
+
+<style scoped>
+    .text-strong >>> input[type="text"] {
+        font-weight: bold;
+    }
+    .readonly-field >>> input:read-only {
+        color: rgba(0,0,0,0.5);
+    }
+</style>

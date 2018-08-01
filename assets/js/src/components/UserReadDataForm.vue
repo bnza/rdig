@@ -47,12 +47,10 @@
     methods: {
       openResetUserPasswordModal() {
         this.isResetUserPasswordDialogOpen = true
-      }
-    },
-    methods: {
+      },
       openResetLoginAttemptsModal() {
         this.isResetLoginAttemptsModalOpen = true
       }
-    }
+    },
   }
 </script>
