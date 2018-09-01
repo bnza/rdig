@@ -14,7 +14,7 @@ export default {
       return `${campaign.site.code}.${campaignYear}`
     },
     getBucketCode (bucket) {
-      if (!bucket.campaign) {
+      if (!bucket || !bucket.campaign) {
         return undefined
       }
       return `${this.getCampaignCode(bucket.campaign)}.P.${bucket.num}`

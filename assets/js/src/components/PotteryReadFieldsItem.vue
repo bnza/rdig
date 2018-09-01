@@ -38,7 +38,14 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs2>
+            <v-flex xs12>
+                <v-text-field
+                        readonly
+                        label="Code"
+                        :value="getBucketCode(item.bucket)"
+                />
+            </v-flex>
+<!--            <v-flex xs2>
                 <v-text-field readonly label="Code" :value="bucketCode"/>
             </v-flex>
             <v-flex xs2>
@@ -46,7 +53,7 @@
             </v-flex>
             <v-flex xs8>
                 <v-text-field readonly label="Number" :value="bucket.num"/>
-            </v-flex>
+            </v-flex>-->
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
@@ -54,22 +61,23 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs5>
+<!--            <v-flex xs5>
                 <v-text-field
                     readonly
                     label="Reg Code"
                     :value="getFindingRegCode(item)"
                     class="text-strong"
                 />
-            </v-flex>
-            <v-flex xs5>
+            </v-flex>-->
+            <v-flex xs9>
                 <v-text-field
                     readonly
                     label="Field Code"
                     :value="getFindingFieldCode(item)"
+                    class="text-strong"
                 />
             </v-flex>
-            <v-flex xs2>
+            <v-flex xs3>
                 <v-text-field
                     readonly
                     label="Number"

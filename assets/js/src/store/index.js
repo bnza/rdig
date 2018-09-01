@@ -476,11 +476,11 @@ export const state = {
           value: 'site.code',
           class: 'subheading'
         },
-        {
+/*        {
           text: 'Reg Code',
           value: 'site.code',
           class: 'subheading'
-        },
+        },*/
         {
           text: 'Site',
           value: 'site.code',

@@ -59,16 +59,18 @@
                 v-if="rsTableMxHeaderIsVisible('Field Code')"
                 class="text-xs-right"
             >
-                {{ getFindingFieldCode(props.item) }}
-            </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Reg Code')"
-                class="text-xs-right"
-            >
                 <strong>
-                    {{ getFindingRegCode(props.item) }}
+                    {{ getFindingFieldCode(props.item) }}
                 </strong>
             </td>
+            <!--            <td
+                            v-if="rsTableMxHeaderIsVisible('Reg Code')"
+                            class="text-xs-right"
+                        >
+                            <strong>
+                                {{ getFindingRegCode(props.item) }}
+                            </strong>
+                        </td>-->
             <td
                 v-if="rsTableMxHeaderIsVisible('Site')"
                 class="text-xs-right"

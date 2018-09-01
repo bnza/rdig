@@ -39,7 +39,11 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12>
-                <v-text-field readonly label="Code" :value="bucketCode"/>
+                <v-text-field
+                        readonly
+                        label="Code"
+                        :value="getBucketCode(item.bucket)"
+                />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -48,20 +52,35 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
+            <v-flex xs6>
+                <v-text-field
+                        readonly
+                        label="Reg Code"
+                        :value="getFindingRegCode(item)"
+                        class="text-strong"
+                />
+            </v-flex>
+            <v-flex xs6>
+                <v-text-field
+                        readonly
+                        label="Field Code"
+                        :value="getFindingFieldCode(item)"
+                />
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex xs3>
                 <v-text-field
-                    readonly
-                    label="Number (bucket)"
-                    :value="item.num"
-                    class="text-strong"
+                        readonly
+                        label="Number (bucket)"
+                        :value="item.num"
                 />
             </v-flex>
             <v-flex xs3>
                 <v-text-field
-                    readonly
-                    label="Number (site)"
-                    :value="item.no"
-                    class="text-strong"
+                        readonly
+                        label="Number (site)"
+                        :value="item.no"
                 />
             </v-flex>
             <v-flex xs3>
@@ -84,10 +103,12 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs4>
-                <v-text-field readonly label="Material Class" :value="item.materialClass ? item.materialClass.value : undefined"/>
+                <v-text-field readonly label="Material Class"
+                              :value="item.materialClass ? item.materialClass.value : undefined"/>
             </v-flex>
             <v-flex xs4>
-                <v-text-field readonly label="Material Type" :value="item.materialType ? item.materialType.value : undefined"/>
+                <v-text-field readonly label="Material Type"
+                              :value="item.materialType ? item.materialType.value : undefined"/>
             </v-flex>
             <v-flex xs4>
                 <v-text-field readonly label="Technique" :value="item.technique ? item.technique.value : undefined"/>
@@ -101,7 +122,8 @@
                 <v-text-field readonly label="Color" :value="item.color ? item.color.value : undefined"/>
             </v-flex>
             <v-flex xs4>
-                <v-text-field readonly label="Preservation state" :value="item.preservation ? item.preservation.value : undefined"/>
+                <v-text-field readonly label="Preservation state"
+                              :value="item.preservation ? item.preservation.value : undefined"/>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -152,6 +174,7 @@
 </template>
 
 <script>
+  import CodeMx from '../mixins/CodeMx'
 
   export default {
     name: 'object-read-fields-item',
@@ -161,15 +184,18 @@
         required: true
       }
     },
+    mixins: [
+      CodeMx
+    ],
     computed: {
       bucket () {
-        return this.item.bucket || { site: {}}
+        return this.item.bucket || {site: {}}
       },
       campaign () {
-        return this.item.bucket && this.item.bucket.campaign || { site: {}}
+        return this.item.bucket && this.item.bucket.campaign || {site: {}}
       },
       context () {
-        return this.item.bucket && this.item.bucket.context || { area: {}}
+        return this.item.bucket && this.item.bucket.context || {area: {}}
       },
       contextCode () {
         return this.context.type ? `${this.context.type}.${this.context.num}` : undefined
@@ -185,13 +211,19 @@
           : undefined
         return type ? type.name : undefined
       },
-      retievalDate() {
+      retievalDate () {
         let date = this.item && this.item.retrievalDate
         if (date) {
-          date = new Date(date.date);
-          return date.toLocaleDateString();
+          date = new Date(date.date)
+          return date.toLocaleDateString()
         }
       }
     }
   }
 </script>
+
+<style scoped>
+    .text-strong >>> input[type="text"] {
+        font-weight: bold;
+    }
+</style>

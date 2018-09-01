@@ -38,14 +38,12 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs2>
-                <v-text-field readonly label="Code" :value="bucketCode"/>
-            </v-flex>
-            <v-flex xs2>
-                <v-text-field readonly label="Type" :value="bucketType"/>
-            </v-flex>
-            <v-flex xs8>
-                <v-text-field readonly label="Number" :value="bucket.num"/>
+            <v-flex xs12>
+                <v-text-field
+                        readonly
+                        label="Code"
+                        :value="getBucketCode(item.bucket)"
+                />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -54,12 +52,28 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
+            <v-flex xs6>
+                <v-text-field
+                        readonly
+                        label="Reg Code"
+                        :value="getFindingRegCode(item)"
+                        class="text-strong"
+                />
+            </v-flex>
+            <v-flex xs6>
+                <v-text-field
+                        readonly
+                        label="Field Code"
+                        :value="getFindingFieldCode(item)"
+                />
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex xs2>
                 <v-text-field
                     readonly
-                    label="Number"
+                    label="Number (bucket)"
                     :value="item.num"
-                    class="text-strong"
                 />
             </v-flex>
             <v-flex xs3>
@@ -78,6 +92,8 @@
 </template>
 
 <script>
+  import CodeMx from '../mixins/CodeMx'
+
   export default {
     name: 'sample-read-fields-item',
     props: {
@@ -86,6 +102,9 @@
         required: true
       }
     },
+    mixins: [
+      CodeMx
+    ],
     computed: {
       bucket () {
         return this.item.bucket || { site: {}}
