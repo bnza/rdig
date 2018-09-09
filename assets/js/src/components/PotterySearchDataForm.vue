@@ -128,7 +128,7 @@
             >
                 <v-icon>{{getVisibilityIcon('context')}}</v-icon>
             </v-btn>
-            Context
+            Locus
         </v-subheader>
         <div v-show="groupsVisibility.context">
             <v-layout row wrap>

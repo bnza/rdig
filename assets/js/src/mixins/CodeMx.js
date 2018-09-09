@@ -13,6 +13,12 @@ export default {
       const campaignYear = `${campaign.year}`.substr(-2)
       return `${campaign.site.code}.${campaignYear}`
     },
+    getBucketBaseCode (bucket) {
+      if (!bucket || !bucket.campaign) {
+        return undefined
+      }
+      return `P.${bucket.num}`
+    },
     getBucketCode (bucket) {
       if (!bucket || !bucket.campaign) {
         return undefined

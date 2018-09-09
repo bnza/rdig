@@ -88,10 +88,10 @@
                 {{ props.item.bucket.context.area.code }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Context')"
-                class="text-xs-right"
+                    v-if="rsTableMxHeaderIsVisible('Bucket')"
+                    class="text-xs-right"
             >
-                {{ getContextCode(props.item.bucket.context) }}
+                {{ getBucketBaseCode(props.item.bucket) }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Group')"
@@ -100,10 +100,22 @@
                 {{ props.item.group }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Num')"
+                v-if="rsTableMxHeaderIsVisible('Letter/Number in Bucket')"
                 class="text-xs-right"
             >
                 {{ props.item.num }}
+            </td>
+            <td
+                    v-if="rsTableMxHeaderIsVisible('Locus Type')"
+                    class="text-xs-right"
+            >
+                {{ props.item.bucket.context.type }}
+            </td>
+            <td
+                    v-if="rsTableMxHeaderIsVisible('Locus Number')"
+                    class="text-xs-right"
+            >
+                {{ props.item.bucket.context.num }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Chronology')"

@@ -82,10 +82,16 @@
                 {{ props.item.context.area.code }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Context')"
-                class="text-xs-right"
+                    v-if="rsTableMxHeaderIsVisible('Locus Type')"
+                    class="text-xs-right"
             >
-                {{ getContextCode(props.item.context) }}
+                {{ props.item.context.type }}
+            </td>
+            <td
+                    v-if="rsTableMxHeaderIsVisible('Locus Number')"
+                    class="text-xs-right"
+            >
+                {{ props.item.context.num }}
             </td>
             <!--<td-->
                 <!--v-if="rsTableMxHeaderIsVisible('Group')"-->

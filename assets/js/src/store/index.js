@@ -118,7 +118,7 @@ export const state = {
       ]
     },
     context: {
-      label: 'Context',
+      label: 'Locus',
       headers: [
         {
           text: 'ID',
@@ -196,7 +196,12 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Context',
+          text: 'Locus Type',
+          value: 'context.type',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Number',
           value: 'context.num',
           class: 'subheading'
         },
@@ -236,13 +241,23 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Context',
-          value: 'context.num',
+          text: 'Bucket',
+          value: 'bucket.num',
           class: 'subheading'
         },
         {
-          text: 'Num',
+          text: 'Letter/Number in Bucket',
           value: 'num',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Type',
+          value: 'context.type',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Number',
+          value: 'context.num',
           class: 'subheading'
         },
         {
@@ -289,13 +304,23 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Context',
-          value: 'context.num',
+          text: 'Bucket',
+          value: 'bucket.num',
           class: 'subheading'
         },
         {
-          text: 'Num',
+          text: 'Letter in bucket',
           value: 'num',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Type',
+          value: 'context.type',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Number',
+          value: 'context.num',
           class: 'subheading'
         },
         {
@@ -476,11 +501,6 @@ export const state = {
           value: 'site.code',
           class: 'subheading'
         },
-/*        {
-          text: 'Reg Code',
-          value: 'site.code',
-          class: 'subheading'
-        },*/
         {
           text: 'Site',
           value: 'site.code',
@@ -492,13 +512,23 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Context',
-          value: 'context.num',
+          text: 'Bucket',
+          value: 'bucket.num',
           class: 'subheading'
         },
         {
           text: 'Num',
           value: 'num',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Type',
+          value: 'context.type',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Number',
+          value: 'context.num',
           class: 'subheading'
         },
         {
@@ -685,13 +715,23 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Context',
-          value: 'context.num',
+          text: 'Bucket',
+          value: 'bucket.num',
           class: 'subheading'
         },
         {
           text: 'Field no',
           value: 'num',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Type',
+          value: 'context.type',
+          class: 'subheading'
+        },
+        {
+          text: 'Locus Number',
+          value: 'context.num',
           class: 'subheading'
         },
         {

@@ -63,14 +63,6 @@
                     {{ getFindingFieldCode(props.item) }}
                 </strong>
             </td>
-            <!--            <td
-                            v-if="rsTableMxHeaderIsVisible('Reg Code')"
-                            class="text-xs-right"
-                        >
-                            <strong>
-                                {{ getFindingRegCode(props.item) }}
-                            </strong>
-                        </td>-->
             <td
                 v-if="rsTableMxHeaderIsVisible('Site')"
                 class="text-xs-right"
@@ -90,22 +82,34 @@
                 {{ props.item.bucket.context.area.code }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Context')"
+                v-if="rsTableMxHeaderIsVisible('Bucket')"
                 class="text-xs-right"
             >
-                {{ getContextCode(props.item.bucket.context) }}
+                {{ getBucketBaseCode(props.item.bucket) }}
             </td>
-            <td
+<!--            <td
                 v-if="rsTableMxHeaderIsVisible('Group')"
                 class="text-xs-right"
             >
                 {{ props.item.group }}
-            </td>
+            </td>-->
             <td
                 v-if="rsTableMxHeaderIsVisible('Num')"
                 class="text-xs-right"
             >
                 {{ props.item.num }}
+            </td>
+            <td
+                    v-if="rsTableMxHeaderIsVisible('Locus Type')"
+                    class="text-xs-right"
+            >
+                {{ props.item.bucket.context.type }}
+            </td>
+            <td
+                    v-if="rsTableMxHeaderIsVisible('Locus Number')"
+                    class="text-xs-right"
+            >
+                {{ props.item.bucket.context.num }}
             </td>
             <td
                 v-if="rsTableMxHeaderIsVisible('Class')"
