@@ -93,18 +93,18 @@
             >
                 {{ props.item.context.num }}
             </td>
-            <!--<td-->
-                <!--v-if="rsTableMxHeaderIsVisible('Group')"-->
-                <!--class="text-xs-right"-->
-            <!--&gt;-->
-                <!--{{ props.item.type }}-->
-            <!--</td>-->
             <td
+                    v-if="rsTableMxHeaderIsVisible('Bucket Number')"
+                    class="text-xs-right"
+            >
+                {{ getBucketBaseCode(props.item) }}
+            </td>
+<!--            <td
                 v-if="rsTableMxHeaderIsVisible('Num')"
                 class="text-xs-right"
             >
                 {{ props.item.num }}
-            </td>
+            </td>-->
         </template>
     </v-data-table>
 </template>

@@ -100,7 +100,7 @@
                 {{ props.item.group }}
             </td>-->
             <td
-                v-if="rsTableMxHeaderIsVisible('Field no')"
+                v-if="rsTableMxHeaderIsVisible('Number in Bucket')"
                 class="text-xs-right"
             >
                 {{ props.item.num }}

@@ -206,7 +206,7 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Num',
+          text: 'Bucket Number',
           value: 'num',
           class: 'subheading'
         }
@@ -309,7 +309,7 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Letter in bucket',
+          text: 'Letter in Bucket',
           value: 'num',
           class: 'subheading'
         },
@@ -517,7 +517,7 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Num',
+          text: 'Number in Bucket',
           value: 'num',
           class: 'subheading'
         },
@@ -720,7 +720,7 @@ export const state = {
           class: 'subheading'
         },
         {
-          text: 'Field no',
+          text: 'Number in Bucket',
           value: 'num',
           class: 'subheading'
         },
