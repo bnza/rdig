@@ -97,7 +97,8 @@
                     v-if="rsTableMxHeaderIsVisible('Bucket Number')"
                     class="text-xs-right"
             >
-                {{ getBucketBaseCode(props.item) }}
+                <!--{{ getBucketBaseCode(props.item) }}-->
+                {{ props.item.num }}
             </td>
 <!--            <td
                 v-if="rsTableMxHeaderIsVisible('Num')"
