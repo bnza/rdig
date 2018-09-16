@@ -15,4 +15,9 @@ class CsvExportObjectToFileTask extends AbstractCsvExportEntityToFileTask
     public function rollback()
     {
     }
+
+    public function getComputedInfix(array $row): string
+    {
+        return 'O';
+    }
 }

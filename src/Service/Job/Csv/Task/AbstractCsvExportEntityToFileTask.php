@@ -13,6 +13,8 @@ abstract class AbstractCsvExportEntityToFileTask extends AbstractCsvExportToFile
 
     protected $currentStep = 0;
 
+    abstract public function getComputedInfix(array $row): string;
+
     public function getStepsNum(): int
     {
         return $this->job->getRecordCount();
@@ -27,13 +29,32 @@ abstract class AbstractCsvExportEntityToFileTask extends AbstractCsvExportToFile
         return $result['items'];
     }
 
+    protected function getComputedCode(array $row) {
+        $fields = $this->job->getFields();
+        $site = $this->getRowValue($row, $fields['site']);
+        $year = substr($this->getRowValue($row, $fields['year']), -2);
+        $infix = $this->getComputedInfix($row);
+        $num = $this->getRowValue($row, $fields['reg num']);
+        return "$site.$year.$infix.$num";
+    }
+
+    protected function getComputedValue($key, $row)
+    {
+        $method = 'getComputed' . ucfirst(strtolower($key));
+        return $this->$method($row);
+    }
+
     protected function getRowValue(array $row, string $key)
     {
         $keys = explode('.', $key);
         $length = count($keys);
         $value = $row;
-        for ($i = 0; $i < $length; ++$i) {
-            $value = $value[$keys[$i]];
+        if ($keys[0] === '__computed__') {
+            $value = $this->getComputedValue($keys[1], $row);
+        } else {
+            for ($i = 0; $i < $length; ++$i) {
+                $value = $value[$keys[$i]];
+            }
         }
 
         if ($value instanceof \DateTime) {

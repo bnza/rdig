@@ -15,4 +15,9 @@ class CsvExportSampleToFileTask extends AbstractCsvExportEntityToFileTask
     public function rollback()
     {
     }
+
+    public function getComputedInfix(array $row): string
+    {
+        return 'S';
+    }
 }

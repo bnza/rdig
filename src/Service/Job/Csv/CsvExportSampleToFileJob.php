@@ -9,9 +9,11 @@ class CsvExportSampleToFileJob extends AbstractCsvExportFindingToFileJob
     public $fields = [
         'site' => 'bucket.campaign.site.code',
         'year' => 'bucket.campaign.year',
-        'infix' => 'bucket.type',
+        'infix' => '__computed__.infix',
         'bucket' => 'bucket.num',
         'num' => 'num',
+        'reg num' => 'no',
+        'reg code' => '__computed__.code',
         'area code' => 'bucket.context.area.code',
         'area' => 'bucket.context.area.name',
         'locus type' => 'bucket.context.type',

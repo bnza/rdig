@@ -9,7 +9,7 @@ class CsvExportPotteryToFileJob extends AbstractCsvExportFindingToFileJob
     public $fields = [
         'site' => 'bucket.campaign.site.code',
         'year' => 'bucket.campaign.year',
-        'infix' => 'bucket.type',
+        'infix' => '__computed__.infix',
         'bucket' => 'bucket.num',
         'fragment' => 'num',
         'area code' => 'bucket.context.area.code',
