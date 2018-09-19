@@ -85,7 +85,8 @@
                 v-if="rsTableMxHeaderIsVisible('Bucket')"
                 class="text-xs-right"
             >
-                {{ getBucketBaseCode(props.item.bucket) }}
+                <!--{{ getBucketBaseCode(props.item.bucket) }}-->
+                {{ props.item.bucket.num }}
             </td>
 <!--            <td
                 v-if="rsTableMxHeaderIsVisible('Group')"
