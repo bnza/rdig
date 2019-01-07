@@ -29,11 +29,11 @@ export default {
       }
       return query
     },
-    paginationFromFullPath() {
+    paginationFromFullPath () {
       const query = this.queryFromFullPath || {}
       const querySort = query.sort || {}
       const offset = query.offset || 0
-      const rowsPerPage = query.limit || 25
+      const rowsPerPage = query.limit || 10
       let sortBy = 'id'
       if (Object.keys(querySort).length > 0) {
         sortBy = Object.keys(querySort)[0]

@@ -241,6 +241,11 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Area',
+          value: 'area.code',
+          class: 'subheading'
+        },
+        {
           text: 'Bucket',
           value: 'bucket.num',
           class: 'subheading'
@@ -301,6 +306,11 @@ export const state = {
         {
           text: 'Year',
           value: 'campaign.year',
+          class: 'subheading'
+        },
+        {
+          text: 'Area',
+          value: 'area.code',
           class: 'subheading'
         },
         {
@@ -512,6 +522,11 @@ export const state = {
           class: 'subheading'
         },
         {
+          text: 'Area',
+          value: 'area.code',
+          class: 'subheading'
+        },
+        {
           text: 'Bucket',
           value: 'bucket.num',
           class: 'subheading'
@@ -712,6 +727,11 @@ export const state = {
         {
           text: 'Year',
           value: 'campaign.year',
+          class: 'subheading'
+        },
+        {
+          text: 'Area',
+          value: 'area.code',
           class: 'subheading'
         },
         {

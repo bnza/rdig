@@ -336,7 +336,7 @@
                         label="Operator"
                         single-line
                         bottom
-                        :items="operators.text"
+                        :items="operators.boolean"
                         v-model="search_.envanterlik.op"
                         item-text="symbol"
                         item-value="value"
@@ -356,7 +356,7 @@
                         label="Operator"
                         single-line
                         bottom
-                        :items="operators.text"
+                        :items="operators.boolean"
                         v-model="search_.etutluk.op"
                         item-text="symbol"
                         item-value="value"
@@ -839,10 +839,10 @@
           description: {},
           conservationYear: {},
           location: {},
-          envanterlik: {},
-          etutluk: {},
-          drawing: {},
-          photo: {},
+          envanterlik: {cast: 'bool'},
+          etutluk: {cast: 'bool'},
+          drawing: {cast: 'bool'},
+          photo: {cast: 'bool'},
           restored: {cast: 'bool'}
         }
       },

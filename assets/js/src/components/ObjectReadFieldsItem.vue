@@ -163,6 +163,25 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
+            <v-flex align-start xs12>
+                <v-subheader>Conservation</v-subheader>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs3>
+                <v-text-field readonly label="Location" :value="item.location"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-text-field readonly label="Year of conservation" :value="item.conservationYear"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-checkbox readonly label="Envanterlik" :input-value="item.envanterlik" :indeterminate="null === item.etutluk"/>
+            </v-flex>
+            <v-flex xs3>
+                <v-checkbox readonly label="Etutluk" :input-value="item.etutluk" :indeterminate="null === item.etutluk"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex align-start xs12 md6>
                 <v-text-field readonly textarea label="Description" :value="item.description"/>
             </v-flex>

@@ -167,6 +167,22 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
+                <v-subheader>Conservation</v-subheader>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs4>
+                <v-text-field readonly label="Location" :value="item.location"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-checkbox readonly label="Envanterlik" :input-value="item.envanterlik" :indeterminate="null === item.etutluk"/>
+            </v-flex>
+            <v-flex xs4>
+                <v-checkbox readonly label="Etutluk" :input-value="item.etutluk" :indeterminate="null === item.etutluk"/>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex align-start xs12>
                 <v-text-field readonly textarea label="Remarks" :value="item.remarks"/>
             </v-flex>
         </v-layout>

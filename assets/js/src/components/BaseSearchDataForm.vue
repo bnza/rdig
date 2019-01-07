@@ -100,6 +100,10 @@
               value: 'isNull'
             },
             {
+              symbol: 'IS NOT NULL',
+              value: 'isNotNull'
+            },
+            {
               symbol: '=',
               value: 'eq',
             },

@@ -578,6 +578,75 @@
                 </v-flex>
             </v-layout>
         </div>
+        <v-subheader>
+            <v-btn
+                    flat
+                    icon
+                    color="indigo darken-4"
+                    @click.native="toggleGroupsVisibility('conservation')"
+            >
+                <v-icon>{{getVisibilityIcon('conservation')}}</v-icon>
+            </v-btn>
+            Conservation
+        </v-subheader>
+        <div v-show="groupsVisibility.conservation">
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                            label="Operator"
+                            single-line
+                            bottom
+                            :items="operators.text"
+                            v-model="search_.location.op"
+                            item-text="symbol"
+                            item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Location" v-model="search_.location.value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                            label="Operator"
+                            single-line
+                            bottom
+                            :items="operators.boolean"
+                            v-model="search_.envanterlik.op"
+                            item-text="symbol"
+                            item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8 align-center>
+                    <v-checkbox
+                            label="Envanterlik"
+                            v-model="search_.envanterlik.value"
+                            hide-details
+                    />
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
+                            label="Operator"
+                            single-line
+                            bottom
+                            :items="operators.boolean"
+                            v-model="search_.etutluk.op"
+                            item-text="symbol"
+                            item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8 align-center>
+                    <v-checkbox
+                            label="Etutluk"
+                            v-model="search_.etutluk.value"
+                            hide-details
+                    />
+                </v-flex>
+            </v-layout>
+        </div>
         <div v-show="groupsVisibility.finding">
             <v-layout row wrap>
                 <v-flex xs4>
@@ -678,6 +747,22 @@
             <v-layout row wrap>
                 <v-flex xs4>
                     <v-select
+                            label="Operator"
+                            single-line
+                            bottom
+                            :items="operators.text"
+                            v-model="search_['chronology.value'].op"
+                            item-text="symbol"
+                            item-value="value"
+                    />
+                </v-flex>
+                <v-flex xs8>
+                    <v-text-field label="Chronology" v-model="search_['chronology.value'].value"/>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs4>
+                    <v-select
                         label="Operator"
                         single-line
                         bottom
@@ -750,6 +835,7 @@
           decoration: false,
           surfaceTreatment: false,
           measure: false,
+          conservation: false,
           finding: true
         }
       }
@@ -782,6 +868,7 @@
           'outerSurfaceTreatment.value': {},
           'innerDecoration.value': {},
           'outerDecoration.value': {},
+          'chronology.value': {},
           num: {}, //num in bucket
           rimDiameter: {},
           rimWidth: {},
@@ -792,6 +879,9 @@
           baseDiameter: {},
           height: {},
           remarks: {},
+          location: {},
+          envanterlik: {cast: 'bool'},
+          etutluk: {cast: 'bool'},
           drawingNumber: {},
           restored: {cast: 'bool'}
         }
