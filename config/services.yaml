@@ -4,7 +4,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     admin_fpw: '%env(APP_ADMIN_FPW)%'
-    locale: 'en'
     app.dir.work: '%kernel.project_dir%/var/work'
     app.dir.jobs: '%app.dir.work%/jobs'
 
