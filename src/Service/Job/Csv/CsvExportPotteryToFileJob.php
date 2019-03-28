@@ -10,6 +10,7 @@ class CsvExportPotteryToFileJob extends AbstractCsvExportFindingToFileJob
         'site' => 'bucket.campaign.site.code',
         'year' => 'bucket.campaign.year',
         'infix' => '__computed__.infix',
+        'field code' => '__computed__.fieldcode',
         'area code' => 'bucket.context.area.code',
         'area' => 'bucket.context.area.name',
         'locus type' => 'bucket.context.type',

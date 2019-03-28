@@ -38,6 +38,15 @@ abstract class AbstractCsvExportEntityToFileTask extends AbstractCsvExportToFile
         return "$site.$year.$infix.$num";
     }
 
+    protected function getComputedFieldcode(array $row) {
+        $fields = $this->job->getFields();
+        $site = $this->getRowValue($row, $fields['site']);
+        $year = substr($this->getRowValue($row, $fields['year']), -2);
+        $bucket = $this->getRowValue($row, $fields['bucket']);
+        $num = $this->getRowValue($row, $fields['num']);
+        return "$site.$year.P.$bucket/$num";
+    }
+
     protected function getComputedValue($key, $row)
     {
         $method = 'getComputed' . ucfirst(strtolower($key));
