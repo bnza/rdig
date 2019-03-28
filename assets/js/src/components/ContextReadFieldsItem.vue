@@ -54,7 +54,7 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-text-field readonly textarea label="Description" :value="item.description"/>
+                <v-textarea outline readonly label="Description" :value="item.description"/>
             </v-flex>
         </v-layout>
     </v-container>

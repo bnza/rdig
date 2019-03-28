@@ -15,7 +15,7 @@
                 />
             </v-flex>
             <v-flex :class="{xs11: parent__, xs12:!parent__}" >
-                <v-select
+                <v-autocomplete
                     label="Campaign"
                     bottom
                     :items="campaigns"
@@ -25,7 +25,6 @@
                     :error-messages="campaignIdErrors"
                     :search-input.sync="searchCampaign"
                     @blur="formMxValidate('campaignId')"
-                    autocomplete
                     :loading="loadingCampaigns"
                 />
             </v-flex>

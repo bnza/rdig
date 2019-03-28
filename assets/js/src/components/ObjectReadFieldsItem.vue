@@ -183,10 +183,10 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12 md6>
-                <v-text-field readonly textarea label="Description" :value="item.description"/>
+                <v-textarea outline readonly label="Description" :value="item.description"/>
             </v-flex>
             <v-flex align-start xs12 md6>
-                <v-text-field readonly textarea label="Remarks" :value="item.remarks"/>
+                <v-textarea outline readonly textarea label="Remarks" :value="item.remarks"/>
             </v-flex>
         </v-layout>
     </v-container>

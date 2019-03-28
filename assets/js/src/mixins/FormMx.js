@@ -18,6 +18,9 @@ export default {
   computed: {
     $_FormMx_uuid () {
       return this.callerUuid || this.uuid
+    },
+    formMxIsInvalid () {
+      return this.$v ? this.$v.$invalid : false
     }
   },
   methods: {
@@ -124,12 +127,12 @@ export default {
         path: this.pathMxListPath
       })
     },
-    formMxValidate: debounce(function (key) {
+/*    formMxValidate (key) {
       if (key) {
         this.$v[key].$touch()
       }
       this.uuidMxSet('isInvalid', this.$v.$invalid, this.$_FormMx_uuid)
-    }, 250),
+    },*/
     getViolationMessage (key) {
       const violation = this.violations.find((item) => {
         return item.property === key
@@ -137,6 +140,18 @@ export default {
       if (violation) {
         return violation.message
       }
-    },
+    }
+  },
+  watch: {
+    formMxIsInvalid (flag) {
+      this.uuidMxSet('isInvalid', flag, this.$_FormMx_uuid)
+    }
   }
 }
+
+/*debounce(function (key) {
+  if (key) {
+    this.$v[key].$touch()
+  }
+  this.uuidMxSet('isInvalid', this.$v.$invalid, this.$_FormMx_uuid)
+}, 250),*/

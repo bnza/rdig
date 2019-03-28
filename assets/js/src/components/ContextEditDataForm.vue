@@ -1,9 +1,9 @@
 <template>
     <v-form>
-        <v-select
+        <v-autocomplete
             v-if="!parent__ && isEditable"
             label="Area"
-            bottom
+            menu-props="bottom"
             :items="areas"
             v-model="areaId"
             item-text="name"
@@ -13,7 +13,6 @@
             :error-messages="areaIdErrors"
             :search-input.sync="searchArea"
             @blur="formMxValidate('areaId')"
-            autocomplete
         />
         <v-layout v-else-if="item.area" row wrap>
             <v-flex xs6>
@@ -86,8 +85,8 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-text-field
-                    textarea
+                <v-textarea
+                        outline
                     label="Description"
                     v-model="item.description"
                     @blur="formMxValidate('description')"/>

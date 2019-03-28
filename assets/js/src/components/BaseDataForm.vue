@@ -21,12 +21,12 @@
     data() {
       return {
         item_: {},
-        vocabularies: {
+        /*vocabularies: {
           f: {},
           o: {},
           p: {},
           s: {}
-        }
+        }*/
       }
     },
     computed: {
@@ -130,3 +130,13 @@
     }
   }
 </script>
+
+<style scoped>
+    .text-strong >>> input[type="text"] {
+        font-weight: bold;
+    }
+
+    .readonly-field >>> input:read-only {
+        color: rgba(0, 0, 0, 0.5);
+    }
+</style>

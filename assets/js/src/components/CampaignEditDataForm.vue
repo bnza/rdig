@@ -2,24 +2,21 @@
     <v-form>
         <v-select
             label="Site"
-            bottom
+            menu-props="bottom"
             :items="sites"
-            v-model="siteId"
+            v-model="item.site"
             item-text="name"
             item-value="id"
-            :error-messages="siteIdErrors"
+            return-object
+            :error-messages="validationErrors.site"
             :disabled="!!parent__"
-            @input="formMxValidate('siteId')"
-            @blur="formMxValidate('siteId')"
         />
         <v-text-field
             label="Year"
-            v-model="year"
-            :error-messages="yearErrors"
+            v-model="item.year"
+            :error-messages="validationErrors.year"
             mask="####"
             :counter="4"
-            @input="formMxValidate('year')"
-            @blur="formMxValidate('year')"
             :disabled="isRequestPending"
             required
         />
@@ -27,10 +24,23 @@
 </template>
 
 <script>
-  import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
   import { validationMixin } from 'vuelidate'
   import { required, between } from 'vuelidate/lib/validators'
+  import {requiredAutocompleteObject} from '../util'
+
+  const yearErrors = ($v) => {
+    const errors = []
+    !$v.item.year.between && errors.push('Campaign\'s year must be within 2000 and 2099')
+    !$v.item.year.required && errors.push('Campaign\'s year is required.')
+    return errors
+  }
+
+  const siteErrors = ($v) => {
+    const errors = []
+    !$v.item.site.required && errors.push('Site is required.')
+    return errors
+  }
 
   export default {
     name: 'campaign-edit-data-form',
@@ -44,50 +54,18 @@
       }
     },
     validations: {
-      siteId: { required },
-      year: { required, between: between(2000, 2099) }
+      item: {
+        site: { requiredAutocompleteObject },
+        year: { required, between }
+      }
     },
     computed: {
-      site: {
-        get () {
-          return this.item.site || {}
-        },
-        set (value) {
-          Vue.set(this.item, 'site', value)
+      validationErrors() {
+        return {
+          site: siteErrors(this.$v),
+          name: yearErrors(this.$v),
         }
       },
-      siteId: {
-        get () {
-          return this.item.site ? this.item.site.id : undefined
-        },
-        set (value) {
-          if (!this.item.site) {
-            Vue.set(this.item, 'site', {})
-          }
-          Vue.set(this.item.site, 'id', value)
-        }
-      },
-      year: {
-        get () {
-          return this.item.year
-        },
-        set (value) {
-          Vue.set(this.item_, 'year', value)
-        }
-      },
-      yearErrors () {
-        const errors = []
-        if (!this.$v.year.$dirty) return errors
-        !this.$v.year.between && errors.push('Campaign\'s year must be within 2000 and 2099')
-        !this.$v.year.required && errors.push('Campaign\'s year is required.')
-        return errors
-      },
-      siteIdErrors () {
-        const errors = []
-        if (!this.$v.siteId.$dirty) return errors
-        !this.$v.siteId.required && errors.push('Site is required.')
-        return errors
-      }
     },
     methods: {
       fetchSites () {

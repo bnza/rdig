@@ -1,69 +1,14 @@
 <template>
     <v-form>
         <v-layout row wrap>
-            <v-flex class="xs4">
-                <v-text-field
-                    label="Site"
-                    type="text"
-                    :value="item.bucket ? item.bucket.campaign.site.name : undefined"
-                    class="readonly-field"
-                    color="grey lighten-1"
-                    readonly
-                />
-            </v-flex>
-            <v-flex class="xs4">
-                <v-text-field
-                    label="Year"
-                    type="text"
-                    :value="item.bucket ? item.bucket.campaign.year : undefined"
-                    class="readonly-field"
-                    color="grey lighten-1"
-                    readonly
-                />
-            </v-flex>
-            <v-flex class="xs4">
-                <v-text-field
-                    label="Area"
-                    type="text"
-                    :value="item.bucket ? item.bucket.context.area.name : undefined"
-                    class="readonly-field"
-                    color="grey lighten-1"
-                    readonly
-                />
+            <v-flex align-start xs12>
+                <v-subheader>Provenance</v-subheader>
             </v-flex>
         </v-layout>
-        <v-layout row wrap>
-            <v-flex class="xs6">
-                <v-text-field
-                    label="Context"
-                    type="text"
-                    :value="item.bucket ? `${item.bucket.context.type}.${item.bucket.context.num}` : undefined"
-                    class="readonly-field"
-                    color="grey lighten-1"
-                    readonly
-                />
-            </v-flex>
-            <v-flex class="xs6">
-                <v-select
-                    label="Bucket"
-                    bottom
-                    :items="buckets"
-                    v-model="item.bucket"
-                    item-text="code"
-                    item-value="id"
-                    :search-input.sync="searchBuckets"
-                    :loading="loadingBuckets"
-                    return-object
-                    autocomplete
-                    mask="AA.##.P.###n"
-                    :error-messages="bucketErrors"
-                    @blur="formMxValidate('bucket')"
-                    persistent-hint
-                    hint="This field is required"
-                    required
-                />
-            </v-flex>
-        </v-layout>
+        <bucket-autocomplete-sub-form-layout
+                :bucket.sync="item.bucket"
+                :error-messages="validationErrors.bucket"
+        />
         <v-layout row wrap>
             <v-flex align-start xs12>
                 <v-subheader>Identification</v-subheader>
@@ -72,44 +17,42 @@
         <v-layout row wrap>
             <v-flex xs6>
                 <v-text-field
-                    label="Field code"
-                    type="text"
-                    :value="getFindingFieldCode(item)"
-                    class="text-strong readonly-field"
-                    color="grey lighten-1"
-                    readonly
+                        label="Field code"
+                        type="text"
+                        :value="getFindingFieldCode(item)"
+                        class="text-strong readonly-field"
+                        color="grey lighten-1"
+                        readonly
                 />
             </v-flex>
             <v-flex xs6>
                 <v-text-field
-                    label="Registration code"
-                    type="text"
-                    class="text-strong readonly-field"
-                    :value="getFindingRegCode(item)"
-                    color="grey lighten-1"
-                    readonly
+                        label="Registration code"
+                        type="text"
+                        class="text-strong readonly-field"
+                        :value="item.bucket && item.bucket.campaign ? getFindingRegCode(item) : undefined"
+                        color="grey lighten-1"
+                        readonly
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
                 <v-text-field
-                    label="Field no"
-                    type="text"
-                    v-model="item.num"
-                    :error-messages="fieldNumErrors"
-                    @input="formMxValidate('vFieldNum')"
-                    persistent-hint
-                    hint="This field is required"
-                    required
+                        label="Field no"
+                        type="text"
+                        v-model="item.num"
+                        :error-messages="validationErrors.num"
+                        persistent-hint
+                        hint="This field is required"
+                        required
                 />
             </v-flex>
             <v-flex xs6>
                 <v-text-field
-                    label="Reg no"
-                    type="number"
-                    v-model="item.no"
-                    @input="formMxValidate('vRegNum')"
+                        label="Reg no"
+                        type="number"
+                        v-model="item.no"
                 />
             </v-flex>
         </v-layout>
@@ -120,163 +63,105 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
-                <v-select
-                    label="Class"
-                    bottom
-                    :items="vocabularies.o.class"
-                    v-model="item.class"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocClass"
-                    :loading="loadingVocClass"
-                    return-object
-                    autocomplete
-                    :error-messages="classErrors"
-                    @blur="formMxValidate('vClass')"
-                    persistent-hint
-                    hint="This field is required"
-                    required
+                <vocabulary-sub-form-autocomplete
+                        label="Class"
+                        :term.sync="item.class"
+                        :vocabulary="{type:'o', name: 'class'}"
+                        :error-messages="validationErrors.class"
+                        :required="true"
+                        hint="This field is required"
                 />
             </v-flex>
             <v-flex xs6>
-                <v-select
-                    label="Type"
-                    bottom
-                    :items="vocabularies.o.type"
-                    v-model="item.type"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocType"
-                    :loading="loadingVocType"
-                    return-object
-                    autocomplete
-                    :error-messages="typeErrors"
-                    @blur="formMxValidate('vType')"
-                    persistent-hint
-                    hint="This field is required"
-                    required
+                <vocabulary-sub-form-autocomplete
+                        label="Type"
+                        :term.sync="item.type"
+                        :vocabulary="{type:'o', name: 'type'}"
+                        :error-messages="validationErrors.type"
+                        :required="true"
+                        hint="This field is required"
                 />
             </v-flex>
             <v-flex xs12>
                 <v-text-field
-                    label="Sub Type"
-                    type="text"
-                    v-model="item.subType"
-                    @input="formMxValidate('vSubType')"
+                        label="Sub Type"
+                        type="text"
+                        v-model="item.subType"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
-                <v-select
-                    label="Material Class"
-                    bottom
-                    :items="vocabularies.o.materialClass"
-                    v-model="item.materialClass"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocMaterialClass"
-                    :loading="loadingVocMaterialClass"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vMaterialClass')"
+                <vocabulary-sub-form-autocomplete
+                        label="Material Class"
+                        :term.sync="item.materialClass"
+                        :vocabulary="{type:'o', name: 'materialClass'}"
                 />
             </v-flex>
             <v-flex xs6>
-                <v-select
-                    label="Material Type"
-                    bottom
-                    :items="vocabularies.o.materialType"
-                    v-model="item.materialType"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocMaterialType"
-                    :loading="loadingVocMaterialType"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vMaterialType')"
+                <vocabulary-sub-form-autocomplete
+                        label="Material Type"
+                        :term.sync="item.materialType"
+                        :vocabulary="{type:'o', name: 'materialType'}"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
-                <v-select
-                    label="Technique"
-                    bottom
-                    :items="vocabularies.o.technique"
-                    v-model="item.technique"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocTechnique"
-                    :loading="loadingVocTechnique"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vTechnique')"
+                <vocabulary-sub-form-autocomplete
+                        label="Technique"
+                        :term.sync="item.technique"
+                        :vocabulary="{type:'o', name: 'technique'}"
                 />
             </v-flex>
             <v-flex xs6>
-                <v-select
-                    label="Decoration"
-                    bottom
-                    :items="vocabularies.o.decoration"
-                    v-model="item.decoration"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocDecoration"
-                    :loading="loadingVocDecoration"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vDecoration')"
+                <vocabulary-sub-form-autocomplete
+                        label="Technique"
+                        :term.sync="item.decoration"
+                        :vocabulary="{type:'o', name: 'decoration'}"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
-                <v-select
-                    label="Preservation state"
-                    bottom
-                    :items="vocabularies.o.preservation"
-                    v-model="item.preservation"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocPreservation"
-                    :loading="loadingVocPreservation"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vPreservation')"
+                <vocabulary-sub-form-autocomplete
+                        label="Preservation state"
+                        :term.sync="item.preservation"
+                        :vocabulary="{type:'o', name: 'preservation'}"
                 />
             </v-flex>
             <v-flex xs6>
-                <v-select
-                    label="Munsell color"
-                    bottom
-                    :items="vocabularies.f.color"
-                    v-model="item.color"
-                    item-text="value"
-                    item-value="id"
-                    :search-input.sync="searchVocColor"
-                    :loading="loadingVocColor"
-                    return-object
-                    autocomplete
-                    @blur="formMxValidate('vColor')"
+                <vocabulary-sub-form-autocomplete
+                        label="Munsell color"
+                        :term.sync="item.color"
+                        :vocabulary="{type:'f', name: 'color'}"
+                />
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12>
+                <vocabulary-sub-form-autocomplete
+                        label="Chronology"
+                        :term.sync="item.chronology"
+                        :vocabulary="{type:'f', name: 'chronology'}"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
                 <v-text-field
-                    label="Date of retrieval"
-                    type="date"
-                    v-model="retrievalDate"
-                    @input="formMxValidate('vRetrievalDate')"
+                        label="Date of retrieval"
+                        type="date"
+                        v-model="retrievalDate"
+                        @input="formMxValidate('vRetrievalDate')"
                 />
             </v-flex>
             <v-flex xs6>
                 <v-text-field
-                    label="Fragments"
-                    type="number"
-                    v-model="item.fragments"
-                    @input="formMxValidate('vFragments')"
+                        label="Fragments"
+                        type="number"
+                        v-model="item.fragments"
+                        @input="formMxValidate('vFragments')"
                 />
             </v-flex>
         </v-layout>
@@ -288,26 +173,23 @@
         <v-layout row wrap>
             <v-flex align-start xs4>
                 <v-text-field
-                    type="number"
-                    label="North"
-                    v-model="item.coordN"
-                    @input="formMxValidate('vCoordN')"
+                        type="number"
+                        label="North"
+                        v-model="item.coordN"
                 />
             </v-flex>
             <v-flex align-start xs4>
                 <v-text-field
-                    type="number"
-                    label="East"
-                    v-model="item.coordE"
-                    @input="formMxValidate('vCoordE')"
+                        type="number"
+                        label="East"
+                        v-model="item.coordE"
                 />
             </v-flex>
             <v-flex align-start xs4>
                 <v-text-field
-                    type="number"
-                    label="Elevation"
-                    v-model="item.coordZ"
-                    @input="formMxValidate('vElevation')"
+                        type="number"
+                        label="Elevation"
+                        v-model="item.coordZ"
                 />
             </v-flex>
         </v-layout>
@@ -319,76 +201,69 @@
         <v-layout row wrap>
             <v-flex align-start xs4>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Height"
-                    v-model="item.height"
-                    @input="formMxValidate('vHeight')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Height"
+                        v-model="item.height"
                 />
             </v-flex>
             <v-flex align-start xs4>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Length"
-                    v-model="item.length"
-                    @input="formMxValidate('vLength')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Length"
+                        v-model="item.length"
                 />
             </v-flex>
             <v-flex align-start xs4>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Width"
-                    v-model="item.width"
-                    @input="formMxValidate('vWidth')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Width"
+                        v-model="item.width"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs6>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Thickness"
-                    v-model="item.thickness"
-                    @input="formMxValidate('vThickness')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Thickness"
+                        v-model="item.thickness"
                 />
             </v-flex>
             <v-flex align-start xs6>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Weight"
-                    v-model="item.weight"
-                    @input="formMxValidate('vWeight')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Weight"
+                        v-model="item.weight"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs6>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Diameter"
-                    v-model="item.diameter"
-                    @input="formMxValidate('vDiameter')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Diameter"
+                        v-model="item.diameter"
                 />
             </v-flex>
             <v-flex align-start xs6>
                 <v-text-field
-                    type="number"
-                    min="0"
-                    step="0.1"
-                    label="Perforation Diameter"
-                    v-model="item.perforationDiameter"
-                    @input="formMxValidate('vPerforationDiameter')"
+                        type="number"
+                        min="0"
+                        step="0.1"
+                        label="Perforation Diameter"
+                        v-model="item.perforationDiameter"
                 />
             </v-flex>
         </v-layout>
@@ -400,46 +275,45 @@
         <v-layout row wrap>
             <v-flex xs6>
                 <v-checkbox
-                    label="Photo"
-                    v-model="item.photo"
-                    @change="formMxValidate('vPhoto')"
+                        label="Photo"
+                        v-model="item.photo"
+
                 />
             </v-flex>
             <v-flex xs6>
                 <v-checkbox
-                    label="Drawing"
-                    v-model="item.drawing"
-                    @change="formMxValidate('vDrawing')"
+                        label="Drawing"
+                        v-model="item.drawing"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-text-field
-                    textarea
-                    label="Description"
-                    v-model="item.description"
-                    @input="formMxValidate('vDescription')"
+                <v-textarea
+                        outline
+                        label="Description"
+                        v-model="item.description"
+
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-text-field
-                    textarea
-                    label="Inscription"
-                    v-model="item.inscription"
-                    @input="formMxValidate('vInscription')"
+                <v-textarea
+                        outline
+                        label="Inscription"
+                        v-model="item.inscription"
+
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-text-field
-                    textarea
-                    label="Remarks"
-                    v-model="item.remarks"
-                    @input="formMxValidate('vRemarks')"
+                <v-textarea
+                        outline
+                        label="Remarks"
+                        v-model="item.remarks"
+
                 />
             </v-flex>
         </v-layout>
@@ -451,34 +325,34 @@
         <v-layout row wrap>
             <v-flex xs3>
                 <v-text-field
-                    type="number"
-                    label="Year of conservation"
-                    v-model="item.conservationYear"
-                    @input="formMxValidate('vConservationYear')"
+                        type="number"
+                        label="Year of conservation"
+                        v-model="item.conservationYear"
+
                 />
             </v-flex>
             <v-flex align-start xs9>
                 <v-text-field
-                    type="text"
-                    label="Location"
-                    v-model="item.location"
-                    @input="formMxValidate('vLocation')"
+                        type="text"
+                        label="Location"
+                        v-model="item.location"
+
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs6>
                 <v-checkbox
-                    label="Envanterlik"
-                    v-model="item.envanterlik"
-                    @change="formMxValidate('vEnvanterlik')"
+                        label="Envanterlik"
+                        v-model="item.envanterlik"
+
                 />
             </v-flex>
             <v-flex xs6>
                 <v-checkbox
-                    label="Etutluk"
-                    v-model="item.etutluk"
-                    @change="formMxValidate('vEtutluk')"
+                        label="Etutluk"
+                        v-model="item.etutluk"
+
                 />
             </v-flex>
         </v-layout>
@@ -488,9 +362,35 @@
 <script>
   import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
-  import {validationMixin} from 'vuelidate'
-  import {required} from 'vuelidate/lib/validators'
-  import {debounce} from '../util'
+  import BucketAutocompleteSubFormLayout from './BucketAutocompleteSubFormLayout'
+  import VocabularySubFormAutocomplete from './VocabularySubFormAutocomplete'
+  import { validationMixin } from 'vuelidate'
+  import { required } from 'vuelidate/lib/validators'
+  import { requiredAutocompleteObject } from '../util'
+
+  const bucketErrors = ($v) => {
+    const errors = []
+    !$v.item.bucket.requiredAutocompleteObject && errors.push('Bucket is required.')
+    return errors
+  }
+
+  const classErrors = ($v) => {
+    const errors = []
+    !$v.item.class.requiredAutocompleteObject && errors.push('Object class is required.')
+    return errors
+  }
+
+  const typeErrors = ($v) => {
+    const errors = []
+    !$v.item.type.requiredAutocompleteObject && errors.push('Object type is required.')
+    return errors
+  }
+
+  const fieldNumErrors = ($v) => {
+    const errors = []
+    !$v.item.num.required && errors.push('Field number is required.')
+    return errors
+  }
 
   export default {
     name: 'object-edit-data-form',
@@ -498,246 +398,44 @@
     mixins: [
       validationMixin
     ],
-    data() {
-      return {
-        buckets: [],
-        searchBuckets: null,
-        loadingBuckets: false,
-        searchVocClass: null,
-        loadingVocClass: false,
-        searchVocColor: null,
-        loadingVocColor: false,
-        searchVocDecoration: null,
-        loadingVocDecoration: false,
-        searchVocMaterialClass: null,
-        loadingVocMaterialClass: false,
-        searchVocMaterialType: null,
-        loadingVocMaterialType: false,
-        searchVocPreservation: null,
-        loadingVocPreservation: false,
-        searchVocTechnique: null,
-        loadingVocTechnique: false,
-        searchVocType: null,
-        loadingVocType: false,
-        searchVocChronology: null,
-        loadingVocChronology: false,
-      }
+    components: {
+      BucketAutocompleteSubFormLayout,
+      VocabularySubFormAutocomplete
     },
     computed: {
-      bucket: {
-        get() {
-          if (this.item.bucket) {
-            return this.addBucketCode(this.item.bucket)
-          }
-          return {}
-        },
-        set(value) {
-          Vue.set(this.item, 'bucket', value)
-        }
-      },
       retrievalDate: {
-        get() {
-            let date = this.item.retrievalDate
-            if (date && date.hasOwnProperty('date')) {
-              date = date.date.substr(0, 10);
-            }
-            return date
+        get () {
+          let date = this.item.retrievalDate
+          if (date && date.hasOwnProperty('date')) {
+            date = date.date.substr(0, 10)
+          }
+          return date
         },
-        set(value) {
+        set (value) {
           Vue.set(this.item, 'retrievalDate', value)
         }
       },
-      vType() {
-        return this.item.type ? this.item.type.id : undefined
-      },
-      vClass() {
-        return this.item.class ? this.item.class.id : undefined
-      },
-      vFieldNum() {
-        return this.item.num
-      },
-      bucketErrors() {
-        const errors = []
-        if (!this.$v.bucket.$dirty) return errors
-        !this.$v.bucket.required && errors.push('Bucket is required.')
-        return errors
-      },
-      classErrors() {
-        const errors = []
-        if (!this.$v.vClass.$dirty) return errors
-        !this.$v.vClass.required && errors.push('Object class is required.')
-        return errors
-      },
-      typeErrors() {
-        const errors = []
-        if (!this.$v.vType.$dirty) return errors
-        !this.$v.vType.required && errors.push('Object type is required.')
-        return errors
-      },
-      fieldNumErrors() {
-        const errors = []
-        if (!this.$v.vFieldNum.$dirty) return errors
-        !this.$v.vFieldNum.required && errors.push('Field number is required.')
-        return errors
-      },
-    },
-    methods: {
-      addBucketCode(bucket) {
-        let year = bucket.campaign.year.toString().substr(2)
-        bucket.code = `${bucket.campaign.site.code}${year}P${bucket.num}`
-        return bucket
-      },
-      /**
-       * Set the item.vocabularies arrays used by v-select vocabulary input
-       * @param item
-       * @param key
-       * @param vocType
-       * @param vocName
-       * @TODO merge with PotteryEditDataForm method
-       */
-      checkSelectVocabularies(item, key, vocType, vocName) {
-        if (item[key] && !this.vocabularies[vocType][vocName]) {
-          Vue.set(this.vocabularies[vocType], vocName, [item[key]])
+      validationErrors() {
+        return {
+          bucket: bucketErrors(this.$v),
+          class: classErrors(this.$v),
+          type: typeErrors(this.$v),
+          num: fieldNumErrors(this.$v)
         }
       },
-      fetchBuckets: debounce(function (pattern) {
-        this.loading = true
-        if (typeof pattern === 'string') {
-          const config = {
-            method: 'get',
-            url: `data/bucket/re/${pattern}`
-          }
-          this.$store.dispatch('requests/perform', config).then(
-            (response) => {
-              this.loading = false
-              this.buckets = response.data
-            }
-          ).catch(
-            (error) => {
-              this.loading = false
-            }
-          )
-        }
-      }, 250),
     },
     validations: {
-      bucket: {required},
-      vChronology: {},
-      vClass: {required},
-      vColor: {},
-      vConservationYear: {},
-      vCoordE: {},
-      vCoordN: {},
-      vDecoration: {},
-      vDescription: {},
-      vDiameter: {},
-      vDrawing: {},
-      vEnvanterlik: {},
-      vElevation: {},
-      vEtutluk: {},
-      vFieldNum: {required},
-      vFragments: {},
-      vHeight: {},
-      vInscription: {},
-      vLength: {},
-      vLocation: {},
-      vMaterialClass: {},
-      vMaterialType: {},
-      vPerforationDiameter: {},
-      vPhoto: {},
-      vPreservation: {},
-      vRegNum: {},
-      vRemarks: {},
-      vRetrievalDate: {},
-      vSubType: {},
-      vTechnique: {},
-      vThickness: {},
-      vType: {required},
-      vWeight: {},
-      vWidth: {},
+      item: {
+        bucket: {requiredAutocompleteObject},
+        class: {requiredAutocompleteObject},
+        type: {requiredAutocompleteObject},
+        num: {required}
+      },
     },
-    watch: {
-      // select values MUST be set for showing text
-      item(val) {
-        if (val.bucket && !this.buckets.length) {
-          this.buckets.push(this.addBucketCode(val.bucket))
-        }
-        const vocabularies = [
-          ['chronology', 'f', 'chronology'],
-          ['class', 'o', 'class'],
-          ['type', 'o', 'type'],
-          ['materialClass', 'o', 'materialClass'],
-          ['materialType', 'o', 'materialType'],
-          ['technique', 'o', 'technique'],
-          ['decoration', 'o', 'decoration'],
-          ['preservation', 'o', 'preservation'],
-          ['color', 'f', 'color'],
-        ]
-        for (const vocabulary of vocabularies) {
-          this.checkSelectVocabularies(val, ...vocabulary)
-        }
-        if (!val.discr) {
-          val.discr = 'O'
-        }
-      },
-      searchBuckets(val) {
-        val && this.fetchBuckets(val)
-      },
-      searchVocClass(val) {
-        val && this.fetchVocabulary('o', 'class', val)
-      },
-      searchVocDecoration(val) {
-        val && this.fetchVocabulary('o', 'decoration', val)
-      },
-      searchVocMaterialClass(val) {
-        val && this.fetchVocabulary('o', 'materialClass', val)
-      },
-      searchVocMaterialType(val) {
-        val && this.fetchVocabulary('o', 'materialType', val)
-      },
-      searchVocTechnique(val) {
-        val && this.fetchVocabulary('o', 'technique', val)
-      },
-      searchVocType(val) {
-        val && this.fetchVocabulary('o', 'type', val)
-      },
-      searchVocChronology(val) {
-        val && this.fetchVocabulary('f', 'chronology', val)
-      },
-      searchVocPreservation(val) {
-        val && this.fetchVocabulary('o', 'preservation', val)
-      },
-      searchVocColor(val) {
-        val && this.fetchVocabulary('f', 'color', val)
+/*    watch: {
+      formMxIsInvalid(flag) {
+        this.uuidMxSet('isInvalid', flag, this.$_FormMx_uuid)
       }
-    },
-    mounted() {
-      if (!this.item.bucket && this.parent__ && this.parent__.table === 'bucket') {
-        this.loadingBuckets = true
-        const config = {
-          method: 'get',
-          url: `data/bucket/${this.parent__.id}`
-        }
-        this.$store.dispatch('requests/perform', config).then(
-          (response) => {
-            this.loadingBuckets = false
-            Vue.set(this.item, 'bucket', response.data)
-          }
-        ).catch(
-          (error) => {
-            this.loadingBuckets = false
-          }
-        )
-      }
-    }
+    }*/
   }
 </script>
-
-<style scoped>
-    .text-strong >>> input[type="text"] {
-        font-weight: bold;
-    }
-    .readonly-field >>> input:read-only {
-        color: rgba(0,0,0,0.5);
-    }
-</style>

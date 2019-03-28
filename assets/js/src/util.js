@@ -55,6 +55,10 @@ export function debounce (func, wait, immediate) {
   }
 }
 
+export const requiredAutocompleteObject = (value) => {
+  return typeof value === 'object' && value.id
+}
+
 export default {
   camelize: camelize,
   decamelize: decamelize,

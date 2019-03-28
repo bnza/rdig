@@ -2,8 +2,7 @@
     <v-layout row wrap>
         <v-flex xs12 md10 offset-md1>
             <v-card>
-                <v-card-media v-bind:src="rdigLogoDarkSrc" height="200px" contain>
-                </v-card-media>
+                <v-img v-bind:src="rdigLogoDarkSrc" height="200px" contain />
 
                 <!--<v-card-text>
                     <v-container grid-list-xl text-xs-center>
