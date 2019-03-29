@@ -89,14 +89,15 @@ class CampaignRepository extends AbstractDataRepository
 
         $qb->add('where', $expr);
 
-        $format = function ($item) {
+/*        $format = function ($item) {
             return [
                 'id' => $item['id'],
                 'name' => $item['site']['code'].'.'.$item['year'],
             ];
         };
 
-        return array_map($format, $qb->getQuery()->getArrayResult());
+        return array_map($format, $qb->getQuery()->getArrayResult());*/
+        return $qb->getQuery()->getArrayResult();
 
     }
 

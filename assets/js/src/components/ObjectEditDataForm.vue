@@ -402,6 +402,13 @@
       BucketAutocompleteSubFormLayout,
       VocabularySubFormAutocomplete
     },
+    data() {
+      return {
+        item_: {
+          discr: 'O'
+        },
+      }
+    },
     computed: {
       retrievalDate: {
         get () {

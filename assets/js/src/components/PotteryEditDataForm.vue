@@ -530,6 +530,13 @@
     mixins: [
       validationMixin
     ],
+    data() {
+      return {
+        item_: {
+          discr: 'P'
+        },
+      }
+    },
     computed: {
       validationErrors () {
         return {

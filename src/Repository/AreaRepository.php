@@ -81,7 +81,7 @@ class AreaRepository extends AbstractDataRepository
         $expr[] = $qb->expr()->{$siteExprOp}('site.code', $siteExprValue);
 
         if (2 === count($codes)) {
-            if (strlen($codes[1]) > 2) {
+            if (strlen($codes[1]) > 3) {
                 throw new \Exception("Invalid pattern \"$pattern\"");
             }
             $expr[] = $qb->expr()->like(
@@ -95,13 +95,14 @@ class AreaRepository extends AbstractDataRepository
 
         $qb->add('where', $expr);
 
-        $format = function ($item) {
+/*        $format = function ($item) {
             return [
               'id' => $item['id'],
                 'name' => $item['site']['code'].'.'.$item['code'],
             ];
         };
 
-        return array_map($format, $qb->getQuery()->getArrayResult());
+        return array_map($format, $qb->getQuery()->getArrayResult());*/
+        return $qb->getQuery()->getArrayResult();
     }
 }

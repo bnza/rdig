@@ -68,6 +68,7 @@
                         :term.sync="item.type"
                         :vocabulary="{type:'s', name: 'type'}"
                         :required="true"
+                        :error-messages="validationErrors.type"
                         hint="This field is required"
                 />
 <!--                <v-autocomplete
@@ -146,7 +147,7 @@
 
   const typeErrors = ($v) => {
     const errors = []
-    !$v.item.type.requiredAutocompleteObject && errors.push('Object type is required.')
+    !$v.item.type.requiredAutocompleteObject && errors.push('Sample type is required.')
     return errors
   }
 
@@ -166,6 +167,13 @@
     mixins: [
       validationMixin
     ],
+    data() {
+      return {
+        item_: {
+          discr: 'S'
+        },
+      }
+    },
     computed: {
       validationErrors () {
         return {

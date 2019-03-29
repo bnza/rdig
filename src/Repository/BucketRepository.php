@@ -57,7 +57,9 @@ class BucketRepository extends AbstractDataRepository
 
     public function getByCodePattern(string $subject): array
     {
-        $pattern = '/([[:alpha:]]{1,2})(\d{0,2})P?(\d{0,3}\w{0,1})/';
+        //$pattern = '/([[:alpha:]]{1,2})(\d{0,2})P?(\d{0,3}\w{0,1})/';
+        // match KH.11.004e
+        $pattern = '/([[:alpha:]]{1,2})\.?(\d{0,2})\.?(\d{0,3}\w{0,1})/';
         preg_match($pattern, $subject, $matches);
         if ($matches) {
             $expr = [];
@@ -96,7 +98,8 @@ class BucketRepository extends AbstractDataRepository
             $results = $this->qbf->getQuery()->getArrayResult();
 
             $generateCode = function($item) {
-                $item['code'] = $item['campaign']['site']['code'].substr($item['campaign']['year'],2).'P'.$item['num'];
+                //$item['code'] = $item['campaign']['site']['code'].substr($item['campaign']['year'],2).'P'.$item['num'];
+                $item['code'] = $item['campaign']['site']['code'].'.'.substr($item['campaign']['year'],2).'.'.$item['num'];
                 return $item;
             };
 

@@ -57,6 +57,7 @@
                         persistent-hint
                         hint="This field is required"
                         :error-messages="errorMessages"
+                        no-filter
                         required
                 />
             </v-flex>
@@ -101,7 +102,7 @@
       },
       contextCode () {
         const context = this.context
-        return context ? `${context.type}.${context.num}` : undefined
+        return context.type ? `${context.type}.${context.num}` : undefined
       },
       selectedBucket: {
         get() {
@@ -161,7 +162,8 @@
       getBucketCode (bucket) {
         if (bucket.campaign) {
           const year = bucket.campaign.year.toString().substr(2)
-          return `${bucket.campaign.site.code}${year}P${bucket.num}`
+          //return `${bucket.campaign.site.code}${year}P${bucket.num}`
+          return `${bucket.campaign.site.code}.${year}.${bucket.num}`
         }
         return ''
       },
@@ -172,7 +174,7 @@
       setSelectedBucket (bucket) {
         this.selectedBucket = bucket
         this.addToBuckets(bucket);
-      }
+      },
     },
     watch: {
       searchInput (val) {

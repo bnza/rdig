@@ -2,33 +2,28 @@
     <v-form>
         <v-select
             label="Site"
-            bottom
+            menu-props="bottom"
             :items="sites"
-            v-model="siteId"
+            v-model="item.site"
             item-text="name"
             item-value="id"
-            :error-messages="siteIdErrors"
+            return-object
+            :error-messages="validationErrors.site"
             :disabled="!!parent__"
-            @input="formMxValidate('siteId')"
-            @blur="formMxValidate('siteId')"
         />
         <v-text-field
             label="Code"
-            v-model="code"
-            :error-messages="codeErrors"
-            :counter="2"
-            @input="formMxValidate('code')"
-            @blur="formMxValidate('code')"
+            v-model="item.code"
+            :error-messages="validationErrors.code"
+            :counter="3"
             :disabled="isRequestPending"
             required
         />
         <v-text-field
             label="Name"
             type="text"
-            v-model="name"
-            :error-messages="nameErrors"
-            @input="formMxValidate('name')"
-            @blur="formMxValidate('name')"
+            v-model="item.name"
+            :error-messages="validationErrors.name"
             :disabled="isRequestPending"
             required
         />
@@ -36,10 +31,29 @@
 </template>
 
 <script>
-  import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
   import { validationMixin } from 'vuelidate'
   import { required, maxLength } from 'vuelidate/lib/validators'
+  import {requiredAutocompleteObject} from '../util'
+
+  const siteErrors = ($v) => {
+    const errors = []
+    !$v.item.site.requiredAutocompleteObject && errors.push('Site is required.')
+    return errors
+  }
+
+  const codeErrors = ($v) => {
+    const errors = []
+    !$v.item.code.required && errors.push('Code is required.')
+    !$v.item.code.maxLength && errors.push('Code must be 2 characters length.')
+    return errors
+  }
+
+  const nameErrors = ($v) => {
+    const errors = []
+    !$v.item.name.required && errors.push('Name is required.')
+    return errors
+  }
 
   export default {
     name: 'area-edit-data-form',
@@ -53,66 +67,20 @@
       }
     },
     validations: {
-      siteId: { required },
-      code: { required, maxLength: maxLength(2) },
-      name: { required }
+      item: {
+        site: { requiredAutocompleteObject },
+        code: { required, maxLength: maxLength(3) },
+        name: { required }
+      }
     },
     computed: {
-      site: {
-        get () {
-          return this.item.site || {}
-        },
-        set (value) {
-          Vue.set(this.item, 'site', value)
+      validationErrors() {
+        return {
+          site: siteErrors(this.$v),
+          code: codeErrors(this.$v),
+          name: nameErrors(this.$v),
         }
       },
-      siteId: {
-        get () {
-          return this.item.site ? this.item.site.id : undefined
-        },
-        set (value) {
-          if (!this.item.site) {
-            Vue.set(this.item, 'site', {})
-          }
-          Vue.set(this.item.site, 'id', value)
-          Vue.set(this.item.site, 'name', '000')
-        }
-      },
-      code: {
-        get () {
-          return this.item.code
-        },
-        set (value) {
-          Vue.set(this.item_, 'code', value.toUpperCase())
-        }
-      },
-      name: {
-        get () {
-          return this.item.name
-        },
-        set (value) {
-          Vue.set(this.item, 'name', value)
-        }
-      },
-      codeErrors () {
-        const errors = []
-        if (!this.$v.code.$dirty) return errors
-        !this.$v.code.maxLength && errors.push('Area code must be maximum 2 characters long')
-        !this.$v.code.required && errors.push('Area code is required.')
-        return errors
-      },
-      nameErrors () {
-        const errors = []
-        if (!this.$v.name.$dirty) return errors
-        !this.$v.name.required && errors.push('Area name is required.')
-        return errors
-      },
-      siteIdErrors () {
-        const errors = []
-        if (!this.$v.siteId.$dirty) return errors
-        !this.$v.siteId.required && errors.push('Site is required.')
-        return errors
-      }
     },
     methods: {
       fetchSites () {

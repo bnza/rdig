@@ -38,7 +38,7 @@
 
   const siteErrors = ($v) => {
     const errors = []
-    !$v.item.site.required && errors.push('Site is required.')
+    !$v.item.site.requiredAutocompleteObject && errors.push('Site is required.')
     return errors
   }
 
@@ -63,7 +63,7 @@
       validationErrors() {
         return {
           site: siteErrors(this.$v),
-          name: yearErrors(this.$v),
+          year: yearErrors(this.$v),
         }
       },
     },
