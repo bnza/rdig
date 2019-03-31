@@ -56,16 +56,25 @@ class Site implements SiteRelateEntityInterface
     private $areas;
 
     /**
+     * @var Context[]
      * One Site has Many Areas.
      * @ORM\OneToMany(targetEntity="Context", mappedBy="site")
      */
     private $contexts;
 
     /**
+     * @var Campaign[]
      * One Site has Many Areas.
      * @ORM\OneToMany(targetEntity="Campaign", mappedBy="site")
      */
     private $campaigns;
+
+    /**
+     * @var Phase[]
+     * One Site has Many Areas.
+     * @ORM\OneToMany(targetEntity="Phase", mappedBy="site")
+     */
+    private $phases;
 
     public function __construct() {
         $this->users = new ArrayCollection();

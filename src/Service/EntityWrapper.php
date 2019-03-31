@@ -32,6 +32,7 @@ class EntityWrapper
         'sample' => 'App\Entity\Main\Sample',
         'object' => 'App\Entity\Main\Object',
         'pottery' => 'App\Entity\Main\Pottery',
+        'phase' => 'App\Entity\Main\Phase',
         'chronology' => 'App\Entity\Main\VocFChronology',
         'class' => 'App\Entity\Main\Voc%Class',
         'shape' => 'App\Entity\Main\VocPShape',

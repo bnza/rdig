@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -28,7 +29,7 @@ class Context implements SiteRelateEntityInterface
     private $id;
 
     /**
-     *  @Assert\Length(
+     * @Assert\Length(
      *     min = 1,
      *     max = 1
      * )
@@ -67,6 +68,14 @@ class Context implements SiteRelateEntityInterface
     private $area;
 
     /**
+     * @var Phase
+     * Many Context have One Site.
+     * @ORM\ManyToOne(targetEntity="Phase", inversedBy="contexts")
+     * @ORM\JoinColumn(name="phase", referencedColumnName="id", nullable=true, onDelete="NO ACTION")
+     */
+    private $phase;
+
+    /**
      * @var VocFChronology
      * @ORM\ManyToOne(targetEntity="VocFChronology")
      * @ORM\JoinColumn(name="chronology", referencedColumnName="id", nullable=true, onDelete="NO ACTION")
@@ -85,7 +94,8 @@ class Context implements SiteRelateEntityInterface
      */
     private $description;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->buckets = new ArrayCollection();
     }
 
@@ -137,7 +147,7 @@ class Context implements SiteRelateEntityInterface
         if (!$cType) {
             $cType = null;
         } else {
-            $cType = (int) $cType;
+            $cType = (int)$cType;
         }
         $this->cType = $cType;
     }
@@ -222,16 +232,46 @@ class Context implements SiteRelateEntityInterface
     public function setArea(Area $area): void
     {
         if (is_null($this->site)) {
-            $this->site = $area->getSite();
-        } else {
-            if ($area->getSite()->getId() !== $this->site->getId()) {
-                $areaName = $area->getName();
+            $this->setSite($area->getSite());
+        }
+
+        if ($area->getSite()->getId() !== $this->site->getId()) {
+            $areaName = $area->getName();
+            $siteName = $this->site->getName();
+            // TODO find right exception
+            throw new \Exception("Area \"$areaName\" does not belong to site \"$siteName\"");
+        }
+
+        $this->area = $area;
+    }
+
+    /**
+     * @return Phase
+     */
+    public function getPhase(): Phase
+    {
+        return $this->phase;
+    }
+
+    /**
+     * @param Phase $phase
+     * @throws \Exception
+     */
+    public function setPhase(?Phase $phase): void
+    {
+        if (!is_null($phase)) {
+            if (is_null($this->site)) {
+                $this->setSite($phase->getSite());
+            }
+
+            if ($phase->getSite()->getId() !== $this->site->getId()) {
+                $phaseName = $phase->getName();
                 $siteName = $this->site->getName();
                 // TODO find right exception
-                throw new \Exception("Area \"$areaName\" does not belong to site \"$siteName\"");
+                throw new \Exception("Phase \"$phaseName\" does not belong to site \"$siteName\"");
             }
         }
-        $this->area = $area;
+        $this->phase = $phase;
     }
 
     /**
@@ -262,9 +302,9 @@ class Context implements SiteRelateEntityInterface
     {
         $context = $event->getEntity();
         if (!$context->getNum()) {
-           $repo = $event->getEntityManager()->getRepository(self::class);
-           $num = $repo->getMaxSiteContextNum($context->getSite()->getId()) + 1;
-           $context->setNum($num);
+            $repo = $event->getEntityManager()->getRepository(self::class);
+            $num = $repo->getMaxSiteContextNum($context->getSite()->getId()) + 1;
+            $context->setNum($num);
         }
 
     }
@@ -278,7 +318,7 @@ class Context implements SiteRelateEntityInterface
         ];
 
         if ($ancestors) {
-            $data['area'] =  $this->area->toArray(true);
+            $data['area'] = $this->area->toArray(true);
         }
 
         return $data;

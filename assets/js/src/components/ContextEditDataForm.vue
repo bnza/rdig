@@ -34,11 +34,19 @@
                         :error-messages="validationErrors.cType"
                 />
             </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex xs6>
                 <vocabulary-sub-form-autocomplete
                         label="Chronology"
                         :term.sync="item.chronology"
                         :vocabulary="{type:'f', name: 'chronology'}"
+                />
+            </v-flex>
+            <v-flex xs6>
+                <phase-autocomplete
+                        :item.sync="item.phase"
+                        :site="area.site"
                 />
             </v-flex>
         </v-layout>
@@ -57,6 +65,7 @@
 <script>
   import BaseDataForm from './BaseDataForm'
   import AreaAutocompleteSubFormLayout from './AreaAutocompleteSubFormLayout'
+  import PhaseAutocomplete from './PhaseAutocomplete'
   import VocabularySubFormAutocomplete from './VocabularySubFormAutocomplete'
   import { validationMixin } from 'vuelidate'
   import { required, between } from 'vuelidate/lib/validators'
@@ -91,16 +100,12 @@
     extends: BaseDataForm,
     components: {
       AreaAutocompleteSubFormLayout,
+      PhaseAutocomplete,
       VocabularySubFormAutocomplete
     },
     mixins: [
       validationMixin
     ],
-/*    data () {
-      return {
-        areas: []
-      }
-    },*/
     validations: {
       item: {
         area: {requiredAutocompleteObject},
@@ -110,6 +115,9 @@
       }
     },
     computed: {
+      area() {
+        return this.item.area || {}
+      },
       validationErrors () {
         return {
           area: areaErrors(this.$v),

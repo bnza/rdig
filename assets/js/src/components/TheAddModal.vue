@@ -64,6 +64,10 @@
         /* webpackChunkName: "CampaignEditDataForm" */
         './CampaignEditDataForm'
         ),
+      PhaseAddDataForm: () => import(
+        /* webpackChunkName: "PhaseEditDataForm" */
+        './PhaseEditDataForm'
+        ),
       ContextAddDataForm: () => import(
         /* webpackChunkName: "ContextEditDataForm" */
         './ContextEditDataForm'

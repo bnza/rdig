@@ -2,8 +2,7 @@
     <v-dialog v-model="open" persistent max-width="600px">
         <v-card>
             <v-card-title class="indigo darken-4">
-                <v-icon color="white">search</v-icon>
-                &nbsp;
+                <v-icon color="white">search</v-icon>&nbsp;
                 <span class="headline white--text">Search</span>
             </v-card-title>
             <v-card-text>
@@ -81,6 +80,10 @@
       ObjectSearchDataForm: () => import(
         /* webpackChunkName: "ObjectSearchDataForm" */
         './ObjectSearchDataForm'
+        ),
+      PhaseSearchDataForm: () => import(
+        /* webpackChunkName: "PhaseSearchDataForm" */
+        './PhaseSearchDataForm'
         ),
       PotterySearchDataForm: () => import(
         /* webpackChunkName: "PotterySearchDataForm" */

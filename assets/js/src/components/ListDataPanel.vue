@@ -48,6 +48,10 @@
         /* webpackChunkName: "ContextDataTable" */
         './ContextDataTable'
         ),
+      PhaseDataTable: () => import(
+        /* webpackChunkName: "PhaseDataTable" */
+        './PhaseDataTable'
+        ),
       FindingDataTable: () => import(
         /* webpackChunkName: "FindingDataTable" */
         './FindingDataTable'

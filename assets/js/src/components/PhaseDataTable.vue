@@ -21,7 +21,7 @@
             <td class="justify-center layout px-0">
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id), props.item.area.site.id)"
+                        :disabled="!authMxAuthorize(getPath('update', false, props.item.id), props.item.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -33,7 +33,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                     <v-btn
-                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id), props.item.area.site.id)"
+                        :disabled="!authMxAuthorize(getPath('delete', false, props.item.id), props.item.site.id)"
                         icon
                         class="mx-0"
                         slot="activator"
@@ -56,55 +56,22 @@
                 </v-tooltip>
             </td>
             <td
+                v-if="rsTableMxHeaderIsVisible('Code')"
+                class="text-xs-right"
+            >
+                <strong>{{ getCode(props.item) }}</strong>
+            </td>
+            <td
                 v-if="rsTableMxHeaderIsVisible('Site')"
                 class="text-xs-right"
             >
-                {{ props.item.area.site.code }}
+                {{ props.item.site.code }}
             </td>
             <td
-                v-if="rsTableMxHeaderIsVisible('Area')"
+                v-if="rsTableMxHeaderIsVisible('Name')"
                 class="text-xs-right"
             >
-                {{ props.item.area.code }}
-            </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Type')"
-                class="text-xs-right"
-            >
-                {{ props.item.type }}
-            </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Num')"
-                class="text-xs-right"
-            >
-                <strong>{{ props.item.num }}</strong>
-            </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Type of context')"
-                class="text-xs-right"
-            >
-                {{ props.item.cType }}
-            </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Chronology')"
-            >
-                {{ getVocabularyValue(props.item.chronology) }}
-            </td>
-            <td
-                    v-if="rsTableMxHeaderIsVisible('Phase')"
-            >
-                {{ props.item.phase && props.item.phase.name }}
-            </td>
-            <td
-                v-if="rsTableMxHeaderIsVisible('Description')"
-            >
-                <v-tooltip
-                    v-if="props.item.description"
-                    left
-                >
-                    <span slot="activator">{{ trimTableCellContent(props.item.description) }}</span>
-                    <span>{{ props.item.description }}</span>
-                </v-tooltip>
+                {{ props.item.name }}
             </td>
         </template>
     </v-data-table>
@@ -114,7 +81,12 @@
   import BaseListDataTable from './BaseListDataTable'
 
   export default {
-    name: 'context-data-table',
+    name: 'phase-data-table',
     extends: BaseListDataTable,
+    methods: {
+      getCode (item) {
+        return `[${item.site.code}] ${item.name}`
+      }
+    }
   }
 </script>

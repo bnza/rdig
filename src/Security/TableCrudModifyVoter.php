@@ -23,6 +23,7 @@ class TableCrudModifyVoter extends Voter
         'area' => ['ROLE_SUPER_USER'],
         'bucket' => ['ROLE_USER'],
         'campaign' => ['ROLE_ADMIN'],
+        'phase' => ['ROLE_ADMIN'],
         'context' => ['ROLE_USER'],
         'object' => ['ROLE_USER'],
         'pottery' => ['ROLE_USER'],

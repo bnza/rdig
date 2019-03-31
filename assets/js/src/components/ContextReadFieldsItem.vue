@@ -28,11 +28,11 @@
         </v-layout>-->
         <v-layout row wrap>
             <v-flex align-start xs12>
-                <v-subheader><strong>Context</strong></v-subheader>
+                <v-subheader><strong>Identification</strong></v-subheader>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs3>
+            <v-flex xs4>
                 <v-text-field
                     readonly
                     label="Code"
@@ -40,16 +40,22 @@
                     class="text-strong"
                 />
             </v-flex>
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs3>
+            <v-flex xs4>
                 <v-text-field readonly label="Type" :value="type"/>
             </v-flex>
-            <v-flex xs3>
+            <v-flex xs4>
                 <v-text-field readonly label="Number" :value="item.num"/>
             </v-flex>
+        </v-layout>
+        <v-flex align-start xs12>
+            <v-subheader><strong>Classification</strong></v-subheader>
+        </v-flex>
+        <v-layout row wrap>
             <v-flex xs6>
                 <v-text-field readonly label="Chronology" :value="item.chronology ? item.chronology.value : undefined"/>
+            </v-flex>
+            <v-flex xs6>
+                <v-text-field readonly label="Phase" :value="item.phase ? item.phase.name : undefined"/>
             </v-flex>
         </v-layout>
         <v-layout row wrap>

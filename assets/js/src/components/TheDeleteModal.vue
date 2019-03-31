@@ -79,6 +79,10 @@
         /* webpackChunkName: "ObjectDeleteDataForm" */
         './ObjectDeleteDataForm'
         ),
+      PhaseDeleteDataForm: () => import(
+        /* webpackChunkName: "PhaseDeleteDataForm" */
+        './PhaseDeleteDataForm'
+        ),
       PotteryDeleteDataForm: () => import(
         /* webpackChunkName: "PotteryDeleteDataForm" */
         './PotteryDeleteDataForm'

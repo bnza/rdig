@@ -39,6 +39,7 @@ class CsvExportObjectToFileJob extends AbstractCsvExportFindingToFileJob
         'object weight' => 'thickness',
         'date of object' => 'chronology.value',
         'date of context' => 'bucket.context.chronology.value',
+        'phase' => 'bucket.context.phase.name',
         // 'object date of context' => 'bucket.context.chronology.value',
         'inscription' => 'inscription',
         'description' => 'description',

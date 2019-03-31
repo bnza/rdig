@@ -1,10 +1,10 @@
 <template>
     <v-autocomplete
-            label="Campaign"
+            label="Phase"
             menu-props="bottom"
-            :items="autocomplete.campaigns"
-            v-model="selectedCampaign"
-            item-text="year"
+            :items="autocomplete.items"
+            v-model="selectedItem"
+            item-text="name"
             item-value="id"
             :search-input.sync="searchInput"
             :loading="loading"
@@ -21,12 +21,12 @@
   import { debounce } from '../util'
 
   export default {
-    name: 'CampaignAutocomplete',
+    name: 'PhaseAutocomplete',
     data () {
       return {
         autocomplete: {
-          campaigns: [],
-          campaign: {},
+          items: [],
+          item: {},
         },
         searchInput: '',
         loading: false,
@@ -37,7 +37,7 @@
         type: Object,
         default: () => {}
       },
-      campaign: {
+      item: {
         type: Object,
         default: () => {}
       },
@@ -51,30 +51,27 @@
       },
     },
     computed: {
-/*      site () {
-        return this.selectedCampaign.site || {}
-      },*/
-      selectedCampaign: {
+      selectedItem: {
         get () {
-          return this.autocomplete.campaign
+          return this.autocomplete.item
         },
         set (value) {
-          return this.autocomplete.campaign = value
+          return this.autocomplete.item = value
         }
       }
     },
     methods: {
-      fetchCampaigns: debounce(function (pattern) {
+      fetchItems: debounce(function (pattern) {
         pattern = pattern || ''
         this.loading = true
         const config = {
           method: 'get',
-          url: `data/campaign?re=${this.site.code}.${pattern}`
+          url: `data/phase/?re=${this.site.code}.${pattern}`
         }
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
             this.loading = false
-            this.autocomplete.campaigns = response.data
+            this.autocomplete.items = response.data
           }
         ).catch(
           (error) => {
@@ -86,18 +83,18 @@
     watch: {
       searchInput (newValue, oldValue) {
         if (newValue && newValue !== oldValue) {
-          this.fetchCampaigns(newValue)
+          this.fetchItems(newValue)
         }
       },
-      campaign (val) {
+      item (val) {
         if (val) {
-          this.autocomplete.campaigns.push(val)
-          this.selectedCampaign = val
+          this.autocomplete.items.push(val)
+          this.selectedItem = val
         }
       },
-      selectedCampaign (value) {
+      selectedItem (value) {
         if (value) {
-          this.$emit('update:campaign', value)
+          this.$emit('update:item', value)
         }
       }
     }

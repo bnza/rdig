@@ -55,6 +55,10 @@
         /* webpackChunkName: "CampaignReadDataForm" */
         './CampaignReadDataForm'
         ),
+      PhaseReadDataForm: () => import(
+        /* webpackChunkName: "PhaseReadDataForm" */
+        './PhaseReadDataForm'
+        ),
       ContextReadDataForm: () => import(
         /* webpackChunkName: "ContextReadDataForm" */
         './ContextReadDataForm'

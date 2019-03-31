@@ -117,6 +117,34 @@ export const state = {
         }
       ]
     },
+    phase: {
+      label: 'Phase',
+      headers: [
+        {
+          text: 'ID',
+          value: 'id',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Code',
+          value: 'site.code',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Site',
+          value: 'site.code',
+          class: 'subheading',
+          width: '20%'
+        },
+        {
+          text: 'Name',
+          value: 'name',
+          class: 'subheading'
+        }
+      ]
+    },
     context: {
       label: 'Locus',
       headers: [
@@ -155,6 +183,11 @@ export const state = {
         {
           text: 'Chronology',
           value: 'chronology.value',
+          class: 'subheading'
+        },
+        {
+          text: 'Phase',
+          value: 'phase.value',
           class: 'subheading'
         },
         {

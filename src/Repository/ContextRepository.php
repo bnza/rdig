@@ -19,6 +19,7 @@ class ContextRepository extends AbstractDataRepository
         $qb
             ->leftJoin('e.area', 'area')
             ->leftJoin('area.site', 'site')
+            ->leftJoin('e.phase', 'phase')
             ->leftJoin('e.chronology', 'chronology');
 
         return $this;
@@ -29,6 +30,7 @@ class ContextRepository extends AbstractDataRepository
         $qb
             ->addSelect('area')
             ->addSelect('site')
+            ->addSelect('phase')
             ->addSelect('chronology');
 
         return $this;
