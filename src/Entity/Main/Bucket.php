@@ -72,29 +72,37 @@ class Bucket implements SiteRelateEntityInterface
     /**
      * One Bucket has Many Findings.
      *
-     * @ORM\OneToMany(targetEntity="Pottery", mappedBy="bucket")
-     */
-    private $potteries;
-
-    /**
-     * One Bucket has Many Findings.
-     *
      * @ORM\OneToMany(targetEntity="Object", mappedBy="bucket")
      */
-    private $objects;
+    private $findings;
 
-    /**
-     * One Bucket has Many Findings.
-     *
-     * @ORM\OneToMany(targetEntity="Sample", mappedBy="bucket")
-     */
-    private $samples;
+//    /**
+//     * One Bucket has Many Findings.
+//     *
+//     * @ORM\OneToMany(targetEntity="Pottery", mappedBy="bucket")
+//     */
+//    private $potteries;
+//
+//    /**
+//     * One Bucket has Many Findings.
+//     *
+//     * @ORM\OneToMany(targetEntity="Object", mappedBy="bucket")
+//     */
+//    private $objects;
+//
+//    /**
+//     * One Bucket has Many Findings.
+//     *
+//     * @ORM\OneToMany(targetEntity="Sample", mappedBy="bucket")
+//     */
+//    private $samples;
 
     public function __construct()
     {
-        $this->potteries = new ArrayCollection();
-        $this->objects = new ArrayCollection();
-        $this->samples = new ArrayCollection();
+        $this->findings = new ArrayCollection();
+//        $this->potteries = new ArrayCollection();
+//        $this->objects = new ArrayCollection();
+//        $this->samples = new ArrayCollection();
     }
 
     /**
@@ -178,38 +186,54 @@ class Bucket implements SiteRelateEntityInterface
     }
 
     /**
-     * @param Pottery $pottery
+     * @return mixed
      */
-    public function addPottery(Pottery $pottery)
+    public function getFindings()
     {
-        $this->potteries[] = $pottery;
-        $pottery->setBucket($this);
+        return $this->findings;
     }
 
     /**
-     * @return ArrayCollection
+     * @param mixed $findings
      */
-    public function getPotteries()
+    public function setFindings($findings): void
     {
-        return $this->potteries;
+        $this->findings = $findings;
     }
 
-    /**
-     * @param object $object
-     */
-    public function addObject(Object $object)
-    {
-        $this->objects[] = $object;
-        $object->setBucket($this);
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getObjects()
-    {
-        return $this->objects;
-    }
+//    /**
+//     * @param Pottery $pottery
+//     */
+//    public function addPottery(Pottery $pottery)
+//    {
+//        $this->potteries[] = $pottery;
+//        $pottery->setBucket($this);
+//    }
+//
+//    /**
+//     * @return ArrayCollection
+//     */
+//    public function getPotteries()
+//    {
+//        return $this->potteries;
+//    }
+//
+//    /**
+//     * @param object $object
+//     */
+//    public function addObject(Object $object)
+//    {
+//        $this->objects[] = $object;
+//        $object->setBucket($this);
+//    }
+//
+//    /**
+//     * @return ArrayCollection
+//     */
+//    public function getObjects()
+//    {
+//        return $this->objects;
+//    }
 
     public function getSiteId(): int
     {
