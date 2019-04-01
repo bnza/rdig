@@ -71,7 +71,7 @@
         this.$store.dispatch('requests/perform', config).then(
           (response) => {
             this.loading = false
-            this.autocomplete.items = response.data
+            this.autocomplete.items = [{id: '', name: ''}, ...response.data]
           }
         ).catch(
           (error) => {

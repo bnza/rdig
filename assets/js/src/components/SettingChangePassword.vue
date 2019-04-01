@@ -12,8 +12,6 @@
                         v-model="oldPassword"
                         :error-messages="oldPasswordErrors"
                         :counter="8"
-                        @input="formMxValidate('oldPassword')"
-                        @blur="formMxValidate('oldPassword')"
                         :disabled="isRequestPending"
                         required
                     />
@@ -25,8 +23,6 @@
                         v-model="password"
                         :error-messages="passwordErrors"
                         :counter="8"
-                        @input="formMxValidate('password')"
-                        @blur="formMxValidate('password')"
                         :disabled="isRequestPending"
                         required
                     />
@@ -37,8 +33,6 @@
                         type="password"
                         v-model="checkPassword"
                         :error-messages="checkPasswordErrors"
-                        @input="formMxValidate('checkPassword')"
-                        @blur="formMxValidate('checkPassword')"
                         :disabled="isRequestPending"
                         required
                     />
@@ -99,7 +93,7 @@
       oldPassword: {required, minLength: minLength(8)},
       password: {required, minLength: minLength(8)},
       checkPassword: {
-        sameAsPassword: sameAs('password')
+        sameAsPassword: sameAs(function() { return this.password })
       }
     },
     methods: {
@@ -140,21 +134,18 @@
       },
       oldPasswordErrors() {
         const errors = []
-        if (!this.$v.password.$dirty) return errors
         !this.$v.oldPassword.minLength && errors.push('Password must be almost 8 character long.')
         !this.$v.oldPassword.required && errors.push('Password is required.')
         return errors
       },
       passwordErrors() {
         const errors = []
-        if (!this.$v.password.$dirty) return errors
         !this.$v.password.minLength && errors.push('Password must be almost 8 character long.')
         !this.$v.password.required && errors.push('Password is required.')
         return errors
       },
       checkPasswordErrors() {
         const errors = []
-        if (!this.$v.checkPassword.$dirty) return errors
         !this.$v.checkPassword.sameAsPassword && errors.push('Passwords does not match.')
         return errors
       }

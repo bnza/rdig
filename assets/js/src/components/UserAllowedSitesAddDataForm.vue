@@ -5,18 +5,15 @@
             single-line
             bottom
             :items="sites"
-            v-model="siteId"
+            v-model="item.siteId"
             item-text="name"
             item-value="id"
             :error-messages="siteIdErrors"
-            @input="formMxValidate('siteId')"
-            @blur="formMxValidate('siteId')"
         />
     </v-form>
 </template>
 
 <script>
-  import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
@@ -35,21 +32,14 @@
       }
     },
     validations: {
-      siteId: { required }
+      item: {
+        siteId: { required }
+      }
     },
     computed: {
-      siteId: {
-        get () {
-          return this.item.siteId
-        },
-        set (value) {
-          Vue.set(this.item, 'siteId', value)
-        }
-      },
       siteIdErrors () {
         const errors = []
-        if (!this.$v.siteId.$dirty) return errors
-        !this.$v.siteId.required && errors.push('Site is required.')
+        !this.$v.item.siteId.required && errors.push('Site is required.')
         return errors
       }
     },

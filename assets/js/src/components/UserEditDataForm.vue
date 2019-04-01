@@ -16,14 +16,12 @@
                     <v-checkbox
                         label="Superuser"
                         v-model="superuser"
-                        @change="formMxValidate('superuser')"
                     />
                 </v-flex>
                 <v-flex xs6>
                     <v-checkbox
                         label="Admin"
                         v-model="admin"
-                        @change="formMxValidate('admin')"
                     />
                 </v-flex>
             </v-layout>

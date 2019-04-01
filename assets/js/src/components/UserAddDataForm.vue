@@ -5,11 +5,9 @@
                 <v-text-field
                     label="Username"
                     type="text"
-                    v-model="username"
+                    v-model="item.username"
                     :error-messages="usernameErrors"
                     :counter="8"
-                    @input="formMxValidate('username')"
-                    @blur="formMxValidate('username')"
                     :disabled="isRequestPending"
                     required
                 />
@@ -32,11 +30,9 @@
                 <v-text-field
                     label="Password"
                     type="password"
-                    v-model="password"
+                    v-model="item.password"
                     :error-messages="passwordErrors"
                     :counter="8"
-                    @input="formMxValidate('password')"
-                    @blur="formMxValidate('password')"
                     :disabled="isRequestPending"
                     required
                 />
@@ -47,8 +43,6 @@
                     type="password"
                     v-model="checkPassword"
                     :error-messages="checkPasswordErrors"
-                    @input="formMxValidate('checkPassword')"
-                    @blur="formMxValidate('checkPassword')"
                     :disabled="isRequestPending"
                     required
                 />
@@ -77,29 +71,15 @@
       }
     },
     validations: {
-      username: {required, minLength: minLength(8)},
-      password: {required, minLength: minLength(8)},
+      item: {
+        username: {required, minLength: minLength(8)},
+        password: {required, minLength: minLength(8)},
+      },
       checkPassword: {
-        sameAsPassword: sameAs('password')
+        sameAsPassword: sameAs(function() { return this.item.password })
       }
     },
     computed: {
-      username: {
-        get() {
-          return this.item.username
-        },
-        set(value) {
-          Vue.set(this.item, 'username', value)
-        }
-      },
-      password: {
-        get() {
-          return this.item.password
-        },
-        set(value) {
-          Vue.set(this.item, 'password', value)
-        }
-      },
       admin: {
         get() {
           return this.item.roles && (this.item.roles.indexOf('ROLE_ADMIN') > -1)
@@ -140,21 +120,18 @@
       },
       usernameErrors() {
         const errors = []
-        if (!this.$v.username.$dirty) return errors
-        !this.$v.username.minLength && errors.push('Username must be almost 8 character long.')
-        !this.$v.username.required && errors.push('Username is required.')
+        !this.$v.item.username.minLength && errors.push('Username must be almost 8 character long.')
+        !this.$v.item.username.required && errors.push('Username is required.')
         return errors
       },
       passwordErrors() {
         const errors = []
-        if (!this.$v.password.$dirty) return errors
-        !this.$v.password.minLength && errors.push('Password must be almost 8 character long.')
-        !this.$v.password.required && errors.push('Password is required.')
+        !this.$v.item.password.minLength && errors.push('Password must be almost 8 character long.')
+        !this.$v.item.password.required && errors.push('Password is required.')
         return errors
       },
       checkPasswordErrors() {
         const errors = []
-        if (!this.$v.checkPassword.$dirty) return errors
         !this.$v.checkPassword.sameAsPassword && errors.push('Passwords does not match.')
         return errors
       }
