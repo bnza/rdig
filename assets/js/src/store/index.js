@@ -187,7 +187,7 @@ export const state = {
         },
         {
           text: 'Phase',
-          value: 'phase.value',
+          value: 'phase.name',
           class: 'subheading'
         },
         {

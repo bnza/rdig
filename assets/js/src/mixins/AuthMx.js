@@ -1,7 +1,7 @@
 import { mapGetters } from 'vuex'
 
 const readOnlyActions = ['read', 'search', 'download']
-const privTables = ['site', 'area', 'campaign']
+const privTables = ['site', 'area', 'campaign', 'phase']
 
 export const authMxAuthorize = (path, siteId, store, router) => {
   const authMxIsAdmin = store.getters['account/isAdmin']

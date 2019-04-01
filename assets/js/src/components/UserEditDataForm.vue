@@ -6,7 +6,7 @@
                     readonly
                     label="Username"
                     type="text"
-                    v-model="username"
+                    v-model="item.username"
                     :disabled="isRequestPending"
                     required
                 />
@@ -33,6 +33,7 @@
   import Vue from 'vue'
   import BaseDataForm from './BaseDataForm'
   import {validationMixin} from 'vuelidate'
+  import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 
   export default {
     name: 'user-edit-data-form',
@@ -47,8 +48,10 @@
       }
     },
     validations: {
-      admin: {},
-      superuser: {}
+      item: {
+        username: {required, minLength: minLength(8)},
+        roles: {}
+      }
     },
     computed: {
       roles() {
@@ -58,25 +61,9 @@
         }
         return roles
       },
-      username: {
-        get() {
-          return this.item.username
-        },
-        set(value) {
-          Vue.set(this.item, 'username', value)
-        }
-      },
-      password: {
-        get() {
-          return this.item.password
-        },
-        set(value) {
-          Vue.set(this.item, 'password', value)
-        }
-      },
       admin: {
         get() {
-          return this.roles && (this.roles.indexOf('ROLE_ADMIN') > -1)
+          return this.roles.indexOf('ROLE_ADMIN') > -1
         },
         set(value) {
           let roles = this.roles
@@ -95,7 +82,7 @@
       },
       superuser: {
         get() {
-          return this.roles && (this.roles.indexOf('ROLE_SUPER_USER') > -1)
+          return this.roles.indexOf('ROLE_SUPER_USER') > -1
         },
         set(value) {
           let roles = this.roles
@@ -111,6 +98,16 @@
           }
           Vue.set(this.item, 'roles', roles)
         }
+      }
+    },
+    watch: {
+      item: {
+        handler(newValue, oldValue) {
+          if (newValue && newValue !== oldValue) {
+            this.uuidMxSet('isInvalid', this.formMxIsInvalid, this.$_FormMx_uuid)
+          }
+        },
+        deep: true
       }
     }
   }
