@@ -73,6 +73,10 @@
         /* webpackChunkName: "ObjectEditDataForm" */
         './ObjectEditDataForm'
         ),
+      PhaseEditDataForm: () => import(
+        /* webpackChunkName: "PhaseEditDataForm" */
+        './PhaseEditDataForm'
+        ),
       PotteryEditDataForm: () => import(
         /* webpackChunkName: "PotteryEditDataForm" */
         './PotteryEditDataForm'
