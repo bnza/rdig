@@ -190,5 +190,24 @@
         num: {required}
       },
     },
+    methods: {
+      fetchBucket(bucketId) {
+        const vm = this
+        const config = {
+          method: 'get',
+          url: `/data/bucket/${bucketId}`
+        }
+        this.$store.dispatch('requests/perform', config).then(
+          (response) => {
+            vm.$set(vm.item, 'bucket', response.data)
+          }
+        )
+      }
+    },
+    mounted () {
+      if (this.parent__) {
+        this.fetchBucket(this.parent__.id)
+      }
+    }
   }
 </script>

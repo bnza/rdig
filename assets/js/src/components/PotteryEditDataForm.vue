@@ -78,18 +78,6 @@
                         :term.sync="item.shape"
                         :vocabulary="{type:'p', name: 'shape'}"
                 />
-<!--                <v-autocomplete
-                        label="Shape"
-                        menu-props="bottom"
-                        :items="vocabularies.p.shape"
-                        v-model="item.shape"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocShape"
-                        :loading="loadingVocShape"
-                        return-object
-                        @blur="formMxValidate('vShape')"
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -99,19 +87,6 @@
                         :term.sync="item.technique"
                         :vocabulary="{type:'p', name: 'technique'}"
                 />
-<!--                <v-autocomplete
-                        label="Technique"
-                        menu-props="bottom"
-                        :items="vocabularies.p.technique"
-                        v-model="item.technique"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocTechnique"
-                        :loading="loadingVocTechnique"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vTechnique')"
-                />-->
             </v-flex>
             <v-flex xs6>
                 <vocabulary-sub-form-autocomplete
@@ -119,18 +94,6 @@
                         :term.sync="item.firing"
                         :vocabulary="{type:'p', name: 'firing'}"
                 />
-<!--                <v-autocomplete
-                        label="Firing"
-                        menu-props="bottom"
-                        :items="vocabularies.p.firing"
-                        v-model="item.firing"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocFiring"
-                        :loading="loadingVocFiring"
-                        return-object
-                        @blur="formMxValidate('vFiring')"
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -140,19 +103,6 @@
                         :term.sync="item.preservation"
                         :vocabulary="{type:'p', name: 'preservation'}"
                 />
-<!--                <v-autocomplete
-                        label="Preservation State"
-                        menu-props="bottom"
-                        :items="vocabularies.p.preservation"
-                        v-model="item.preservation"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocPreservation"
-                        :loading="loadingVocPreservation"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vPreservation')"
-                />-->
             </v-flex>
             <v-flex xs6>
                 <vocabulary-sub-form-autocomplete
@@ -160,18 +110,6 @@
                         :term.sync="item.chronology"
                         :vocabulary="{type:'f', name: 'chronology'}"
                 />
-<!--                <v-autocomplete
-                        label="Chronology"
-                        menu-props="bottom"
-                        :items="vocabularies.f.chronology"
-                        v-model="item.chronology"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocChronology"
-                        :loading="loadingVocChronology"
-                        return-object
-                        @blur="formMxValidate('vChronology')"
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -181,19 +119,6 @@
                         :term.sync="item.inclusionsType"
                         :vocabulary="{type:'p', name: 'inclusionsType'}"
                 />
-<!--                <v-autocomplete
-                        label="Inclusions (type)"
-                        menu-props="bottom"
-                        :items="vocabularies.p.inclusionsType"
-                        v-model="item.inclusionsType"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocInclusionsType"
-                        :loading="loadingVocInclusionsType"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vInclusionsType')"
-                />-->
             </v-flex>
             <v-flex xs4>
                 <vocabulary-sub-form-autocomplete
@@ -201,18 +126,6 @@
                         :term.sync="item.inclusionsSize"
                         :vocabulary="{type:'p', name: 'inclusionsSize'}"
                 />
-<!--                <v-autocomplete
-                        label="Inclusions (size)"
-                        menu-props="bottom"
-                        :items="vocabularies.p.inclusionsSize"
-                        v-model="item.inclusionsSize"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocInclusionsSize"
-                        :loading="loadingVocInclusionsSize"
-                        return-object
-                        @blur="formMxValidate('vInclusionsSize')"
-                />-->
             </v-flex>
             <v-flex xs4>
                 <vocabulary-sub-form-autocomplete
@@ -220,19 +133,6 @@
                         :term.sync="item.inclusionsFrequency"
                         :vocabulary="{type:'p', name: 'inclusionsFrequency'}"
                 />
-<!--                <v-autocomplete
-                        label="Inclusions (freq)"
-                        menu-props="bottom"
-                        :items="vocabularies.p.inclusionsFrequency"
-                        v-model="item.inclusionsFrequency"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocInclusionsFrequency"
-                        :loading="loadingVocInclusionsFrequency"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vInclusionsFrequency')"
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -242,18 +142,6 @@
                         :term.sync="item.innerSurfaceTreatment"
                         :vocabulary="{type:'p', name: 'innerSurfaceTreatment'}"
                 />
-<!--                <v-autocomplete
-                        label="Inner Surface Treatment"
-                        menu-props="bottom"
-                        :items="vocabularies.p.innerSurfaceTreatment"
-                        v-model="item.innerSurfaceTreatment"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocInnerSurfaceTreatment"
-                        :loading="loadingVocInnerSurfaceTreatment"
-                        return-object
-                        @blur="formMxValidate('vInnerSurfaceTreatment')"
-                />-->
             </v-flex>
             <v-flex xs6>
                 <vocabulary-sub-form-autocomplete
@@ -261,19 +149,6 @@
                         :term.sync="item.outerSurfaceTreatment"
                         :vocabulary="{type:'p', name: 'outerSurfaceTreatment'}"
                 />
-<!--                <v-autocomplete
-                        label="Outer Surface Treatment"
-                        menu-props="bottom"
-                        :items="vocabularies.p.outerSurfaceTreatment"
-                        v-model="item.outerSurfaceTreatment"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocOuterSurfaceTreatment"
-                        :loading="loadingVocOuterSurfaceTreatment"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vOuterSurfaceTreatment')"
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -283,18 +158,6 @@
                         :term.sync="item.innerDecoration"
                         :vocabulary="{type:'p', name: 'innerDecoration'}"
                 />
-<!--                <v-autocomplete
-                        label="Inner Decoration"
-                        menu-props="bottom"
-                        :items="vocabularies.p.innerDecoration"
-                        v-model="item.innerDecoration"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocInnerDecoration"
-                        :loading="loadingVocInnerDecoration"
-                        return-object
-                        @blur="formMxValidate('vInnerDecoration')"
-                />-->
             </v-flex>
             <v-flex xs6>
                 <vocabulary-sub-form-autocomplete
@@ -302,19 +165,6 @@
                         :term.sync="item.outerDecoration"
                         :vocabulary="{type:'p', name: 'outerDecoration'}"
                 />
-<!--                <v-autocomplete
-                        label="Outer Decoration"
-                        menu-props="bottom"
-                        :items="vocabularies.p.outerDecoration"
-                        v-model="item.outerDecoration"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocOuterDecoration"
-                        :loading="loadingVocOuterDecoration"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vOuterDecoration')"
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -324,18 +174,6 @@
                         :term.sync="item.innerColor"
                         :vocabulary="{type:'f', name: 'color'}"
                 />
-<!--                <v-autocomplete
-                        label="Inner Color"
-                        menu-props="bottom"
-                        :items="vocabularies.f.innerColor"
-                        v-model="item.innerColor"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocInnerColor"
-                        :loading="loadingVocInnerColor"
-                        return-object
-                        @blur="formMxValidate('vInnerColor')"
-                />-->
             </v-flex>
             <v-flex xs4>
                 <vocabulary-sub-form-autocomplete
@@ -343,19 +181,6 @@
                         :term.sync="item.outerColor"
                         :vocabulary="{type:'f', name: 'color'}"
                 />
-<!--                <v-autocomplete
-                        label="Outer Color"
-                        menu-props="bottom"
-                        :items="vocabularies.f.outerColor"
-                        v-model="item.outerColor"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocOuterColor"
-                        :loading="loadingVocOuterColor"
-                        return-object
-                        autocomplete
-                        @blur="formMxValidate('vOuterColor')"
-                />-->
             </v-flex>
             <v-flex xs4>
                 <vocabulary-sub-form-autocomplete
@@ -363,17 +188,6 @@
                         :term.sync="item.coreColor"
                         :vocabulary="{type:'f', name: 'color'}"
                 />
-<!--                <v-autocomplete
-                        label="Core Color"
-                        menu-props="bottom"
-                        :items="vocabularies.f.coreColor"
-                        v-model="item.coreColor"
-                        item-text="value"
-                        item-value="id"
-                        :search-input.sync="searchVocCoreColor"
-                        :loading="loadingVocCoreColor"
-                        return-object
-                />-->
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -550,6 +364,25 @@
         bucket: {requiredAutocompleteObject},
         num: {required}
       },
+    },
+    methods: {
+      fetchBucket(bucketId) {
+        const vm = this
+        const config = {
+          method: 'get',
+          url: `/data/bucket/${bucketId}`
+        }
+        this.$store.dispatch('requests/perform', config).then(
+          (response) => {
+            vm.$set(vm.item, 'bucket', response.data)
+          }
+        )
+      }
+    },
+    mounted () {
+      if (this.parent__) {
+        this.fetchBucket(this.parent__.id)
+      }
     }
   }
 </script>

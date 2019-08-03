@@ -439,10 +439,24 @@
         num: {required}
       },
     },
-/*    watch: {
-      formMxIsInvalid(flag) {
-        this.uuidMxSet('isInvalid', flag, this.$_FormMx_uuid)
+    methods: {
+      fetchBucket(bucketId) {
+        const vm = this
+        const config = {
+          method: 'get',
+          url: `/data/bucket/${bucketId}`
+        }
+        this.$store.dispatch('requests/perform', config).then(
+          (response) => {
+            vm.$set(vm.item, 'bucket', response.data)
+          }
+        )
       }
-    }*/
+    },
+    mounted () {
+      if (this.parent__) {
+        this.fetchBucket(this.parent__.id)
+      }
+    }
   }
 </script>

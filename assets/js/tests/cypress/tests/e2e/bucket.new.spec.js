@@ -71,7 +71,7 @@ describe('Bucket new form', () => {
         cy.vuexCommitSetUser(store, 'theUser', ['ROLE_ADMIN'])
       })
     })
-    it.skip('Without parent context', () => {
+    it('Without parent context', () => {
       cy.visit('/#/data/bucket/create')
       getAreaCodeInput().should('not.have.class', 'v-input--is-readonly')
       checkAutoCompleteValues()

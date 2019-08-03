@@ -1,7 +1,10 @@
 <template>
     <div>
         <v-layout row wrap>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="siteNameFlex"
+            >
                 <v-text-field
                         label="Site"
                         type="text"
@@ -11,7 +14,10 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="yearFlex"
+            >
                 <v-text-field
                         label="Year"
                         type="text"
@@ -21,7 +27,10 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="areaNameFlex"
+            >
                 <v-text-field
                         label="Area"
                         type="text"
@@ -33,7 +42,10 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex class="xs6">
+            <v-flex
+                    class="xs6"
+                    data-test="contextCodeFlex"
+            >
                 <v-text-field
                         label="Context"
                         type="text"
@@ -43,7 +55,10 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs6">
+            <v-flex
+                    class="xs6"
+                    data-test="bucketCodeFlex"
+            >
                 <v-autocomplete
                         label="Bucket"
                         menu-props="bottom"
