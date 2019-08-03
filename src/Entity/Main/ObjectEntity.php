@@ -23,7 +23,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\HasLifecycleCallbacks()
  */
-class Object extends AbstractFinding
+class ObjectEntity extends AbstractFinding
 {
     /**
      * @var Campaign

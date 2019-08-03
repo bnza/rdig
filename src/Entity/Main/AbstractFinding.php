@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * })
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string", length=1)
- * @ORM\DiscriminatorMap({"O" = "Object", "P" = "Pottery", "S" = "Sample"})
+ * @ORM\DiscriminatorMap({"O" = "ObjectEntity", "P" = "Pottery", "S" = "Sample"})
  * @UniqueEntity(
  *      fields={"bucket", "num"},
  *      errorPath="num",

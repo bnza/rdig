@@ -16,7 +16,7 @@ class DataCrudController extends AbstractCrudDataController
         'campaign' => 'App\Entity\Main\Campaign',
         'finding' => 'App\Entity\Main\Finding',
         'sample' => 'App\Entity\Main\Sample',
-        'object' => 'App\Entity\Main\Object',
+        'object' => 'App\Entity\Main\ObjectEntity',
         'phase' => 'App\Entity\Main\Phase',
         'pottery' => 'App\Entity\Main\Pottery',
     ];

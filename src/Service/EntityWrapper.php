@@ -30,7 +30,7 @@ class EntityWrapper
         'bucket' => 'App\Entity\Main\Bucket',
         'finding' => 'App\Entity\Main\Finding',
         'sample' => 'App\Entity\Main\Sample',
-        'object' => 'App\Entity\Main\Object',
+        'object' => 'App\Entity\Main\ObjectEntity',
         'pottery' => 'App\Entity\Main\Pottery',
         'phase' => 'App\Entity\Main\Phase',
         'chronology' => 'App\Entity\Main\VocFChronology',

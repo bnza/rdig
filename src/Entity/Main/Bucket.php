@@ -72,37 +72,13 @@ class Bucket implements SiteRelateEntityInterface
     /**
      * One Bucket has Many Findings.
      *
-     * @ORM\OneToMany(targetEntity="Object", mappedBy="bucket")
+     * @ORM\OneToMany(targetEntity="ObjectEntity", mappedBy="bucket")
      */
     private $findings;
-
-//    /**
-//     * One Bucket has Many Findings.
-//     *
-//     * @ORM\OneToMany(targetEntity="Pottery", mappedBy="bucket")
-//     */
-//    private $potteries;
-//
-//    /**
-//     * One Bucket has Many Findings.
-//     *
-//     * @ORM\OneToMany(targetEntity="Object", mappedBy="bucket")
-//     */
-//    private $objects;
-//
-//    /**
-//     * One Bucket has Many Findings.
-//     *
-//     * @ORM\OneToMany(targetEntity="Sample", mappedBy="bucket")
-//     */
-//    private $samples;
 
     public function __construct()
     {
         $this->findings = new ArrayCollection();
-//        $this->potteries = new ArrayCollection();
-//        $this->objects = new ArrayCollection();
-//        $this->samples = new ArrayCollection();
     }
 
     /**

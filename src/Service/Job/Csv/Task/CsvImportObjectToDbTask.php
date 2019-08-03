@@ -3,7 +3,7 @@
 namespace App\Service\Job\Csv\Task;
 
 use App\Entity\Main\Bucket;
-use App\Entity\Main\Object;
+use App\Entity\Main\ObjectEntity;
 use Doctrine\Common\Collections\Criteria;
 
 class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
@@ -123,7 +123,7 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
         return $bucket->getObjects()->matching($criteria)->first();
     }
 
-    protected function setFindingNo (Object $object, array $record)
+    protected function setFindingNo (ObjectEntity $object, array $record)
     {
         preg_match('/(\d+)([[:alpha:]]?)$/', $this->getRecordValue('object.no', $record) ,$matches);
         $object->setNo((int) $matches[1]);
@@ -134,7 +134,7 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
 
     protected function createEntity(Bucket $bucket, string $num, array $record)
     {
-        $object = new Object();
+        $object = new ObjectEntity();
         $object->setBucket($bucket);
         $object->setCampaign($this->getCampaign($record));
         $object->setNum($num);

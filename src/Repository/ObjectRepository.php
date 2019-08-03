@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Main\Object;
+use App\Entity\Main\ObjectEntity;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -11,7 +11,7 @@ class ObjectRepository extends FindingRepository
 {
     protected function getEntityClass(): string
     {
-        return Object::class;
+        return ObjectEntity::class;
     }
 
     protected function addQueryBuilderLeftJoins(QueryBuilder $qb): AbstractDataRepository
