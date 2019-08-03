@@ -1,10 +1,15 @@
 <template>
     <v-tooltip bottom>
-        <v-btn flat slot="activator" @click="executeAction">
+        <v-btn
+                data-test="loginButton"
+                flat
+                slot="activator"
+                @click="executeAction"
+        >
             {{authMxUsername}}
             <v-icon
-                large
-                :color="roleColor"
+                    large
+                    :color="roleColor"
             >
                 {{ iconText }}
             </v-icon>
@@ -25,10 +30,10 @@
     ],
     computed: {
       iconText () {
-        return this.authMxIsAuthenticated ?  'perm_identity' : 'exit_to_app'
+        return this.authMxIsAuthenticated ? 'perm_identity' : 'exit_to_app'
       },
       actionText () {
-        return this.authMxIsAuthenticated ?  'Logout' : 'Login'
+        return this.authMxIsAuthenticated ? 'Logout' : 'Login'
       },
       roleColor () {
         return this.$store.getters['account/roleColor']
@@ -40,7 +45,7 @@
       },
       openLoginModal () {
         this.uuidMxSet('isDialogOpen', true, 'the-login-modal')
-        this.uuidMxSet('fromPath', this.$route.fullPath , 'the-login-modal')
+        this.uuidMxSet('fromPath', this.$route.fullPath, 'the-login-modal')
         this.$router.push('/login')
       },
       executeAction () {

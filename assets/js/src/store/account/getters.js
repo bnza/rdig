@@ -1,6 +1,6 @@
 export default {
   isAuthenticated: state => {
-    return state.user instanceof Object && state.user.hasOwnProperty('username')
+    return state.user && state.user.hasOwnProperty('username')
   },
   errorMessage: state => {
     return state.authError ? state.authError.data : ''

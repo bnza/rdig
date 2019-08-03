@@ -23,8 +23,6 @@
                         v-model="item.num"
                         :error-messages="validationErrors.num"
                 />
-<!--                :readonly="!isEditable"
-                :color="!isEditable ? 'grey lighten-1' : ''"-->
             </v-flex>
             <v-flex xs3>
                 <v-text-field
@@ -126,6 +124,25 @@
           cType: cTypeErrors(this.$v),
         }
       },
+    },
+    methods: {
+      fetchArea(areaId) {
+        const vm = this
+        const config = {
+          method: 'get',
+          url: `/data/area/${areaId}`
+        }
+        this.$store.dispatch('requests/perform', config).then(
+          (response) => {
+            vm.$set(vm.item, 'area', response.data)
+          }
+        )
+      }
+    },
+    mounted () {
+      if (this.parent__) {
+        this.fetchArea(this.parent__.id)
+      }
     }
   }
 </script>

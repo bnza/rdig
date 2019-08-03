@@ -1,7 +1,10 @@
 <template>
     <div>
         <v-layout row wrap>
-            <v-flex class="xs3">
+            <v-flex
+                    class="xs3"
+                    data-test="siteCodeFlex"
+            >
                 <v-text-field
                         label="Site (code)"
                         type="text"
@@ -11,7 +14,10 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs9">
+            <v-flex
+                    class="xs9"
+                    data-test="siteNameFlex"
+            >
                 <v-text-field
                         label="Site (name)"
                         type="text"
@@ -23,7 +29,10 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex class="xs3">
+            <v-flex
+                    class="xs3"
+                    data-test="areaCodeFlex"
+            >
                 <v-autocomplete
                         label="Area (code)"
                         menu-props="bottom"
@@ -40,7 +49,10 @@
                         required
                 />
             </v-flex>
-            <v-flex class="xs9">
+            <v-flex
+                    class="xs9"
+                    data-test="areaNameFlex"
+            >
                 <v-text-field
                         label="Area (name)"
                         type="text"
