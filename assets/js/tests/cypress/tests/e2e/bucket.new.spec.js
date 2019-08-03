@@ -20,27 +20,45 @@ const getAreaNameInput = () => {
   return cy.getElementByTestId('areaNameFlex').find('input')
 }
 
+const getContextCodeInput = () => {
+  return cy.getElementByTestId('contextCodeFlex').find('input')
+}
+
+const getContextTypeInput = () => {
+  return cy.getElementByTestId('contextTypeFlex').find('input')
+}
+
+const getContextNumInput = () => {
+  return cy.getElementByTestId('contextNumFlex').find('input')
+}
+
 const checkAutoCompleteValues = (values = {
   siteCode: '',
   siteName: '',
   areaCode: '',
-  areaName: ''
+  areaName: '',
+  contextCode: '',
+  contextType: '',
+  contextNum: ''
 }) => {
   getSiteCodeInput().should('have.value', values.siteCode)
   getSiteNameInput().should('have.value', values.siteName)
   getAreaCodeInput().should('have.value', values.areaCode)
   getAreaNameInput().should('have.value', values.areaName)
+  getContextCodeInput().should('have.value', values.contextCode)
+  getContextTypeInput().should('have.value', values.contextType)
+  getContextNumInput().should('have.value', values.contextNum)
 }
 
-describe('Context new form', () => {
+describe('Bucket new form', () => {
   beforeEach(() => {
-    cy.fixture('area/842.json').as('area842')
-    cy.fixture('area/842.contexts.json').as('area842contexts')
-    cy.fixture('area/842.site.json').as('area842site')
+    cy.fixture('context/23456.json').as('context23456')
+    cy.fixture('context/23456.buckets.json').as('context23456buckets')
+    cy.fixture('context/23456.site.json').as('context23456site')
     cy.server()
-    cy.route('data/area/842', '@area842')
-    cy.route('data/area/842/site', '@area842site')
-    cy.route('data/area/842/context**', '@area842contexts')
+    cy.route('data/context/23456', '@context23456')
+    cy.route('data/context/23456/site', '@context23456site')
+    cy.route('data/context/23456/bucket**', '@context23456buckets')
   })
   beforeEach(() => cy.visit('/'))
   beforeEach(() => {
@@ -53,29 +71,35 @@ describe('Context new form', () => {
         cy.vuexCommitSetUser(store, 'theUser', ['ROLE_ADMIN'])
       })
     })
-    it('Without parent area', () => {
-      cy.visit('/#/data/context/create')
+    it.skip('Without parent context', () => {
+      cy.visit('/#/data/bucket/create')
       getAreaCodeInput().should('not.have.class', 'v-input--is-readonly')
       checkAutoCompleteValues()
-      getAreaCodeInput().type('TG')
+      getContextCodeInput().type('TG')
       cy.wait(500)
-      cy.vuetifySelectInputEntry('TG.A')
+      cy.vuetifySelectInputEntry('TG.301')
       checkAutoCompleteValues({
         siteCode: 'TG',
         siteName: 'Taşlıgeçit Höyük',
-        areaCode: 'TG.A',
-        areaName: 'A'
+        areaCode: 'D',
+        areaName: 'D',
+        contextCode: 'TG.301',
+        contextType: 'bench',
+        contextNum: '301'
       })
     })
     it('With parent area', () => {
-      cy.visit('/#/data/area/842/context/create')
+      cy.visit('/#/data/context/23456/bucket/create')
       getAreaCodeInput().should('not.have.class', 'v-input--is-readonly')
       cy.wait(500)
       checkAutoCompleteValues({
         siteCode: 'TG',
         siteName: 'Taşlıgeçit Höyük',
-        areaCode: 'TG.A',
-        areaName: 'A'
+        areaCode: 'D',
+        areaName: 'D',
+        contextCode: 'TG.301',
+        contextType: 'bench',
+        contextNum: '301'
       })
     })
   })

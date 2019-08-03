@@ -20,9 +20,6 @@
                         :error-messages="validationErrors.num"
                         required
                 />
-                <!--                :readonly="isReadOnly"
-                                :hint="isReadOnly ? 'Only superuser can change bucket number' : ''"
-                                :color="isReadOnly ? 'grey lighten-1' : ''"-->
             </v-flex>
         </v-layout>
     </v-form>
@@ -108,6 +105,23 @@
       setSelectedContext (context) {
         this.selectedArea = area
         this.addToAreas(area)
+      },
+      fetchContext(contextId) {
+        const vm = this
+        const config = {
+          method: 'get',
+          url: `/data/context/${contextId}`
+        }
+        this.$store.dispatch('requests/perform', config).then(
+          (response) => {
+            vm.$set(vm.item, 'context', response.data)
+          }
+        )
+      }
+    },
+    mounted () {
+      if (this.parent__) {
+        this.fetchContext(this.parent__.id)
       }
     }
   }

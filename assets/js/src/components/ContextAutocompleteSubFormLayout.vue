@@ -1,7 +1,10 @@
 <template>
     <div>
         <v-layout row wrap>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="siteCodeFlex"
+            >
                 <v-text-field
                         label="Site (code)"
                         type="text"
@@ -11,7 +14,10 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs8">
+            <v-flex
+                    class="xs8"
+                    data-test="siteNameFlex"
+            >
                 <v-text-field
                         label="Site (name)"
                         type="text"
@@ -23,7 +29,10 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="areaCodeFlex"
+            >
                 <v-text-field
                         label="Area (code)"
                         type="text"
@@ -33,9 +42,12 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs8">
+            <v-flex
+                    class="xs8"
+                    data-test="areaNameFlex"
+            >
                 <v-text-field
-                        label="Site (name)"
+                        label="Area (name)"
                         type="text"
                         :value="area.name"
                         class="readonly-field"
@@ -45,7 +57,10 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="contextCodeFlex"
+            >
                 <v-autocomplete
                         label="Context (code)"
                         menu-props="bottom"
@@ -63,7 +78,10 @@
                         required
                 />
             </v-flex>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="contextTypeFlex"
+            >
                 <v-text-field
                         label="Context (type)"
                         type="text"
@@ -73,7 +91,10 @@
                         readonly
                 />
             </v-flex>
-            <v-flex class="xs4">
+            <v-flex
+                    class="xs4"
+                    data-test="contextNumFlex"
+            >
                 <v-text-field
                         label="Context (number)"
                         type="text"
