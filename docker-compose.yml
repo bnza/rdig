@@ -1,0 +1,53 @@
+version: '3.6'
+services:
+  mysql:
+    build:
+      context: docker/mysql
+      args:
+        DBNAME: "$DBNAME"
+        RDIG_USER: "$MYSQL_USER"
+        DUMP_IN: "$DUMP_IN"
+    environment:
+      MYSQL_ROOT_PASSWORD: "$MYSQL_ROOT_PASSWORD"
+      MYSQL_PASSWORD: "$MYSQL_PASSWORD"
+      MYSQL_USER: "$MYSQL_USER"
+    ports:
+      - "3311:3306"
+    volumes:
+      - /var/local/docker/volumes/rdig-legacy-mysql:/var/lib/mysql
+  php-fpm:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    depends_on:
+      - mysql
+    volumes:
+      - .:/var/www
+      - ${SHARED_PATH}:/mnt/shared
+    environment:
+      COMPOSER_MEMORY_LIMIT: ${PHPFPM_COMPOSER_MEMORY_LIMIT}
+      XDEBUG_CONFIG: remote_host=${XDEBUG_CONFIG_REMOTE_HOST}
+  node:
+    build:
+      context: docker/node
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    depends_on:
+      - php-fpm
+    volumes:
+      - .:/var/www
+  nginx:
+    build:
+      context: docker/nginx
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm
+    ports:
+      - "8183:80"

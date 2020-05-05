@@ -1,4 +1,6 @@
+.idea/
 ###> symfony/framework-bundle ###
+.docker-compose.env
 .env
 /public/bundles/
 /var/
@@ -17,3 +19,5 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+/docker/mysql/dumps/
