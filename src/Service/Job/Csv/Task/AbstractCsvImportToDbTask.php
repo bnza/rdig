@@ -373,9 +373,9 @@ abstract class AbstractCsvImportToDbTask extends AbstractCsvTask
         }
         $this->flush();
         if ($errors) {
-            /*    throw new \Exception(
+                throw new \Exception(
                     sprintf("Failed to insert %d rows\nSee %s for details", $errors, $this->job->getImportErrorsPath())
-                );*/
+                );
         }
     }
 
