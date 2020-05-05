@@ -120,7 +120,7 @@ class CsvImportObjectToDbTask extends AbstractCsvImportToDbTask
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('num', $num));
-        return $bucket->getObjects()->matching($criteria)->first();
+        return $bucket->getFindings()->matching($criteria)->first();
     }
 
     protected function setFindingNo (ObjectEntity $object, array $record)

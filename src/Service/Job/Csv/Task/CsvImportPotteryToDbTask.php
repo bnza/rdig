@@ -123,7 +123,7 @@ class CsvImportPotteryToDbTask extends AbstractCsvImportToDbTask
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('num', $num));
-        return $bucket->getPotteries()->matching($criteria)->first();
+        return $bucket->getFindings()->matching($criteria)->first();
     }
 
     protected function createEntity(Bucket $bucket, string $num, array $record)
