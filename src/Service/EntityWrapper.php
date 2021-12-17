@@ -130,6 +130,11 @@ class EntityWrapper
                    $value = $this->getRepository($key, $vocType)->find($value['id']);
                 }
                 $setMethod = 'set'.ucfirst($this->camelcase($key));
+                // retrievalData DateTime issue workaround
+                //@TODO implement
+                if ($value && $key === 'retrievalDate') {
+                    $value = is_array($value) ? new \DateTime($value['date']) : new \DateTime($value);
+                }
                 if (method_exists($this->entity, $setMethod)) {
                     $value = $value === '' ? null : $value;
                     $this->entity->$setMethod($value);
