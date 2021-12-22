@@ -49,7 +49,9 @@ abstract class AbstractCsvExportFindingToFileJob extends AbstractCsvJob
     protected function getEntityClassName(): string
     {
         $entityName = ucfirst($this->entityName);
-
+	if ($entityName === 'Object') {
+	    $entityName = 'ObjectEntity';
+	}
         return "\\App\\Entity\\Main\\$entityName";
     }
 
