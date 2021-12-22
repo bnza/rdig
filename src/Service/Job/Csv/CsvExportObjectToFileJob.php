@@ -25,6 +25,7 @@ class CsvExportObjectToFileJob extends AbstractCsvExportFindingToFileJob
         'object class' => 'class.value',
         'object type' => 'type.value',
         'object subtype' => 'subType',
+        'material type' => 'materialType.value',
         'material class' => 'materialClass.value',
         'object technique' => 'technique.value',
         'object decoration' => 'color.value',
