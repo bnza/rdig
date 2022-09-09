@@ -8,6 +8,7 @@
 
 namespace App\Entity\Main;
 
+use App\Exceptions\CrudException;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -54,6 +55,12 @@ class Sample extends AbstractFinding
      * @ORM\JoinColumn(name="type", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $type;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $retrievalDate;
 
     /**
      * @return Campaign
@@ -117,6 +124,44 @@ class Sample extends AbstractFinding
     public function setType(VocSType $type): void
     {
         $this->type = $type;
+    }
+
+    public function getRetrievalDate(): \DateTime
+    {
+        return $this->retrievalDate;
+    }
+
+    /**
+     * @param string|\DateTime $retrievalDate
+     * @throws CrudException
+     */
+    public function setRetrievalDate($retrievalDate): void
+    {
+        if ($retrievalDate && is_string($retrievalDate)) {
+            $retrievalDateString = $retrievalDate;
+            if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{2}$/', $retrievalDate)) {
+
+                $retrievalDate = \DateTime::createFromFormat('d/m/y', $retrievalDateString);
+                if (!$retrievalDate) {
+                    throw new CrudException("Invalid date format ($retrievalDateString)");
+                }
+            } else if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $retrievalDate)) {
+                $retrievalDate = \DateTime::createFromFormat('d/m/Y', $retrievalDateString);
+                if (!$retrievalDate) {
+                    throw new CrudException("Invalid date format ($retrievalDateString)");
+                }
+            } else if (preg_match('/^\d{4}$/', $retrievalDate)) {
+                $retrievalDate = null;
+            } else {
+                try {
+                    $retrievalDate = new \DateTime($retrievalDateString);
+                } catch (\Exception $e) {
+                    throw new CrudException("Invalid date format ($retrievalDateString)");
+                }
+            }
+
+        }
+        $this->retrievalDate = $retrievalDate ? $retrievalDate: null;
     }
 
     /**
